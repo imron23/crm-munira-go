@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munira World — Umrah Liburan Sekolah Premium 2026</title>
+    <meta name="description"
+        content="Program Umrah Liburan Sekolah Premium 10 Hari bersama Munira World. Keberangkatan Pasti 29 Juni - 08 Juli 2026. Kereta Cepat Haramain, VIP Lounge, bimbingan ramah anak.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/lp-liburan/style-main.css">
+
+    <!-- Timeline CSS Custom untuk V2 -->
+    <style>
+        .timeline-section {
+            background: var(--white-pure);
+            padding: 72px 0;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-section {
+                padding: 56px 0 40px;
+            }
+        }
+
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Minimalist style: remove vertical line */
+        .timeline-container::before {
+            content: none;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item {
+                margin-bottom: 16px;
+            }
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Hide old timeline dots for cleaner look */
+        .timeline-dot {
+            display: none;
+        }
+
+        .timeline-content {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid rgba(26, 54, 93, 0.08);
+            box-shadow: none;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .timeline-content:hover {
+            background: #F8F9FA;
+            border-color: rgba(26, 54, 93, 0.16);
+        }
+
+        .timeline-date {
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 0;
+            line-height: 1.3;
+        }
+
+        .timeline-point {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .timeline-point i {
+            color: var(--gold);
+            margin-top: 4px;
+            font-size: 1rem;
+        }
+
+        .timeline-point strong {
+            color: var(--navy);
+        }
+
+        .timeline-highlight {
+            background: rgba(197, 160, 89, 0.1);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border-left: 4px solid var(--gold);
+            font-size: 0.9rem;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* Accordion Styles – compact & mobile-first */
+        .accordion-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        @media (min-width: 769px) {
+            .accordion-header {
+                padding: 18px 24px;
+            }
+        }
+
+        .accordion-title-wrap {
+            flex: 1;
+        }
+
+        .accordion-icon {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-left: 4px;
+            margin-top: 2px;
+            transition: transform 0.25s ease;
+        }
+
+        .timeline-content.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-header:hover .timeline-title {
+            color: var(--gold);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), padding-bottom 0.3s ease, opacity 0.3s ease;
+            padding: 0 20px;
+            opacity: 0;
+        }
+
+        .timeline-content.active .accordion-body {
+            max-height: 1000px;
+            /* arbitrary high number */
+            padding-bottom: 16px;
+            opacity: 1;
+        }
+
+        .point-sales-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .point-sales-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ps-card {
+            background: var(--navy);
+            color: var(--white-pure);
+            border-radius: 12px;
+            text-align: left;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .ps-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .ps-card-body {
+            padding: 24px;
+            flex-grow: 1;
+        }
+
+        .ps-card h4 {
+            color: var(--gold);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ps-card p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Soft Animations */
+        .soft-graphic {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(197, 160, 89, 0.4);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .plane-soft {
+            top: 20%;
+            left: -10%;
+            animation: flyPlane 15s linear infinite;
+        }
+
+        .train-soft {
+            bottom: -5%;
+            right: -10%;
+            color: rgba(26, 54, 93, 0.3);
+            font-size: 2.5rem;
+            animation: runTrain 12s linear infinite reverse;
+        }
+
+        @keyframes flyPlane {
+            0% {
+                transform: translate(0, 0) scale(0.8);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(120vw, -20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes runTrain {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(-120vw);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logo.png">
+
+
+
+    <!-- Dynamic Tracking Injector -->
+    <script src="/shared/tracking.js"></script>
+</head>
+
+<body>
+    <!-- PRELOADER -->
+    <div id="pageLoader"
+        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1628 0%,#1a365d 50%,#0a1628 100%);transition:opacity .6s ease,visibility .6s ease;">
+        <div style="text-align:center;">
+            <div
+                style="width:60px;height:60px;border:3px solid rgba(191,163,107,.2);border-top-color:#BFA36B;border-radius:50%;animation:loaderSpin 1s linear infinite;margin:0 auto 20px;">
+            </div>
+            <img src="/logo.png" alt="Munira World" style="height:50px;opacity:.9;margin-bottom:12px;">
+            <p style="color:rgba(255,255,255,.6);font-family:Montserrat,sans-serif;font-size:.8rem;letter-spacing:2px;">
+                LOADING...</p>
+        </div>
+    </div>
+    <style>
+        @keyframes loaderSpin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        body.loading {
+            overflow: hidden
+        }
+    </style>
+    <script>
+        document.body.classList.add("loading");
+        setTimeout(function () {
+            var l = document.getElementById("pageLoader");
+            if (l) { l.style.opacity = "0"; l.style.visibility = "hidden"; }
+            document.body.classList.remove("loading");
+            setTimeout(function () { if (l) l.remove(); }, 600);
+        }, 2500);
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════
+       NAVBAR
+       ═══════════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="navbar-logo">
+                <img src="/logo.png" alt="Munira World">
+            </a>
+            <ul class="navbar-links" id="navLinks">
+                <li><a href="#keunggulan">Keunggulan</a></li>
+                <li><a href="#fasilitas">Fasilitas</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#harga">Harga</a></li>
+                <li><a href="#testimoni">Testimoni</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="#daftar" class="btn btn-gold" id="nav-cta">
+                    Daftar Sekarang
+                </a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+       SECTION 1: HERO — THE DREAM STATE
+       ═══════════════════════════════════════════════════ -->
+    <section class="hero" id="hero" style="overflow: hidden; position: relative;">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto">
+            <source src="../assets/munira-hero.mp4" type="video/mp4">
+            Browser Anda tidak mendukung video HTML5.
+        </video>
+        <!-- Soft, Magical Gradient Overlay for Kids Theme -->
+        <div class="hero-overlay"
+            style="background: linear-gradient(135deg, rgba(26,54,93,0.75) 0%, rgba(132,94,194,0.5) 50%, rgba(255,150,113,0.6) 100%);">
+        </div>
+
+        <!-- Soft Animations -->
+        <i class="fas fa-paper-plane soft-graphic plane-soft"
+            style="color: #FF9671; font-size: 3.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));"></i>
+        <i class="fas fa-train soft-graphic train-soft" style="color: rgba(255,215,0,0.6);"></i>
+
+        <!-- Extra Kids Decorative Elements -->
+        <style>
+            .kids-decor {
+                position: absolute;
+                z-index: 5;
+                pointer-events: none;
+                animation: floatKids 4s ease-in-out infinite;
+            }
+
+            .kd-star1 {
+                top: 20%;
+                left: 15%;
+                color: #FFD700;
+                font-size: 2rem;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            .kd-star2 {
+                top: 35%;
+                right: 20%;
+                color: #FFD700;
+                font-size: 1.5rem;
+                animation-delay: 1.5s;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            .kd-moon {
+                top: 50%;
+                left: 85%;
+                color: #FF9671;
+                font-size: 3.5rem;
+                animation-duration: 6s;
+                opacity: 0.9;
+                filter: drop-shadow(0 0 10px rgba(255, 150, 113, 0.5));
+            }
+
+            .kd-cloud {
+                top: 65%;
+                left: 8%;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 4rem;
+                animation-duration: 7s;
+            }
+
+            @keyframes floatKids {
+                0% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-15px) rotate(5deg);
+                }
+
+                100% {
+                    transform: translateY(0);
+                }
+            }
+
+            .hero-badge-kids {
+                background: linear-gradient(90deg, #FF9671, #FF2A54);
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 30px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                margin-bottom: 24px;
+                display: inline-block;
+                box-shadow: 0 4px 15px rgba(255, 42, 84, 0.5);
+                border: 2px dashed #fff;
+                font-size: 0.95rem;
+            }
+
+            .kids-text {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                letter-spacing: 2px;
+                display: inline-block;
+                padding-bottom: 5px;
+                margin-top: 5px;
+            }
+
+            .kids-text span {
+                -webkit-text-stroke: 1.5px #fff;
+                text-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1), 0px 8px 15px rgba(0, 0, 0, 0.3);
+                font-size: clamp(2.5rem, 6.5vw, 5rem);
+                line-height: 1.1;
+            }
+
+            .word-wrap {
+                display: inline-block;
+                white-space: nowrap;
+                margin: 0 8px;
+            }
+
+            .hero-title-kids {
+                font-size: clamp(1.8rem, 4vw, 3rem);
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 800;
+                color: #FFFFFF;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+                line-height: 1.4;
+            }
+
+            .hero-overlay {
+                background: linear-gradient(135deg, rgba(26, 54, 93, 0.85) 0%, rgba(132, 94, 194, 0.7) 50%, rgba(255, 150, 113, 0.8) 100%) !important;
+            }
+
+            .hero-wave {
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                z-index: 10;
+                width: 100%;
+                height: auto;
+            }
+
+            /* Bright Memphis Decor */
+            .decor-shape {
+                position: absolute;
+                z-index: 5;
+                animation: floatKids 6s ease-in-out infinite alternate;
+                pointer-events: none;
+            }
+
+            .ds-circle-1 {
+                width: 50px;
+                height: 50px;
+                border: 8px solid #00C896;
+                border-radius: 50%;
+                top: 15%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .ds-circle-2 {
+                width: 30px;
+                height: 30px;
+                background: #FFD700;
+                border-radius: 50%;
+                top: 60%;
+                right: 15%;
+                animation-delay: 1.5s;
+                opacity: 0.8;
+            }
+
+            .ds-triangle-1 {
+                width: 0;
+                height: 0;
+                border-left: 25px solid transparent;
+                border-right: 25px solid transparent;
+                border-bottom: 45px solid #FF2A54;
+                top: 25%;
+                right: 8%;
+                transform: rotate(20deg);
+                animation-delay: 0.5s;
+            }
+
+            .ds-wave {
+                top: 40%;
+                left: 8%;
+                color: #009DFF;
+                font-size: 3rem;
+                animation: floatKids 5s infinite reverse;
+                opacity: 0.8;
+            }
+
+            .ds-cloud {
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 5rem;
+                top: 65%;
+                left: 85%;
+                transform: scaleX(-1);
+                animation-delay: 2s;
+            }
+        </style>
+
+        <!-- Fun Memphis Shapes -->
+        <div class="decor-shape ds-circle-1"></div>
+        <div class="decor-shape ds-circle-2"></div>
+        <div class="decor-shape ds-triangle-1"></div>
+        <i class="fas fa-paper-plane decor-shape ds-wave"></i>
+        <i class="fas fa-cloud decor-shape ds-cloud"></i>
+
+        <div class="hero-content" style="z-index: 20;">
+            <div class="hero-badge-kids"><i class="fas fa-ticket-alt" style="margin-right:6px;"></i> Tiket Liburan: 29
+                Juni - 08 Juli 2026</div>
+            <h1 class="hero-title-kids">Berikan Mereka Hadiah Terbaik:<br>
+                <div class="kids-text">
+                    <span class="word-wrap">
+                        <span style="color:#FF2A54 !important;">U</span><span
+                            style="color:#FF9B00 !important;">m</span><span
+                            style="color:#FFD700 !important;">r</span><span
+                            style="color:#00C896 !important;">a</span><span style="color:#009DFF !important;">h</span>
+                    </span>
+                    <span class="word-wrap">
+                        <span style="color:#A700FF !important;">L</span><span
+                            style="color:#FF2A54 !important;">i</span><span
+                            style="color:#FF9B00 !important;">b</span><span
+                            style="color:#FFD700 !important;">u</span><span
+                            style="color:#00C896 !important;">r</span><span
+                            style="color:#009DFF !important;">a</span><span style="color:#A700FF !important;">n</span>
+                    </span>
+                    <br>
+                    <span class="word-wrap">
+                        <span style="color:#FF2A54 !important;">S</span><span
+                            style="color:#FF9B00 !important;">e</span><span
+                            style="color:#FFD700 !important;">k</span><span
+                            style="color:#00C896 !important;">o</span><span
+                            style="color:#009DFF !important;">l</span><span
+                            style="color:#A700FF !important;">a</span><span style="color:#FF2A54 !important;">h</span>
+                    </span>
+                </div><br>
+                Tanpa Lelah & Tanpa Drama.
+            </h1>
+            <p class="hero-sub" style="font-weight: 500; font-size: clamp(1.1rem, 2vw, 1.3rem); margin-top: 15px;">
+                10 Hari perjalanan spiritual seru & edukatif.<br>Kenyamanan anak 100% terjaga.
+            </p>
+            <div class="hero-buttons">
+                <a href="#daftar" class="btn btn-gold" id="hero-cta"
+                    style="border-radius: 30px; box-shadow: 0 10px 20px rgba(197,160,89,0.4); font-weight: 800; font-size: 1.1rem; padding: 15px 30px; border: 2px solid #fff; background: #FF9B00; color: #fff;">
+                    <i class="fab fa-whatsapp"></i> Amankan Seat Liburan Keluarga
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-scroll" style="z-index: 20;">
+            SCROLL
+            <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <!-- Wave Divider for playful bottom edge -->
+        <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+            <path fill="#ffffff" fill-opacity="1"
+                d="M0,32L80,37.3C160,43,320,53,480,58.7C640,64,800,64,960,53.3C1120,43,1280,21,1360,10.7L1440,0L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z">
+            </path>
+        </svg>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       MITRA &amp; MASKAPAI (Partner Logos)
+       ═══════════════════════════════════════════════════ -->
+    <div class="partner-strip">
+        <div class="container container-partners">
+            <div class="partner-item reveal reveal-delay-1">
+                <i class="fas fa-plane"></i> Saudia
+            </div>
+            <div class="partner-item reveal reveal-delay-2">
+                <i class="fas fa-train"></i> Haramain Railway
+            </div>
+            <div class="partner-item reveal reveal-delay-3">
+                <i class="fas fa-hotel"></i> Anjum Hotel
+            </div>
+            <div class="partner-item reveal reveal-delay-4">
+                <i class="fas fa-certificate"></i> PPIU Kemenag
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+       SECTION 2: THE LOGIC OF VALUE
+       ═══════════════════════════════════════════════════ -->
+    <section class="value-section" id="keunggulan">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">The Anti-Drama Comparison</span>
+            <h2 class="section-title reveal" style="max-width:800px; margin:0 auto; font-size:2.4rem;">Kenapa Memilih
+                Kenyamanan Adalah <span style="color:var(--gold)">Investasi Terbaik?</span></h2>
+            <p class="section-subtitle reveal" style="max-width:800px; margin:16px auto 48px;">
+                Harga premium yang menjustifikasi kualitas. Bandingkan perjalanan travel biasa yang menguras energi
+                dengan keistimewaan program Munira VIP:
+            </p>
+
+            <div class="value-grid"
+                style="grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto;">
+                <!-- Travel Biasa -->
+                <div class="value-card reveal reveal-delay-1" style="border-top: 3px solid #E53E3E;">
+                    <h3 style="color:#E53E3E; font-size:1.5rem; margin-bottom:20px;">Umrah Biasa</h3>
+                    <ul style="list-style:none; padding:0; text-align:left;">
+                        <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
+                            <strong>Penerbangan:</strong> Transit lama, anak kelelahan
+                        </li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
+                            <strong>Transportasi:</strong> Bus 6 jam Mekkah-Madinah, rawan rewel
+                        </li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
+                            <strong>Akomodasi:</strong> Hotel jauh, kaki lecet berjalan jauh
+                        </li>
+                    </ul>
+                </div>
+                <!-- Munira VIP -->
+                <div class="value-card reveal reveal-delay-2"
+                    style="border-top: 3px solid var(--gold); border: 2px solid var(--gold); background: #FAFDFE;">
+                    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:20px;">Munira VIP <i
+                            class="fas fa-check-circle" style="color:var(--gold);"></i></h3>
+                    <ul style="list-style:none; padding:0; text-align:left;">
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Penerbangan:</strong> Direct Flight
+                            Saudia, anak tetap segar</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Transportasi:</strong> Kereta Cepat
+                            Haramain 2 Jam, lebih seru</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Akomodasi:</strong> Hotel Premium 0
+                            Meter, fokus ibadah</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Airplane Animation -->
+        <div class="plane-animation" id="planeAnim">
+            <i class="fas fa-plane-departure"></i>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       INFOGRAFIS ITINERARY PREMIUM
+       ═══════════════════════════════════════════════════ -->
+    <section class="timeline-section" id="itinerary">
+        <div class="container" style="text-align:center; margin-bottom: 56px;">
+            <span class="section-label reveal">Momen Emas Tarbiyah Anak</span>
+            <h2 class="section-title reveal">Itinerary <span style="color:var(--gold)">Premium (10 Hari)</span></h2>
+            <p class="section-subtitle reveal">
+                "Membangun Kedekatan Spiritual Keluarga Tanpa Lelah"
+            </p>
+        </div>
+
+        <div class="timeline-container">
+
+            <!-- DAY 1 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 1 • 29 Juni 2026</span>
+                            <h3 class="timeline-title">Jakarta &ndash; Jeddah &ndash; Madinah</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-clock"></i>
+                            <div><strong>13.30:</strong> Berkumpul di Lounge VIP Bandara Soekarno-Hatta (Bukan di area
+                                publik). Proses handling dokumen dilakukan oleh tim khusus.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-plane-departure"></i>
+                            <div><strong>17.30:</strong> Keberangkatan dengan Saudi Airlines SV819 (Direct Flight).
+                                Fasilitas
+                                Full
+                                Service & In-flight Entertainment untuk anak-anak.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-passport"></i>
+                            <div><strong>23.30:</strong> Tiba di Jeddah. Proses Fast Track Immigration (Tanpa antre
+                                panjang).</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-bus"></i>
+                            <div><strong>01.00 (+1):</strong> Perjalanan ke Madinah dengan Bus VIP 2026 Edition (Kursi
+                                luas,
+                                sirkulasi udara optimal).</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-hotel"></i>
+                            <div><strong>05.00 (+1):</strong> Check-in Hotel Bintang 5 (Depan Pelataran Masjid Nabawi).
+                                Welcome
+                                Drink & Breakfast khusus di kamar untuk keluarga.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 2 -->
+            <div class="timeline-item reveal reveal-delay-2">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 2 • 30 Juni 2026</span>
+                            <h3 class="timeline-title">Madinah &ndash; Tadabur Nabawi</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-moon"></i>
+                            <div><strong>03.30:</strong> Shalat Tahajud & Subuh berjamaah di Masjid Nabawi.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-mosque"></i>
+                            <div><strong>08.00:</strong> Ziarah Raudah (Dipesankan melalui sistem E'tamarna/Nusuk oleh
+                                tim).
+                                Jemaah tidak perlu antre manual.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <div><strong>16.00:</strong> Kajian Keluarga bersama Ust. Yaumil Akhir, Lc dengan tema
+                                "Meneladani Akhlak Rasulullah untuk Milenial & Gen Z".</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 3 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 3 • 01 Juli 2026</span>
+                            <h3 class="timeline-title">Madinah &ndash; City Tour Edukatif</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <div><strong>07.00:</strong> Ziarah Luar (Masjid Quba, Kebun Kurma, Gunung Uhud).</div>
+                        </div>
+                        <div class="timeline-highlight">
+                            <i class="fas fa-star" style="margin-right:8px;"></i> Extra Value: Kunjungan VIP ke Museum
+                            Al-Qur'an/Museum Wahyu dengan panduan Private Guide. Visual sejarah Islam interaktif agar
+                            anak-anak mudah paham.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 4 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 4 • 02 Juli 2026</span>
+                            <h3 class="timeline-title">Madinah &ndash; Makkah (Transisi Premium)</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-suitcase"></i>
+                            <div><strong>09.00:</strong> Persiapan Ihram langsung dari Hotel. Bagasi di-handle tim.
+                            </div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-train"></i>
+                            <div><strong>12.00:</strong> Menggunakan Haramain High-Speed Train (VIP Class).
+                                Madinah-Makkah
+                                hanya dalam 2 jam (Bukan 6 jam bus). Menghindari drama anak-anak bosan di jalan.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-kaaba"></i>
+                            <div><strong>17.00:</strong> Pelaksanaan Ibadah Umroh Pertama (Dibimbing secara intensif
+                                per-keluarga).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 5 & 6 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 5 & 6 • 03-04 Juli 2026</span>
+                            <h3 class="timeline-title">Makkah &ndash; Fokus Ibadah & Thaif</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-kaaba"></i>
+                            <div><strong>Day 5:</strong> Fokus memperbanyak Ibadah di Masjidil Haram. Private Consulting
+                                dengan Pembimbing untuk evaluasi ibadah umroh.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-mountain"></i>
+                            <div><strong>Day 6 Pagi:</strong> City Tour Makkah (Jabal Tsur, Arafah, Muzdalifah, Mina).
+                                Lalu
+                                lanjut ke Kota sejuk Thaif naik Bus VIP.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-utensils"></i>
+                            <div><strong>Day 6 Malam:</strong> Makan malam eksklusif di restoran lokal terbaik di Thaif
+                                sebelum kembali ke Makkah.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 7 & 8 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 7 & 8 • 05-06 Juli 2026</span>
+                            <h3 class="timeline-title">Makkah &ndash; Fokus Ibadah</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-coffee"></i>
+                            <div><strong>Day 7 Sore:</strong> Afternoon Tea di Lounge Hotel menghadap Ka’bah untuk momen
+                                bonding keluarga.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-kaaba"></i>
+                            <div><strong>Day 8:</strong> Fokus memperbanyak Ibadah di Masjidil Haram.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 9 & 10 -->
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content accordion-item"
+                    style="border: 2px solid var(--gold); background: #FAFDFE;">
+                    <div class="accordion-header">
+                        <div class="accordion-title-wrap">
+                            <span class="timeline-date">Day 9 & 10 • 07-08 Juli 2026</span>
+                            <h3 class="timeline-title">Kepulangan & Tiba di Tanah Air</h3>
+                        </div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="timeline-point">
+                            <i class="fas fa-kaaba"></i>
+                            <div><strong>Day 9 (pagi):</strong> Tawaf Wada’ perpisahan dengan Ka'bah.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-plane"></i>
+                            <div><strong>Day 9 (20.20):</strong> Keberangkatan dengan Saudi Airlines SV820 dari Jeddah
+                                menuju Jakarta. Penerbangan Direct kembali ke Tanah Air.</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-home"></i>
+                            <div><strong>Day 10 (10.25):</strong> Tiba di Jakarta. Penjemputan bagasi sepenuhnya diurus
+                                oleh tim
+                                Munira World. Jemaah langsung pulang ke rumah & berkumpul dengan keluarga bebas dari
+                                rasa
+                                lelah berlebih.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container reveal">
+            <div style="text-align:center; margin-top: 64px;">
+                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; color:var(--navy);">Justifikasi
+                    Investasi Anda</h3>
+                <p style="color:var(--text-light); max-width:600px; margin: 8px auto 0;">Mengapa harga +30% dari market
+                    standar adalah keputusan cerdas untuk orang tua.</p>
+            </div>
+            <div class="point-sales-grid">
+                <div class="ps-card">
+                    <img src="/assets/train.png" alt="Kereta Cepat Haramain" loading="lazy">
+                    <div class="ps-card-body">
+                        <h4>🚄 Kereta Cepat Haramain (VIP Class)</h4>
+                        <p>Menghilangkan total risiko mabuk darat dan kelelahan berlebih pada anak-anak/lansia. Hanya 2
+                            jam
+                            nyaman antar kota.</p>
+                    </div>
+                </div>
+                <div class="ps-card">
+                    <img src="/assets/hotel.png" alt="Hotel Premium Mekkah" loading="lazy">
+                    <div class="ps-card-body">
+                        <h4>🏨 Hotel Zero-Distance (Depan Masjid)</h4>
+                        <p>Menjamin jemaah bisa ke Masjidil Haram hanya dengan jalan kaki 1-2 menit. Waktu istirahat
+                            jadi
+                            lebih panjang, anak bangun subuh tanpa rewel.</p>
+                    </div>
+                </div>
+                <div class="ps-card">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80"
+                        alt="Saudi Airlines" loading="lazy">
+                    <div class="ps-card-body">
+                        <h4>✈️ Saudi Airlines Direct Flight</h4>
+                        <p>Tidak ada risiko koper hilang saat transit atau kelelahan di bandara penghubung luar negara.
+                            Tidur nyenyak sampai tujuan.</p>
+                    </div>
+                </div>
+                <div class="ps-card">
+                    <img src="https://images.unsplash.com/photo-1554342872-034a06541bad?auto=format&fit=crop&w=600&q=80"
+                        alt="VIP Baggage" loading="lazy">
+                    <div class="ps-card-body">
+                        <h4>🎒 Full VIP Baggage Handling</h4>
+                        <p>Orang tua hanya perlu menggandeng tangan anak. Jemaah tidak mengurus koper sama sekali sejak
+                            turun pesawat hingga dalam kamar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       FASILITAS UTAMA KAMI
+       ═══════════════════════════════════════════════════ -->
+    <section class="fasilitas-section" id="fasilitas">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">Layanan Lengkap</span>
+            <h2 class="section-title reveal">Fasilitas Utama <span style="color:var(--gold)">Kami</span></h2>
+            <p class="section-subtitle reveal">
+                Semua kebutuhan perjalanan ibadah Anda, kami urus dari A hingga Z.
+            </p>
+
+            <div class="fasilitas-grid">
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-passport"></i></div>
+                    <h4>Visa Haji & Umrah</h4>
+                    <p>Pengurusan visa haji & umrah untuk keperluan ibadah</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-suitcase"></i></div>
+                    <h4>Perlengkapan</h4>
+                    <p>Paket kami dengan perlengkapan serta alat kebutuhan selama ibadah untuk Anda</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-plane-departure"></i></div>
+                    <h4>Tiket Pesawat</h4>
+                    <p>Tiket pesawat kelas ekonomi dan bisnis PP untuk keberangkatan Anda ke Tanah Suci</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-utensils"></i></div>
+                    <h4>Konsumsi</h4>
+                    <p>Konsumsi yang terjamin sejak dari mulai perjalanan hingga sampai selesai</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-hotel"></i></div>
+                    <h4>Hotel Penginapan</h4>
+                    <p>Akomodasi penginapan terbaik dan ternyaman</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-bus"></i></div>
+                    <h4>Transportasi</h4>
+                    <p>Kendaraan yang nyaman untuk menghantarkan perjalanan para jamaah</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-user-tie"></i></div>
+                    <h4>TL &ndash; Muthawif</h4>
+                    <p>Ibadah ditemani oleh tour leader dan muthawif yang tersertifikasi dan profesional</p>
+                </div>
+                <div class="fasilitas-card reveal">
+                    <div class="fasilitas-icon"><i class="fas fa-book-open"></i></div>
+                    <h4>Umrah Mandiri</h4>
+                    <p>Dukungan dan edukasi keperluan bagi jamaah umrah mandiri PT. Wisata Cahaya Tauhid</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       SECTION 3: SPIRITUAL GUIDE
+       ═══════════════════════════════════════════════════ -->
+    <section class="guide-section" id="pembimbing">
+        <div class="container">
+            <div class="guide-grid">
+                <div class="guide-image reveal">
+                    <img src="/assets/masjidil-haram.png" alt="Ust Yaumil Akhir Lc" loading="lazy">
+                    <div class="guide-image-badge">
+                        <i class="fas fa-child"></i> The Spiritual Guide
+                    </div>
+                </div>
+                <div class="guide-text">
+                    <span class="section-label reveal">The Authority</span>
+                    <h2 class="reveal">Pendampingan Ibadah yang <span style="color:var(--gold)">Ramah Anak</span></h2>
+                    <p class="guide-desc reveal">
+                        Bimbingan yang ramah untuk generasi muda. Memastikan anak-anak mencintai ibadah, bukan sekadar
+                        menjalaninya. Bersama pembimbing ahli <strong>Ust. Yaumil Akhir, S.Pd.I, Lc, M.Ag</strong>.
+                    </p>
+                    <ul class="guide-features reveal">
+                        <li><i class="fas fa-check-circle"></i> Nilai edukasi spiritual untuk anak & remaja</li>
+                        <li><i class="fas fa-check-circle"></i> Manasik interaktif yang menyenangkan</li>
+                        <li><i class="fas fa-check-circle"></i> Bimbingan khusus keluarga selama di Mekkah & Madinah
+                        </li>
+                    </ul>
+                    <a href="#daftar" class="btn btn-gold reveal" id="guide-cta">
+                        <i class="fab fa-whatsapp"></i> Tanya Lebih Lanjut
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       SECTION 4: PRICING
+       ═══════════════════════════════════════════════════ -->
+    <section class="pricing-section" id="harga">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">Investasi Ibadah Anda</span>
+            <h2 class="section-title reveal">Pilih Paket <span style="color:var(--gold)">Terbaik</span> Anda</h2>
+            <p class="section-subtitle reveal">
+                29 Juni - 08 Juli 2026 — Program 10 Hari Umrah Liburan Sekolah. Tiket Confirmed via Saudia Airlines.
+                (EKSLUSIF HANYA 25 SEAT)
+            </p>
+
+            <!-- PACKAGE INFO & EXCLUSIONS -->
+            <div class="pricing-info"
+                style="max-width:900px; margin: 0 auto 32px; text-align:left; background: var(--white-pure); padding: 24px; border-radius: var(--radius); border: 1px solid rgba(26,54,93,.06);">
+                <div style="display:flex; flex-wrap:wrap; gap: 24px;">
+                    <div style="flex:1; min-width:280px;">
+                        <h4 style="color:var(--navy); margin-bottom:12px; font-size:1.1rem;"><i
+                                class="fas fa-check-circle" style="color:var(--gold);"></i> Paket Termasuk</h4>
+                        <ul
+                            style="list-style:none; padding:0; line-height:1.7; font-size:.9rem; color:var(--text-light);">
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Tiket penerbangan (economy class)
+                                Saudia Airlines</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Akomodasi Hotel *5 Madinah &
+                                Mekkah</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Transportasi Bus & Kereta Cepat
+                                Haramain</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Visa Umroh & Travel Insurance</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Ustadz Pembimbing, Muthowif &
+                                Muthowifah</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Perlengkapan Umroh (Koper 2pcs,
+                                Seragam, dsb)</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-check"
+                                    style="color:var(--gold); margin-right:6px;"></i> Manasik Umroh 2x, Al Baik,
+                                Handling Soetta, dll</li>
+                        </ul>
+                    </div>
+                    <div style="flex:1; min-width:280px;">
+                        <h4 style="color:var(--navy); margin-bottom:12px; font-size:1.1rem;"><i
+                                class="fas fa-times-circle" style="color:#E53E3E;"></i> Paket Tidak Termasuk</h4>
+                        <ul
+                            style="list-style:none; padding:0; line-height:1.7; font-size:.9rem; color:var(--text-light);">
+                            <li style="margin-bottom:4px;"><i class="fas fa-times"
+                                    style="color:#E53E3E; margin-right:6px;"></i> Biaya Paspor</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-times"
+                                    style="color:#E53E3E; margin-right:6px;"></i> Tiket Domestik dari daerah ke Jakarta
+                            </li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-times"
+                                    style="color:#E53E3E; margin-right:6px;"></i> Akomodasi di Jakarta</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-times"
+                                    style="color:#E53E3E; margin-right:6px;"></i> Biaya-biaya yang tidak disebutkan
+                                diatas</li>
+                        </ul>
+                        <h4 style="color:var(--navy); margin-top:16px; margin-bottom:12px; font-size:1.1rem;"><i
+                                class="fas fa-exclamation-circle" style="color:var(--gold);"></i> Syarat & Ketentuan
+                        </h4>
+                        <ul
+                            style="list-style:none; padding:0; line-height:1.7; font-size:.9rem; color:var(--text-light);">
+                            <li style="margin-bottom:4px;"><i class="fas fa-angle-right"
+                                    style="color:var(--gold); margin-right:6px;"></i> Minimal DP 5jt/pax (untuk ikatan
+                                akad)</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-angle-right"
+                                    style="color:var(--gold); margin-right:6px;"></i> Pendaftaran & Fullpayment paling
+                                lambat: 4 pekan sebelum keberangkatan</li>
+                            <li style="margin-bottom:4px;"><i class="fas fa-angle-right"
+                                    style="color:var(--gold); margin-right:6px;"></i> Harga paket untuk minimal 25 orang
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .package-options-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 32px;
+                    max-width: 1000px;
+                    margin: 0 auto;
+                }
+
+                @media(max-width:768px) {
+                    .package-options-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+
+                .package-card {
+                    background: #fff;
+                    border-radius: 24px;
+                    position: relative;
+                    padding: 40px 32px;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                    border: 1px solid rgba(26, 54, 93, 0.05);
+                    text-align: left;
+                    overflow: hidden;
+                }
+
+                .package-card::before {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 80px;
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23c5a059" fill-opacity="0.1" d="M0,160L48,160C96,160,192,160,288,181.3C384,203,480,245,576,234.7C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+                    background-size: cover;
+                    background-position: bottom;
+                    z-index: 0;
+                }
+
+                .pkg-badge-silver {
+                    position: absolute;
+                    top: -10px;
+                    left: -10px;
+                    background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+                    color: #424242;
+                    padding: 16px 32px 16px 40px;
+                    border-radius: 0 0 24px 0;
+                    font-weight: 800;
+                    font-size: 1.1rem;
+                    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+                    z-index: 2;
+                }
+
+                .pkg-badge-gold {
+                    position: absolute;
+                    top: -10px;
+                    left: -10px;
+                    background: linear-gradient(135deg, #F9D423 0%, #FF4E50 100%);
+                    color: #fff;
+                    padding: 16px 32px 16px 40px;
+                    border-radius: 0 0 24px 0;
+                    font-weight: 800;
+                    font-size: 1.1rem;
+                    box-shadow: 5px 5px 15px rgba(249, 212, 35, 0.3);
+                    z-index: 2;
+                }
+
+                .pkg-price-main {
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .pkg-price-main span.label {
+                    display: block;
+                    font-weight: 600;
+                    color: var(--navy);
+                    margin-bottom: 4px;
+                }
+
+                .pkg-price-main h3 {
+                    font-size: 2.8rem;
+                    font-weight: 800;
+                    margin: 0;
+                    color: var(--navy);
+                    display: flex;
+                    align-items: baseline;
+                    gap: 4px;
+                }
+
+                .pkg-price-main h3 span.currency {
+                    font-size: 1.2rem;
+                }
+
+                .pkg-price-main h3 span.unit {
+                    font-size: 1rem;
+                    color: var(--text-light);
+                    font-weight: 600;
+                }
+
+                .pkg-options {
+                    display: flex;
+                    gap: 16px;
+                    margin-bottom: 40px;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .pkg-opt-box {
+                    background: #f8f9fa;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 12px;
+                    padding: 16px;
+                    flex: 1;
+                    text-align: center;
+                    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+                }
+
+                .pkg-opt-box-gold {
+                    background: linear-gradient(to bottom, #fff, #fef9c3);
+                    border-color: #fde047;
+                }
+
+                .pkg-opt-box.silver-theme {
+                    background: linear-gradient(to bottom, #fff, #f1f5f9);
+                    border-color: #cbd5e1;
+                }
+
+                .pkg-opt-box span.title {
+                    display: block;
+                    font-size: 0.85rem;
+                    color: var(--text-light);
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+
+                .pkg-opt-box span.price {
+                    display: block;
+                    font-size: 1.4rem;
+                    font-weight: 800;
+                    color: var(--navy);
+                }
+
+                .pkg-hotel-info {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .pkg-stars {
+                    color: #f59e0b;
+                    font-size: 1.2rem;
+                    margin-bottom: 8px;
+                    letter-spacing: 2px;
+                }
+
+                .pkg-hotel-info h5 {
+                    font-size: 1.1rem;
+                    color: var(--navy);
+                    margin-bottom: 8px;
+                    font-weight: 700;
+                }
+
+                .pkg-hotel-info p {
+                    color: var(--text-light);
+                    font-size: 0.95rem;
+                    margin-bottom: 4px;
+                }
+            </style>
+
+            <div class="package-options-grid">
+
+                <!-- PAKET SILVER -->
+                <div class="package-card reveal reveal-delay-1" style="border-top: 5px solid #E0E0E0;">
+                    <div class="pkg-badge-silver">Paket Silver</div>
+
+                    <div class="pkg-price-main">
+                        <span class="label">Quad</span>
+                        <h3><span class="currency">Rp</span>37,9<span class="unit">juta</span></h3>
+                    </div>
+
+                    <div class="pkg-options">
+                        <div class="pkg-opt-box silver-theme">
+                            <span class="title">Triple</span>
+                            <span class="price">39,9 jt</span>
+                        </div>
+                        <div class="pkg-opt-box silver-theme">
+                            <span class="title">Double</span>
+                            <span class="price">42,9 jt</span>
+                        </div>
+                    </div>
+
+                    <div class="pkg-hotel-info">
+                        <div class="pkg-stars">★★★★★</div>
+                        <h5>Hotel Bintang 5</h5>
+                        <p><strong>Madinah:</strong> Emaar Royal</p>
+                        <p><strong>Makkah:</strong> Ajyad Makarim / Maysan Al Mashaer / Setaraf</p>
+                    </div>
+
+                    <a href="#daftar" class="btn btn-outline"
+                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; border-color:#9e9e9e; color:#424242;">Pilih
+                        Silver</a>
+                </div>
+
+                <!-- PAKET GOLD -->
+                <div class="package-card reveal reveal-delay-2"
+                    style="border-top: 5px solid #F9D423; transform: scale(1.02); box-shadow: 0 25px 50px rgba(249,212,35,0.15);">
+                    <div class="pkg-badge-gold">Paket Gold</div>
+
+                    <div class="pkg-price-main">
+                        <span class="label">Quad</span>
+                        <h3><span class="currency">Rp</span>41,9<span class="unit">juta</span></h3>
+                    </div>
+
+                    <div class="pkg-options">
+                        <div class="pkg-opt-box pkg-opt-box-gold">
+                            <span class="title">Triple</span>
+                            <span class="price">43,9 jt</span>
+                        </div>
+                        <div class="pkg-opt-box pkg-opt-box-gold">
+                            <span class="title">Double</span>
+                            <span class="price">46,9 jt</span>
+                        </div>
+                    </div>
+
+                    <div class="pkg-hotel-info">
+                        <div class="pkg-stars">★★★★★</div>
+                        <h5>Hotel Bintang 5 Premium</h5>
+                        <p><strong>Madinah:</strong> Emaar Royal</p>
+                        <p><strong>Makkah:</strong> Moevenpick / Pullman / Al Sofwa / Setaraf</p>
+                    </div>
+
+                    <a href="#daftar" class="btn btn-gold"
+                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; box-shadow: 0 10px 20px rgba(197,160,89,0.3);">Pilih
+                        Gold</a>
+                </div>
+
+            </div>
+
+            <p style="font-size:.8rem; color:var(--text-light); margin-top:32px;">*Harga/Jadwal sewaktu-waktu dapat
+                berubah sesuai kondisi, kebijakan, dan kurs yang berlaku.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       SECTION 5: TRUST & COMPLIANCE
+       ═══════════════════════════════════════════════════ -->
+    <section class="trust-section" id="legalitas">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">Keberangkatan Terjamin</span>
+            <h2 class="section-title reveal">Legalitas & <span style="color:var(--gold)">Kepercayaan</span></h2>
+            <p class="section-subtitle reveal">
+                Keberangkatan yang terjamin sistem. Izin resmi dari Kementerian Agama RI, aman dan terverifikasi.
+            </p>
+
+            <div class="trust-grid">
+                <div class="trust-card reveal reveal-delay-1">
+                    <div class="trust-icon"><i class="fas fa-certificate"></i></div>
+                    <h4>Izin PPIU Resmi</h4>
+                    <p>Terdaftar di Kementerian Agama RI dengan nomor izin<br><strong>07042200522880006</strong></p>
+                </div>
+                <div class="trust-card reveal reveal-delay-2">
+                    <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h4>Terintegrasi SISKOPATUH</h4>
+                    <p>Sistem Kementerian Agama untuk memastikan keamanan dan legalitas penyelenggara umrah.</p>
+                </div>
+                <div class="trust-card reveal reveal-delay-3">
+                    <div class="trust-icon"><i class="fas fa-building"></i></div>
+                    <h4>Kantor Resmi</h4>
+                    <p>Munira World Tours & Travel beroperasi dengan kantor fisik dan tim profesional yang siap
+                        melayani.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       ABOUT — TENTANG KAMI
+       ═══════════════════════════════════════════════════ -->
+    <section class="about-section" id="tentang">
+        <div class="about-bg-shape"></div>
+        <div class="container" style="position:relative; z-index:1;">
+            <div class="about-grid">
+                <div class="about-main reveal">
+                    <span class="section-label">Tentang Kami</span>
+                    <h2 class="section-title" style="text-align:left;">Mengiringi Cahaya <span>Sunnah</span></h2>
+                    <p class="about-desc">
+                        Kami memberikan layanan perjalanan wisata sejak tahun 2012 dan resmi terdaftar sebagai
+                        penyelenggara Haji Plus dan Umrah di Kementerian Agama RI.
+                    </p>
+                    <p class="about-desc">
+                        Sejak 2012, Munira World telah dipercaya sebagai penyedia perjalanan muslim yang aman, nyaman,
+                        dan berkesan. Dengan tim berpengalaman dan layanan berstandar tinggi, kami memastikan setiap
+                        perjalanan menjadi pengalaman yang tenang, terarah, dan penuh nilai.
+                    </p>
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <div class="about-stat-number">14+</div>
+                            <div class="about-stat-label">Tahun Pengalaman</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="about-stat-number">5000+</div>
+                            <div class="about-stat-label">Jamaah Terlayani</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="about-stat-number">100%</div>
+                            <div class="about-stat-label">Keberangkatan Terjamin</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visi-misi reveal">
+                    <div class="visi-card">
+                        <div class="visi-icon"><i class="fas fa-eye"></i></div>
+                        <h4>Visi</h4>
+                        <p>Menjadikan PT. Wisata Cahaya Tauhid yang terbaik dan terpercaya dengan standar pelayanan
+                            Profesional dan menjadi pilihan paling utama bagi semua pelanggan.</p>
+                    </div>
+                    <div class="misi-card">
+                        <div class="visi-icon"><i class="fas fa-bullseye"></i></div>
+                        <h4>Misi</h4>
+                        <p>Memberikan pelayanan profesional, cepat-tepat, fokus pada solusi, didukung oleh sumber daya
+                            manusia yang ramah, spirit of excellence, humble, ikhlas dalam melayani seluruh pelanggan
+                            dan fokus pada kepuasan customer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       TESTIMONIALS
+       ═══════════════════════════════════════════════════ -->
+    <section class="testimonial-section" id="testimoni">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">Kata Jamaah Kami</span>
+            <h2 class="section-title reveal">Mengantar Jamaah dengan <span style="color:var(--gold)">Hati dan
+                    Integritas</span></h2>
+            <p class="section-subtitle reveal">
+                Munira World hadir untuk memberikan perjalanan terbaik dengan pelayanan yang tulus dan terpercaya.
+            </p>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4>Pelayanan Ramah &amp; Kekeluargaan</h4>
+                    <p class="testimonial-text">&ldquo;Munira World memiliki staff yang ramah dan mampu menciptakan
+                        suasana kekeluargaan ketika saya berangkat umrah tahun 2015, seperti umrah dengan keluarga
+                        sendiri.&rdquo;</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                        <div>
+                            <div class="testimonial-name">H. Abdul Aziz</div>
+                            <div class="testimonial-loc"><i class="fas fa-map-marker-alt"></i> Jakarta</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4>Pelayanan Sangat Profesional</h4>
+                    <p class="testimonial-text">&ldquo;Mulai dari keberangkatan hingga kepulangan, semuanya diatur
+                        dengan rapi. Saya merasa tenang karena setiap kebutuhan jamaah benar-benar diperhatikan.&rdquo;
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                        <div>
+                            <div class="testimonial-name">Ismail Hadi</div>
+                            <div class="testimonial-loc"><i class="fas fa-map-marker-alt"></i> Bogor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal reveal-delay-3">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4>Bimbingan Ibadah yang Jelas</h4>
+                    <p class="testimonial-text">&ldquo;Pembimbingnya sabar dan detail saat membimbing manasik dan ibadah
+                        di Tanah Suci, sehingga saya bisa menjalankan umrah dengan lebih khusyuk tanpa rasa
+                        cemas.&rdquo;</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar"><i class="fas fa-user"></i></div>
+                        <div>
+                            <div class="testimonial-name">Zaenal Robby</div>
+                            <div class="testimonial-loc"><i class="fas fa-map-marker-alt"></i> Tangerang</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       CTA BANNER
+       ═══════════════════════════════════════════════════ -->
+    <section class="cta-banner">
+        <div class="container">
+            <h2 class="reveal">Jangan Sampai Kehabisan Seat</h2>
+            <p class="reveal">Keberangkatan 29 Juni 2026 — Kuota sangat terbatas hanya 25 Seat.</p>
+            <a href="#daftar" class="btn btn-gold reveal" id="cta-bottom">
+                <i class="fab fa-whatsapp"></i> Amankan Seat Saya Sekarang
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       REGISTRATION FORM
+       ═══════════════════════════════════════════════════ -->
+    <section class="form-section" id="daftar">
+        <div class="container form-container reveal">
+            <span class="section-label">Langkah Awal Ke Baitullah</span>
+            <h2 class="section-title">Konsultasi <span style="color:var(--gold)">Keberangkatan</span></h2>
+            <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">
+                Isi data di bawah ini untuk mendapatkan detail fasilitas, ketersediaan seat, dan penawaran khusus dari
+                Konsultan Munira World.
+            </p>
+
+            <!-- ═══ INLINE EMBEDDED FORM (mengganti iframe yang diblokir X-Frame-Options) ═══ -->
+            <style>
+                .emb-form-wrap {
+                    background: #fff;
+                    border-radius: 20px;
+                    padding: 40px 36px;
+                    max-width: 620px;
+                    margin: 32px auto 0;
+                    box-shadow: 0 16px 60px rgba(26, 54, 93, .1);
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .emb-form-wrap::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+                }
+
+                .emb-progress {
+                    display: flex;
+                    justify-content: space-between;
+                    position: relative;
+                    margin-bottom: 28px;
+                }
+
+                .emb-progress::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: #e2e8f0;
+                    transform: translateY(-50%);
+                    z-index: 0;
+                }
+
+                .emb-pdot {
+                    position: relative;
+                    z-index: 1;
+                    background: #fff;
+                    border: 2px solid #e2e8f0;
+                    border-radius: 20px;
+                    padding: 4px 14px;
+                    font-size: .82rem;
+                    font-weight: 700;
+                    color: #718096;
+                    transition: .3s;
+                }
+
+                .emb-pdot.active {
+                    background: var(--gold);
+                    border-color: var(--gold);
+                    color: var(--navy);
+                }
+
+                .emb-pdot.done {
+                    background: var(--navy);
+                    border-color: var(--navy);
+                    color: #fff;
+                }
+
+                .emb-pane {
+                    display: none;
+                    animation: embFade .35s ease forwards;
+                }
+
+                .emb-pane.active {
+                    display: block;
+                }
+
+                @keyframes embFade {
+                    from {
+                        opacity: 0;
+                        transform: translateY(8px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .emb-pane-title {
+                    font-family: 'Outfit', sans-serif;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    color: var(--navy);
+                    border-bottom: 1px solid #e2e8f0;
+                    padding-bottom: 10px;
+                    margin-bottom: 20px;
+                }
+
+                .emb-group {
+                    margin-bottom: 18px;
+                }
+
+                .emb-group label {
+                    display: block;
+                    font-weight: 700;
+                    font-size: .88rem;
+                    color: #1a365d;
+                    margin-bottom: 6px;
+                }
+
+                .emb-group label .req {
+                    color: #e53e3e;
+                }
+
+                .emb-inp {
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 1.5px solid #cbd5e0;
+                    border-radius: 10px;
+                    font-family: 'Nunito', sans-serif;
+                    font-size: .95rem;
+                    color: #2c3e50;
+                    background: #f8fafc;
+                    transition: .25s;
+                    box-sizing: border-box;
+                    outline: none;
+                    appearance: none;
+                }
+
+                .emb-inp:focus {
+                    border-color: var(--gold);
+                    box-shadow: 0 0 0 3px rgba(197, 160, 89, .18);
+                    background: #fff;
+                }
+
+                .emb-inp.err {
+                    border-color: #e53e3e;
+                    background: #fff5f5;
+                }
+
+                .emb-errmsg {
+                    font-size: .8rem;
+                    color: #e53e3e;
+                    margin-top: 4px;
+                    display: none;
+                    font-weight: 600;
+                }
+
+                .emb-row {
+                    display: flex;
+                    gap: 12px;
+                }
+
+                .emb-row .emb-group {
+                    flex: 1;
+                }
+
+                .emb-radio-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .emb-radio-group.hz {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    gap: 14px;
+                }
+
+                .emb-rlabel {
+                    display: flex;
+                    align-items: flex-start;
+                    position: relative;
+                    padding-left: 28px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    font-size: .9rem;
+                    color: #2c3e50;
+                }
+
+                .emb-rlabel input {
+                    position: absolute;
+                    opacity: 0;
+                }
+
+                .emb-rmark {
+                    position: absolute;
+                    left: 0;
+                    top: 2px;
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid #cbd5e0;
+                    border-radius: 50%;
+                    background: #fff;
+                    transition: .2s;
+                }
+
+                .emb-rlabel input:checked~.emb-rmark {
+                    border-color: var(--gold);
+                }
+
+                .emb-rlabel input:checked~.emb-rmark::after {
+                    content: '';
+                    display: block;
+                    width: 8px;
+                    height: 8px;
+                    background: var(--gold);
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 3px;
+                    left: 3px;
+                }
+
+                .emb-rtext strong {
+                    color: #1a365d;
+                    font-size: .88rem;
+                    display: block;
+                }
+
+                .emb-rtext span {
+                    font-size: .8rem;
+                    color: #718096;
+                }
+
+                .emb-actions {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 22px;
+                    gap: 10px;
+                }
+
+                .emb-actions.between {
+                    justify-content: space-between;
+                }
+
+                .emb-btn-next,
+                .emb-btn-prev,
+                .emb-btn-submit {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 12px 24px;
+                    border-radius: 50px;
+                    font-family: 'Nunito', sans-serif;
+                    font-weight: 800;
+                    font-size: .92rem;
+                    cursor: pointer;
+                    border: none;
+                    transition: .3s;
+                }
+
+                .emb-btn-next,
+                .emb-btn-submit {
+                    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+                    color: var(--navy);
+                    box-shadow: 0 4px 14px rgba(197, 160, 89, .3);
+                }
+
+                .emb-btn-next:hover,
+                .emb-btn-submit:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 22px rgba(197, 160, 89, .4);
+                }
+
+                .emb-btn-prev {
+                    background: #f1f5f9;
+                    color: #475569;
+                }
+
+                .emb-btn-prev:hover {
+                    background: #e2e8f0;
+                }
+
+                .emb-privacy {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 8px;
+                    background: #f0fdf4;
+                    padding: 12px 14px;
+                    border-radius: 8px;
+                    border: 1px solid #c6f6d5;
+                    color: #276749;
+                    font-size: .8rem;
+                    line-height: 1.5;
+                    margin-top: 16px;
+                }
+
+                .emb-overlay {
+                    display: none;
+                    position: absolute;
+                    inset: 0;
+                    background: rgba(255, 255, 255, .9);
+                    border-radius: 20px;
+                    z-index: 10;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+
+                .emb-overlay.on {
+                    display: flex;
+                }
+
+                .emb-spinner {
+                    width: 38px;
+                    height: 38px;
+                    border: 4px solid #e2e8f0;
+                    border-top-color: var(--gold);
+                    border-radius: 50%;
+                    animation: embSpin 1s linear infinite;
+                    margin-bottom: 10px;
+                }
+
+                @keyframes embSpin {
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                @media(max-width:600px) {
+                    .emb-form-wrap {
+                        padding: 24px 16px;
+                    }
+
+                    .emb-row {
+                        flex-direction: column;
+                        gap: 0;
+                    }
+
+                    .emb-progress {
+                        display: none;
+                    }
+                }
+            </style>
+
+            <div class="emb-form-wrap" style="margin-top:32px;">
+                <!-- Progress -->
+                <div class="emb-progress">
+                    <div class="emb-pdot active" id="edot1">1. Identitas</div>
+                    <div class="emb-pdot" id="edot2">2. Rencana</div>
+                    <div class="emb-pdot" id="edot3">3. Preferensi</div>
+                </div>
+
+                <form id="embLeadForm">
+
+                    <!-- STEP 1: Identitas -->
+                    <div class="emb-pane active" id="ep1">
+                        <div class="emb-pane-title">Langkah 1 — Identitas Dasar</div>
+
+                        <div class="emb-group">
+                            <label for="eNama">Nama Lengkap (sesuai paspor) <span class="req">*</span></label>
+                            <input type="text" id="eNama" class="emb-inp" placeholder="Contoh: Budi Santoso"
+                                autocomplete="name">
+                            <div class="emb-errmsg" id="ee-nama">Nama harus diisi.</div>
+                        </div>
+
+                        <!-- Smart Kecamatan Autocomplete -->
+                        <div class="emb-group">
+                            <label for="eDomisiliInput">Kecamatan Domisili <span class="req">*</span></label>
+                            <div style="position:relative;">
+                                <input type="text" id="eDomisiliInput" class="emb-inp"
+                                    placeholder="Ketik 3 huruf nama kecamatan / kota..." autocomplete="off"
+                                    spellcheck="false">
+                                <div id="eDomisiliDropdown" style="
+                                    position:absolute; top:calc(100% + 4px); left:0; right:0;
+                                    background:#fff; border:1.5px solid #C5A059; border-radius:10px;
+                                    box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:100;
+                                    max-height:220px; overflow-y:auto; display:none;
+                                "></div>
+                            </div>
+                            <!-- Hidden fields -->
+                            <input type="hidden" id="eKec" value="">
+                            <input type="hidden" id="eKab" value="">
+                            <input type="hidden" id="eProv" value="">
+                            <div id="eDomisiliHint" style="font-size:0.75rem; color:#a0aec0; margin-top:5px;">
+                                <i class="fas fa-search" style="margin-right:4px;"></i>Mulai ketik untuk cari
+                                kecamatan...
+                            </div>
+                            <div class="emb-errmsg" id="ee-kec">Pilih kecamatan domisili Anda.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label for="eWA">Nomor WhatsApp Aktif <span class="req">*</span></label>
+                            <input type="tel" id="eWA" class="emb-inp" placeholder="Contoh: 081234567890"
+                                autocomplete="tel">
+                            <div class="emb-errmsg" id="ee-wa">Masukkan nomor WA yang valid.</div>
+                        </div>
+
+                        <div class="emb-actions">
+                            <button type="button" class="emb-btn-next" data-enext="2">Selanjutnya <i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+
+                    <!-- STEP 2: Rencana -->
+                    <div class="emb-pane" id="ep2">
+                        <div class="emb-pane-title">Langkah 2 — Rencana Perjalanan</div>
+
+                        <div class="emb-group">
+                            <label for="ePengalaman">Sudah pernah Umrah sebelumnya? <span class="req">*</span></label>
+                            <select id="ePengalaman" class="emb-inp">
+                                <option value="" disabled selected>Pilih salah satu...</option>
+                                <option value="Pernah">Pernah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                            <div class="emb-errmsg" id="ee-pengalaman">Pilih pengalaman umrah.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label for="eRencana">Kapan rencana keberangkatan? <span class="req">*</span></label>
+                            <select id="eRencana" class="emb-inp">
+                                <option value="" disabled selected>Pilih estimasi waktu...</option>
+                                <option value="Liburan Sekolah Juni 2026 (29 Juni - 07 Juli)">Liburan Sekolah Juni 2026
+                                    — PRIORITAS</option>
+                                <option value="Segera (1-2 bulan)">Segera (1-2 bulan)</option>
+                                <option value="3-6 Bulan ke depan">3-6 Bulan ke depan</option>
+                                <option value="Di atas 6 Bulan">Di atas 6 Bulan</option>
+                            </select>
+                            <div class="emb-errmsg" id="ee-rencana">Pilih rencana keberangkatan.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label for="eJumlah">Jumlah peserta yang berangkat <span class="req">*</span></label>
+                            <input type="number" id="eJumlah" class="emb-inp" min="1" max="30" placeholder="Contoh: 4">
+                            <div class="emb-errmsg" id="ee-jumlah">Masukkan jumlah peserta (min. 1).</div>
+                        </div>
+
+                        <div class="emb-actions between">
+                            <button type="button" class="emb-btn-prev" data-eprev="1"><i class="fas fa-arrow-left"></i>
+                                Kembali</button>
+                            <button type="button" class="emb-btn-next" data-enext="3">Selanjutnya <i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Preferensi -->
+                    <div class="emb-pane" id="ep3">
+                        <div class="emb-pane-title">Langkah 3 — Pilihan Paket &amp; Kesiapan</div>
+
+                        <div class="emb-group">
+                            <label for="ePaket">Pilihan Paket <span class="req">*</span></label>
+                            <select id="ePaket" class="emb-inp">
+                                <option value="" disabled selected>Pilih kategori paket...</option>
+                                <option value="Paket Liburan Silver - Quad (Rp 37.9 Jt)">Silver - Quad · Rp 37.9 Jt
+                                </option>
+                                <option value="Paket Liburan Silver - Triple (Rp 39.9 Jt)">Silver - Triple · Rp 39.9 Jt
+                                </option>
+                                <option value="Paket Liburan Silver - Double (Rp 42.9 Jt)">Silver - Double · Rp 42.9 Jt
+                                </option>
+                                <option value="Paket Liburan Gold - Quad (Rp 41.9 Jt)">Gold - Quad · Rp 41.9 Jt</option>
+                                <option value="Paket Liburan Gold - Triple (Rp 43.9 Jt)">Gold - Triple · Rp 43.9 Jt
+                                </option>
+                                <option value="Paket Liburan Gold - Double (Rp 46.9 Jt)">Gold - Double · Rp 46.9 Jt
+                                </option>
+                                <option value="Belum menentukan - minta info semua paket">Belum menentukan — minta info
+                                </option>
+                            </select>
+                            <div class="emb-errmsg" id="ee-paket">Pilih paket.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label>Status Paspor Anda <span class="req">*</span></label>
+                            <div class="emb-radio-group" id="ePasporGroup">
+                                <label class="emb-rlabel">
+                                    <input type="radio" name="ePaspor" value="Sudah ada (aktif & siap berangkat)">
+                                    <span class="emb-rmark"></span>
+                                    <div class="emb-rtext"><strong>Sudah Ada</strong><span>Paspor aktif dan siap
+                                            berangkat.</span></div>
+                                </label>
+                                <label class="emb-rlabel">
+                                    <input type="radio" name="ePaspor" value="Sedang proses di Imigrasi">
+                                    <span class="emb-rmark"></span>
+                                    <div class="emb-rtext"><strong>Sedang Proses</strong><span>Dalam proses pembuatan di
+                                            Imigrasi.</span></div>
+                                </label>
+                                <label class="emb-rlabel">
+                                    <input type="radio" name="ePaspor" value="Belum ada (butuh bantuan pengurusan)">
+                                    <span class="emb-rmark"></span>
+                                    <div class="emb-rtext"><strong>Belum Ada</strong><span>Butuh info/bantuan syarat
+                                            bikin paspor.</span></div>
+                                </label>
+                            </div>
+                            <div class="emb-errmsg" id="ee-paspor">Pilih status paspor.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label>Preferensi Pembayaran <span class="req">*</span></label>
+                            <div class="emb-radio-group hz">
+                                <label class="emb-rlabel">
+                                    <input type="radio" name="eBayar" value="Lunas">
+                                    <span class="emb-rmark"></span> Lunas
+                                </label>
+                                <label class="emb-rlabel">
+                                    <input type="radio" name="eBayar" value="Bertahap / Cicilan">
+                                    <span class="emb-rmark"></span> Bertahap / Cicilan
+                                </label>
+                            </div>
+                            <small style="color:#718096;font-size:.78rem;margin-top:6px;display:block;">*Pelunasan wajib
+                                4 minggu sebelum keberangkatan.</small>
+                            <div class="emb-errmsg" id="ee-bayar">Pilih metode pembayaran.</div>
+                        </div>
+
+                        <div class="emb-group">
+                            <label class="emb-rlabel" style="padding-left:26px;">
+                                <input type="checkbox" id="eSetuju" style="position:absolute;opacity:0;">
+                                <span class="emb-rmark" style="border-radius:4px;"></span>
+                                <span style="font-size:.87rem;line-height:1.4;margin-left:6px;">Saya setuju dihubungi
+                                    oleh Konsultan Munira World melalui WhatsApp/Telepon.</span>
+                            </label>
+                            <div class="emb-errmsg" id="ee-setuju">Anda harus menyetujui pernyataan ini.</div>
+                        </div>
+
+                        <div class="emb-privacy">
+                            <i class="fas fa-shield-alt"></i> Data Anda aman &amp; hanya digunakan Konsultan Ibadah
+                            kami. Tidak dijual ke pihak manapun.
+                        </div>
+
+                        <div class="emb-actions between" style="margin-top:22px;">
+                            <button type="button" class="emb-btn-prev" data-eprev="2"><i class="fas fa-arrow-left"></i>
+                                Kembali</button>
+                            <button type="submit" class="emb-btn-submit" id="embSubmitBtn">
+                                Konsultasikan Sekarang <i class="fab fa-whatsapp"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Loading Overlay -->
+                    <div class="emb-overlay" id="embOverlay">
+                        <div class="emb-spinner"></div>
+                        <p style="color:#1a365d;font-weight:700;">Memproses data Anda...</p>
+                    </div>
+
+                </form>
+            </div><!-- /emb-form-wrap -->
+
+            <script>
+                (function () {
+                    let eCurrent = 1;
+
+                    // Timeout 20 detik untuk menghapus aturan wajib isi kecamatan
+                    let isKecamatanMandatory = true;
+                    setTimeout(() => {
+                        isKecamatanMandatory = false;
+                    }, 20000);
+
+                    function eShowPane(n) {
+                        [1, 2, 3].forEach(i => {
+                            document.getElementById('ep' + i)?.classList.toggle('active', i === n);
+                            const d = document.getElementById('edot' + i);
+                            if (!d) return;
+                            d.classList.remove('active', 'done');
+                            if (i < n) d.classList.add('done');
+                            else if (i === n) d.classList.add('active');
+                        });
+                        eCurrent = n;
+                        document.querySelector('.emb-form-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+
+                    function eShowErr(inpId, errId, cond) {
+                        const el = document.getElementById(inpId);
+                        const er = document.getElementById(errId);
+                        if (!el || !er) return cond;
+                        if (cond) { el.classList.add('err'); er.style.display = 'block'; }
+                        else { el.classList.remove('err'); er.style.display = 'none'; }
+                        return cond;
+                    }
+
+                    function eValidate(n) {
+                        let fail = false;
+                        if (n === 1) {
+                            fail |= eShowErr('eNama', 'ee-nama', !document.getElementById('eNama')?.value.trim());
+                            // Validate kecamatan via hidden field (autocomplete) if mandatory
+                            const kecVal = document.getElementById('eKec')?.value;
+                            const kecInp = document.getElementById('eDomisiliInput');
+                            const kecErr = document.getElementById('ee-kec');
+                            if (isKecamatanMandatory && !kecVal) {
+                                if (kecInp) kecInp.classList.add('err');
+                                if (kecErr) kecErr.style.display = 'block';
+                                fail = true;
+                            } else {
+                                if (kecInp) kecInp.classList.remove('err');
+                                if (kecErr) kecErr.style.display = 'none';
+                            }
+                            const wa = document.getElementById('eWA')?.value.trim() || '';
+                            fail |= eShowErr('eWA', 'ee-wa', !/^[0-9]{9,15}$/.test(wa.replace(/\s/g, '')));
+                        }
+                        if (n === 2) {
+                            fail |= eShowErr('ePengalaman', 'ee-pengalaman', !document.getElementById('ePengalaman')?.value);
+                            fail |= eShowErr('eRencana', 'ee-rencana', !document.getElementById('eRencana')?.value);
+                            const jml = parseInt(document.getElementById('eJumlah')?.value) || 0;
+                            fail |= eShowErr('eJumlah', 'ee-jumlah', jml < 1);
+                        }
+                        if (n === 3) {
+                            fail |= eShowErr('ePaket', 'ee-paket', !document.getElementById('ePaket')?.value);
+                            const paspor = document.querySelector('input[name="ePaspor"]:checked');
+                            const pe = document.getElementById('ee-paspor');
+                            if (!paspor) { if (pe) pe.style.display = 'block'; fail = true; }
+                            else { if (pe) pe.style.display = 'none'; }
+                            const bayar = document.querySelector('input[name="eBayar"]:checked');
+                            const be = document.getElementById('ee-bayar');
+                            if (!bayar) { if (be) be.style.display = 'block'; fail = true; }
+                            else { if (be) be.style.display = 'none'; }
+                            const setuju = document.getElementById('eSetuju')?.checked;
+                            const se = document.getElementById('ee-setuju');
+                            if (!setuju) { if (se) se.style.display = 'block'; fail = true; }
+                            else { if (se) se.style.display = 'none'; }
+                        }
+                        return !fail;
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        /* ── Kecamatan Autocomplete for Long Form ── */
+                        (function () {
+                            const API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
+                                ? 'http://localhost:3000/api' : '/api';
+                            const inp = document.getElementById('eDomisiliInput');
+                            const dd = document.getElementById('eDomisiliDropdown');
+                            const hidKec = document.getElementById('eKec');
+                            const hidKab = document.getElementById('eKab');
+                            const hidProv = document.getElementById('eProv');
+                            const hint = document.getElementById('eDomisiliHint');
+                            if (!inp || !dd) return;
+                            let debounceTimer, activeIdx = -1, lastResults = [];
+
+                            function hl(text, q) {
+                                if (!q) return text;
+                                const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                                return text.replace(re, '<mark style="background:#FEF9EC;color:#B7914C;font-weight:700;border-radius:2px;">$1</mark>');
+                            }
+
+                            function showDd(results, q) {
+                                lastResults = results; activeIdx = -1;
+                                const itemStyle = 'padding:10px 14px;cursor:pointer;font-size:0.88rem;border-bottom:1px solid #f0f0f0;';
+                                if (!results.length) {
+                                    dd.innerHTML = '<div style="' + itemStyle + 'color:#a0aec0;">Tidak ditemukan. Coba kata lain.</div>';
+                                } else {
+                                    dd.innerHTML = results.map((r, i) =>
+                                        `<div class="emb-ac-item" data-idx="${i}" style="${itemStyle}">
+                                            <strong style="color:#1a365d;display:block;">${hl(r.kecamatan, q)}</strong>
+                                            <span style="color:#718096;font-size:0.78rem;">${hl(r.kota, q)}, ${r.provinsi}</span>
+                                        </div>`
+                                    ).join('');
+                                    dd.querySelectorAll('.emb-ac-item').forEach(el => {
+                                        el.addEventListener('mousedown', e => { e.preventDefault(); selectItem(parseInt(el.dataset.idx)); });
+                                        el.addEventListener('mouseover', () => { dd.querySelectorAll('.emb-ac-item').forEach((x, i) => x.style.background = (i == parseInt(el.dataset.idx) ? '#FEF9EC' : '')); });
+                                    });
+                                }
+                                dd.style.display = 'block';
+                            }
+
+                            function selectItem(idx) {
+                                const r = lastResults[idx]; if (!r) return;
+                                inp.value = r.kecamatan + ', ' + r.kota;
+                                hidKec.value = r.kecamatan;
+                                hidKab.value = r.kota;
+                                hidProv.value = r.provinsi;
+                                hint.innerHTML = '<i class="fas fa-check-circle" style="color:#16a34a;margin-right:4px;"></i><span style="color:#16a34a;font-weight:600;">' + r.kecamatan + ', ' + r.kota + ', ' + r.provinsi + '</span>';
+                                inp.classList.remove('err');
+                                document.getElementById('ee-kec').style.display = 'none';
+                                dd.style.display = 'none';
+                            }
+
+                            inp.addEventListener('input', function () {
+                                hidKec.value = ''; hidKab.value = ''; hidProv.value = '';
+                                const q = this.value.trim();
+                                if (q.length < 3) { dd.style.display = 'none'; hint.innerHTML = '<i class="fas fa-keyboard" style="margin-right:4px;"></i>Ketik minimal 3 huruf...'; return; }
+                                hint.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:4px;"></i>Mencari...';
+                                clearTimeout(debounceTimer);
+                                debounceTimer = setTimeout(async () => {
+                                    try {
+                                        const res = await fetch(API_BASE + '/wilayah/search?q=' + encodeURIComponent(q));
+                                        const data = await res.json();
+                                        if (data.message && !(data.data || []).length) {
+                                            dd.innerHTML = '<div style="padding:12px 14px;color:#a0aec0;font-size:0.83rem;"><i class="fas fa-hourglass-half" style="margin-right:6px;"></i>' + data.message + '</div>';
+                                            dd.style.display = 'block'; hint.innerHTML = ''; return;
+                                        }
+                                        showDd(data.data || [], q);
+                                        hint.innerHTML = (data.data || []).length ? '<i class="fas fa-map-marker-alt" style="color:#C5A059;margin-right:4px;"></i>' + data.data.length + ' kecamatan ditemukan' : '';
+                                    } catch (e) { dd.innerHTML = '<div style="padding:12px 14px;color:#a0aec0;">Gagal memuat data wilayah.</div>'; dd.style.display = 'block'; }
+                                }, 300);
+                            });
+
+                            inp.addEventListener('keydown', function (e) {
+                                const items = dd.querySelectorAll('.emb-ac-item');
+                                if (!items.length) return;
+                                if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, items.length - 1); }
+                                else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); }
+                                else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); selectItem(activeIdx); return; }
+                                else if (e.key === 'Escape') { dd.style.display = 'none'; return; }
+                                items.forEach((el, i) => el.style.background = i === activeIdx ? '#FEF9EC' : '');
+                                if (activeIdx >= 0) items[activeIdx].scrollIntoView({ block: 'nearest' });
+                            });
+
+                            document.addEventListener('click', e => { if (!inp.contains(e.target) && !dd.contains(e.target)) dd.style.display = 'none'; });
+                        })();
+
+                        // Next/Prev buttons
+                        document.querySelectorAll('.emb-btn-next').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const next = parseInt(this.dataset.enext);
+                                if (eValidate(eCurrent)) eShowPane(next);
+                            });
+
+                        });
+                        document.querySelectorAll('.emb-btn-prev').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                eShowPane(parseInt(this.dataset.eprev));
+                            });
+                        });
+
+                        // Clear errors on change
+                        document.querySelectorAll('.emb-inp').forEach(el => {
+                            el.addEventListener('change', () => el.classList.remove('err'));
+                            el.addEventListener('input', () => el.classList.remove('err'));
+                        });
+
+                        // Submit
+                        const form = document.getElementById('embLeadForm');
+                        if (form) {
+                            form.addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                if (!eValidate(3)) return;
+
+                                const overlay = document.getElementById('embOverlay');
+                                if (overlay) overlay.classList.add('on');
+
+                                const nama = document.getElementById('eNama').value.trim();
+                                const wa = document.getElementById('eWA').value.trim();
+                                // Read from hidden fields set by autocomplete
+                                const kecTxt = document.getElementById('eKec')?.value || '';
+                                const kabTxt = document.getElementById('eKab')?.value || '';
+                                const provTxt = document.getElementById('eProv')?.value || '';
+                                const domisili = kecTxt ? `${kecTxt}, ${kabTxt}, ${provTxt}` : '';
+
+                                const pengalaman = document.getElementById('ePengalaman').value;
+                                const rencana = document.getElementById('eRencana').value;
+                                const jumlah = document.getElementById('eJumlah').value;
+                                const paket = document.getElementById('ePaket').value;
+                                const paspor = document.querySelector('input[name="ePaspor"]:checked')?.value || '';
+                                const bayar = document.querySelector('input[name="eBayar"]:checked')?.value || '';
+                                const params = new URLSearchParams(window.location.search);
+
+                                try { if (typeof fbq === 'function') fbq('track', 'Lead'); } catch (_) { }
+                                try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { send_to: 'G-11PXTCBM9L', value: 1, currency: 'IDR' }); } catch (_) { }
+
+                                const payload = {
+                                    nama_lengkap: nama,
+                                    whatsapp_num: wa,
+                                    domisili,
+                                    yang_berangkat: `${jumlah} Orang (${rencana})`,
+                                    paket_pilihan: paket,
+                                    kesiapan_paspor: paspor,
+                                    fasilitas_utama: bayar,
+                                    landing_page: '/lp-2-long',
+                                    utm_source: params.get('utm_source') || '',
+                                    utm_medium: params.get('utm_medium') || '',
+                                    utm_campaign: params.get('utm_campaign') || ''
+                                };
+
+                                const API = (window.location.protocol === 'file:' || window.location.port === '3000')
+                                    ? 'http://localhost:3000/api/leads' : '/api/leads';
+
+                                // Pick WA number: from injected rotator or fallback default
+                                let waTarget = '6285261349134';
+                                const rotator = window.__MUNIRA_WA_ROTATOR__;
+                                if (rotator && rotator.length > 0) {
+                                    const active = rotator.filter(n => n.is_active !== false);
+                                    if (active.length > 0) {
+                                        const idx = Math.floor(Math.random() * active.length);
+                                        waTarget = active[idx].number.replace(/\D/g, '');
+                                        if (!waTarget.startsWith('62')) waTarget = '62' + waTarget.replace(/^0/, '');
+                                    }
+                                }
+
+                                fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                                    .finally(() => {
+                                        const text = `Assalamu'alaikum Konsultan Munira World,\n\nSaya tertarik dengan Program Umrah Keluarga Liburan Sekolah 10 Hari.\n\n*--- DATA IDENTITAS ---*\n👤 Nama: ${nama}\n📱 No. WhatsApp: ${wa}\n📍 Domisili: ${domisili}\n\n*--- RENCANA PERJALANAN ---*\n🕋 Pengalaman Umrah: ${pengalaman}\n📅 Rencana Berangkat: ${rencana}\n👨‍👩‍👧‍👦 Jumlah Peserta: ${jumlah} Orang\n\n*--- PREFERENSI ---*\n🛏 Paket Pilihan: ${paket}\n🛂 Status Paspor: ${paspor}\n💳 Pembayaran: ${bayar}\n\nMohon bantuannya untuk info detail, ketersediaan seat, dan penawaran terbaik. Terima kasih.`;
+                                        window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
+                                    });
+                            });
+                        }
+                    });
+                })();
+            </script>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col" style="flex:1; min-width: 250px;">
+                    <a href="#" class="footer-logo" style="display:inline-block; margin-bottom:16px;">
+                        <img src="/logo.png" alt="Munira World" style="height: 48px;">
+                    </a>
+                    <p class="footer-text"
+                        style="color:rgba(255,255,255,.9); font-weight:600; font-size:.9rem; margin-bottom: 8px;">PT.
+                        Wisata Cahaya Tauhid</p>
+                    <p class="footer-text" style="line-height:1.6;">
+                        Jl. Kartini Raya No. 29H<br>
+                        Pancoran Mas - Depok<br>
+                        Jawa Barat - 16431
+                    </p>
+                </div>
+                <div class="footer-col" style="flex:1; min-width: 250px; text-align:right;">
+                    <ul class="footer-links" style="justify-content:flex-end;">
+                        <li><a href="#keunggulan">Keunggulan</a></li>
+                        <li><a href="#fasilitas">Fasilitas</a></li>
+                        <li><a href="#tentang">Tentang</a></li>
+                        <li><a href="#harga">Harga</a></li>
+                        <li><a href="#testimoni">Testimoni</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Munira World Tours & Travel. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+       STICKY WHATSAPP BUTTON
+       ═══════════════════════════════════════════════════ -->
+    <a href="#daftar" class="wa-sticky" id="wa-sticky" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+        <span class="wa-sticky-text">Tanya CS Kami</span>
+    </a>
+
+    <!-- Script -->
+    <script src="/assets/js/wilayah.js"></script>
+    <script src="/lp-liburan/script-liburan-v2.js"></script>
+
+    <script src="/shared/lp-cover.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════
+       DYNAMIC FORM INJECT — reads linked_form_id from API
+       ═══════════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            var LP_FOLDER = 'lp-2-long';
+            var API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
+                ? 'http://localhost:3000/api' : '/api';
+
+            async function loadAndInjectForm() {
+                try {
+                    // /api/pages/:folder/config returns { success, form: {...}, programs: [...] }
+                    var cfgRes = await fetch(API_BASE + '/pages/' + LP_FOLDER + '/config');
+                    if (!cfgRes.ok) return;
+                    var cfg = await cfgRes.json();
+                    // Use form object directly from config response
+                    var form = cfg.form;
+                    if (!form) return; // no form linked, use existing hardcoded form
+
+                    window.__MUNIRA_INJECT_FORM__ = form;
+                    window.__MUNIRA_WA_ROTATOR__ = form.wa_rotator || [];
+                    window.__MUNIRA_SUCCESS_MSG__ = form.success_message || 'Terima kasih! Tim kami akan segera menghubungi Anda.';
+                    window.__MUNIRA_SUCCESS_URL__ = form.success_redirect_url || '';
+                    window.__MUNIRA_FORM_ID__ = form._id;
+                    window.__MUNIRA_ROTATOR_MODE__ = form.rotator_mode || 'round_robin';
+
+                    // Dev indicator badge (disappears after 4s)
+                    var b = document.createElement('div');
+                    b.style.cssText = 'position:fixed;bottom:60px;right:16px;z-index:9999;background:rgba(139,92,246,0.9);color:#fff;font-size:0.65rem;padding:4px 10px;border-radius:20px;font-weight:700;pointer-events:none;';
+                    b.textContent = '\uD83D\uDCCB Form: ' + (form.name || 'Dynamic');
+                    document.body.appendChild(b);
+                    setTimeout(function () { b.remove(); }, 4000);
+
+                    console.log('[MuniraInject] LP2 Long Form "' + form.name + '" ready. WA: ' + (form.wa_rotator || []).length + ' CS');
+                } catch (e) {
+                    console.warn('[MuniraInject] Gagal memuat form dinamis, pakai form bawaan.', e);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadAndInjectForm);
+            } else {
+                loadAndInjectForm();
+            }
+        })();
+    </script>
+</body>
+
+</html>

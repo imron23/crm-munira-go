@@ -1,18 +1,33 @@
+# Dependencies
 node_modules/
-.next/
-out/
-build/
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
-bin/
-munira_app
-munira-api
-api
-main
+.venv/
+
+# Environment
 .env
+
+# OS Files
 .DS_Store
+.idea/
+
+# Build outputs
+dist/
+frontend/.next/
+frontend/node_modules/
+backend/munira_app
+backend/munira-api
+backend/app.log
+backend/wilayah.json
+
+# Database files
+server/db/*.db-shm
+server/db/*.db-wal
+server/db/munira.db
+
+# Packages
+munira-fe-deploy.zip
+
+# Ignore files
+.aiderignore
+.clineignore
+.cursorignore
+.geminiignore

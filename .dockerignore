@@ -1,0 +1,10 @@
+node_modules/
+.git/
+.DS_Store
+*.db
+*.db-shm
+*.db-wal
+.env
+dist/
+munira-fe-deploy.zip
+.gemini/

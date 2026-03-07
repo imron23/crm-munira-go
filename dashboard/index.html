@@ -99,6 +99,13 @@
                     <h1 id="pageTitle">Overview</h1>
                 </div>
                 <div class="header-actions">
+                    <!-- Dropdown LP Preview -->
+                    <div style="position:relative;">
+                        <button class="header-btn" id="btnLpPreview" title="Lihat Preview LP (Mobile View)"
+                            style="color:#8B5CF6;">
+                        </button>
+                    </div>
+
                     <button class="header-btn" id="waToggle" title="Buka WhatsApp Web"><i class="fab fa-whatsapp"
                             style="color:#25D366;"></i></button>
                     <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -170,315 +177,462 @@
                     </div>
                 </div>
 
-                <!-- Section 1: Performance KPIs (3 columns) -->
-                <div class="overview-grid overview-grid-3">
-                    <div class="kpi-card">
-                        <div>
-                            <span class="kpi-title">Total Leads</span>
-                            <span class="kpi-value" id="stTotalLeads">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;" id="stLeadsSub">dalam
-                                periode</small>
+                <!-- ═══ SECTION: PERFORMA UMUM ═══ -->
+                <div class="overview-section">
+                    <div class="overview-section-label"><i class="fas fa-chart-line" style="color:var(--brand);"></i>
+                        Performa Umum</div>
+                    <div class="overview-grid overview-grid-4">
+                        <div class="kpi-card">
+                            <div>
+                                <span class="kpi-title">Total Leads</span>
+                                <span class="kpi-value" id="stTotalLeads">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;" id="stLeadsSub">dalam
+                                    periode</small>
+                            </div>
+                            <div class="kpi-icon"><i class="fas fa-users"></i></div>
                         </div>
-                        <div class="kpi-icon"><i class="fas fa-users"></i></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div>
-                            <span class="kpi-title">Today's Inquiries</span>
-                            <span class="kpi-value" id="stTodayLeads">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">hari ini</small>
+                        <div class="kpi-card">
+                            <div>
+                                <span class="kpi-title">Today's Inquiries</span>
+                                <span class="kpi-value" id="stTodayLeads">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">hari ini</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#2563eb; background:#DBEAFE;"><i class="fas fa-bolt"></i>
+                            </div>
                         </div>
-                        <div class="kpi-icon" style="color:#2563eb; background:#DBEAFE;"><i class="fas fa-bolt"></i>
+                        <div class="kpi-card" style="border-left: 4px solid #9333EA;">
+                            <div>
+                                <span class="kpi-title tooltip-wrap"
+                                    data-tooltip="Persentase kesuksesan CS merayu calon jemaah. Makin besar angkanya, jualan makin gampang.">CVR
+                                    % (Closing Rate)<i class="fas fa-info-circle"></i></span>
+                                <span class="kpi-value" id="stCVR" style="color:#9333EA;">0%</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">order / total
+                                    lead</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#9333EA; background:rgba(147,51,234,0.15);"><i
+                                    class="fas fa-percentage"></i></div>
                         </div>
-                    </div>
-                    <div class="kpi-card" style="border-left: 4px solid #9333EA;">
-                        <div>
-                            <span class="kpi-title">CVR % (Closing Rate)</span>
-                            <span class="kpi-value" id="stCVR" style="color:#9333EA;">0%</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">order / total</small>
-                        </div>
-                        <div class="kpi-icon" style="color:#9333EA; background:rgba(147,51,234,0.15);"><i
-                                class="fas fa-percentage"></i></div>
-                    </div>
-                </div>
-
-                <!-- Section 2: Sales Results (2 columns — Order vs Lost) -->
-                <div class="overview-grid overview-grid-2">
-                    <div class="kpi-card" style="border-left: 4px solid var(--success);">
-                        <div>
-                            <span class="kpi-title">Order Complete</span>
-                            <span class="kpi-value" id="stTotalClosing" style="color:var(--success);">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">deals won</small>
-                        </div>
-                        <div class="kpi-icon" style="color:var(--success); background:var(--success-light);"><i
-                                class="fas fa-check-circle"></i></div>
-                    </div>
-                    <div class="kpi-card" style="border-left: 4px solid var(--danger);">
-                        <div>
-                            <span class="kpi-title">Lost / Gagal</span>
-                            <span class="kpi-value" id="stTotalLost" style="color:var(--danger);">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">tidak closing</small>
-                        </div>
-                        <div class="kpi-icon" style="color:var(--danger); background:var(--danger-light);"><i
-                                class="fas fa-times-circle"></i></div>
-                    </div>
-                </div>
-
-                <!-- Section 3: Revenue & Sales Metrics (4 columns) -->
-                <div class="overview-grid overview-grid-4">
-                    <!-- Revenue Rupiah -->
-                    <div class="kpi-card" style="border-left: 4px solid #10B981;">
-                        <div>
-                            <span class="kpi-title">Revenue (Rp)</span>
-                            <span class="kpi-value" id="stRevenueRp" style="color:#10B981; font-size:1.4rem;">Rp
-                                0</span>
-                            <small style="color:var(--text-secondary); font-size:0.72rem;">DP + Order Complete</small>
-                        </div>
-                        <div class="kpi-icon" style="color:#10B981; background:rgba(16,185,129,0.15);"><i
-                                class="fas fa-money-bill-wave"></i></div>
-                    </div>
-                    <!-- Revenue USD -->
-                    <div class="kpi-card" style="border-left: 4px solid #FBBF24;">
-                        <div>
-                            <span class="kpi-title">Revenue (USD $)</span>
-                            <span class="kpi-value" id="stRevenueUsd" style="color:#FBBF24; font-size:1.4rem;">$0</span>
-                            <small style="color:var(--text-secondary); font-size:0.72rem;">Haji & Umroh Plus</small>
-                        </div>
-                        <div class="kpi-icon" style="color:#FBBF24; background:rgba(251,191,36,0.15);"><i
-                                class="fas fa-dollar-sign"></i></div>
-                    </div>
-                    <!-- Total Packs -->
-                    <div class="kpi-card" style="border-left: 4px solid #0891B2;">
-                        <div>
-                            <span class="kpi-title">Total Sales (Packs)</span>
-                            <span class="kpi-value" id="stTotalPacks" style="color:#0891B2;">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">paket terjual</small>
-                        </div>
-                        <div class="kpi-icon" style="color:#0891B2; background:rgba(8,145,178,0.15);"><i
-                                class="fas fa-box-open"></i></div>
-                    </div>
-                    <!-- Repeat Customer -->
-                    <div class="kpi-card" style="border-left: 4px solid #059669;">
-                        <div>
-                            <span class="kpi-title">Repeat Customer</span>
-                            <span class="kpi-value" id="stRepeatCustomer" style="color:#059669;">0</span>
-                            <small style="color:var(--text-secondary); font-size:0.75rem;">pelanggan kembali</small>
-                        </div>
-                        <div class="kpi-icon" style="color:#059669; background:rgba(5,150,105,0.15);"><i
-                                class="fas fa-user-check"></i></div>
-                    </div>
-                </div>
-
-                <!-- Charts Row 1: Leads Trend (wide) + Package Breakdown -->
-                <div class="overview-charts-row-main">
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title">
-                                <i class="fas fa-chart-area" style="color:var(--brand);"></i>Leads Trend
-                            </span>
-                        </div>
-                        <div class="overview-chart-body">
-                            <canvas id="leadsTrendChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title">
-                                <i class="fas fa-chart-pie" style="color:#9333EA;"></i>Package Breakdown
-                            </span>
-                        </div>
-                        <div class="overview-chart-body"
-                            style="display:flex; justify-content:center; align-items:center;">
-                            <canvas id="packageChart" style="max-height:240px;"></canvas>
+                        <div class="kpi-card" style="border-left: 4px solid #6366F1;">
+                            <div>
+                                <span class="kpi-title tooltip-wrap"
+                                    data-tooltip="Rata-rata menit yg dipakai CS membalas / kontak lead baru. Di bawah 30m itu bagus!">Avg
+                                    Response<i class="fas fa-info-circle"></i></span>
+                                <span class="kpi-value" id="stAvgResponse">0m</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">kecepatan CS follow
+                                    up</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#6366F1; background:rgba(99,102,241,0.15);"><i
+                                    class="fas fa-stopwatch"></i></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Charts Row 2: Sales Funnel + Leads by Kota -->
-                <div class="overview-charts-row-secondary">
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title">
-                                <i class="fas fa-funnel-dollar" style="color:#D97706;"></i>Sales Funnel
-                            </span>
+                <!-- ═══ SECTION: HASIL PENJUALAN & REVENUE ═══ -->
+                <div class="overview-section">
+                    <div class="overview-section-label"><i class="fas fa-money-bill-wave" style="color:#10B981;"></i>
+                        Hasil Penjualan & Revenue</div>
+                    <div class="overview-grid overview-grid-4">
+                        <div class="kpi-card" style="border-left: 4px solid var(--success);">
+                            <div>
+                                <span class="kpi-title">Order Complete + DP</span>
+                                <span class="kpi-value" id="stTotalClosing" style="color:var(--success);">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">deals won</small>
+                            </div>
+                            <div class="kpi-icon" style="color:var(--success); background:var(--success-light);"><i
+                                    class="fas fa-check-circle"></i></div>
                         </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="statusFunnelChart"></canvas>
+                        <div class="kpi-card" style="border-left: 4px solid var(--danger);">
+                            <div>
+                                <span class="kpi-title">Lost / Gagal</span>
+                                <span class="kpi-value" id="stTotalLost" style="color:var(--danger);">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">tidak closing</small>
+                            </div>
+                            <div class="kpi-icon" style="color:var(--danger); background:var(--danger-light);"><i
+                                    class="fas fa-times-circle"></i></div>
+                        </div>
+                        <div class="kpi-card" style="border-left: 4px solid #10B981;">
+                            <div>
+                                <span class="kpi-title">Revenue (Rp)</span>
+                                <span class="kpi-value" id="stRevenueRp" style="color:#10B981; font-size:1.3rem;">Rp
+                                    0</span>
+                                <small style="color:var(--text-secondary); font-size:0.72rem;">DP + Order
+                                    Complete</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#10B981; background:rgba(16,185,129,0.15);"><i
+                                    class="fas fa-money-bill-wave"></i></div>
+                        </div>
+                        <div class="kpi-card" style="border-left: 4px solid #FBBF24;">
+                            <div>
+                                <span class="kpi-title">Revenue (USD $)</span>
+                                <span class="kpi-value" id="stRevenueUsd"
+                                    style="color:#FBBF24; font-size:1.3rem;">$0</span>
+                                <small style="color:var(--text-secondary); font-size:0.72rem;">Haji &amp; Umroh
+                                    Plus</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#FBBF24; background:rgba(251,191,36,0.15);"><i
+                                    class="fas fa-dollar-sign"></i></div>
                         </div>
                     </div>
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title">
-                                <i class="fas fa-map-marker-alt" style="color:#16a34a;"></i>Leads by Kota
-                            </span>
+                    <div class="overview-grid overview-grid-2" style="margin-top:16px;">
+                        <div class="kpi-card" style="border-left: 4px solid #0891B2;">
+                            <div>
+                                <span class="kpi-title">Total Sales (Packs)</span>
+                                <span class="kpi-value" id="stTotalPacks" style="color:#0891B2;">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">paket terjual</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#0891B2; background:rgba(8,145,178,0.15);"><i
+                                    class="fas fa-box-open"></i></div>
                         </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="cityChart"></canvas>
+                        <div class="kpi-card" style="border-left: 4px solid #059669;">
+                            <div>
+                                <span class="kpi-title">Repeat Customer</span>
+                                <span class="kpi-value" id="stRepeatCustomer" style="color:#059669;">0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">pelanggan kembali</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#059669; background:rgba(5,150,105,0.15);"><i
+                                    class="fas fa-user-check"></i></div>
                         </div>
                     </div>
-                </div> <!-- Advanced Analytics Row 1 -->
-                <div class="overview-charts-row-main" style="margin-bottom:20px;">
-                    <!-- Monthly Revenue Goal Tracker -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-bullseye"
-                                    style="color:var(--brand); margin-right:8px;"></i>Pencapaian Revenue Bulanan</span>
+                </div>
+
+                <!-- ═══ SECTION: STRATEGI LANJUTAN (Super Admin only) ═══ -->
+                <div class="overview-section" id="advMetricsRow1">
+                    <div class="overview-section-label"><i class="fas fa-brain" style="color:#F43F5E;"></i> Indikator
+                        Strategi Lanjutan</div>
+                    <div class="overview-grid overview-grid-3">
+                        <div class="kpi-card" style="border-left: 4px solid #F43F5E;">
+                            <div>
+                                <span class="kpi-title tooltip-wrap"
+                                    data-tooltip="Butuh berapa hari dari awal lead nge-chat sampai akhirnya bayar / closing?">Sales
+                                    Velocity<i class="fas fa-info-circle"></i></span>
+                                <span class="kpi-value" id="stSalesVelocity" style="color:#F43F5E;">0 Hari</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">rata-rata waktu sampai
+                                    deal</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#F43F5E; background:rgba(244,63,94,0.15);"><i
+                                    class="fas fa-meteor"></i></div>
                         </div>
-                        <div style="padding:24px; text-align:center;">
-                            <div id="goalRevenueText"
-                                style="font-size:1.6rem; font-weight:800; color:var(--text-primary); margin-bottom:12px;">
-                                Rp 0 / Rp 0</div>
-                            <div
-                                style="width:100%; height:24px; background:var(--bg-app); border:1px solid var(--border); border-radius:12px; overflow:hidden; position:relative;">
-                                <div id="goalProgressBar"
-                                    style="width:0%; height:100%; background:linear-gradient(90deg, #2563ea, #10B981); transition:width 1s ease-in-out;">
+                        <div class="kpi-card" style="border-left: 4px solid #14B8A6;">
+                            <div>
+                                <span class="kpi-title tooltip-wrap"
+                                    data-tooltip="Estimasi Rupiah yang sedang dinego oleh CS, belum pasti jadi omset.">Revenue
+                                    Pipeline<i class="fas fa-info-circle"></i></span>
+                                <span class="kpi-value" id="stRevenuePipeline"
+                                    style="color:#14B8A6; font-size:1.3rem;">Rp 0</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">dari uang menggantung
+                                    &amp; nego</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#14B8A6; background:rgba(20,184,166,0.15);"><i
+                                    class="fas fa-hand-holding-usd"></i></div>
+                        </div>
+                        <div class="kpi-card" style="border-left: 4px solid #8B5CF6;">
+                            <div>
+                                <span class="kpi-title tooltip-wrap"
+                                    data-tooltip="Rata-rata 1 orang Lead dichatting berapa kali secara total oleh CS kita.">Follow-up
+                                    Intensity<i class="fas fa-info-circle"></i></span>
+                                <span class="kpi-value" id="stFollowupIntensity" style="color:#8B5CF6;">0x</span>
+                                <small style="color:var(--text-secondary); font-size:0.75rem;">sentuhan CS per
+                                    pelanggan</small>
+                            </div>
+                            <div class="kpi-icon" style="color:#8B5CF6; background:rgba(139,92,246,0.15);"><i
+                                    class="fas fa-comments"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ═══ SECTION: TREN & DISTRIBUSI ═══ -->
+                <div class="overview-section">
+                    <div class="overview-section-label"><i class="fas fa-chart-area" style="color:var(--brand);"></i>
+                        Tren & Distribusi</div>
+                    <div class="overview-charts-row-main">
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title">
+                                    <i class="fas fa-chart-area" style="color:var(--brand);"></i>Leads Trend
+                                </span>
+                            </div>
+                            <div class="overview-chart-body">
+                                <canvas id="leadsTrendChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title">
+                                    <i class="fas fa-chart-pie" style="color:#9333EA;"></i>Package Breakdown
+                                </span>
+                            </div>
+                            <div class="overview-chart-body"
+                                style="display:flex; justify-content:center; align-items:center;">
+                                <canvas id="packageChart" style="max-height:240px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row 2: Sales Funnel + Leads by Kota -->
+                    <div class="overview-charts-row-secondary">
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title">
+                                    <i class="fas fa-funnel-dollar" style="color:#D97706;"></i>Sales Funnel
+                                </span>
+                            </div>
+                            <div class="overview-chart-body overview-chart-body--small">
+                                <canvas id="statusFunnelChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title">
+                                    <i class="fas fa-map-marker-alt" style="color:#16a34a;"></i>Leads by Kota
+                                </span>
+                            </div>
+                            <div class="overview-chart-body overview-chart-body--small">
+                                <canvas id="cityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end Tren section -->
+
+                <!-- ═══ SECTION: AKTIVITAS & LEADERBOARD ═══ -->
+                <div class="overview-section">
+                    <div class="overview-section-label"><i class="fas fa-table" style="color:#6366F1;"></i> Aktivitas &
+                        Leaderboard</div>
+                    <div class="overview-charts-row-main" style="align-items:flex-start;">
+                        <!-- Recent Inquiries Table -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title"><i class="fas fa-clock"
+                                        style="color:var(--brand); margin-right:8px;"></i>Recent Inquiries</span>
+                            </div>
+                            <div style="overflow-x:auto;">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Lead Date & Name</th>
+                                            <th>Package Intention</th>
+                                            <th>Status</th>
+                                            <th>Catatan Admin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblRecentLeads">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- CS Leaderboard Table -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title"><i class="fas fa-trophy"
+                                        style="color:#FBBF24; margin-right:8px;"></i>CS Leaderboard</span>
+                            </div>
+                            <div style="padding:16px 20px;">
+                                <div id="csLeaderboardContainer" style="display:flex; flex-direction:column; gap:12px;">
+                                    <!-- Populated via JS -->
                                 </div>
                             </div>
-                            <div id="goalPercentageText"
-                                style="margin-top:12px; font-weight:600; color:var(--text-secondary); font-size:0.9rem;">
-                                0% Achieved</div>
                         </div>
                     </div>
+                </div><!-- end Aktivitas section -->
 
-                    <!-- Speed-to-Lead vs Win Rate -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-bolt"
-                                    style="color:#F59E0B; margin-right:8px;"></i>Speed-to-Lead vs Win Rate</span>
+                <!-- ═══ SECTION SUPER ADMIN: ANALISIS MENDALAM ═══ -->
+                <div class="overview-section" id="advMetricsRow2">
+                    <div class="overview-section-label" style="color:#EF4444;"><i class="fas fa-shield-alt"
+                            style="color:#EF4444;"></i> Analisis Mendalam</div>
+                    <div class="overview-charts-row-secondary" style="align-items:flex-start;">
+                        <!-- Stagnant Leads Alert -->
+                        <div class="data-panel" style="border: 1px solid var(--danger);">
+                            <div class="data-toolbar data-toolbar-tight" style="background:var(--danger-light);">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Tanda bahaya! Data masuk dan sudah di respon tetapi dibiarkan / di ghosting nyangkut dari proses FU CS sejak 3 hari lalu."
+                                    style="color:var(--danger);"><i class="fas fa-exclamation-triangle"
+                                        style="margin-right:8px;"></i>Tertahan/Stagnant
+                                    (> 3 Hari)<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div style="overflow-x:auto; max-height:300px;">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Lead Name & CS</th>
+                                            <th>Status Terakhir</th>
+                                            <th>Waktu Tertahan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblStagnantLeads">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="speedToLeadChart"></canvas>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Advanced Analytics Row 2 -->
-                <div class="overview-charts-row-3" style="margin-bottom:20px;">
-                    <!-- Ads vs Organic -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-ad"
-                                    style="color:#EC4899; margin-right:8px;"></i>Mutu Iklan vs Organik</span>
-                        </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="sourceChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Win-Rate Peluang Harga Paket -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-hand-holding-usd"
-                                    style="color:#10B981; margin-right:8px;"></i>Win-Rate per Paket</span>
-                        </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="winRatePackageChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Alasan CS Gagal Deal -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-comment-slash"
-                                    style="color:#EF4444; margin-right:8px;"></i>Alasan Gagal Deal (Lost)</span>
-                        </div>
-                        <div class="overview-chart-body overview-chart-body--small">
-                            <canvas id="lostReasonChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Advanced Analytics Row 3 -->
-                <div class="overview-charts-row-main" style="margin-bottom:20px;">
-                    <!-- Jam Sibuk & Puncak Konversi -->
-                    <div class="data-panel" style="flex:2;">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-clock"
-                                    style="color:#8B5CF6; margin-right:8px;"></i>Jam Sibuk & Puncak Konversi</span>
-                        </div>
-                        <div class="overview-chart-body">
-                            <canvas id="hourlyChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Stagnant Leads (> 3 Hari) -->
-                    <div class="data-panel" style="flex:1;">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-hourglass-half"
-                                    style="color:#F59E0B; margin-right:8px;"></i>Tertahan/Stagnant (> 3 Hari)</span>
-                        </div>
-                        <div style="overflow-x:auto;">
-                            <table class="modern-table" style="min-width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Lead</th>
-                                        <th>Status Terakhir</th>
-                                        <th>Hari</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="stagnantLeadsBody">
-                                    <!-- Populated via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bottom Tables Row -->
-                <div class="overview-charts-row-main" style="margin-bottom:20px; align-items:flex-start;">
-                    <!-- Recent Inquiries Table -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-clock"
-                                    style="color:var(--brand); margin-right:8px;"></i>Recent Inquiries</span>
-                        </div>
-                        <div style="overflow-x:auto;">
-                            <table class="modern-table">
-                                <thead>
-                                    <tr>
-                                        <th>Lead Date & Name</th>
-                                        <th>Package Intention</th>
-                                        <th>Status</th>
-                                        <th>Catatan Admin</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblRecentLeads">
-                                    <!-- Populated via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- CS Leaderboard Table -->
-                    <div class="data-panel">
-                        <div class="data-toolbar data-toolbar-tight">
-                            <span class="overview-section-title"><i class="fas fa-trophy"
-                                    style="color:#FBBF24; margin-right:8px;"></i>CS Leaderboard</span>
-                        </div>
-                        <div style="padding:16px 20px;">
-                            <div id="csLeaderboardContainer" style="display:flex; flex-direction:column; gap:12px;">
-                                <!-- Populated via JS -->
+                        <!-- Traffic Quality & ROI -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Tahu pasti jumlah closing dan uang iklan terjawab untuk masing2 platform/sumber, biar nggak 'bakar duit' sia sia."><i
+                                        class="fas fa-bullseye" style="color:#0891B2; margin-right:8px;"></i>Peringkat
+                                    Mutu
+                                    Iklan vs Organik<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div style="overflow-x:auto; max-height:300px;">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sumber Traffic</th>
+                                            <th>Total Leads</th>
+                                            <th>Closing</th>
+                                            <th>CVR (%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblSourcePerformance">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div><!-- end advMetricsRow2 -->
 
-                <!-- LP Showcase on Overview -->
-                <div class="data-panel">
-                    <div class="data-toolbar data-toolbar-tight">
-                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                            <span style="font-weight:700; font-size:1rem;"><i class="fas fa-rocket"
-                                    style="color:var(--brand); margin-right:8px;"></i>Landing Pages</span>
-                            <button class="btn btn-outline btn-mini"
-                                onclick="document.querySelector('[data-target=pages]').click()">
-                                <i class="fas fa-arrow-right" style="margin-right:4px;"></i> Lihat Semua
-                            </button>
+                <!-- ═══ SECTION SUPER ADMIN: WIN RATE & LOST REASON ═══ -->
+                <div class="overview-section" id="advMetricsRow3">
+                    <div class="overview-charts-row-main" style="align-items:flex-start;">
+                        <!-- Win-Rate per Paket -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Ranking produk paket pendaftaran mana yang tingkat kemungkinan dibelinya paling mudah buat closing. Sangat bagus untuk tau fokus jualan yang tepat."><i
+                                        class="fas fa-award" style="color:#EAB308; margin-right:8px;"></i>Win-Rate
+                                    Peluang
+                                    Harga Paket<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div style="overflow-x:auto;">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Paket</th>
+                                            <th>Total Peminat</th>
+                                            <th>Closing</th>
+                                            <th>Win Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblPackageWinRate">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Lost Reason Analysis -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Mesin merangkum secara robotik riwayat notes Curhatan CS ketika mereka menggagalkan satu Lead yang gagal jadi berangkat / Lost. Untuk instropeksi kelemahan produk."><i
+                                        class="fas fa-heart-broken" style="color:#EF4444; margin-right:8px;"></i>Grafik
+                                    Alasan CS Gagal Deal<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div class="overview-chart-body"
+                                style="display:flex; justify-content:center; align-items:center;">
+                                <canvas id="lostReasonChart" style="max-height:220px;"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div id="lpShowcaseGrid">
-                        <!-- Populated via JS -->
+
+                </div><!-- end advMetricsRow3 -->
+                <!-- ═══ SECTION SUPER ADMIN: TARGET OMSET BULANAN ═══ -->
+                <div class="overview-section" id="advMetricsRow4">
+                    <div class="overview-section-label"><i class="fas fa-tachometer-alt" style="color:#10B981;"></i>
+                        Target
+                        Omset Bulanan</div>
+                    <div class="data-panel">
+                        <div class="data-toolbar data-toolbar-tight"
+                            style="flex-wrap: wrap; gap: 12px; height: auto; padding: 12px 16px;">
+                            <span class="overview-section-title tooltip-wrap" style="flex: 1; min-width: 250px;"
+                                data-tooltip="Speedometer Omset. Secara visual memacu adrenalin tim melihat sudah sampai sejauh mana target omset bulanan terpenuhi dari total deal harga paket."><i
+                                    class="fas fa-tachometer-alt" style="color:#10B981; margin-right:8px;"></i>Monthly
+                                Revenue Goal Tracker<i class="fas fa-info-circle"></i></span>
+                            <div style="display:flex; gap:8px; align-items: center;">
+                                <span style="font-size: 0.8rem; color: var(--text-secondary);">Set Target Bulan
+                                    Ini:</span>
+                                <input type="text" id="targetOmsetInput" class="select-base"
+                                    style="width:200px; padding:6px 12px; font-size:0.85rem; border-color:var(--brand);"
+                                    placeholder="Cth: Rp 1.000.000.000">
+                                <button class="btn btn-primary btn-mini" onclick="updateTargetOmset()"
+                                    style="padding: 6px 16px;">Set</button>
+                            </div>
+                        </div>
+                        <div class="overview-chart-body"
+                            style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="position:relative; width:100%; max-width:400px; height:200px;">
+                                <canvas id="revenueGaugeChart"></canvas>
+                                <div
+                                    style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); text-align:center;">
+                                    <div style="font-size:1.8rem; font-weight:800; color:var(--text-primary);"
+                                        id="gaugeCurrentVal">
+                                        Rp 0</div>
+                                    <div style="font-size:0.85rem; color:var(--text-secondary);" id="gaugeTargetVal">
+                                        dari Target Rp 0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end Target Omset section -->
+
+                <!-- ═══ SECTION SUPER ADMIN: OPTIMASI IKLAN & CS ═══ -->
+                <div class="overview-section" id="advMetricsRow5">
+                    <div class="overview-section-label"><i class="fas fa-rocket" style="color:#8B5CF6;"></i> Optimasi
+                        Iklan
+                        & CS
+                    </div>
+                    <div class="overview-charts-row-secondary">
+                        <!-- Time of Day Heatmap -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Mendeteksi di jam ke-berapa (00-24) iklan Anda menghasilkan konversi Deal paling tinggi. Gunakan data ini untuk mengoptimasi jam iklan."><i
+                                        class="fas fa-clock" style="color:#8B5CF6; margin-right:8px;"></i>Jam Sibuk &
+                                    Puncak
+                                    Konversi<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div class="overview-chart-body overview-chart-body--small">
+                                <canvas id="timeOfDayChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Speed vs CVR -->
+                        <div class="data-panel">
+                            <div class="data-toolbar data-toolbar-tight">
+                                <span class="overview-section-title tooltip-wrap"
+                                    data-tooltip="Membuktikan korelasi nyata: apakah CS yang lambat balas benar-benar membunuh persentase Win-Rate perusahaan? Untuk bahan meeting CS."><i
+                                        class="fas fa-bolt" style="color:#F59E0B; margin-right:8px;"></i>Speed-to-Lead
+                                    vs
+                                    Win Rate<i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <div class="overview-chart-body overview-chart-body--small">
+                                <canvas id="speedToLeadChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LP Showcase on Overview -->
+                    <div class="data-panel">
+                        <div class="data-toolbar data-toolbar-tight">
+                            <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                                <span style="font-weight:700; font-size:1rem;"><i class="fas fa-rocket"
+                                        style="color:var(--brand); margin-right:8px;"></i>Landing Pages</span>
+                                <button class="btn btn-outline btn-mini"
+                                    onclick="document.querySelector('[data-target=pages]').click()">
+                                    <i class="fas fa-arrow-right" style="margin-right:4px;"></i> Lihat Semua
+                                </button>
+                            </div>
+                        </div>
+                        <div id="lpShowcaseGrid">
+                            <!-- Populated via JS -->
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div><!-- end view-overview -->
 
             <!-- VIEW: LEADS -->
             <div id="view-leads" class="view-panel">
@@ -1426,13 +1580,6 @@
                                     @userinfobot di Telegram untuk mendapatkan Chat ID Anda.</small>
                             </div>
 
-                            <div class="form-group">
-                                <label>Target Revenue Bulanan (Rp)</label>
-                                <input type="number" id="mRevGoal" placeholder="Contoh: 1000000000">
-                                <small style="color:var(--text-secondary); display:block; margin-top:4px;">Digunakan
-                                    untuk Tracker Goal pada Dashboard Overview.</small>
-                            </div>
-                            <!-- Super Admin Start here -->
                             <hr style="margin: 24px 0; border:none; border-top:1px dashed var(--border);">
                             <div id="superAdminSettings" style="display:none;">
                                 <h4 style="margin-bottom: 12px; font-weight:700;">Pengaturan Tampilan (Super Admin)</h4>
@@ -1466,7 +1613,8 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary" style="margin-top:8px;"><i
-                                    class="fas fa-save"></i> Simpan
+                                    class="fas fa-save"></i>
+                                Simpan
                                 Pengaturan</button>
                         </form>
                     </div>
@@ -1542,7 +1690,8 @@
                             <span style="font-weight:700; font-size:1.1rem;"><i class="fas fa-trash-alt"
                                     style="color:#EF4444; margin-right:8px;"></i>Recycle Bin</span>
                             <button class="btn btn-danger btn-mini" onclick="emptyTrash()"><i
-                                    class="fas fa-dumpster-fire"></i> Kosongkan Trash</button>
+                                    class="fas fa-dumpster-fire"></i>
+                                Kosongkan Trash</button>
                         </div>
                     </div>
                     <div style="overflow-x: auto;">
@@ -1567,19 +1716,91 @@
 
         <!-- PANEL WA WEB -->
         <aside class="wa-panel" id="waPanel">
+            <!-- Drag handle -->
+            <div id="waResizer"
+                style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; cursor: ew-resize; background: rgba(255,255,255,0.05); z-index: 10;">
+            </div>
             <div class="wa-panel-header"
                 style="display:flex; justify-content:space-between; align-items:center; padding:16px; border-bottom:1px solid var(--border);">
                 <div>
                     <i class="fab fa-whatsapp" style="color:#25D366; font-size:1.2rem; margin-right:8px;"></i>
                     <strong style="font-size:0.95rem;">WhatsApp Web</strong>
                 </div>
-                <button class="header-btn" id="waPanelClose"
-                    style="width:28px; height:28px; border:none; border-radius:4px; font-size:0.8rem; background:transparent;"><i
-                        class="fas fa-times"></i></button>
+                <div style="display:flex; gap:8px;">
+                    <button class="header-btn" id="waPanelPopup" title="Buka di Jendela Baru (Bypas Blokir)"
+                        style="width:28px; height:28px; border:none; border-radius:4px; font-size:0.8rem; background:transparent; color:var(--brand);"><i
+                            class="fas fa-external-link-alt"></i></button>
+                    <button class="header-btn" id="waPanelClose"
+                        style="width:28px; height:28px; border:none; border-radius:4px; font-size:0.8rem; background:transparent;"><i
+                            class="fas fa-times"></i></button>
+                </div>
             </div>
-            <div style="flex:1; position:relative;">
-                <iframe id="waIframe" src="https://web.whatsapp.com/"
-                    style="width:100%; height:100%; border:none; position:absolute; inset:0;"></iframe>
+            <div style="flex:1; position:relative; display:flex; flex-direction:column;">
+                <div id="waIframeAlert"
+                    style="padding: 12px 16px; background: rgba(248, 113, 113, 0.1); border-bottom: 1px solid rgba(248, 113, 113, 0.2); font-size: 0.75rem; color: var(--danger); line-height: 1.4;">
+                    <i class="fas fa-info-circle"></i> Jika kode QR WA Web blank ditolak keamanan browser, klik tombol
+                    <b><i class="fas fa-external-link-alt"></i> Popup Baru</b> di atas untuk login.
+                </div>
+                <iframe id="waIframe" src="https://web.whatsapp.com/" style="flex:1; width:100%; border:none;"></iframe>
+            </div>
+        </aside>
+
+        <!-- PANEL LP PREVIEW -->
+        <aside class="wa-panel" id="lpSidePanel" style="z-index:199;">
+            <div class="wa-panel-header"
+                style="display:flex; justify-content:space-between; align-items:center; padding:16px; border-bottom:1px solid var(--border);">
+                <div>
+                    <i class="fas fa-mobile-alt" style="color:#8B5CF6; font-size:1.2rem; margin-right:8px;"></i>
+                    <strong style="font-size:0.95rem;">Preview LP (Mobile)</strong>
+                    <span id="lpPanelTitle"
+                        style="font-size:0.8rem; color:var(--text-secondary); margin-left:8px;"></span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="header-btn" id="lpPanelNewTab" title="Buka di Tab Baru"
+                        style="width:28px; height:28px; border:none; border-radius:4px; font-size:0.8rem; background:transparent; color:var(--brand);">
+                        <i class="fas fa-external-link-alt"></i></button>
+                    <button class="header-btn" id="lpPanelClose"
+                        style="width:28px; height:28px; border:none; border-radius:4px; font-size:0.8rem; background:transparent;">
+                        <i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <!-- Phone Frame -->
+            <div
+                style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; background:var(--bg-app); padding:16px; overflow:hidden;">
+                <!-- List of LPs (shown when no LP is selected) -->
+                <div id="lpSideList" style="width:100%;">
+                    <p style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:12px;">Pilih LP untuk preview
+                        tampilan mobile:</p>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn-outline" style="justify-content:flex-start; padding:12px 16px;"
+                            onclick="window.loadLpInSidebar('/lp-bakti-anak', 'Bakti Anak')"><i class="fas fa-globe"
+                                style="margin-right:8px; color:#8B5CF6;"></i>LP Bakti Anak</button>
+                        <button class="btn-outline" style="justify-content:flex-start; padding:12px 16px;"
+                            onclick="window.loadLpInSidebar('/lp-itikaf-premium', 'Itikaf Premium')"><i
+                                class="fas fa-globe" style="margin-right:8px; color:#8B5CF6;"></i>LP Itikaf
+                            Premium</button>
+                        <button class="btn-outline" style="justify-content:flex-start; padding:12px 16px;"
+                            onclick="window.loadLpInSidebar('/lp-liburan', 'Liburan Keluarga')"><i class="fas fa-globe"
+                                style="margin-right:8px; color:#8B5CF6;"></i>LP Liburan Keluarga</button>
+                        <button class="btn-outline" style="justify-content:flex-start; padding:12px 16px;"
+                            onclick="window.loadLpInSidebar('/lp-liburan-short', 'Liburan Short')"><i
+                                class="fas fa-globe" style="margin-right:8px; color:#8B5CF6;"></i>LP Liburan
+                            Short</button>
+                        <button class="btn-outline" style="justify-content:flex-start; padding:12px 16px;"
+                            onclick="window.loadLpInSidebar('/lp-2-long', 'Long Form LP2')"><i class="fas fa-globe"
+                                style="margin-right:8px; color:#8B5CF6;"></i>LP Long Form 2</button>
+                    </div>
+                </div>
+                <!-- Phone frame iframe (hidden until LP is picked) -->
+                <div id="lpPhoneFrame"
+                    style="display:none; width:280px; height:560px; background:#111; border-radius:36px; padding:10px; border:4px solid #333; box-shadow:0 16px 48px rgba(0,0,0,0.4); flex-shrink:0;">
+                    <iframe id="lpSideIframe" frameborder="0"
+                        style="width:100%; height:100%; border-radius:28px; background:#fff;"></iframe>
+                </div>
+                <button id="lpBackToList" style="display:none; margin-top:16px;" class="btn btn-outline btn-mini"
+                    onclick="window.resetLpSidebar()">
+                    <i class="fas fa-arrow-left" style="margin-right:6px;"></i>Pilih LP Lain
+                </button>
             </div>
         </aside>
     </div>
@@ -2260,28 +2481,6 @@
             </div>
             <form id="editForm">
                 <input type="hidden" id="editId">
-
-                <!-- AI Insight Container -->
-                <div id="aiLeadInsightBox"
-                    style="display:none; margin-bottom: 20px; padding: 16px; border-radius: 8px; border-left: 4px solid #3B82F6; background: rgba(59, 130, 246, 0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span
-                            style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary);">Munira
-                            AI Insight</span>
-                        <span id="aiLeadScore"
-                            style="font-weight:700; font-size:1.1rem; color:#fff; background:#3B82F6; padding:2px 8px; border-radius:12px;">50</span>
-                    </div>
-                    <div id="aiLeadLabel"
-                        style="font-weight:700; color:var(--text-primary); margin-bottom:8px; font-size:1.1rem;">🌟 Warm
-                        Lead</div>
-                    <div id="aiLeadRecommendation"
-                        style="font-size:0.85rem; color:var(--text-primary); font-weight:600; line-height:1.5; margin-bottom:8px;">
-                        Call secepatnya.</div>
-                    <ul id="aiLeadReasons"
-                        style="margin:0; padding-left:18px; font-size:0.8rem; color:var(--text-secondary); line-height:1.4;">
-                    </ul>
-                </div>
-
                 <div class="form-group">
                     <label>Lead Stage</label>
                     <select id="editStatus" class="select-base" style="width:100%;">
@@ -2294,6 +2493,22 @@
                         <option value="Pembatalan">Pembatalan</option>
                         <option value="Pengembalian">Pengembalian</option>
                     </select>
+                </div>
+                <div class="form-group" id="lostReasonGroup"
+                    style="display:none; background:rgba(239,68,68,0.05); padding:10px; border-left:3px solid #EF4444; border-radius:6px; margin-bottom:12px;">
+                    <label style="color:#EF4444;"><i class="fas fa-heart-broken" style="margin-right:6px;"></i>Alasan
+                        Lost / Gagal</label>
+                    <select id="editLostReason" class="select-base" style="width:100%; border-color:#fca5a5;">
+                        <option value="">-- Pilih Alasan Utama --</option>
+                        <option value="Kendala Budget / Kemahalan">Kendala Budget / Kemahalan</option>
+                        <option value="Pilih Travel Lain">Pilih Travel Lain (Kompetitor)</option>
+                        <option value="Ghosting / Tidak Respon">Ghosting / Tidak Respon</option>
+                        <option value="Ketidakcocokan Jadwal">Ketidakcocokan Jadwal / Tanggal</option>
+                        <option value="Diskusi Keluarga Alot">Diskusi Keluarga Belum Sepakat</option>
+                        <option value="Lainnya">Lainnya...</option>
+                    </select>
+                    <small style="color:var(--text-secondary); margin-top:4px; display:block;">Pilihan Anda akan dicatat
+                        otomatis ke dalam grafik analisa produk.</small>
                 </div>
                 <div class="form-group">
                     <label>Program</label>
@@ -2488,22 +2703,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-    <!-- Modularized Scripts -->
-    <script src="js/utils.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/import.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/notifications.js"></script>
-    <script src="js/lead_scoring.js"></script>
-    <script src="js/team.js"></script>
-    <script src="js/leads_ui.js"></script>
-    <script src="js/wa_template_builder.js"></script>
-    <script src="js/program_builder.js"></script>
-    <script src="js/recycle_bin.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/form_builder.js"></script>
-
     <script src="app.js"></script>
 
     <!-- PWA: Service Worker + Install Prompt -->
@@ -2644,6 +2843,22 @@
             }, 3000);
         }
     </script>
+    <!-- MODAL: LP MOBILE PREVIEW -->
+    <div class="overlay" id="lpPreviewOverlay">
+        <div class="modal-content" style="max-width:440px; padding:0; background:transparent; box-shadow:none;">
+            <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                <button class="modal-close" id="lpPreviewClose"
+                    style="color:white; font-size:2rem; text-shadow:0 0 4px #000;">&times;</button>
+            </div>
+            <!-- Phone shell imitation -->
+            <div
+                style="background:#111; border-radius:36px; padding:12px; box-shadow:0 24px 64px rgba(0,0,0,0.5); border:4px solid #333; height:80vh; max-height:800px; display:flex;">
+                <iframe id="lpPreviewIframe" frameborder="0"
+                    style="flex:1; border-radius:24px; background:#fff;"></iframe>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

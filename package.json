@@ -1,0 +1,22 @@
+{
+  "name": "munira-crm",
+  "version": "1.0.0",
+  "description": "Munira World Marketing Engine & CRM Dashboard",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node seed_100_leads_mongo.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "jsdom": "^28.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "puppeteer": "^24.38.0",
+    "uuid": "^9.0.0"
+  }
+}

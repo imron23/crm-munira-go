@@ -1,36 +1,60 @@
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: munira-postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: munira
-      POSTGRES_PASSWORD: munira_password
-      POSTGRES_DB: munira_crm
-    volumes:
-      - munira_pg_data:/var/lib/postgresql/data
-    restart: always
-
-  munira_go:
+  # Go Backend API
+  backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: munira_go_api
+    image: crm-munira-go-backend
+    container_name: crm-munira-go-api
     ports:
       - "8080:8080"
+    env_file:
+      - ./backend/.env
     environment:
-      POSTGRES_URI: postgres://munira:munira_password@munira-postgres:5432/munira_crm?sslmode=disable
-      PORT: "8080"
+      - PORT=8080
+      - DB_URL=postgresql://munira:munira_password@postgres:5432/munira_crm
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    restart: always
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: crm-munira-go-frontend
+    container_name: crm-munira-go-web
+    ports:
+      - "5600:5600"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8080
+      - PORT=5600
+    depends_on:
+      - backend
+    restart: always
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: crm-munira-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=munira
+      - POSTGRES_PASSWORD=munira_password
+      - POSTGRES_DB=munira_crm
     volumes:
-      - .:/munira
-    working_dir: /munira/backend
-    command: /app/munira-api
+      - munira_postgres_data:/var/lib/postgresql/data
+      - ./migration-docs/02_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./migration-docs/05_schema_additions.sql:/docker-entrypoint-initdb.d/02_schema_additions.sql
+      - ./migration-docs/06_schema_soft_deletes.sql:/docker-entrypoint-initdb.d/03_schema_soft_deletes.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U munira -d munira_crm" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     restart: always
 
 volumes:
-  munira_pg_data:
-
-
+  munira_postgres_data:
