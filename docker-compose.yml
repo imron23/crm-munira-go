@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: munira-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: munira
+      POSTGRES_PASSWORD: munira_password
+      POSTGRES_DB: munira_crm
+    volumes:
+      - munira_pg_data:/var/lib/postgresql/data
+    restart: always
+
+  munira_go:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: munira_go_api
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_URI: postgres://munira:munira_password@munira-postgres:5432/munira_crm?sslmode=disable
+      PORT: "8080"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/munira
+    working_dir: /munira/backend
+    command: /app/munira-api
+    restart: always
+
+volumes:
+  munira_pg_data:
+
+

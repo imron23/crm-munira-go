@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Konsultasi Munira World</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Rencanakan Ibadah Tenang, Fasilitas Nyaman.<br><span style="color:var(--gold)">Dapatkan Estimasi
+                    Perjalanan Anda.</span></h2>
+            <p>Isi data di bawah ini untuk mendapatkan konsultasi jadwal dan pilihan paket yang sesuai dengan Anda.</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="form-progress">
+            <div class="progress-step active" data-step="1">1. Identitas</div>
+            <div class="progress-step" data-step="2">2. Rencana</div>
+            <div class="progress-step" data-step="3">3. Preferensi</div>
+        </div>
+
+        <form id="leadForm" class="lead-form progressive-form">
+
+            <!-- STEP 1: Identitas -->
+            <div class="form-step active" id="step1">
+                <div class="step-title">Langkah 1: Identitas Dasar</div>
+
+                <div class="form-group">
+                    <label for="namaLengkap">Nama Lengkap (Sesuai Paspor) <span class="required">*</span></label>
+                    <input type="text" id="namaLengkap" name="namaLengkap" placeholder="Contoh: Budi Santoso">
+                    <span class="error-msg" id="err-namaLengkap">Nama harus diisi.</span>
+                </div>
+
+
+
+                <div class="form-group-row" style="display:flex; gap:16px; margin-bottom: 20px;">
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label for="provinsi">Provinsi <span class="required">*</span></label>
+                        <select id="provinsi" name="provinsi" required>
+                            <option value="" disabled selected>Pilih Provinsi...</option>
+                        </select>
+                        <span class="error-msg" id="err-provinsi">Pilih provinsi.</span>
+                    </div>
+                </div>
+                <div class="form-group-row" style="display:flex; gap:16px; margin-bottom: 20px;">
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label for="kabupaten">Kabupaten/Kota <span class="required">*</span></label>
+                        <select id="kabupaten" name="kabupaten" required disabled>
+                            <option value="" disabled selected>Pilih Kabupaten...</option>
+                        </select>
+                        <span class="error-msg" id="err-kabupaten">Pilih kabupaten.</span>
+                    </div>
+
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label for="kecamatan">Kecamatan <span class="required">*</span></label>
+                        <select id="kecamatan" name="kecamatan" required disabled>
+                            <option value="" disabled selected>Pilih Kecamatan...</option>
+                        </select>
+                        <span class="error-msg" id="err-kecamatan">Pilih kecamatan.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nomorWA">Nomor WhatsApp Aktif <span class="required">*</span></label>
+                    <input type="tel" id="nomorWA" name="nomorWA" pattern="[0-9]+" placeholder="Contoh: 081234567890"
+                        required>
+                    <span class="error-msg" id="err-nomorWA">Masukkan nomor WA yang valid (angka).</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-gold btn-next" data-next="2">Selanjutnya <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Rencana Perjalanan -->
+            <div class="form-step" id="step2">
+                <div class="step-title">Langkah 2: Rencana Perjalanan</div>
+
+                <div class="form-group">
+                    <label for="pengalamanUmrah">Apakah Anda sudah pernah Umrah sebelumnya? <span
+                            class="required">*</span></label>
+                    <select id="pengalamanUmrah" name="pengalamanUmrah" required>
+                        <option value="" disabled selected>Pilih salah satu...</option>
+                        <option value="Pernah">Pernah</option>
+                        <option value="Belum">Belum</option>
+                    </select>
+                    <span class="error-msg" id="err-pengalamanUmrah">Pilih pengalaman umrah.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="rencanaKeberangkatan">Kapan rencana keberangkatan Anda? <span
+                            class="required">*</span></label>
+                    <select id="rencanaKeberangkatan" name="rencanaKeberangkatan">
+                        <option value="" disabled selected>Pilih estimasi waktu...</option>
+                        <option value="Segera (1-2 bln)">Segera (1-2 bln) - Prioritas</option>
+                        <option value="3-6 Bulan">Dalam 3-6 Bulan</option>
+                        <option value="Di atas 6 Bulan">Di atas 6 Bulan</option>
+                    </select>
+                    <span class="error-msg" id="err-rencanaKeberangkatan">Pilih rencana keberangkatan.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="jumlahPeserta">Berapa jumlah peserta yang berangkat? <span
+                            class="required">*</span></label>
+                    <input type="number" id="jumlahPeserta" name="jumlahPeserta" min="1" placeholder="Contoh: 2">
+                    <span class="error-msg" id="err-jumlahPeserta">Masukkan jumlah peserta (minimal 1).</span>
+                </div>
+
+                <div class="form-actions flex-between">
+                    <button type="button" class="btn btn-outline btn-prev" data-prev="1"><i
+                            class="fas fa-arrow-left"></i> Kembali</button>
+                    <button type="button" class="btn btn-gold btn-next" data-next="3">Selanjutnya <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Preferensi Pilihan -->
+            <div class="form-step" id="step3">
+                <div class="step-title">Langkah 3: Pilihan Paket & Kesiapan</div>
+
+                <div class="form-group">
+                    <label for="pilihanPaket">Pilihan Kategori Paket <span class="required">*</span></label>
+                    <select id="pilihanPaket" name="pilihanPaket">
+                        <option value="" disabled selected>Pilih kategori paket...</option>
+                        <option value="Paket Hemat (Bintang 3)">Paket Hemat (Fasilitas Bintang 3)</option>
+                        <option value="Paket Reguler (Bintang 4)">Paket Reguler (Fasilitas Bintang 4)</option>
+                        <option value="Paket Premium (Bintang 5)">Paket Premium (Bintang 5/Pelataran)</option>
+                    </select>
+                    <span class="error-msg" id="err-pilihanPaket">Pilih paket.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Status Paspor Anda Saat Ini <span class="required">*</span></label>
+                    <div class="radio-group-vertical">
+                        <label class="radio-label">
+                            <input type="radio" name="statusPaspor" value="Sudah Ada (Siap Berangkat)">
+                            <span class="radiomark"></span>
+                            <div class="radio-text">
+                                <strong>Sudah Ada</strong><br>
+                                <span>Paspor aktif dan siap berangkat.</span>
+                            </div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="statusPaspor" value="Sedang Proses">
+                            <span class="radiomark"></span>
+                            <div class="radio-text">
+                                <strong>Sedang Proses</strong><br>
+                                <span>Dalam proses pembuatan di Imigrasi.</span>
+                            </div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="statusPaspor" value="Belum Ada (Butuh Edukasi)">
+                            <span class="radiomark"></span>
+                            <div class="radio-text">
+                                <strong>Belum Ada</strong><br>
+                                <span>Butuh info/bantuan syarat bikin paspor.</span>
+                            </div>
+                        </label>
+                    </div>
+                    <span class="error-msg" id="err-statusPaspor">Pilih status paspor.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferensi Metode Pembayaran <span class="required">*</span></label>
+                    <div class="radio-group horizontal">
+                        <label class="radio-label">
+                            <input type="radio" name="metodePembayaran" value="Lunas">
+                            <span class="radiomark"></span> Lunas
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="metodePembayaran" value="Bertahap">
+                            <span class="radiomark"></span> Bertahap
+                        </label>
+                    </div>
+                    <span class="error-msg" id="err-metodePembayaran">Pilih metode pembayaran.</span>
+                    <small style="display:block; margin-top:8px; color:var(--text-light); font-size:0.85rem;">
+                        <em>*Note: Harus lunas 4 minggu sebelum keberangkatan</em>
+                    </small>
+                </div>
+
+                <div class="form-group compliance-group">
+                    <label class="checkbox-label" style="display:flex; align-items:flex-start; margin-top: 16px;">
+                        <input type="checkbox" id="persetujuan" name="persetujuan" required
+                            style="margin-top:4px; margin-right:8px;">
+                        <span style="font-size:0.9rem; line-height:1.4;">Saya setuju dihubungi oleh Konsultan Munira
+                            World melalui WhatsApp/Telepon untuk informasi detail.</span>
+                    </label>
+                    <span class="error-msg" id="err-persetujuan"
+                        style="display:none; color:#E53E3E; font-size:0.85rem; margin-top:4px;">Anda harus menyetujui
+                        persyaratan ini.</span>
+                </div>
+
+                <!-- Privacy Assurance -->
+                <div class="privacy-assurance">
+                    <i class="fas fa-shield-alt"></i> Data Anda aman dan hanya digunakan oleh Konsultan Ibadah kami
+                    untuk membantu rencana perjalanan Anda. Tidak terjual ke pihak manapun.
+                </div>
+
+                <div class="form-actions flex-between" style="margin-top:24px;">
+                    <button type="button" class="btn btn-outline btn-prev" data-prev="2"><i
+                            class="fas fa-arrow-left"></i> Kembali</button>
+                    <button type="submit" class="btn btn-gold btn-submit" id="submitBtn">
+                        Konsultasikan Sekarang <i class="fab fa-whatsapp"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOADING OVERLAY -->
+            <div id="formLoadingOverlay" class="loading-overlay">
+                <div class="loader-spinner"></div>
+                <p>Memproses data Anda...</p>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
