@@ -14,17 +14,16 @@ services:
     env:
       PORT: 8080
       POSTGRES_URI: postgresql://munira:munira_password@crm-munira-db:5432/munira_crm
+      ADMIN_USERNAME: Imron23
+      ADMIN_PASSWORD: Imunira234..
     routes:
-      - path: /
-        port: 8080
-    volumes:
-      - ./dashboard:/dashboard
-      - ./lp-2-long:/lp-2-long
-      - ./lp-liburan:/lp-liburan
-      - ./lp-bakti-anak:/lp-bakti-anak
-      - ./lp-itikaf-premium:/lp-itikaf-premium
-      - ./lp-spiritual-journey:/lp-spiritual-journey
-      - ./assets:/assets
+      - port: 8080
+        path: /
+    deploy:
+      replicas: 1
+      resources:
+        memory: 512Mi
+        cpu: 0.5
 
   # ─── PostgreSQL Database ──────────────────────────────────────────────────────
   postgres:

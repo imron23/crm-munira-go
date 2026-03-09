@@ -28,6 +28,7 @@ type AdminUserRepository interface {
 	GetUsers(ctx context.Context) ([]AdminUser, error)
 	UpdateUser(ctx context.Context, id string, user *AdminUser) error
 	DeleteUser(ctx context.Context, id string) error
+	UpdatePassword(ctx context.Context, id string, hashedPassword string) error
 }
 
 type AdminUsecase interface {

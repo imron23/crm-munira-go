@@ -80,6 +80,12 @@ func generateMockJWT(u *domain.AdminUser) string {
 }
 
 func (u *adminUsecase) Register(ctx context.Context, user *domain.AdminUser) error {
+	// Hash password before storing
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.PasswordHash), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.PasswordHash = string(hashedPassword)
 	return u.adminRepo.CreateUser(ctx, user)
 }
 
@@ -96,7 +102,10 @@ func (u *adminUsecase) DeleteMember(ctx context.Context, id string) error {
 }
 
 func (u *adminUsecase) ResetPassword(ctx context.Context, id string, newPassword string) error {
-	// hash pass in real life
-	// err := u.adminRepo.UpdatePassword(ctx, id, hash)
-	return nil
+	// Hash the new password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	return u.adminRepo.UpdatePassword(ctx, id, string(hashedPassword))
 }

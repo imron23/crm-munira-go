@@ -78,3 +78,9 @@ func (r *adminRepo) DeleteUser(ctx context.Context, id string) error {
 	_, err := r.db.Exec(ctx, q, id)
 	return err
 }
+
+func (r *adminRepo) UpdatePassword(ctx context.Context, id string, hashedPassword string) error {
+	q := `UPDATE admin_users SET password_hash=$1, updated_at=$2 WHERE id=$3`
+	_, err := r.db.Exec(ctx, q, hashedPassword, time.Now(), id)
+	return err
+}
