@@ -32,7 +32,7 @@ RUN apk --no-cache add tzdata
 # Copy binary from builder
 COPY --from=builder /app/munira-api .
 
-# Copy wilayah.json from builder
+# Copy wilayah.json from builder (located in backend/)
 COPY --from=builder /app/wilayah.json ./wilayah.json
 
 # Copy static files
