@@ -13,7 +13,7 @@ services:
       context: ./backend
     env:
       PORT: 8080
-      POSTGRES_URI: postgresql://munira:munira_password@postgres:5432/munira_crm
+      POSTGRES_URI: postgresql://munira:munira_password@crm-munira-db:5432/munira_crm
     routes:
       - path: /
         port: 8080
