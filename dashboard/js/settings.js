@@ -1,23 +1,18 @@
-// MARKETING HUB & ADVANCED Settings Logic
-const marketingForm = document.getElementById('marketingForm');
+// MARKETING HUB Settings Logic
+var marketingForm = document.getElementById('marketingForm');
 async function fetchSettings() {
     try {
-        const res = await fetch(`${API_URL}/settings`, { headers: { 'Authorization': 'Bearer ' + authToken } });
+        const res = await fetch(`${API_URL}/settings/admin`, { headers: { 'Authorization': 'Bearer ' + authToken } });
         const data = await res.json();
-        if (data.settings && Array.isArray(data.settings)) {
-            const map = {};
-            data.settings.forEach(s => map[s.key] = s.value);
+        if (data.success && data.data) {
+            document.getElementById('mFbPixel').value = data.data.meta_pixel_id || '';
+            document.getElementById('mGa4').value = data.data.ga4_id || '';
+            document.getElementById('mTgToken').value = data.data.tg_bot_token || '';
+            document.getElementById('mTgChat').value = data.data.tg_chat_id || '';
 
-            document.getElementById('mFbPixel').value = map.meta_pixel_id || '';
-            document.getElementById('mGa4').value = map.ga4_id || '';
-            document.getElementById('mTgToken').value = map.tg_bot_token || '';
-            document.getElementById('mTgChat').value = map.tg_chat_id || '';
-            if (document.getElementById('mRevGoal')) document.getElementById('mRevGoal').value = map.monthly_revenue_goal || '';
-
-            window.uiHighlightColor = map.ui_highlight_color || '#16A34A';
-            window.uiHighlightStyle = map.ui_highlight_style || 'solid';
-            window.uiHighlightCount = map.ui_highlight_count || 5;
-            window.monthlyRevenueGoal = parseInt(map.monthly_revenue_goal) || 0;
+            window.uiHighlightColor = data.data.ui_highlight_color || '#16A34A';
+            window.uiHighlightStyle = data.data.ui_highlight_style || 'solid';
+            window.uiHighlightCount = data.data.ui_highlight_count || 5;
 
             if (document.getElementById('mUiHighlightColor')) {
                 document.getElementById('mUiHighlightColor').value = window.uiHighlightColor;
@@ -31,7 +26,7 @@ async function fetchSettings() {
                 if (sAdminPanel) sAdminPanel.style.display = 'block';
             }
         }
-    } catch (e) { }
+    } catch (e) { console.error('Settings error:', e); }
 }
 
 if (marketingForm) {
@@ -42,35 +37,26 @@ if (marketingForm) {
             ga4_id: document.getElementById('mGa4').value,
             tg_bot_token: document.getElementById('mTgToken').value,
             tg_chat_id: document.getElementById('mTgChat').value,
-            monthly_revenue_goal: document.getElementById('mRevGoal') ? document.getElementById('mRevGoal').value : '',
             ui_highlight_color: document.getElementById('mUiHighlightColor').value,
             ui_highlight_style: document.getElementById('mUiHighlightStyle').value,
             ui_highlight_count: document.getElementById('mUiHighlightCount').value
         };
         try {
-            // Because our current go backend /api/settings is single key-value save, we iterate and save
-            let allGood = true;
-            for (const [key, value] of Object.entries(payload)) {
-                const res = await fetch(`${API_URL}/settings`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
-                    body: JSON.stringify({ key, value: String(value) })
-                });
-                if (!res.ok) allGood = false;
-            }
-            if (allGood) alert('Pengaturan berhasil disimpan');
-            else alert('Beberapa pengaturan mungkin gagal disimpan');
+            const res = await fetch(`${API_URL}/settings/admin`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            alert(data.message || 'Saved successfully');
             fetchSettings();
-            fetchDashboardData();
         } catch (e) { alert('Error saving configurations'); }
     });
 }
 
-const mUiHighlightColor = document.getElementById('mUiHighlightColor');
-const mUiHighlightColorText = document.getElementById('mUiHighlightColorText');
+var mUiHighlightColor = document.getElementById('mUiHighlightColor');
+var mUiHighlightColorText = document.getElementById('mUiHighlightColorText');
 if (mUiHighlightColor && mUiHighlightColorText) {
     mUiHighlightColor.addEventListener('input', e => mUiHighlightColorText.value = e.target.value);
     mUiHighlightColorText.addEventListener('input', e => mUiHighlightColor.value = e.target.value);
 }
-
-// ======================================

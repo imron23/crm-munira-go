@@ -18,6 +18,8 @@ func NewSettingHandler(router *gin.RouterGroup, usecase domain.SettingUsecase) {
 	settingRouter := router.Group("/settings")
 	{
 		settingRouter.GET("", handler.GetAllSettings)
+		settingRouter.GET("/admin", handler.GetAdminSettings)
+		settingRouter.PUT("/admin", handler.UpdateAdminSettings)
 		settingRouter.GET("/:key", handler.GetSettingKey)
 		settingRouter.POST("", handler.SaveSetting)
 	}

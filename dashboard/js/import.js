@@ -1,6 +1,6 @@
 // IMPORT CSV MODULE
 // ============================================================
-let importParsedData = [];
+var importParsedData = [];
 
 // Parse CSV text into array of objects
 function parseCSV(text) {

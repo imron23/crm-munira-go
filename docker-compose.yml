@@ -1,5 +1,5 @@
 services:
-  # Go Backend API
+  # ─── Go Backend API + Static Dashboard ───────────────────────────────────────
   backend:
     build:
       context: ./backend
@@ -16,25 +16,16 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - ./dashboard:/dashboard
+      - ./lp-2-long:/lp-2-long
+      - ./lp-liburan:/lp-liburan
+      - ./assets:/assets
+      - ./index.html:/index.html
+      - ./logo.png:/logo.png
     restart: always
 
-  # Next.js Frontend
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: crm-munira-go-frontend
-    container_name: crm-munira-go-web
-    ports:
-      - "5600:5600"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8080
-      - PORT=5600
-    depends_on:
-      - backend
-    restart: always
-
-  # PostgreSQL Database
+  # ─── PostgreSQL Database ──────────────────────────────────────────────────────
   postgres:
     image: postgres:15-alpine
     container_name: crm-munira-postgres
@@ -49,6 +40,9 @@ services:
       - ./migration-docs/02_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
       - ./migration-docs/05_schema_additions.sql:/docker-entrypoint-initdb.d/02_schema_additions.sql
       - ./migration-docs/06_schema_soft_deletes.sql:/docker-entrypoint-initdb.d/03_schema_soft_deletes.sql
+      - ./migration-docs/07_leads_crm_upgrade.sql:/docker-entrypoint-initdb.d/04_leads_crm_upgrade.sql
+      - ./migration-docs/08_forms_crm_upgrade.sql:/docker-entrypoint-initdb.d/05_forms_crm_upgrade.sql
+      - ./migration-docs/09_seed_admin_user.sql:/docker-entrypoint-initdb.d/06_seed_admin_user.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U munira -d munira_crm" ]
       interval: 5s

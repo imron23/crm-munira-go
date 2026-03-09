@@ -1,7 +1,7 @@
 // ============================================================
 // TEAM MANAGEMENT
 // ============================================================
-let teamEditId = null;
+var teamEditId = null;
 
 function getRoleBadge(role) {
     const map = {
@@ -59,8 +59,8 @@ async function fetchTeam() {
                         <i class="fas fa-clock" style="margin-right:4px;"></i>Login terakhir: ${lastLogin}
                     </div>
                     <div style="display:flex; gap:6px;">
-                        <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openTeamModal('${member._id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
-                        ${member.username !== (currentUserData?.username) ? `<button class="btn btn-mini" style="color:var(--danger);" onclick="deleteTeamMember('${member._id}', '${member.full_name || member.username}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>` : ''}
+                        <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openTeamModal('${member.id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
+                        ${member.username !== (currentUserData?.username) ? `<button class="btn btn-mini" style="color:var(--danger);" onclick="deleteTeamMember('${member.id}', '${member.full_name || member.username}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>` : ''}
                     </div>
                 </div>
             `;
@@ -98,9 +98,9 @@ window.openTeamModal = async function (editId = null) {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
             const data = await res.json();
-            const member = data.data.find(m => m._id === editId);
+            const member = data.data.find(m => m.id === editId);
             if (member) {
-                document.getElementById('tmId').value = member._id;
+                document.getElementById('tmId').value = member.id;
                 document.getElementById('tmUsername').value = member.username;
                 document.getElementById('tmFullName').value = member.full_name || '';
                 document.getElementById('tmEmail').value = member.email || '';
@@ -108,7 +108,10 @@ window.openTeamModal = async function (editId = null) {
                 document.getElementById('tmRole').value = member.role || 'sales';
                 document.getElementById('tmIsActive').value = member.is_active ? 'true' : 'false';
                 // Fill permissions
-                const perms = member.permissions || {};
+                let perms = {};
+                try {
+                    perms = typeof member.permissions === 'string' ? JSON.parse(member.permissions) : (member.permissions || {});
+                } catch (e) { }
                 const permKeys = ['can_view_leads', 'can_edit_leads', 'can_view_pages', 'can_edit_pages',
                     'can_view_forms', 'can_edit_forms', 'can_view_programs', 'can_edit_programs',
                     'can_view_marketing', 'can_edit_marketing', 'can_delete', 'can_export', 'can_view_revenue'];
@@ -171,7 +174,7 @@ document.getElementById('teamMemberForm')?.addEventListener('submit', async (e) 
         email: document.getElementById('tmEmail').value.trim(),
         phone: document.getElementById('tmPhone').value.trim(),
         role: document.getElementById('tmRole').value,
-        permissions: {
+        permissions: JSON.stringify({
             can_view_leads: document.getElementById('perm_can_view_leads')?.checked || false,
             can_edit_leads: document.getElementById('perm_can_edit_leads')?.checked || false,
             can_view_pages: document.getElementById('perm_can_view_pages')?.checked || false,
@@ -185,7 +188,7 @@ document.getElementById('teamMemberForm')?.addEventListener('submit', async (e) 
             can_delete: document.getElementById('perm_can_delete')?.checked || false,
             can_export: document.getElementById('perm_can_export')?.checked || false,
             can_view_revenue: document.getElementById('perm_can_view_revenue')?.checked || false,
-        }
+        })
     };
 
     if (id) {

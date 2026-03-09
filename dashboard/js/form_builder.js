@@ -1,11 +1,11 @@
 // FORM BUILDER MODULE
 // ============================================================
-let formsList = [];
-let formEditId = null;
-let fbFields = [];
-let fbWARotator = [];
+var formsList = [];
+var formEditId = null;
+var fbFields = [];
+var fbWARotator = [];
 
-let pagesListForForm = []; // cache pages for form builder display
+var pagesListForForm = []; // cache pages for form builder display
 
 async function fetchFormBuilder() {
     try {
@@ -37,7 +37,7 @@ function renderFormBuilderList() {
     pagesListForForm.forEach(pg => {
         if (pg.linked_form_id) {
             if (!formToLps[pg.linked_form_id]) formToLps[pg.linked_form_id] = [];
-            formToLps[pg.linked_form_id].push(pg.folder || pg._id);
+            formToLps[pg.linked_form_id].push(pg.folder || pg.id);
         }
     });
 
@@ -48,7 +48,7 @@ function renderFormBuilderList() {
             ? `<span style="font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:50px; background:rgba(34,211,238,0.15); color:#22D3EE; margin-left:6px; letter-spacing:0.5px;">⚡ Short Form</span>`
             : `<span style="font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:50px; background:rgba(139,92,246,0.15); color:#8B5CF6; margin-left:6px; letter-spacing:0.5px;">📋 Long Form</span>`;
 
-        const linkedLps = formToLps[f._id] || [];
+        const linkedLps = formToLps[f.id] || [];
         const lpBadges = linkedLps.length
             ? `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px;">
                 <span style="font-size:0.62rem; color:var(--text-secondary);">🔗 LP:</span>
@@ -76,8 +76,8 @@ function renderFormBuilderList() {
                 ${f.wa_rotator.map(w => `<span style="font-size:0.65rem; padding:2px 8px; border-radius:50px; background:rgba(37,211,102,0.1); color:#25D366; border:1px solid rgba(37,211,102,0.2);"><i class="fab fa-whatsapp"></i> ${w.name || w.wa_number}</span>`).join('')}
             </div>` : ''}
             <div style="display:flex; gap:8px;">
-                <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openFormModal('${f._id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
-                <button class="btn btn-mini" style="color:var(--danger);" onclick="deleteForm('${f._id}', '${(f.name || '').replace(/'/g, '')}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>
+                <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openFormModal('${f.id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
+                <button class="btn btn-mini" style="color:var(--danger);" onclick="deleteForm('${f.id}', '${(f.name || '').replace(/'/g, '')}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>
             </div>
         </div>
     `}).join('');
@@ -161,7 +161,7 @@ window.openFormModal = async function (editId = null) {
 
     if (editId) {
         title.innerHTML = '<i class="fas fa-wpforms" style="color:#8B5CF6; margin-right:8px;"></i>Edit Form';
-        const form = formsList.find(f => f._id === editId);
+        const form = formsList.find(f => f.id === editId);
         if (form) {
             document.getElementById('fbName').value = form.name || '';
             document.getElementById('fbActive').value = form.is_active !== false ? 'true' : 'false';
@@ -312,7 +312,7 @@ async function refreshFormPreviewPanel() {
                 const fieldCount = f.fields ? f.fields.length : 0;
                 const type = fieldCount <= 3 ? '⚡ Short' : '📋 Long';
                 const opt = document.createElement('option');
-                opt.value = f._id;
+                opt.value = f.id;
                 opt.textContent = `${type} · ${f.name}`;
                 sel.appendChild(opt);
             });
@@ -329,7 +329,7 @@ async function refreshFormPreviewPanel() {
         const shortFormInjectId = document.getElementById('shortFormInjectId');
         if (lpShort) {
             if (lpShort.linked_form_id) {
-                const linkedForm = forms.find(f => f._id === lpShort.linked_form_id);
+                const linkedForm = forms.find(f => f.id === lpShort.linked_form_id);
                 if (lpShortStatus) { lpShortStatus.textContent = '✅ Terhubung'; lpShortStatus.style.background = 'rgba(22,163,74,0.15)'; lpShortStatus.style.color = '#16a34a'; }
                 if (shortFormLpName) shortFormLpName.textContent = linkedForm ? linkedForm.name : lpShort.linked_form_id;
                 if (shortFormInjectId) shortFormInjectId.textContent = lpShort.linked_form_id.substring(0, 16) + '...';
@@ -349,7 +349,7 @@ async function refreshFormPreviewPanel() {
         const longFormInjectId = document.getElementById('longFormInjectId');
         if (lpLong) {
             if (lpLong.linked_form_id) {
-                const linkedForm = forms.find(f => f._id === lpLong.linked_form_id);
+                const linkedForm = forms.find(f => f.id === lpLong.linked_form_id);
                 if (lpLongStatus) { lpLongStatus.textContent = '✅ Terhubung'; lpLongStatus.style.background = 'rgba(22,163,74,0.15)'; lpLongStatus.style.color = '#16a34a'; }
                 if (longFormLpName) longFormLpName.textContent = linkedForm ? linkedForm.name : lpLong.linked_form_id;
                 if (longFormInjectId) longFormInjectId.textContent = lpLong.linked_form_id.substring(0, 16) + '...';
@@ -425,7 +425,7 @@ async function fetchDistribution() {
                         <div style="font-weight:700; font-size:1rem;">${f.name}</div>
                         <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${modeLabel[f.rotator_mode] || f.rotator_mode} • ${f.wa_rotator.filter(w => w.is_active).length} nomor aktif dari ${f.wa_rotator.length} total</div>
                     </div>
-                    <button class="btn btn-outline btn-mini" onclick="openFormModal('${f._id}')"><i class="fas fa-edit"></i> Edit Rotator</button>
+                    <button class="btn btn-outline btn-mini" onclick="openFormModal('${f.id}')"><i class="fas fa-edit"></i> Edit Rotator</button>
                 </div>
                 <div style="padding:16px 20px;">
                     <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px;">

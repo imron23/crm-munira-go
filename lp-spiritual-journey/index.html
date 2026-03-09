@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Journey - Munira World</title>
+    <style>
+        :root {
+            --brand-gold: #D4AF37;
+            --brand-green: #0A3D2A;
+            /* Hijau Zamrud */
+            --bg-color: #FDF9F1;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--brand-green);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .step {
+            display: none;
+            animation: fadeInOut 0.5s ease-in-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeInOut {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #EEE;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: var(--brand-gold);
+            outline: none;
+        }
+
+        .btn {
+            background: var(--brand-green);
+            color: #FFF;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            box-shadow: 0 4px 15px rgba(10, 61, 42, 0.3);
+        }
+
+        /* Visual Cards Checklist */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .visual-card {
+            border: 2px solid #EFEFEF;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #FAFAFA;
+        }
+
+        .visual-card.selected {
+            border-color: var(--brand-gold);
+            background: var(--brand-green);
+            color: #FFF;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .visual-card .icon {
+            font-size: 2rem;
+            color: var(--brand-gold);
+            margin-bottom: 10px;
+        }
+
+        .visual-card.selected .icon {
+            color: var(--brand-gold);
+        }
+
+        .visual-card .title {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Plane Animation */
+        .plane-anim {
+            position: absolute;
+            bottom: -50px;
+            left: -100px;
+            font-size: 2rem;
+            color: var(--brand-gold);
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .plane-anim.fly {
+            left: 110%;
+            bottom: 20%;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <div class="header">
+            <h1>Langkah kecil menuju Baitullah dimulai di sini.</h1>
+            <p style="color: #666; font-size: 0.9rem;" id="subHeader">Mari melangkah bersama Munira World.</p>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <div class="step active" id="step1">
+            <div class="input-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Contoh: Ahmad Fauzi">
+            </div>
+            <div class="input-group">
+                <label>Nomor WhatsApp</label>
+                <input type="text" id="wa" placeholder="0812xxxx">
+            </div>
+            <button class="btn" onclick="nextStep(1)">Lanjutkan Perjalanan</button>
+        </div>
+
+        <!-- Step 2: Journey Preferences -->
+        <div class="step" id="step2">
+            <p style="font-size:0.95rem; font-weight:600; margin-bottom:20px;">Bantu kami memahami kebutuhan Anda, agar
+                kami dapat menyiapkan layanan terbaik untuk ibadah yang khusyuk.</p>
+
+            <div class="cards-grid">
+                <div class="visual-card" data-pref="pref_small_group" onclick="toggleCard(this)">
+                    <div class="icon">👥</div>
+                    <div class="title">Grup Eksklusif</div>
+                </div>
+                <div class="visual-card" data-pref="pref_audio_guide" onclick="toggleCard(this)">
+                    <div class="icon">🎧</div>
+                    <div class="title">Audio Guide</div>
+                </div>
+                <div class="visual-card" data-pref="pref_handling_bagasi" onclick="toggleCard(this)">
+                    <div class="icon">🧳</div>
+                    <div class="title">Handling Bagasi</div>
+                </div>
+                <div class="visual-card" data-pref="pref_manasik_privat" onclick="toggleCard(this)">
+                    <div class="icon">📖</div>
+                    <div class="title">Manasik Privat</div>
+                </div>
+                <div class="visual-card" data-pref="pref_dokumentasi" onclick="toggleCard(this)">
+                    <div class="icon">📸</div>
+                    <div class="title">Dokumentasi</div>
+                </div>
+            </div>
+            <br>
+            <button class="btn" onclick="nextStep(2)">Selanjutnya</button>
+        </div>
+
+        <!-- Step 3: Details -->
+        <div class="step" id="step3">
+            <div class="input-group">
+                <label>Domisili</label>
+                <input type="text" id="domisili" placeholder="Contoh: Bekasi">
+            </div>
+            <div class="input-group">
+                <label>Rencana Berangkat</label>
+                <input type="text" id="rencana" placeholder="Contoh: Ramadhan 2026">
+            </div>
+            <div class="input-group">
+                <label>Harapan Utama</label>
+                <input type="text" id="harapan" placeholder="Contoh: Hotel dekat pelataran agar orang tua nyaman">
+            </div>
+            <button class="btn" onclick="finishForm()">Selesai & Wujudkan Niat</button>
+        </div>
+
+        <!-- Success Step -->
+        <div class="step" id="stepSuccess" style="text-align:center;">
+            <div style="font-size:4rem; margin-bottom:20px;">🕋</div>
+            <h2>Alhamdulillah</h2>
+            <p>Niat baik Anda telah kami terima.<br>Tim Concierge kami akan segera menghubungi Anda memlalui WhatsApp
+                yang sudah dipersonalisasi.</p>
+        </div>
+
+        <div class="plane-anim" id="plane">✈️</div>
+    </div>
+
+    <script>
+        let currentLeadId = "";
+
+        function uuidv4() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        async function saveLeadProgress(data) {
+            try {
+                if (!currentLeadId) currentLeadId = uuidv4();
+                data.id = currentLeadId;
+
+                const res = await fetch('/api/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                return await res.json();
+            } catch (e) {
+                console.error("Save error:", e);
+                return null;
+            }
+        }
+
+        function toggleCard(el) {
+            el.classList.toggle('selected');
+        }
+
+        function flyPlane() {
+            const p = document.getElementById('plane');
+            p.classList.remove('fly');
+            void p.offsetWidth; // trigger reflow
+            p.classList.add('fly');
+        }
+
+        async function nextStep(step) {
+            if (step === 1) {
+                const nama = document.getElementById('nama').value;
+                const wa = document.getElementById('wa').value;
+                if (!nama || !wa) return alert('Nama & WA wajib diisi');
+
+                await saveLeadProgress({ nama_lengkap: nama, whatsapp_num: wa });
+
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+                flyPlane();
+            }
+            else if (step === 2) {
+                const prefs = {};
+                document.querySelectorAll('.visual-card').forEach(el => {
+                    prefs[el.getAttribute('data-pref')] = el.classList.contains('selected');
+                });
+
+                await saveLeadProgress({
+                    nama_lengkap: document.getElementById('nama').value,
+                    whatsapp_num: document.getElementById('wa').value,
+                    preferences: prefs
+                });
+
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step3').classList.add('active');
+                flyPlane();
+            }
+        }
+
+        async function finishForm() {
+            // Get all data
+            const prefs = {};
+            document.querySelectorAll('.visual-card').forEach(el => {
+                prefs[el.getAttribute('data-pref')] = el.classList.contains('selected');
+            });
+            const data = {
+                nama_lengkap: document.getElementById('nama').value,
+                whatsapp_num: document.getElementById('wa').value,
+                domisili: document.getElementById('domisili').value,
+                rencana_umrah: document.getElementById('rencana').value,
+                fasilitas_utama: document.getElementById('harapan').value,
+                preferences: prefs,
+                status_followup: "New Data"
+            };
+
+            const res = await saveLeadProgress(data);
+
+            if (res && res.success) {
+                document.getElementById('step3').classList.remove('active');
+                document.getElementById('stepSuccess').classList.add('active');
+
+                // Trigger AI generation di background
+                fetch('/api/ai/concierge/' + currentLeadId, { method: 'POST' }).catch(e => console.log(e));
+            } else {
+                alert("Terjadi kesalahan sistem.");
+            }
+        }
+    </script>
+</body>
+
+</html>

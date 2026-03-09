@@ -2,11 +2,11 @@
 // PROGRAM BUILDER
 // ============================================================
 
-const TIERS = ['bronze', 'silver', 'gold'];
-const ROOMS = ['quad', 'double', 'triple'];
+var TIERS = ['bronze', 'silver', 'gold'];
+var ROOMS = ['quad', 'double', 'triple'];
 
-const pbOverlay = document.getElementById('pbOverlay');
-const pbForm = document.getElementById('pbForm');
+var pbOverlay = document.getElementById('pbOverlay');
+var pbForm = document.getElementById('pbForm');
 
 function pbOpenOverlay() {
     if (pbOverlay) {

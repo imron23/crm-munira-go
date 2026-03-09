@@ -1,0 +1,37 @@
+services:
+  # ─── Backend API Service ─────────────────────────────────────────────────────
+  backend:
+    type: app
+    name: crm-munira-api
+    source:
+      type: git
+      url: https://github.com/imron23/crm-munira-go
+      branch: main
+    build:
+      type: dockerfile
+      path: backend/Dockerfile
+      context: ./backend
+    env:
+      PORT: 8080
+      POSTGRES_URI: postgresql://munira:munira_password@postgres:5432/munira_crm
+    routes:
+      - path: /
+        port: 8080
+    volumes:
+      - ./dashboard:/dashboard
+      - ./lp-2-long:/lp-2-long
+      - ./lp-liburan:/lp-liburan
+      - ./lp-bakti-anak:/lp-bakti-anak
+      - ./lp-itikaf-premium:/lp-itikaf-premium
+      - ./lp-spiritual-journey:/lp-spiritual-journey
+      - ./assets:/assets
+
+  # ─── PostgreSQL Database ──────────────────────────────────────────────────────
+  postgres:
+    type: database
+    name: crm-munira-db
+    engine: postgres
+    version: "15"
+    user: munira
+    password: munira_password
+    database: munira_crm

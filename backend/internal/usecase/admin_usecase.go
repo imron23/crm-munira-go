@@ -6,6 +6,9 @@ import (
 	"encoding/json"
 	"errors"
 	"munira_crm_backend/internal/domain"
+	"os"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type adminUsecase struct {
@@ -19,9 +22,35 @@ func NewAdminUsecase(repo domain.AdminUserRepository) domain.AdminUsecase {
 }
 
 func (u *adminUsecase) Login(ctx context.Context, username, password string) (string, *domain.AdminUser, error) {
+	// 1. Cek dari .env (Master Credential Override)
+	envUser := os.Getenv("ADMIN_USERNAME")
+	envPass := os.Getenv("ADMIN_PASSWORD")
+
+	if envUser != "" && envPass != "" && username == envUser && password == envPass {
+		// Bypass database, return super admin user
+		masterUser := &domain.AdminUser{
+			ID:       "master-admin-env",
+			Username: envUser,
+			Role:     "super_admin",
+			FullName: "Master Administrator",
+		}
+		token := generateMockJWT(masterUser)
+		return token, masterUser, nil
+	}
+
+	// 2. Jika tidak cocok dengan env, coba cek di database
 	user, err := u.adminRepo.GetByUsername(ctx, username)
 	if err != nil {
 		return "", nil, errors.New("invalid credentials")
+	}
+
+	// check if plain text matches first, as a fallback (if it was inserted raw)
+	if user.PasswordHash != password {
+		// then check via bcrypt
+		err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
+		if err != nil {
+			return "", nil, errors.New("invalid credentials")
+		}
 	}
 
 	token := generateMockJWT(user)

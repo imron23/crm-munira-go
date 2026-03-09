@@ -1,5 +1,5 @@
 // API Setup
-const API_URL = (window.location.protocol === 'file:' || window.location.port === '3000') ? 'http://localhost:3000/api' : '/api';
+const API_URL = (window.location.protocol === 'file:' || ['3000', '8080'].includes(window.location.port)) ? 'http://localhost:8080/api' : '/api';
 let authToken = localStorage.getItem('munira_crm_token');
 let allLeads = []; // Cache for leads
 let currentUserData = null;
@@ -166,7 +166,7 @@ function initAllRpInputs() {
 // ============================================================
 // IMPORT CSV MODULE
 // ============================================================
-let importParsedData = [];
+var importParsedData = [];
 
 // Parse CSV text into array of objects
 function parseCSV(text) {
@@ -330,23 +330,69 @@ function applyTheme(theme) {
     document.body.classList.remove('light-mode', 'sepia-mode');
     if (theme === 'light') document.body.classList.add('light-mode');
     if (theme === 'sepia') document.body.classList.add('sepia-mode');
-    const icon = themeToggle.querySelector('i');
-    if (icon) {
-        icon.className = 'fas ' + (THEME_ICONS[theme] || 'fa-moon');
+    const tToggle = document.getElementById('themeToggle');
+    if (tToggle) {
+        const icon = tToggle.querySelector('i');
+        if (icon) icon.className = 'fas ' + (THEME_ICONS[theme] || 'fa-moon');
+        tToggle.setAttribute('title', THEME_LABELS[theme] || 'Toggle Theme');
     }
-    themeToggle.setAttribute('title', THEME_LABELS[theme] || 'Toggle Theme');
     localStorage.setItem('munira_crm_theme', theme);
 }
 applyTheme(currentTheme);
 
-themeToggle.addEventListener('click', () => {
-    const idx = THEMES.indexOf(currentTheme);
-    currentTheme = THEMES[(idx + 1) % THEMES.length];
-    applyTheme(currentTheme);
-});
+const _themeToggle = document.getElementById('themeToggle');
+if (_themeToggle) {
+    _themeToggle.addEventListener('click', () => {
+        const idx = THEMES.indexOf(currentTheme);
+        currentTheme = THEMES[(idx + 1) % THEMES.length];
+        applyTheme(currentTheme);
+    });
+}
 
-// Initialization
+// Initialization — wait for full DOM
 document.addEventListener('DOMContentLoaded', () => {
+    // Re-bind loginForm since it must exist at this point
+    const _loginForm = document.getElementById('loginForm');
+    const _btnLogout = document.getElementById('btnLogout');
+
+    if (_loginForm) {
+        _loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUser').value;
+            const password = document.getElementById('loginPass').value;
+            const errorMsg = document.getElementById('loginError');
+            if (errorMsg) errorMsg.textContent = 'Authenticating...';
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('munira_crm_token', authToken);
+                    localStorage.setItem('munira_crm_user', data.user.username);
+                    showDashboard();
+                } else {
+                    if (errorMsg) errorMsg.textContent = data.message || 'Access Denied.';
+                }
+            } catch (err) {
+                if (errorMsg) errorMsg.textContent = 'Server Unreachable. Check connection.';
+                console.error('Login error:', err);
+            }
+        });
+    }
+
+    if (_btnLogout) {
+        _btnLogout.addEventListener('click', () => {
+            authToken = null;
+            localStorage.removeItem('munira_crm_token');
+            localStorage.removeItem('munira_crm_user');
+            showLogin();
+        });
+    }
+
     if (authToken) {
         showDashboard();
     } else {
@@ -376,41 +422,47 @@ if (mainWrapperEl && sidebarEl) {
     });
 }
 
-// LOGIN LOGIC
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('loginUser').value;
-    const password = document.getElementById('loginPass').value;
-    const errorMsg = document.getElementById('loginError');
-
-    errorMsg.textContent = 'Authenticating...';
-
-    try {
-        const res = await fetch(`${API_URL}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+// LOGIN LOGIC — moved into DOMContentLoaded above (safe version)
+// Kept here as fallback for direct DOM availability
+if (loginForm) {
+    if (!loginForm._loginBound) {
+        loginForm._loginBound = true;
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUser').value;
+            const password = document.getElementById('loginPass').value;
+            const errorMsg = document.getElementById('loginError');
+            if (errorMsg) errorMsg.textContent = 'Authenticating...';
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('munira_crm_token', authToken);
+                    localStorage.setItem('munira_crm_user', data.user.username);
+                    showDashboard();
+                } else {
+                    if (errorMsg) errorMsg.textContent = data.message || 'Access Denied.';
+                }
+            } catch (err) {
+                if (errorMsg) errorMsg.textContent = 'Server Unreachable.';
+            }
         });
-        const data = await res.json();
-        if (data.success) {
-            authToken = data.token;
-            localStorage.setItem('munira_crm_token', authToken);
-            localStorage.setItem('munira_crm_user', data.user.username);
-            showDashboard();
-        } else {
-            errorMsg.textContent = data.message || 'Access Denied.';
-        }
-    } catch (err) {
-        errorMsg.textContent = 'Server Unreachable.';
     }
-});
+}
 
-btnLogout.addEventListener('click', () => {
-    authToken = null;
-    localStorage.removeItem('munira_crm_token');
-    localStorage.removeItem('munira_crm_user');
-    showLogin();
-});
+if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+        authToken = null;
+        localStorage.removeItem('munira_crm_token');
+        localStorage.removeItem('munira_crm_user');
+        showLogin();
+    });
+}
 
 // ============================================================
 // QUICK SWITCH — Super Admin Only (Dynamic from API)
@@ -464,7 +516,7 @@ async function loadQuickSwitch() {
             </div>
             <div id="qsBody" style="display:none; flex-direction:column; gap:2px; max-height:160px; overflow-y:auto; padding-top:4px;">
                 ${members.map(m => `
-                    <button class="btn btn-outline btn-mini" onclick="doQuickSwitch('${m._id}')"
+                    <button class="btn btn-outline btn-mini" onclick="doQuickSwitch('${m.id}')"
                         style="font-size:0.63rem; text-align:left; justify-content:flex-start; padding:4px 6px; width:100%; border-color:transparent; gap:6px;"
                         onmouseenter="this.style.borderColor='var(--border)'" onmouseleave="this.style.borderColor='transparent'">
                         <span style="color:${roleColors[m.role] || '#64748b'}; font-size:0.7rem;">${roleIcons[m.role] || '👤'}</span>
@@ -652,10 +704,10 @@ if (navMenuEl) {
 // ============================================================
 // NOTIFICATION SYSTEM (Bell Alert)
 // ============================================================
-let notifications = JSON.parse(localStorage.getItem('munira_notifications') || '[]');
-let notifPanelOpen = false;
-let lastLeadCount = null;
-let bellAudio = null;
+var notifications = JSON.parse(localStorage.getItem('munira_notifications') || '[]');
+var notifPanelOpen = false;
+var lastLeadCount = null;
+var bellAudio = null;
 
 function playBellSound() {
     try {
@@ -863,7 +915,7 @@ window.openStatusHistory = async function (leadId, encodedName) {
 // ============================================================
 // TEAM MANAGEMENT
 // ============================================================
-let teamEditId = null;
+var teamEditId = null;
 
 function getRoleBadge(role) {
     const map = {
@@ -921,8 +973,8 @@ async function fetchTeam() {
                         <i class="fas fa-clock" style="margin-right:4px;"></i>Login terakhir: ${lastLogin}
                     </div>
                     <div style="display:flex; gap:6px;">
-                        <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openTeamModal('${member._id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
-                        ${member.username !== (currentUserData?.username) ? `<button class="btn btn-mini" style="color:var(--danger);" onclick="deleteTeamMember('${member._id}', '${member.full_name || member.username}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>` : ''}
+                        <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openTeamModal('${member.id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
+                        ${member.username !== (currentUserData?.username) ? `<button class="btn btn-mini" style="color:var(--danger);" onclick="deleteTeamMember('${member.id}', '${member.full_name || member.username}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>` : ''}
                     </div>
                 </div>
             `;
@@ -960,9 +1012,9 @@ window.openTeamModal = async function (editId = null) {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             });
             const data = await res.json();
-            const member = data.data.find(m => m._id === editId);
+            const member = data.data.find(m => m.id === editId);
             if (member) {
-                document.getElementById('tmId').value = member._id;
+                document.getElementById('tmId').value = member.id;
                 document.getElementById('tmUsername').value = member.username;
                 document.getElementById('tmFullName').value = member.full_name || '';
                 document.getElementById('tmEmail').value = member.email || '';
@@ -1166,8 +1218,6 @@ window.deleteTeamMember = async function (id, name) {
 document.getElementById('btnAddMember')?.addEventListener('click', () => openTeamModal(null));
 
 // ============================================================
-// TOAST NOTIFICATION (in-app)
-// ============================================================
 function showToast(message, type = 'success') {
     const existing = document.getElementById('munira-toast');
     if (existing) existing.remove();
@@ -1272,7 +1322,6 @@ window.smartCopyLead = function (encodedL) {
         </div>`;
     document.body.appendChild(overlay);
 };
-
 
 
 // ============================================================
@@ -1750,15 +1799,15 @@ function renderWidgetsAndCharts(leadsArray) {
 }
 
 // Chart Instance Trackers
-let chartTrend = null;
-let chartPkg = null;
-let chartLostReason = null;
-let chartRevenueGauge = null;
-let chartTimeOfDay = null;
-let chartSpeedToLead = null;
+var chartTrend = null;
+var chartPkg = null;
+var chartLostReason = null;
+var chartRevenueGauge = null;
+var chartTimeOfDay = null;
+var chartSpeedToLead = null;
 
 // Monthly Revenue Target saved in localStorage
-let monthlyRevenueTarget = parseInt(localStorage.getItem('munira_rev_target') || '2000000000');
+var monthlyRevenueTarget = parseInt(localStorage.getItem('munira_rev_target') || '2000000000');
 
 window.updateTargetOmset = function () {
     const input = document.getElementById('targetOmsetInput');
@@ -2239,8 +2288,8 @@ function drawPackageChart(leadsArray) {
     });
 }
 
-let chartFunnel = null;
-let chartCity = null;
+var chartFunnel = null;
+var chartCity = null;
 
 function drawStatusFunnelChart(leadsArray) {
     const ctx = document.getElementById('statusFunnelChart');
@@ -2442,14 +2491,14 @@ function renderLeadsTable() {
     });
 
     if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:32px; color:var(--text-secondary);">Tidak ada data leads ditemukan.</td></tr>`;
+        body.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:32px; color:var(--text-secondary);">Tidak ada data leads ditemukan.</td></tr>`;
         const pf = document.getElementById('pageInfo');
         if (pf) pf.textContent = `Showing 0 of 0`;
         return;
     }
 
     // Pagination Logic
-    const pageSizeEl = document.getElementById('pageSize');
+    var pageSizeEl = document.getElementById('pageSize');
     let limit = pageSizeEl ? pageSizeEl.value : '20';
     let startIdx = 0;
     let endIdx = filtered.length;
@@ -2546,77 +2595,58 @@ function renderLeadsTable() {
                 <input type="checkbox" class="lead-checkbox" value="${L.id}" ${selectedLeads.has(L.id) ? 'checked' : ''} style="cursor:pointer; width:16px; height:16px; accent-color:var(--brand);">
             </td>
             <td>
-                <span
-                    style="color:var(--brand); font-weight:700; cursor:pointer; font-size:0.82rem; letter-spacing:0.3px;"
-                    title="Klik untuk Smart Copy info lead"
-                    onclick="smartCopyLead('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"
-                    onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration=''">
-                    ${L.user_id || L.id}
-                </span>
-            </td>
-            <td>
-                ${L.domisili || '-'}
-            </td>
-            <td>
-                <span>${formatDate(L.created_at)}</span><br>
-                <small style="color:var(--text-secondary)">${timeAgo(L.created_at)}</small>
-            </td>
-            <td>
-                <div style="display:flex; align-items:center;">
-                    <strong style="cursor:pointer;" title="Klik untuk Smart Copy" onclick="smartCopyLead('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"
-                        onmouseover="this.style.color='var(--brand)'" onmouseout="this.style.color=''">${L.nama_lengkap} ${L.is_restored ? '<i class="fas fa-pen" style="color:#EC4899; font-size:0.75rem; margin-left:4px;" title="Dipulihkan dari Recycle Bin"></i>' : ''}</strong>
-                    <button class="btn-mini" style="border:none; padding:2px 5px; font-size:0.75rem; margin-left:5px; color:var(--brand); background:transparent; cursor:pointer;" 
-                        title="Copy: Nama + No HP"
-                        onclick="copyNameWa('${L.nama_lengkap.replace(/'/g, '&#39;')}', '${L.whatsapp_num}', this)">
-                        <i class="far fa-copy"></i>
-                    </button>
+                <div style="display:flex; align-items:flex-start; gap:10px;">
+                    <div>
+                        <div style="color:var(--text-secondary); font-size:0.75rem; margin-bottom:2px;">
+                            ${formatDate(L.created_at)} · <strong>${timeAgo(L.created_at)}</strong>
+                        </div>
+                        <strong style="cursor:pointer; display:inline-block; font-size:1.05rem;" title="Klik untuk Smart Copy" onclick="smartCopyLead('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"
+                            onmouseover="this.style.color='var(--brand)'" onmouseout="this.style.color=''">${L.nama_lengkap}</strong>
+                        <button class="btn-mini" style="border:none; padding:2px 5px; font-size:0.75rem; margin-left:5px; color:var(--brand); background:transparent; cursor:pointer;" title="Copy: Nama + No HP" onclick="copyNameWa('${L.nama_lengkap.replace(/'/g, '&#39;')}', '${L.whatsapp_num}', this)">
+                            <i class="far fa-copy"></i>
+                        </button>
+                        <div style="font-size:0.85rem; margin-top:2px;">
+                            <a href="#" class="wa-direct" onclick="alertWA('${L.whatsapp_num}'); return false;" style="color:var(--success); font-weight:600; text-decoration:none;">${L.whatsapp_num}</a>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">
+                            <i class="fas fa-map-marker-alt"></i> ${L.domisili || '-'} | <span style="font-family:monospace; color:var(--brand);">${L.user_id || L.id}</span>
+                        </div>
+                    </div>
                 </div>
-                <a href="#" class="wa-direct" onclick="alertWA('${L.whatsapp_num}'); return false;" style="color:var(--success); font-weight:600; text-decoration:none; display:inline-block; margin-top:2px;">${L.whatsapp_num}</a>
             </td>
             <td>
-                ${L.paket_pilihan || 'N/A'}<br>
-                <small style="color:var(--text-secondary)">${L.yang_berangkat || '1 Pax'}</small>
-            </td>
-            <td>
+                <div style="font-weight:600; margin-bottom:2px;">${L.paket_pilihan || 'N/A'}</div>
+                <div style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:4px;">${L.yang_berangkat || '1 Pax'}</div>
                 ${(() => {
                 const progName = L.program_id ? getProgramName(L.program_id) : null;
                 const rev = L.revenue || 0;
-                const isDollar = rev > 0 && rev < 100000;
-                const revBadge = rev > 0
-                    ? (isDollar
-                        ? `<span style="color:#FBBF24;font-size:0.65rem;font-weight:700;">$${Number(rev).toLocaleString('en-US')}</span>`
-                        : `<span style="color:#10B981;font-size:0.65rem;font-weight:700;">Rp ${formatRpShort(rev)}</span>`)
-                    : '';
+                const revBadge = rev > 0 ? `<span style="color:#10B981;font-size:0.75rem;font-weight:700;">Rp ${formatRpShort(rev)}</span>` : '';
                 const hasProg = progName && progName !== '-';
-                if (!hasProg && !revBadge) return `<span style="color:var(--text-secondary);font-size:0.75rem;">—</span>`;
-                return `<div style="display:flex;flex-direction:column;gap:2px;">
-                        <span style="font-size:0.76rem;font-weight:600;color:${hasProg ? 'var(--text-primary)' : 'var(--text-secondary)'};line-height:1.3;">${hasProg ? progName : '—'}</span>
-                        ${(hasProg && L.paket_pilihan) ? `<span style="font-size:0.62rem;color:var(--brand);background:rgba(91,158,244,0.1);padding:1px 5px;border-radius:50px;width:fit-content;">${L.paket_pilihan}</span>` : ''}
-                        ${revBadge}
-                    </div>`;
+                if (!hasProg && !revBadge) return '';
+                return `<div style="display:flex; gap:6px; align-items:center;">
+                            ${hasProg ? `<span style="font-size:0.75rem; background:rgba(91,158,244,0.1); color:var(--brand); padding:2px 6px; border-radius:4px; font-weight:600;">${progName}</span>` : ''}
+                            ${revBadge}
+                        </div>`;
             })()}
             </td>
-
             <td>
-                <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="width:26px; height:26px; border-radius:50%; background:${csColor}22; border:1.5px solid ${csColor}; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:${csColor}; flex-shrink:0;">${csInitial}</div>
-                    <span style="font-size:0.8rem; font-weight:600;">${csName}</span>
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+                    <div style="width:24px; height:24px; border-radius:50%; background:${csColor}22; border:1px solid ${csColor}; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; color:${csColor};">${csInitial}</div>
+                    <span style="font-size:0.85rem; font-weight:600;">${csName}</span>
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-secondary);">
+                    <i class="fas fa-link"></i> ${formatLpName(L.landing_page)} <br>
+                    <span style="background:#f1f5f9; padding:1px 4px; border-radius:3px; margin-top:2px; display:inline-block; font-size:0.7rem; text-transform:uppercase;">${L.utm_source || 'organic'} • ${L.form_source || 'Default'}</span>
                 </div>
             </td>
             <td>
-                <span style="font-weight:600; font-size:0.85rem;">${formatLpName(L.landing_page)}</span><br>
-                <small style="color:var(--text-secondary); text-transform:uppercase;">${L.utm_source || 'organic'}</small>
-            </td>
-            <td>
-                <span style="font-weight:600; font-size:0.85rem;">${L.form_source || 'Default'}</span>
-            </td>
-            <td>
                 <span class="status st-${statCls}">${L.status_followup}</span>
-                ${L.catatan ? `<div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${L.catatan.substring(0, 25)}...</div>` : ''}
+                ${L.catatan ? `<div style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px; max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${L.catatan.replace(/"/g, '&quot;')}">${L.catatan}</div>` : ''}
             </td>
-             <td style="text-align:right;">
+            <td style="text-align:right;">
                 <div class="act-row" style="justify-content:flex-end;">
                     <button class="btn-mini btn-outline" onclick="toggleAccordion('${L.id}')"><i class="fas fa-chevron-down"></i> Detail</button>
+                    ${isSuperAdmin ? `<button class="btn-mini btn-outline" style="border:none; padding:2px 4px; font-size:0.8rem; margin-left:6px; color:var(--brand); background:rgba(91,158,244,0.1);" title="Smart Copy" onclick="openSmartCopyModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"><i class="far fa-copy"></i></button>` : ''}
                     <button class="btn-mini btn-primary" onclick="openWaModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"><i class="fab fa-whatsapp"></i></button>
                     ${currentUserData?.role === 'super_admin' ? `<button class="btn-mini btn-danger" style="background:var(--danger-light); color:var(--danger); border-color:transparent;" onclick="deleteLead('${L.id}', '${(L.nama_lengkap || '').replace(/'/g, '')}')" title="Hapus Lead" onmouseover="this.style.background='var(--danger)'; this.style.color='#fff'" onmouseout="this.style.background='var(--danger-light)'; this.style.color='var(--danger)'"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
@@ -2628,7 +2658,7 @@ function renderLeadsTable() {
         trAcc.className = 'accordion-row';
         trAcc.id = 'acc-' + L.id;
         trAcc.innerHTML = `
-            <td colspan="10" class="accordion-content" style="padding: 20px 24px !important; background: var(--bg-surface);">
+            <td colspan="6" class="accordion-content" style="padding: 20px 24px !important; background: var(--bg-surface);">
                 <div style="display:grid; grid-template-columns: 1fr 1.3fr 1FR; gap: 20px; font-size: 0.85rem;">
                     
                     <!-- Profil Singkat -->
@@ -2819,7 +2849,7 @@ window.deleteLead = async function (id, nama) {
         const data = await res.json();
         if (data.success) {
             showToast(`🗑️ Lead "${nama}" berhasil dihapus.`);
-            allLeads = allLeads.filter(L => L.id !== id && L._id !== id);
+            allLeads = allLeads.filter(L => L.id !== id && L.id !== id);
             renderLeadsTable();
             // Re-render overview widgets with updated data
             const sd = document.getElementById('overviewStartDate')?.value;
@@ -2952,7 +2982,7 @@ window.bulkDeleteLeads = async function () {
             });
             const data = await res.json();
             if (data.success) {
-                allLeads = allLeads.filter(L => L.id !== id && L._id !== id);
+                allLeads = allLeads.filter(L => L.id !== id && L.id !== id);
                 successCount++;
             }
         }
@@ -3005,17 +3035,17 @@ function populateCSFilter() {
     }
 }
 
-const pageSizeEl = document.getElementById('pageSize');
+var pageSizeEl = document.getElementById('pageSize');
 if (pageSizeEl) pageSizeEl.addEventListener('change', () => { currentPage = 1; renderLeadsTable(); });
 
-const btnPrev = document.getElementById('btnPagePrev');
+var btnPrev = document.getElementById('btnPagePrev');
 if (btnPrev) btnPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderLeadsTable(); } });
 
-const btnNext = document.getElementById('btnPageNext');
+var btnNext = document.getElementById('btnPageNext');
 if (btnNext) btnNext.addEventListener('click', () => { currentPage++; renderLeadsTable(); });
 
 // FETCH PAGES DIRECTORY (New CMS Features)
-let pagesListCache = [];
+var pagesListCache = [];
 
 async function fetchPages() {
     try {
@@ -3098,12 +3128,12 @@ async function fetchPages() {
 }
 
 // ==================== LP EDIT MODAL ====================
-const lpEditOverlay = document.getElementById('lpEditOverlay');
-const lpEditForm = document.getElementById('lpEditForm');
-const lpEditImageInput = document.getElementById('lpEditImage');
-const lpEditImgPreview = document.getElementById('lpEditImgPreview');
-const lpEditImgTag = document.getElementById('lpEditImgTag');
-const lpEditImgError = document.getElementById('lpEditImgError');
+var lpEditOverlay = document.getElementById('lpEditOverlay');
+var lpEditForm = document.getElementById('lpEditForm');
+var lpEditImageInput = document.getElementById('lpEditImage');
+var lpEditImgPreview = document.getElementById('lpEditImgPreview');
+var lpEditImgTag = document.getElementById('lpEditImgTag');
+var lpEditImgError = document.getElementById('lpEditImgError');
 
 document.getElementById('lpEditClose')?.addEventListener('click', closeLpEdit);
 document.getElementById('lpEditCancelBtn')?.addEventListener('click', closeLpEdit);
@@ -3180,7 +3210,7 @@ async function populateLpFormDropdown(selectEl, currentFormId) {
         const forms = (data.data || []).filter(f => f.is_active);
         selectEl.innerHTML = `<option value="">— Tanpa Form (kosong) —</option>`;
         forms.forEach(f => {
-            selectEl.innerHTML += `<option value="${f._id}" ${f._id === currentFormId ? 'selected' : ''}>${f.name}</option>`;
+            selectEl.innerHTML += `<option value="${f.id}" ${f.id === currentFormId ? 'selected' : ''}>${f.name}</option>`;
         });
     } catch (e) {
         console.warn('Cannot load forms for LP dropdown:', e);
@@ -3200,14 +3230,14 @@ async function populateLpProgramCheckboxes(selectedIds) {
             return;
         }
         container.innerHTML = programs.map(p => {
-            const checked = selectedIds.includes(String(p._id)) || selectedIds.includes(p.id);
+            const checked = selectedIds.includes(String(p.id)) || selectedIds.includes(p.id);
             const minPrice = p.packages?.length ? Math.min(...p.packages.map(pk => pk.price)) : 0;
             const priceStr = minPrice ? `mulai ${formatRpShort(minPrice)}` : '';
             return `
             <label style="display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:10px; cursor:pointer; transition:background 0.15s; border:1px solid transparent;"
                 onmouseover="this.style.background='rgba(251,191,36,0.08)'; this.style.borderColor='rgba(251,191,36,0.2)'"
                 onmouseout="this.style.background=''; this.style.borderColor='transparent'">
-                <input type="checkbox" name="lpProgramCheck" value="${p._id || p.id}"
+                <input type="checkbox" name="lpProgramCheck" value="${p.id || p.id}"
                     ${checked ? 'checked' : ''}
                     style="width:16px; height:16px; accent-color:#FBBF24; margin-top:2px; flex-shrink:0;">
                 <div>
@@ -3372,7 +3402,7 @@ async function fetchPrograms() {
 }
 
 // Store programs data for edit
-let programsCache = [];
+var programsCache = [];
 
 async function openProgramModal(editId) {
     const overlay = document.getElementById('programOverlay');
@@ -3393,7 +3423,7 @@ async function openProgramModal(editId) {
         try {
             const res = await fetch(`${API_URL}/programs`, { headers: { 'Authorization': `Bearer ${authToken}` } });
             const data = await res.json();
-            const pg = data.programs.find(p => String(p.id || p._id) === String(editId));
+            const pg = data.programs.find(p => String(p.id || p.id) === String(editId));
             if (pg) {
                 document.getElementById('programId').value = pg.id;
                 document.getElementById('programNama').value = pg.nama_program;
@@ -3583,7 +3613,7 @@ document.getElementById('btnExport')?.addEventListener('click', async () => {
 });
 
 // MARKETING HUB Settings Logic
-const marketingForm = document.getElementById('marketingForm');
+var marketingForm = document.getElementById('marketingForm');
 async function fetchSettings() {
     try {
         const res = await fetch(`${API_URL}/settings/admin`, { headers: { 'Authorization': 'Bearer ' + authToken } });
@@ -3637,8 +3667,8 @@ if (marketingForm) {
     });
 }
 
-const mUiHighlightColor = document.getElementById('mUiHighlightColor');
-const mUiHighlightColorText = document.getElementById('mUiHighlightColorText');
+var mUiHighlightColor = document.getElementById('mUiHighlightColor');
+var mUiHighlightColorText = document.getElementById('mUiHighlightColorText');
 if (mUiHighlightColor && mUiHighlightColorText) {
     mUiHighlightColor.addEventListener('input', e => mUiHighlightColorText.value = e.target.value);
     mUiHighlightColorText.addEventListener('input', e => mUiHighlightColor.value = e.target.value);
@@ -3647,7 +3677,7 @@ if (mUiHighlightColor && mUiHighlightColorText) {
 // ======================================
 // CUSTOM FU MODAL LOGIC
 // ======================================
-const buildCfuOverlay = () => {
+var buildCfuOverlay = () => {
     document.getElementById('customFuClose')?.addEventListener('click', () => document.getElementById('customFuOverlay').classList.remove('active'));
     document.getElementById('cfuCancelBtn')?.addEventListener('click', () => document.getElementById('customFuOverlay').classList.remove('active'));
     const form = document.getElementById('customFuForm');
@@ -3686,7 +3716,7 @@ buildCfuOverlay();
 
 window.openCustomFuModal = function (encodedLead) {
     const L = JSON.parse(decodeURIComponent(encodedLead));
-    document.getElementById('cfuLeadId').value = L.id || L._id || '';
+    document.getElementById('cfuLeadId').value = L.id || L.id || '';
     document.getElementById('cfuStatus').value = L.status_followup || 'New Data';
     document.getElementById('cfuNotes').value = '';
     document.getElementById('customFuOverlay').classList.add('active');
@@ -3706,8 +3736,8 @@ window.openWaModal = function (leadStr) {
     waOverlay.classList.add('active');
 }
 
-document.getElementById('waClose').addEventListener('click', () => waOverlay.classList.remove('active'));
-document.getElementById('waCopy').addEventListener('click', () => { navigator.clipboard.writeText(waText.value); alert('Script copied!'); });
+document.getElementById('waClose')?.addEventListener('click', () => waOverlay.classList.remove('active'));
+document.getElementById('waCopy')?.addEventListener('click', () => { navigator.clipboard.writeText(waText.value); alert('Script copied!'); });
 
 const waAttachLink = document.getElementById('waAttachLink');
 if (waAttachLink) {
@@ -3836,7 +3866,7 @@ if (waResizer) {
     });
 }
 
-document.getElementById('waSend').addEventListener('click', () => {
+document.getElementById('waSend')?.addEventListener('click', () => {
     window.openWaPanelFixed(activeWhatsApp, waText.value);
     waOverlay.classList.remove('active');
 });
@@ -3845,9 +3875,9 @@ window.alertWA = function (num) {
 }
 
 // MODAL EDIT LOGIC
-const editOverlay = document.getElementById('editOverlay');
-const editForm = document.getElementById('editForm');
-const editStatusEl = document.getElementById('editStatus');
+var editOverlay = document.getElementById('editOverlay');
+var editForm = document.getElementById('editForm');
+var editStatusEl = document.getElementById('editStatus');
 
 // Revenue visibility toggle for edit modal
 if (editStatusEl) {
@@ -3867,7 +3897,7 @@ if (editStatusEl) {
 }
 
 // Revenue toggle for manual order modal
-const moStatusEl = document.getElementById('moStatus');
+var moStatusEl = document.getElementById('moStatus');
 if (moStatusEl) {
     moStatusEl.addEventListener('change', () => {
         const g = document.getElementById('moRevenueGroup');
@@ -3891,7 +3921,7 @@ window.toggleInlineRevenue = function (id) {
 }
 
 // Programs cache for name lookup
-let programsListCache = [];
+var programsListCache = [];
 async function loadProgramsList() {
     try {
         const res = await fetch(`${API_URL}/programs`, { headers: { 'Authorization': `Bearer ${authToken}` } });
@@ -3902,7 +3932,7 @@ async function loadProgramsList() {
 
 function getProgramName(progId) {
     if (!progId) return '-';
-    const p = programsListCache.find(x => String(x.id || x._id) === String(progId));
+    const p = programsListCache.find(x => String(x.id || x.id) === String(progId));
     if (p) return p.nama_program;
     // Still loading? show abbreviated ID
     return '⏳ Memuat...';
@@ -3911,7 +3941,7 @@ function getProgramName(progId) {
 function getProgramSummaryHtml(L) {
     const progId = L.program_id;
     if (!progId) return '';
-    const p = programsListCache.find(x => String(x.id || x._id) === String(progId));
+    const p = programsListCache.find(x => String(x.id || x.id) === String(progId));
     if (!p) return '';
 
     // Dates
@@ -3990,7 +4020,7 @@ window.openEditModal = async function (id, status, notes, revenue, programId) {
     if (programId) document.getElementById('editProgram').value = programId;
     editOverlay.classList.add('active');
 }
-document.getElementById('editClose').addEventListener('click', () => editOverlay.classList.remove('active'));
+document.getElementById('editClose')?.addEventListener('click', () => editOverlay.classList.remove('active'));
 
 if (editForm) {
     editForm.addEventListener('submit', async (e) => {
@@ -4224,7 +4254,7 @@ window.toggleAccordion = function (id) {
 // Helper: generate <option> list for package dropdown
 function getPkgDropdownOptions(programId, selectedPaket) {
     if (!programId) return '<option value="">— Pilih Paket —</option>';
-    const prog = programsListCache.find(x => String(x.id || x._id) === String(programId));
+    const prog = programsListCache.find(x => String(x.id || x.id) === String(programId));
     if (!prog) return '<option value="">— Pilih Paket —</option>';
     const pkgs = (prog.packages || []).filter(x => x.price > 0);
     if (!pkgs.length) return '<option value="">Tidak ada paket tersedia</option>';
@@ -4466,484 +4496,6 @@ window.sendWAtpl = function (leadStr, type) {
 }
 
 // ============================================================
-// CUSTOM WA TEMPLATE BUILDER
-// ============================================================
-
-const tplBuilderOverlay = document.getElementById('tplBuilderOverlay');
-const customTplListEl = document.getElementById('customTplList');
-
-window.openTplBuilderModal = function () {
-    tplBuilderOverlay.classList.add('active');
-
-    // Auto-fill configuration
-    const savedCsName = localStorage.getItem('cs_nickname') || '';
-    const savedUserPrefix = localStorage.getItem('user_prefix') || '';
-    document.getElementById('globalCsName').value = savedCsName;
-    document.getElementById('globalUserPrefix').value = savedUserPrefix;
-
-    renderCustomTplList();
-}
-
-document.getElementById('tplBuilderClose').addEventListener('click', () => {
-    tplBuilderOverlay.classList.remove('active');
-    fetchDashboardData(); // to refresh the table to show new buttons
-});
-
-window.updateGlobalCsName = function (val) {
-    localStorage.setItem('cs_nickname', val);
-    document.querySelectorAll('.cs-name-input').forEach(el => el.value = val);
-    if (document.getElementById('tplCustomPreview').style.display === 'block') {
-        previewTplBuilder();
-    }
-}
-
-window.updateGlobalUserPrefix = function (val) {
-    localStorage.setItem('user_prefix', val);
-    document.querySelectorAll('.user-prefix-input').forEach(el => el.value = val);
-    if (document.getElementById('tplCustomPreview').style.display === 'block') {
-        previewTplBuilder();
-    }
-}
-
-function getSavedTpls() {
-    try {
-        return JSON.parse(localStorage.getItem('custom_wa_tpls') || '[]');
-    } catch { return []; }
-}
-
-function saveTpls(arr) {
-    localStorage.setItem('custom_wa_tpls', JSON.stringify(arr));
-}
-
-window.getCustomWaTplButtonsHtml = function (L) {
-    const tpls = getSavedTpls();
-    return tpls.map(tpl => `
-        <button class="btn-outline btn-mini" style="padding:8px; justify-content:center; border-color:#EC4899; color:#EC4899;" onclick="sendCustomWAtpl('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}', '${tpl.id}')"><i class="fas fa-magic"></i> ${tpl.name}</button>
-    `).join('');
-}
-
-window.sendCustomWAtpl = function (leadStr, tplId) {
-    const L = JSON.parse(decodeURIComponent(leadStr));
-    let clean = L.whatsapp_num.replace(/[^\d]/g, '');
-    if (clean.startsWith('0')) clean = '62' + clean.substring(1);
-    activeWhatsApp = clean;
-
-    const tpl = getSavedTpls().find(x => x.id === tplId);
-    if (!tpl) return;
-
-    let txt = tpl.template;
-
-    // Resolve Vars
-    const prefixInput = document.getElementById('userPrefix-' + L.id);
-    const userPrefix = (prefixInput && prefixInput.value) ? prefixInput.value : 'Bapak/Ibu';
-    const csNameInput = document.getElementById('csName-' + L.id);
-    const myName = (csNameInput && csNameInput.value.trim() !== '') ? csNameInput.value.trim() : 'Konsultan Munira World';
-
-    const progSel = document.getElementById('selProg-' + L.id);
-    let progName = 'Program Umrah';
-    if (progSel && progSel.value) { progName = progSel.options[progSel.selectedIndex].text; }
-    else if (L.program_id) { progName = getProgramName(L.program_id) || 'Program Umrah'; }
-
-    const pkgSel = document.getElementById('selPkg-' + L.id);
-    let pkgValue = '';
-    if (pkgSel && pkgSel.value) { pkgValue = pkgSel.value; }
-    else if (L.paket_pilihan) { pkgValue = L.paket_pilihan; }
-
-    const pkgDetail = pkgValue ? `(Paket ${pkgValue})` : '';
-    const ketertarikanDetail = `${progName} ${pkgDetail}`.trim();
-    const nominalTagihan = L.revenue ? Number(L.revenue).toLocaleString('id-ID') : '0';
-
-    txt = txt.replace(/\[sapaan\]/gi, userPrefix);
-    txt = txt.replace(/\[nama\]/gi, L.nama_lengkap || '');
-    txt = txt.replace(/\[namacs\]/gi, myName);
-    txt = txt.replace(/\[detailprogram\]/gi, ketertarikanDetail);
-    txt = txt.replace(/\[nominal\]/gi, 'Rp ' + nominalTagihan);
-    txt = txt.replace(/\[domisili\]/gi, L.domisili || '-');
-    txt = txt.replace(/\[paspor\]/gi, L.kesiapan_paspor || '-');
-
-    const linkInput = document.getElementById('waLink-' + L.id);
-    if (linkInput && linkInput.value.trim()) {
-        txt += `\n\nUntuk informasi lebih lengkap, ${userPrefix} juga bisa mengakses tautan berikut:\n${linkInput.value.trim()}`;
-    }
-
-    waText.value = txt;
-    waOverlay.classList.add('active');
-}
-
-window.insertTplVar = function (tag) {
-    const ta = document.getElementById('tplCustomText');
-    const start = ta.selectionStart;
-    const end = ta.selectionEnd;
-    const v = ta.value;
-    ta.value = v.substring(0, start) + tag + v.substring(end);
-    ta.selectionStart = ta.selectionEnd = start + tag.length;
-    ta.focus();
-}
-
-window.previewTplBuilder = function () {
-    const raw = document.getElementById('tplCustomText').value;
-    let txt = raw;
-
-    const demoCsName = document.getElementById('globalCsName').value.trim() || 'Teh Nisa';
-    const demoSapaan = document.getElementById('globalUserPrefix').value.trim() || 'Bapak/Ibu';
-
-    txt = txt.replace(/\[sapaan\]/gi, demoSapaan);
-    txt = txt.replace(/\[nama\]/gi, 'Budi Santoso');
-    txt = txt.replace(/\[namacs\]/gi, demoCsName);
-    txt = txt.replace(/\[detailprogram\]/gi, 'Umrah Ramadhan (Paket Gold)');
-    txt = txt.replace(/\[nominal\]/gi, 'Rp 35.000.000');
-    txt = txt.replace(/\[domisili\]/gi, 'Jakarta Selatan');
-    txt = txt.replace(/\[paspor\]/gi, 'Sudah Punya');
-
-    document.getElementById('tplCustomPreviewText').innerHTML = txt.replace(/\n/g, '<br>');
-    document.getElementById('tplCustomPreview').style.display = 'block';
-}
-
-document.getElementById('btnSaveCustomTpl').addEventListener('click', () => {
-    const name = document.getElementById('tplCustomName').value.trim();
-    const txt = document.getElementById('tplCustomText').value.trim();
-    const editId = document.getElementById('tplCustomEditId').value;
-
-    if (!name || !txt) {
-        alert('Nama dan Isi template wajib diisi!'); return;
-    }
-
-    const tpls = getSavedTpls();
-    if (editId) {
-        const idx = tpls.findIndex(x => x.id === editId);
-        if (idx > -1) {
-            tpls[idx].name = name;
-            tpls[idx].template = txt;
-        }
-    } else {
-        tpls.push({ id: 'tpl_' + Date.now(), name, template: txt });
-    }
-
-    saveTpls(tpls);
-    document.getElementById('tplCustomName').value = '';
-    document.getElementById('tplCustomText').value = '';
-    document.getElementById('tplCustomEditId').value = '';
-    document.getElementById('tplCustomPreview').style.display = 'none';
-
-    renderCustomTplList();
-});
-
-window.editCustomTpl = function (id) {
-    const tpls = getSavedTpls();
-    const tpl = tpls.find(x => x.id === id);
-    if (tpl) {
-        document.getElementById('tplCustomName').value = tpl.name;
-        document.getElementById('tplCustomText').value = tpl.template;
-        document.getElementById('tplCustomEditId').value = tpl.id;
-        document.getElementById('tplCustomPreview').style.display = 'none';
-    }
-}
-
-window.deleteCustomTpl = function (id) {
-    if (!confirm('Hapus template ini?')) return;
-    let tpls = getSavedTpls();
-    const tplToDelete = tpls.find(x => x.id === id);
-    if (tplToDelete) {
-        tplToDelete.deleted_at = new Date().toISOString();
-        let deletedTpls = JSON.parse(localStorage.getItem('deleted_custom_wa_tpls') || '[]');
-        deletedTpls.push(tplToDelete);
-        localStorage.setItem('deleted_custom_wa_tpls', JSON.stringify(deletedTpls));
-    }
-
-    tpls = tpls.filter(x => x.id !== id);
-    saveTpls(tpls);
-    renderCustomTplList();
-}
-
-function renderCustomTplList() {
-    if (!customTplListEl) return;
-    const tpls = getSavedTpls();
-    if (tpls.length === 0) {
-        customTplListEl.innerHTML = '<div style="color:var(--text-secondary); font-size:0.85rem; padding:10px;">Belum ada template khusus yang tersimpan.</div>';
-        return;
-    }
-    customTplListEl.innerHTML = tpls.map(tpl => `
-        <div style="background:var(--bg-app); border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
-            <div style="flex:1; margin-right: 12px; overflow:hidden;">
-                <div style="font-weight:600; font-size:0.9rem;">${tpl.name}</div>
-                <div style="font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tpl.template}</div>
-            </div>
-            <div style="display:flex; gap:6px;">
-                <button class="btn-outline btn-mini" onclick="editCustomTpl('${tpl.id}')"><i class="fas fa-edit"></i> Edit</button>
-                <button class="btn-outline btn-mini" onclick="deleteCustomTpl('${tpl.id}')" style="color:#ef4444; border-color:#fca5a5;"><i class="fas fa-trash"></i></button>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ============================================================
-// PROGRAM BUILDER
-// ============================================================
-
-const TIERS = ['bronze', 'silver', 'gold'];
-const ROOMS = ['quad', 'double', 'triple'];
-
-const pbOverlay = document.getElementById('pbOverlay');
-const pbForm = document.getElementById('pbForm');
-
-function pbOpenOverlay() {
-    pbOverlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-function pbCloseOverlay() {
-    pbOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-document.getElementById('pbClose')?.addEventListener('click', pbCloseOverlay);
-document.getElementById('pbCancelBtn')?.addEventListener('click', pbCloseOverlay);
-pbOverlay?.addEventListener('click', (e) => { if (e.target === pbOverlay) pbCloseOverlay(); });
-
-// Departure date rows
-function pbAddDateRow(val = { label: '', start: '', end: '' }) {
-    const c = document.getElementById('pbDatesContainer');
-    const div = document.createElement('div');
-    div.className = 'pb-date-row';
-    div.style.cssText = 'display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:8px; align-items:center;';
-    div.innerHTML = `
-        <input type="text" placeholder="Label (mis: Maret 2026, Ramadhan Waw...)" value="${val.label || ''}"
-            class="select-base pb-date-label" style="width:100%; font-size:0.8rem;">
-        <input type="date" value="${val.start || ''}" class="select-base pb-date-start" style="width:100%; font-size:0.8rem;">
-        <input type="date" value="${val.end || ''}" class="select-base pb-date-end" style="width:100%; font-size:0.8rem;">
-        <button type="button" style="background:var(--danger-light); color:var(--danger); border:none; border-radius:8px; width:32px; height:32px; cursor:pointer; display:flex; align-items:center; justify-content:center;" onclick="this.parentElement.remove()">
-            <i class="fas fa-trash" style="font-size:0.7rem;"></i>
-        </button>`;
-    c.appendChild(div);
-}
-
-document.getElementById('pbAddDate')?.addEventListener('click', () => pbAddDateRow());
-
-function pbGetDates() {
-    const rows = document.querySelectorAll('#pbDatesContainer .pb-date-row');
-    return Array.from(rows).map(r => ({
-        label: r.querySelector('.pb-date-label').value.trim(),
-        start: r.querySelector('.pb-date-start').value,
-        end: r.querySelector('.pb-date-end').value
-    })).filter(d => d.label || d.start);
-}
-
-function pbGetPackages() {
-    const pkgs = [];
-    TIERS.forEach(t => ROOMS.forEach(r => {
-        const val = parseRpInput(document.getElementById(`price-${t}-${r}`)?.value);
-        pkgs.push({ tier: t, room_type: r, price: val });
-    }));
-    return pkgs;
-}
-
-function pbResetForm() {
-    document.getElementById('pbId').value = '';
-    document.getElementById('pbModalTitle').textContent = 'Buat Program Baru';
-    document.getElementById('pbNama').value = '';
-    document.getElementById('pbPoster').value = '';
-    document.getElementById('pbDeskripsi').value = '';
-    document.getElementById('pbLanding').value = '';
-    document.getElementById('pbOrder').value = '0';
-    document.getElementById('pbActive').value = '1';
-    document.getElementById('pbDatesContainer').innerHTML = '';
-    TIERS.forEach(t => ROOMS.forEach(r => {
-        const el = document.getElementById(`price-${t}-${r}`);
-        if (el) { el.value = ''; attachRpFormatter(el); }
-    }));
-}
-
-function pbFillForm(p) {
-    document.getElementById('pbId').value = p.id;
-    document.getElementById('pbModalTitle').textContent = 'Edit Program';
-    document.getElementById('pbNama').value = p.nama_program || '';
-    document.getElementById('pbPoster').value = p.poster_url || '';
-    document.getElementById('pbDeskripsi').value = p.deskripsi || '';
-    document.getElementById('pbLanding').value = p.landing_url || '';
-    document.getElementById('pbOrder').value = p.sort_order ?? 0;
-    document.getElementById('pbActive').value = p.is_active ? '1' : '0';
-    document.getElementById('pbDatesContainer').innerHTML = '';
-    (p.departure_dates || []).forEach(d => pbAddDateRow(d));
-    TIERS.forEach(t => ROOMS.forEach(r => {
-        const pkg = (p.packages || []).find(x => x.tier === t && x.room_type === r);
-        const el = document.getElementById(`price-${t}-${r}`);
-        if (el) { attachRpFormatter(el); setRpInput(el, pkg ? pkg.price : 0); }
-    }));
-}
-
-// Keep formatRp for backward compat — now delegates to formatRpShort
-function formatRp(n) {
-    if (!n || n === 0) return '–';
-    return 'Rp ' + formatRpShort(n);
-}
-
-function pbRenderCard(p) {
-    const isActive = p.is_active;
-    const dates = (p.departure_dates || []);
-    const pkgs = (p.packages || []);
-
-    const datesHtml = dates.length > 0
-        ? dates.map(d => `<span style="display:inline-block; background:var(--brand-light); color:var(--brand); border-radius:20px; padding:3px 10px; font-size:0.72rem; margin:2px;">${d.label || ''} ${d.start ? d.start.replace(/-/g, '/').substring(2) : ''} - ${d.end ? d.end.replace(/-/g, '/').substring(2) : ''}</span>`).join('')
-        : '<span style="color:var(--text-secondary); font-size:0.78rem;">Belum ada jadwal</span>';
-
-    const priceRows = ROOMS.map(room => {
-        const cells = TIERS.map(tier => {
-            const pkg = pkgs.find(x => x.tier === tier && x.room_type === room);
-            const price = pkg ? pkg.price : 0;
-            return `<td style="text-align:center; padding:6px 10px; font-size:0.8rem; font-weight:${price ? '600' : '400'}; color:${price ? 'var(--text-primary)' : 'var(--text-secondary)'};">${formatRp(price)}</td>`;
-        }).join('');
-        return `<tr><td style="padding:6px 10px; font-size:0.8rem; font-weight:600; color:var(--text-secondary);">${room.charAt(0).toUpperCase() + room.slice(1)}</td>${cells}</tr>`;
-    }).join('');
-
-    const poster = p.poster_url
-        ? `<img src="${p.poster_url}" alt="Poster" style="width:80px; height:80px; object-fit:cover; border-radius:10px; flex-shrink:0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-           <div style="display:none; width:80px; height:80px; border-radius:10px; background:var(--brand-light); align-items:center; justify-content:center; flex-shrink:0;"><i class="fas fa-image" style="color:var(--brand); font-size:1.5rem; opacity:0.5;"></i></div>`
-        : `<div style="width:80px; height:80px; border-radius:10px; background:var(--brand-light); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fas fa-image" style="color:var(--brand); font-size:1.5rem; opacity:0.5;"></i></div>`;
-
-    return `
-    <div style="background:var(--bg-card); backdrop-filter:var(--glass-blur); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; transition:box-shadow 0.2s;">
-        <div style="display:flex; gap:16px; align-items:flex-start;">
-            ${poster}
-            <div style="flex:1; min-width:0;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
-                    <div>
-                        <h3 style="font-size:1rem; font-weight:700; margin-bottom:2px;">${p.nama_program} ${p.is_restored ? '<i class="fas fa-pen" style="color:#EC4899; font-size:0.75rem; margin-left:4px;" title="Dipulihkan dari Recycle Bin"></i>' : ''}</h3>
-                        <span style="font-size:0.75rem; background:${isActive ? 'var(--success-light)' : 'var(--danger-light)'}; color:${isActive ? 'var(--success)' : 'var(--danger)'}; border-radius:20px; padding:2px 10px;">${isActive ? '🟢 Aktif' : '🔴 Nonaktif'}</span>
-                    </div>
-                    <div style="display:flex; gap:8px; flex-shrink:0;">
-                        <button class="btn-mini btn-outline" onclick="pbEditProgram('${p.id}')"><i class="fas fa-pen"></i> Edit</button>
-                        <button class="btn-mini" style="background:var(--danger-light); color:var(--danger); border:none; border-radius:8px; padding:6px 12px; cursor:pointer; font-size:0.75rem;" onclick="pbDeleteProgram('${p.id}', decodeURIComponent('${encodeURIComponent(p.nama_program).replace(/'/g, "%27")}'))"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-                ${p.deskripsi ? `<p style="font-size:0.8rem; color:var(--text-secondary); margin-top:6px;">${p.deskripsi}</p>` : ''}
-
-                <div style="margin-top:10px; margin-bottom:8px;">
-                    <small style="color:var(--text-secondary); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">📅 Tanggal Keberangkatan</small><br>
-                    <div style="margin-top:4px;">${datesHtml}</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pricing Matrix -->
-        <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px; overflow-x:auto;">
-            <small style="color:var(--text-secondary); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:8px;">💰 Harga Paket</small>
-            <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
-                <thead>
-                    <tr style="background:rgba(0,0,0,0.2);">
-                        <th style="padding:6px 10px; text-align:left; color:var(--text-secondary); font-size:0.72rem;">Kamar</th>
-                        <th style="padding:6px 10px; text-align:center; color:#CD7F32; font-size:0.72rem;">🥉 Bronze</th>
-                        <th style="padding:6px 10px; text-align:center; color:#C0C0C0; font-size:0.72rem;">🥈 Silver</th>
-                        <th style="padding:6px 10px; text-align:center; color:#FFD700; font-size:0.72rem;">🥇 Gold</th>
-                    </tr>
-                </thead>
-                <tbody>${priceRows}</tbody>
-            </table>
-        </div>
-
-        <!-- Lead count badge -->
-        <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:8px;">
-            <small style="color:var(--text-secondary); font-size:0.75rem;"><i class="fas fa-users" style="margin-right:4px;"></i>${(allLeads.filter(l => l.program_id === p.id)).length} lead terdaftar ke program ini</small>
-            ${p.landing_url ? `<a href="${p.landing_url}" target="_blank" style="margin-left:12px; font-size:0.75rem; color:var(--brand);"><i class="fas fa-external-link-alt"></i> Landing Page</a>` : ''}
-        </div>
-    </div>`;
-}
-
-async function fetchProgramBuilder() {
-    try {
-        const res = await fetch(`${API_URL}/programs`, { headers: { 'Authorization': `Bearer ${authToken}` } });
-        const data = await res.json();
-        if (!data.success) return;
-
-        // Also update programsListCache for dropdowns
-        programsListCache = data.programs || [];
-
-        const list = document.getElementById('programBuilderList');
-        const empty = document.getElementById('programBuilderEmpty');
-        if (!data.programs.length) {
-            list.innerHTML = '';
-            empty.style.display = 'block';
-        } else {
-            empty.style.display = 'none';
-            list.innerHTML = data.programs.map(p => pbRenderCard(p)).join('');
-        }
-    } catch (e) {
-        console.error('fetchProgramBuilder error:', e);
-    }
-}
-
-document.getElementById('btnCreateProgram')?.addEventListener('click', () => {
-    pbResetForm();
-    pbOpenOverlay();
-    // formatters already attached in pbResetForm
-});
-
-window.pbEditProgram = async function (id) {
-    try {
-        const res = await fetch(`${API_URL}/programs/${id}`, { headers: { 'Authorization': `Bearer ${authToken}` } });
-        const data = await res.json();
-        if (data.success) {
-            pbFillForm(data.program);
-            pbOpenOverlay();
-            // formatters already attached in pbFillForm
-        }
-    } catch (e) { console.error(e); }
-};
-
-window.pbDeleteProgram = async function (id, name) {
-    if (!confirm(`Hapus program "${name}"? Semua lead yang terhubung ke program ini akan tetap ada.`)) return;
-    try {
-        const res = await fetch(`${API_URL}/programs/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        const data = await res.json();
-        if (data.success) fetchProgramBuilder();
-        else alert('Gagal hapus: ' + data.message);
-    } catch (e) { alert('Error menghapus program.'); }
-};
-
-pbForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const id = document.getElementById('pbId').value;
-    const payload = {
-        nama_program: document.getElementById('pbNama').value.trim(),
-        poster_url: document.getElementById('pbPoster').value.trim(),
-        deskripsi: document.getElementById('pbDeskripsi').value.trim(),
-        landing_url: document.getElementById('pbLanding').value.trim(),
-        sort_order: parseInt(document.getElementById('pbOrder').value) || 0,
-        is_active: document.getElementById('pbActive').value === '1',
-        departure_dates: pbGetDates(),
-        packages: pbGetPackages()
-    };
-    if (!payload.nama_program) { alert('Nama program wajib diisi'); return; }
-
-    const submitBtn = pbForm.querySelector('[type=submit]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Menyimpan...';
-
-    try {
-        const url = id ? `${API_URL}/programs/${id}` : `${API_URL}/programs`;
-        const method = id ? 'PUT' : 'POST';
-        const res = await fetch(url, {
-            method,
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-            body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (data.success) {
-            pbCloseOverlay();
-            fetchProgramBuilder();
-        } else {
-            alert('Gagal: ' + data.message);
-        }
-    } catch (err) {
-        alert('Server error.');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Program';
-    }
-});
-
-// ============================================================
 // SAVE BUTTON PINK/GREEN LOGIC (Lead Detail)
 // ============================================================
 window.markSaveBtn = function (leadId) {
@@ -4966,7 +4518,7 @@ document.addEventListener('change', function (e) {
 // ============================================================
 // SMART COPY (Khusus Super Admin)
 // ============================================================
-let smartCopyActiveLead = null;
+var smartCopyActiveLead = null;
 
 window.openSmartCopyModal = function (leadStr) {
     if (currentUserData?.role !== 'super_admin') {
@@ -5031,12 +4583,12 @@ window.setDefaultLP = async function (folderEncoded) {
 // ============================================================
 // FORM BUILDER MODULE
 // ============================================================
-let formsList = [];
-let formEditId = null;
-let fbFields = [];
-let fbWARotator = [];
+var formsList = [];
+var formEditId = null;
+var fbFields = [];
+var fbWARotator = [];
 
-let pagesListForForm = []; // cache pages for form builder display
+var pagesListForForm = []; // cache pages for form builder display
 
 async function fetchFormBuilder() {
     try {
@@ -5068,7 +4620,7 @@ function renderFormBuilderList() {
     pagesListForForm.forEach(pg => {
         if (pg.linked_form_id) {
             if (!formToLps[pg.linked_form_id]) formToLps[pg.linked_form_id] = [];
-            formToLps[pg.linked_form_id].push(pg.folder || pg._id);
+            formToLps[pg.linked_form_id].push(pg.folder || pg.id);
         }
     });
 
@@ -5079,7 +4631,7 @@ function renderFormBuilderList() {
             ? `<span style="font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:50px; background:rgba(34,211,238,0.15); color:#22D3EE; margin-left:6px; letter-spacing:0.5px;">⚡ Short Form</span>`
             : `<span style="font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:50px; background:rgba(139,92,246,0.15); color:#8B5CF6; margin-left:6px; letter-spacing:0.5px;">📋 Long Form</span>`;
 
-        const linkedLps = formToLps[f._id] || [];
+        const linkedLps = formToLps[f.id] || [];
         const lpBadges = linkedLps.length
             ? `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px;">
                 <span style="font-size:0.62rem; color:var(--text-secondary);">🔗 LP:</span>
@@ -5107,8 +4659,8 @@ function renderFormBuilderList() {
                 ${f.wa_rotator.map(w => `<span style="font-size:0.65rem; padding:2px 8px; border-radius:50px; background:rgba(37,211,102,0.1); color:#25D366; border:1px solid rgba(37,211,102,0.2);"><i class="fab fa-whatsapp"></i> ${w.name || w.wa_number}</span>`).join('')}
             </div>` : ''}
             <div style="display:flex; gap:8px;">
-                <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openFormModal('${f._id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
-                <button class="btn btn-mini" style="color:var(--danger);" onclick="deleteForm('${f._id}', '${(f.name || '').replace(/'/g, '')}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>
+                <button class="btn btn-outline btn-mini" style="flex:1;" onclick="openFormModal('${f.id}')"><i class="fas fa-pen" style="font-size:0.7rem;"></i> Edit</button>
+                <button class="btn btn-mini" style="color:var(--danger);" onclick="deleteForm('${f.id}', '${(f.name || '').replace(/'/g, '')}')"><i class="fas fa-trash" style="font-size:0.7rem;"></i></button>
             </div>
         </div>
     `}).join('');
@@ -5192,7 +4744,7 @@ window.openFormModal = async function (editId = null) {
 
     if (editId) {
         title.innerHTML = '<i class="fas fa-wpforms" style="color:#8B5CF6; margin-right:8px;"></i>Edit Form';
-        const form = formsList.find(f => f._id === editId);
+        const form = formsList.find(f => f.id === editId);
         if (form) {
             document.getElementById('fbName').value = form.name || '';
             document.getElementById('fbActive').value = form.is_active !== false ? 'true' : 'false';
@@ -5343,7 +4895,7 @@ async function refreshFormPreviewPanel() {
                 const fieldCount = f.fields ? f.fields.length : 0;
                 const type = fieldCount <= 3 ? '⚡ Short' : '📋 Long';
                 const opt = document.createElement('option');
-                opt.value = f._id;
+                opt.value = f.id;
                 opt.textContent = `${type} · ${f.name}`;
                 sel.appendChild(opt);
             });
@@ -5360,7 +4912,7 @@ async function refreshFormPreviewPanel() {
         const shortFormInjectId = document.getElementById('shortFormInjectId');
         if (lpShort) {
             if (lpShort.linked_form_id) {
-                const linkedForm = forms.find(f => f._id === lpShort.linked_form_id);
+                const linkedForm = forms.find(f => f.id === lpShort.linked_form_id);
                 if (lpShortStatus) { lpShortStatus.textContent = '✅ Terhubung'; lpShortStatus.style.background = 'rgba(22,163,74,0.15)'; lpShortStatus.style.color = '#16a34a'; }
                 if (shortFormLpName) shortFormLpName.textContent = linkedForm ? linkedForm.name : lpShort.linked_form_id;
                 if (shortFormInjectId) shortFormInjectId.textContent = lpShort.linked_form_id.substring(0, 16) + '...';
@@ -5380,7 +4932,7 @@ async function refreshFormPreviewPanel() {
         const longFormInjectId = document.getElementById('longFormInjectId');
         if (lpLong) {
             if (lpLong.linked_form_id) {
-                const linkedForm = forms.find(f => f._id === lpLong.linked_form_id);
+                const linkedForm = forms.find(f => f.id === lpLong.linked_form_id);
                 if (lpLongStatus) { lpLongStatus.textContent = '✅ Terhubung'; lpLongStatus.style.background = 'rgba(22,163,74,0.15)'; lpLongStatus.style.color = '#16a34a'; }
                 if (longFormLpName) longFormLpName.textContent = linkedForm ? linkedForm.name : lpLong.linked_form_id;
                 if (longFormInjectId) longFormInjectId.textContent = lpLong.linked_form_id.substring(0, 16) + '...';
@@ -5456,7 +5008,7 @@ async function fetchDistribution() {
                         <div style="font-weight:700; font-size:1rem;">${f.name}</div>
                         <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${modeLabel[f.rotator_mode] || f.rotator_mode} • ${f.wa_rotator.filter(w => w.is_active).length} nomor aktif dari ${f.wa_rotator.length} total</div>
                     </div>
-                    <button class="btn btn-outline btn-mini" onclick="openFormModal('${f._id}')"><i class="fas fa-edit"></i> Edit Rotator</button>
+                    <button class="btn btn-outline btn-mini" onclick="openFormModal('${f.id}')"><i class="fas fa-edit"></i> Edit Rotator</button>
                 </div>
                 <div style="padding:16px 20px;">
                     <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px;">
@@ -5536,130 +5088,3 @@ window.saveColumnSettings = function () {
 document.addEventListener('DOMContentLoaded', () => {
     applyColumnSettings();
 });
-// ============================================================
-// TRASH / RECYCLE BIN
-// ============================================================
-async function fetchTrash() {
-    const tbody = document.getElementById('tblTrashBody');
-    if (!tbody) return;
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Memuat Recycle Bin...</td></tr>';
-
-    try {
-        const res = await fetch(`${API_URL}/trash`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        const data = await res.json();
-
-        const categoryIcons = {
-            leads: '<i class="fas fa-users-viewfinder" style="color:#22D3EE;"></i> Leads',
-            programs: '<i class="fas fa-box-open" style="color:#FBBF24;"></i> Program',
-            forms: '<i class="fas fa-wpforms" style="color:#F472B6;"></i> Form',
-            custom_tpls: '<i class="fab fa-whatsapp" style="color:#25D366;"></i> Template Pesan'
-        };
-
-        let localTrash = [];
-        try {
-            const delTpls = JSON.parse(localStorage.getItem('deleted_custom_wa_tpls') || '[]');
-            localTrash = delTpls.map(tpl => ({
-                id: tpl.id,
-                type: 'custom_tpls',
-                label: tpl.name,
-                meta: 'Template Pesan Khusus',
-                deleted_at: tpl.deleted_at || new Date().toISOString()
-            }));
-        } catch (e) { }
-
-        const combinedTrash = [...(data.data || []), ...localTrash].sort((a, b) => new Date(b.deleted_at) - new Date(a.deleted_at));
-
-        if (combinedTrash.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-secondary);"><i class="fas fa-box-open" style="font-size:2rem; opacity:0.3; margin-bottom:12px;"></i><br>Recycle Bin kosong</td></tr>';
-            return;
-        }
-
-        tbody.innerHTML = combinedTrash.map((item, i) => `
-            <tr>
-                <td><span style="background:var(--bg-surface); padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.8rem;">${categoryIcons[item.type] || item.type}</span></td>
-                <td><strong style="color:var(--text-primary); font-size:0.9rem;">${item.label || '-'}</strong></td>
-                <td><span style="color:var(--text-secondary); font-size:0.8rem;">${item.meta || '-'}</span></td>
-                <td>
-                    ${formatDate(item.deleted_at)}<br>
-                    <small style="color:var(--text-secondary);">${timeAgo(item.deleted_at)}</small>
-                </td>
-                <td style="text-align:right;">
-                    <button class="btn-mini btn-outline" style="color:#10B981; border-color:#10B981;" onclick="restoreTrash('${item.type}', '${item.id}')" title="Pulihkan">
-                        <i class="fas fa-undo"></i> Restore
-                    </button>
-                </td>
-            </tr>
-        `).join('');
-    } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--danger);"><i class="fas fa-exclamation-triangle"></i> Gagal memuat data: ${err.message}</td></tr>`;
-    }
-}
-
-async function restoreTrash(type, id) {
-    if (!confirm('Anda yakin ingin memulihkan item ini?')) return;
-
-    if (type === 'custom_tpls') {
-        let deletedTpls = JSON.parse(localStorage.getItem('deleted_custom_wa_tpls') || '[]');
-        const tplToRestore = deletedTpls.find(x => x.id === id);
-        if (tplToRestore) {
-            delete tplToRestore.deleted_at;
-            let activeTpls = JSON.parse(localStorage.getItem('custom_wa_tpls') || '[]');
-            activeTpls.push(tplToRestore);
-            localStorage.setItem('custom_wa_tpls', JSON.stringify(activeTpls));
-
-            deletedTpls = deletedTpls.filter(x => x.id !== id);
-            localStorage.setItem('deleted_custom_wa_tpls', JSON.stringify(deletedTpls));
-
-            showToast('✅ Template pesan berhasil dipulihkan');
-            fetchTrash();
-            renderCustomTplList();
-        } else {
-            showToast('❌ Template tidak ditemukan', 'error');
-        }
-        return;
-    }
-
-    try {
-        const res = await fetch(`${API_URL}/trash/restore/${type}/${id}`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        const data = await res.json();
-
-        if (data.success) {
-            showToast('✅ ' + data.message);
-            fetchTrash();
-            // refreshing other panels silently...
-            fetchDashboardData();
-            if (typeof loadProgramsList === 'function') loadProgramsList();
-        } else {
-            showToast('❌ ' + data.message, 'error');
-        }
-    } catch (err) {
-        showToast('❌ Server error saat memulihkan', 'error');
-    }
-}
-
-async function emptyTrash() {
-    if (!confirm('PERINGATAN: Aksi ini akan menghapus semua isi Recycle Bin secara PERMANEN. Anda yakin?')) return;
-
-    try {
-        localStorage.removeItem('deleted_custom_wa_tpls');
-        const res = await fetch(`${API_URL}/trash/empty`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        const data = await res.json();
-
-        if (data.success) {
-            showToast('🗑️ Recycle bin berhasil dikosongkan!');
-            fetchTrash();
-        } else {
-            showToast('❌ ' + data.message, 'error');
-        }
-    } catch (err) {
-        showToast('❌ Server error saat mengosongkan trash', 'error');
-    }
-}

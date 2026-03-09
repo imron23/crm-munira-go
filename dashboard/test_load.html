@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="leadsTrendChart"></div>
+<div id="packageChart"></div>
+<div id="statusFunnelChart"></div>
+<div id="cityChart"></div>
+<div id="lostReasonChart"></div>
+<div id="revenueGaugeChart"></div>
+<div id="timeOfDayChart"></div>
+<div id="speedToLeadChart"></div>
+
+<!-- Add dummy elements to avoid DOM errors -->
+<script>
+document.getElementById = function() { return { value: '', style: {}, classList: { add(){}, remove(){} }, addEventListener(){} }; };
+</script>
+<script src="js/toast.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/lead_scoring.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/leads_ui.js"></script>
+<script src="js/import.js"></script>
+<script src="js/team.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/wa_template_builder.js"></script>
+<script src="js/program_builder.js"></script>
+<script src="js/form_builder.js"></script>
+<script src="js/recycle_bin.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

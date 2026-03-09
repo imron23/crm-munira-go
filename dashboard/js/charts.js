@@ -1,259 +1,126 @@
-// ======================= ADVANCED ANALYTICS FUNCTIONS =======================
+// Chart Instance Trackers
+var chartTrend = null;
+var chartPkg = null;
+var chartLostReason = null;
+var chartRevenueGauge = null;
+var chartTimeOfDay = null;
+var chartSpeedToLead = null;
 
-function drawGoalTracker(leadsArray) {
-    const goalRev = window.monthlyRevenueGoal || 0;
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+// Monthly Revenue Target saved in localStorage
+var monthlyRevenueTarget = parseInt(localStorage.getItem('munira_rev_target') || '2000000000');
 
-    // Sum revenue for Order Complete/DP in current month
-    let achieved = 0;
-    leadsArray.forEach(L => {
-        if (!L.created_at) return;
-        const d = new Date(L.created_at);
-        if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-            if (L.status_followup === 'Order Complete' || L.status_followup === 'DP') {
-                achieved += (L.revenue || 0);
-            }
-        }
-    });
-
-    const goalEl = document.getElementById('goalRevenueText');
-    const barEl = document.getElementById('goalProgressBar');
-    const pctEl = document.getElementById('goalPercentageText');
-
-    if (!goalEl || !barEl || !pctEl) return;
-
-    if (goalRev > 0) {
-        let pct = (achieved / goalRev) * 100;
-        pctEl.textContent = `${pct.toFixed(1)}% Achieved`;
-        pct = pct > 100 ? 100 : pct;
-        barEl.style.width = pct + '%';
-        goalEl.textContent = formatRpKPI(achieved) + ' / ' + formatRpKPI(goalRev);
-    } else {
-        pctEl.textContent = `Set Target Revenue di Pengaturan`;
-        barEl.style.width = '0%';
-        goalEl.textContent = formatRpKPI(achieved) + ' / --';
+window.updateTargetOmset = function () {
+    const input = document.getElementById('targetOmsetInput');
+    if (!input) return;
+    const raw = input.value.replace(/[^0-9]/g, '');
+    if (raw) {
+        monthlyRevenueTarget = parseInt(raw);
+        localStorage.setItem('munira_rev_target', monthlyRevenueTarget);
+        // Re-draw with last known revenue
+        drawRevenueGauge(window._lastTotalRevRp || 0);
+        input.value = '';
     }
-}
+};
 
-function drawStagnantLeads(leadsArray) {
-    const tbody = document.getElementById('stagnantLeadsBody');
-    if (!tbody) return;
-
-    const now = new Date();
-    const stagnants = [];
-
-    leadsArray.forEach(L => {
-        // Only count active leads
-        const activeStatuses = ['New Data', 'Contacted', 'Proses FU', 'Kirim PPL/Dokumen', 'DP'];
-        if (!activeStatuses.includes(L.status_followup)) return;
-
-        // Check history
-        if (L.status_history && L.status_history.length > 0) {
-            const lastLog = L.status_history[L.status_history.length - 1];
-            const updated = new Date(lastLog.changed_at);
-            const diffTime = Math.abs(now - updated);
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays >= 3) {
-                stagnants.push({ name: L.nama_lengkap, status: L.status_followup, days: diffDays });
-            }
-        }
-    });
-
-    // Sort descending by days
-    stagnants.sort((a, b) => b.days - a.days);
-
-    tbody.innerHTML = '';
-    if (stagnants.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-secondary); padding:16px;">Tidak ada stagnant lead</td></tr>';
-        return;
-    }
-
-    // Show top 5
-    stagnants.slice(0, 5).forEach(s => {
-        let badgeColor = '#3B82F6';
-        if (s.days > 7) badgeColor = '#EF4444';
-        else if (s.days > 4) badgeColor = '#F59E0B';
-
-        tbody.innerHTML += `
-            <tr>
-                <td style="font-weight:600;">${s.name}</td>
-                <td><span class="status-badge" style="background:#f1f5f9; color:#475569;">${s.status}</span></td>
-                <td><span style="color:${badgeColor}; font-weight:700;">${s.days} Hari</span></td>
-            </tr>
-        `;
-    });
-}
-
-function drawSourceChart(leadsArray) {
-    const ctx = document.getElementById('sourceChart');
+function drawRevenueGauge(totalRevRp) {
+    window._lastTotalRevRp = totalRevRp;
+    const ctx = document.getElementById('revenueGaugeChart');
     if (!ctx) return;
+    if (chartRevenueGauge) chartRevenueGauge.destroy();
 
-    let organic = 0;
-    let ads = 0;
+    const target = monthlyRevenueTarget;
+    const achieved = Math.min(totalRevRp, target);
+    const remaining = Math.max(target - totalRevRp, 0);
+    const pct = target > 0 ? Math.min((totalRevRp / target) * 100, 100) : 0;
 
-    leadsArray.forEach(L => {
-        const source = (L.utm_source || '').toLowerCase();
-        const medium = (L.utm_medium || '').toLowerCase();
+    // Update text labels
+    const curEl = document.getElementById('gaugeCurrentVal');
+    const tgtEl = document.getElementById('gaugeTargetVal');
+    if (curEl) curEl.textContent = 'Rp ' + totalRevRp.toLocaleString('id-ID');
+    if (tgtEl) tgtEl.textContent = `Target: Rp ${target.toLocaleString('id-ID')} (${pct.toFixed(1)}%)`;
 
-        if (source.includes('cpc') || source.includes('ads') || medium.includes('cpc') || medium.includes('cpa') || medium.includes('paid')) {
-            ads++;
-        } else {
-            organic++;
-        }
-    });
+    const color = pct >= 100 ? '#10B981' : pct >= 70 ? '#F59E0B' : pct >= 40 ? '#3B82F6' : '#EF4444';
 
-    if (chartSource) chartSource.destroy();
-    chartSource = new Chart(ctx, {
+    chartRevenueGauge = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Organic / Other', 'Paid Ads'],
             datasets: [{
-                data: [organic, ads],
-                backgroundColor: ['#10B981', '#EC4899'],
+                data: [achieved, remaining],
+                backgroundColor: [color, 'rgba(148,163,184,0.1)'],
                 borderWidth: 0,
-                hoverOffset: 4
+                borderRadius: 6,
+                circumference: 270,
+                rotation: -135,
             }]
         },
         options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#8896AB' } } }
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '78%',
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            animation: { duration: 1000 }
         }
     });
 }
 
-function drawWinRatePackageChart(leadsArray) {
-    const ctx = document.getElementById('winRatePackageChart');
+function drawTimeOfDayChart(leadsArray) {
+    const ctx = document.getElementById('timeOfDayChart');
     if (!ctx) return;
+    if (chartTimeOfDay) chartTimeOfDay.destroy();
 
-    const pkgStats = {};
+    // Hitung lead masuk dan closing per jam
+    const hourLeads = new Array(24).fill(0);
+    const hourClosing = new Array(24).fill(0);
     leadsArray.forEach(L => {
-        let p = L.paket_pilihan && L.paket_pilihan.trim() !== '' ? L.paket_pilihan : 'Lainnya';
-        if (!pkgStats[p]) pkgStats[p] = { total: 0, won: 0 };
-        pkgStats[p].total++;
+        if (!L.created_at) return;
+        const h = new Date(L.created_at).getHours();
+        hourLeads[h]++;
         if (L.status_followup === 'Order Complete' || L.status_followup === 'DP') {
-            pkgStats[p].won++;
+            hourClosing[h]++;
         }
     });
 
-    const arr = Object.keys(pkgStats).map(p => {
-        const total = pkgStats[p].total;
-        const won = pkgStats[p].won;
-        const rate = total > 0 ? (won / total * 100) : 0;
-        return { name: p, total, rate };
-    }).filter(p => p.total > 0).sort((a, b) => b.total - a.total).slice(0, 5); // top 5 packages
+    const labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
 
-    if (chartWinRatePkg) chartWinRatePkg.destroy();
-    chartWinRatePkg = new Chart(ctx, {
+    chartTimeOfDay = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: arr.map(a => a.name.length > 15 ? a.name.substring(0, 15) + '...' : a.name),
-            datasets: [{
-                label: 'Win Rate (%)',
-                data: arr.map(a => a.rate.toFixed(1)),
-                backgroundColor: '#10B981',
-                borderRadius: 4
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { min: 0, max: 100, ticks: { callback: v => v + '%', color: '#8896AB' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                x: { ticks: { color: '#8896AB', font: { size: 10 } }, grid: { display: false } }
-            }
-        }
-    });
-}
-
-function drawLostReasonChart(leadsArray) {
-    const ctx = document.getElementById('lostReasonChart');
-    if (!ctx) return;
-
-    const reasons = {};
-    const lostLeads = leadsArray.filter(L => L.status_followup === 'Lost');
-    lostLeads.forEach(L => {
-        let note = (L.catatan || '').toLowerCase();
-        let cat = 'Lainnya';
-        if (note.includes('mahal') || note.includes('harga') || note.includes('budget')) cat = 'Harga / Budget';
-        else if (note.includes('competitor') || note.includes('pesaing') || note.includes('travel lain')) cat = 'Pilih Travel Lain';
-        else if (note.includes('tidak respon') || note.includes('no respon') || note.includes('ghost')) cat = 'Tidak Respon';
-        else if (note.includes('jadwal') || note.includes('tanggal')) cat = 'Jadwal Tidak Cocok';
-        else if (note.includes('batal') || note.includes('tunda')) cat = 'Menunda Keberangkatan';
-
-        reasons[cat] = (reasons[cat] || 0) + 1;
-    });
-
-    const arr = Object.entries(reasons).sort((a, b) => b[1] - a[1]);
-
-    if (chartLostReason) chartLostReason.destroy();
-    chartLostReason = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: arr.map(a => a[0]),
-            datasets: [{
-                data: arr.map(a => a[1]),
-                backgroundColor: ['#EF4444', '#F97316', '#F59E0B', '#8B5CF6', '#64748B', '#a8a29e'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'right', labels: { color: '#8896AB', font: { size: 10 } } } }
-        }
-    });
-}
-
-function drawHourlyChart(leadsArray) {
-    const ctx = document.getElementById('hourlyChart');
-    if (!ctx) return;
-
-    const hourlyLeads = Array(24).fill(0);
-    const hourlyWon = Array(24).fill(0);
-
-    leadsArray.forEach(L => {
-        if (!L.created_at) return;
-        const date = new Date(L.created_at);
-        const hour = date.getHours();
-        hourlyLeads[hour]++;
-        if (L.status_followup === 'DP' || L.status_followup === 'Order Complete') {
-            hourlyWon[hour]++;
-        }
-    });
-
-    if (chartHourly) chartHourly.destroy();
-    chartHourly = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0') + ':00'),
+            labels,
             datasets: [
                 {
-                    label: 'Leads Masuk',
-                    data: hourlyLeads,
-                    borderColor: '#3B82F6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4
+                    label: 'Lead Masuk',
+                    data: hourLeads,
+                    backgroundColor: 'rgba(139,92,246,0.5)',
+                    borderColor: '#8B5CF6',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    order: 2
                 },
                 {
-                    label: 'Konversi (Closing)',
-                    data: hourlyWon,
+                    label: 'Closing',
+                    data: hourClosing,
+                    backgroundColor: '#10B981',
                     borderColor: '#10B981',
-                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    borderRadius: 4,
+                    type: 'line',
                     tension: 0.4,
-                    fill: false
+                    pointRadius: 4,
+                    pointBackgroundColor: '#10B981',
+                    order: 1
                 }
             ]
         },
         options: {
-            responsive: true, maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: { legend: { position: 'top', labels: { color: '#8896AB' } } },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { color: 'var(--text-secondary)', boxWidth: 12, padding: 16 } },
+                tooltip: { mode: 'index', intersect: false }
+            },
             scales: {
-                y: { ticks: { color: '#8896AB' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                x: { ticks: { color: '#8896AB', maxTicksLimit: 12 }, grid: { display: false } }
+                x: { grid: { display: false }, ticks: { color: 'var(--text-secondary)', font: { size: 10 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 12 } },
+                y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { color: 'var(--text-secondary)', precision: 0 } }
             }
         }
     });
@@ -262,592 +129,438 @@ function drawHourlyChart(leadsArray) {
 function drawSpeedToLeadChart(leadsArray) {
     const ctx = document.getElementById('speedToLeadChart');
     if (!ctx) return;
+    if (chartSpeedToLead) chartSpeedToLead.destroy();
 
-    // Categories: < 15m, 15m-1h, 1h-4h, > 4h
-    let speeds = {
-        'Cepat (<15m)': { total: 0, won: 0 },
-        'Normal (15m-1j)': { total: 0, won: 0 },
-        'Lambat (1j-4j)': { total: 0, won: 0 },
-        'Sangat Lambat (>4j)': { total: 0, won: 0 },
-        'Belum Contacted': { total: 0, won: 0 }
-    };
+    // Bucket leads berdasarkan response time
+    const buckets = [
+        { label: '< 5 Menit', max: 5, leads: [], closed: 0 },
+        { label: '5–30 Menit', max: 30, leads: [], closed: 0 },
+        { label: '30m–2 Jam', max: 120, leads: [], closed: 0 },
+        { label: '2–6 Jam', max: 360, leads: [], closed: 0 },
+        { label: '> 6 Jam', max: Infinity, leads: [], closed: 0 },
+    ];
 
     leadsArray.forEach(L => {
-        let isWon = (L.status_followup === 'DP' || L.status_followup === 'Order Complete');
-        if (!L.status_history || L.status_history.length < 2) {
-            if (L.status_followup === 'New Data') {
-                speeds['Belum Contacted'].total++;
-            }
-            return;
-        }
+        if (!L.status_history || L.status_history.length === 0 || !L.created_at) return;
+        const firstFU = L.status_history.find(h => h.status !== 'New Data');
+        if (!firstFU) return;
+        const responseMin = (new Date(firstFU.changed_at) - new Date(L.created_at)) / 60000;
+        if (responseMin <= 0) return;
 
-        // Find the "New Data" time and the first time it changed status
-        const createdMs = new Date(L.created_at || L.status_history[0].changed_at).getTime();
-        let contactedMs = null;
-        for (let i = 1; i < L.status_history.length; i++) {
-            if (L.status_history[i].status !== 'New Data') {
-                contactedMs = new Date(L.status_history[i].changed_at).getTime();
-                break;
-            }
-        }
-
-        if (contactedMs) {
-            const diffMin = (contactedMs - createdMs) / (1000 * 60);
-            let cat = '';
-            if (diffMin <= 15) cat = 'Cepat (<15m)';
-            else if (diffMin <= 60) cat = 'Normal (15m-1j)';
-            else if (diffMin <= 240) cat = 'Lambat (1j-4j)';
-            else cat = 'Sangat Lambat (>4j)';
-
-            speeds[cat].total++;
-            if (isWon) speeds[cat].won++;
-        }
+        const bucket = buckets.find(b => responseMin <= b.max);
+        if (!bucket) return;
+        bucket.leads.push(L);
+        if (L.status_followup === 'Order Complete' || L.status_followup === 'DP') bucket.closed++;
     });
 
-    const labels = ['Cepat (<15m)', 'Normal (15m-1j)', 'Lambat (1j-4j)', 'Sangat Lambat (>4j)'];
-    const rates = labels.map(l => {
-        let stat = speeds[l];
-        return stat.total > 0 ? (stat.won / stat.total * 100) : 0;
-    });
+    const labels = buckets.map(b => b.label);
+    const cvrData = buckets.map(b => b.leads.length > 0 ? parseFloat(((b.closed / b.leads.length) * 100).toFixed(1)) : 0);
+    const countData = buckets.map(b => b.leads.length);
 
-    // Total bubbles
-    const totals = labels.map(l => speeds[l].total);
-
-    if (chartSpeedRate) chartSpeedRate.destroy();
-
-    // Bubble chart visual to show volume
-    chartSpeedRate = new Chart(ctx, {
+    chartSpeedToLead = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: labels,
-            datasets: [{
-                label: 'Win Rate (%)',
-                data: rates.map(r => r.toFixed(1)),
-                backgroundColor: ['#2eab59', '#3B82F6', '#F59E0B', '#EF4444'],
-                borderRadius: 4
-            }]
+            labels,
+            datasets: [
+                {
+                    label: 'Win Rate (%)',
+                    data: cvrData,
+                    backgroundColor: cvrData.map(v => v >= 30 ? 'rgba(16,185,129,0.8)' : v >= 15 ? 'rgba(245,158,11,0.8)' : 'rgba(239,68,68,0.75)'),
+                    borderRadius: 6,
+                    borderWidth: 0,
+                    yAxisID: 'yCVR',
+                    order: 1
+                },
+                {
+                    label: 'Jumlah Lead',
+                    data: countData,
+                    type: 'line',
+                    borderColor: '#6366F1',
+                    backgroundColor: 'rgba(99,102,241,0.1)',
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#6366F1',
+                    fill: true,
+                    yAxisID: 'yCount',
+                    order: 0
+                }
+            ]
         },
         options: {
-            responsive: true, maintainAspectRatio: false,
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                legend: { display: false },
+                legend: { position: 'top', labels: { color: 'var(--text-secondary)', boxWidth: 12, padding: 16 } },
                 tooltip: {
                     callbacks: {
-                        afterLabel: function (context) {
-                            return 'Total Leads: ' + totals[context.dataIndex];
-                        }
+                        label: (ctx) => ctx.dataset.label === 'Win Rate (%)' ? `Win Rate: ${ctx.raw}%` : `Lead: ${ctx.raw}`
                     }
                 }
             },
             scales: {
-                y: { min: 0, max: 100, ticks: { callback: v => v + '%', color: '#8896AB' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                x: { ticks: { color: '#8896AB', font: { size: 10 } }, grid: { display: false } }
+                x: { grid: { display: false }, ticks: { color: 'var(--text-secondary)', font: { size: 11 } } },
+                yCVR: { beginAtZero: true, max: 100, position: 'left', ticks: { color: '#10B981', callback: v => v + '%' }, grid: { color: 'rgba(148,163,184,0.08)' } },
+                yCount: { beginAtZero: true, position: 'right', ticks: { color: '#6366F1', precision: 0 }, grid: { display: false } }
             }
         }
     });
 }
 
+function drawLostReasonChart(reasonMap) {
+    const ctx = document.getElementById('lostReasonChart');
+    if (!ctx) return;
 
-// RENDER LEADS TABLE (Full)
-let currentPage = 1;
+    if (chartLostReason) chartLostReason.destroy();
 
-window.setOptDate = function (prefix, opt) {
-    const now = new Date();
-    // Clone clean dates (no time carry-over)
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    let start = new Date(today);
-    let end = new Date(today);
+    const labels = Object.keys(reasonMap);
+    const data = Object.values(reasonMap);
 
-    if (opt === 'today') {
-        // start & end = today (already set above)
-    } else if (opt === 'yesterday') {
-        start = new Date(today); start.setDate(today.getDate() - 1);
-        end = new Date(today); end.setDate(today.getDate() - 1);
-    } else if (opt === '7d') {
-        start = new Date(today); start.setDate(today.getDate() - 6);
-    } else if (opt === '14d') {
-        start = new Date(today); start.setDate(today.getDate() - 13);
-    } else if (opt === '1m') {
-        start = new Date(today); start.setMonth(today.getMonth() - 1);
-    }
-
-    const fmt = (d) => {
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        return `${y}-${m}-${dd}`;
-    };
-
-    if (opt === 'all') {
-        document.getElementById(prefix + 'StartDate').value = '';
-        document.getElementById(prefix + 'EndDate').value = '';
+    if (labels.length === 0) {
+        // Dummy datanya kosong
+        labels.push('Belum ada data');
+        data.push(1);
+        ctx.getContext('2d').globalAlpha = 0.2;
     } else {
-        document.getElementById(prefix + 'StartDate').value = fmt(start);
-        document.getElementById(prefix + 'EndDate').value = fmt(end);
+        ctx.getContext('2d').globalAlpha = 1.0;
     }
 
-    if (prefix === 'leads') { currentPage = 1; renderLeadsTable(); }
-    else fetchDashboardData();
+    chartLostReason = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#EF4444', '#F97316', '#F59E0B', '#EAB308', '#8B5CF6', '#64748B'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, font: { size: 11, family: "'Inter', sans-serif" } } }
+            }
+        }
+    });
 }
 
-// Bulk selection state
-let selectedLeads = new Set();
+function drawTrendChart(leadsArray) {
+    const ctx = document.getElementById('leadsTrendChart');
+    if (!ctx) return;
 
-function renderLeadsTable() {
-    const searchVal = document.getElementById('searchLead').value.toLowerCase();
-    const filterVal = document.getElementById('filterStatus').value;
-    const filterCS = document.getElementById('filterCS')?.value || '';
-    const body = document.getElementById('tblLeadsBody');
-    if (!body) return;
-    body.innerHTML = '';
-
-    // Reset selections on table re-render
-    selectedLeads.clear();
-    const checkAll = document.getElementById('checkAllLeads');
-    if (checkAll) checkAll.checked = false;
-    updateBulkActionBar();
-
-    // Date range filter
-    const sd = document.getElementById('leadsStartDate').value;
-    const ed = document.getElementById('leadsEndDate').value;
-    let baseData = filterByDateRange(allLeads, sd, ed);
-
-    // Sorting logic globals definition at top
-    window.currentSortCol = window.currentSortCol || 'created_at';
-    window.currentSortDir = window.currentSortDir || 'desc';
-
-    window.handleSort = function (col) {
-        if (window.currentSortCol === col) {
-            window.currentSortDir = window.currentSortDir === 'asc' ? 'desc' : 'asc';
-        } else {
-            window.currentSortCol = col;
-            window.currentSortDir = 'asc';
-        }
-
-        // Update header UI
-        document.querySelectorAll('.sort-icon').forEach(el => {
-            el.className = 'fas fa-sort sort-icon';
-            el.style.color = '';
-            el.style.opacity = '0.5';
-        });
-        const icon = document.getElementById('sortIcon-' + col);
-        if (icon) {
-            icon.className = window.currentSortDir === 'asc' ? 'fas fa-sort-up sort-icon' : 'fas fa-sort-down sort-icon';
-            icon.style.color = 'var(--brand)';
-            icon.style.opacity = '1';
-        }
-
-        currentPage = 1;
-        renderLeadsTable();
-    };
-
-    // Text, Status & CS Filter
-    let filtered = baseData.filter(L => {
-        let matchS = filterVal === 'All' || L.status_followup === filterVal;
-        let matchCS = !filterCS || (L.assigned_to || '') === filterCS || (L.assigned_to_name || '') === filterCS;
-        let matchQ = (L.nama_lengkap || '').toLowerCase().includes(searchVal) ||
-            String(L.user_id || L.id || '').toLowerCase().includes(searchVal) ||
-            (L.whatsapp_num || '').includes(searchVal) ||
-            (L.paket_pilihan || '').toLowerCase().includes(searchVal) ||
-            (L.assigned_to_name || '').toLowerCase().includes(searchVal);
-        return matchS && matchCS && matchQ;
+    // Group by week for cleaner visualization
+    const weekMap = {};
+    leadsArray.forEach(L => {
+        if (!L.created_at) return;
+        const d = new Date(L.created_at);
+        // Get Monday of the week
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d);
+        monday.setDate(diff);
+        const weekKey = monday.toISOString().split('T')[0];
+        weekMap[weekKey] = (weekMap[weekKey] || 0) + 1;
     });
 
-    // Apply Sorting
-    filtered.sort((a, b) => {
-        let valA = a[window.currentSortCol] !== undefined && a[window.currentSortCol] !== null ? a[window.currentSortCol] : '';
-        let valB = b[window.currentSortCol] !== undefined && b[window.currentSortCol] !== null ? b[window.currentSortCol] : '';
+    const sortedWeeks = Object.keys(weekMap).sort();
+    const weekVals = sortedWeeks.map(w => weekMap[w]);
 
-        if (window.currentSortCol === 'created_at') {
-            valA = new Date(valA).getTime() || 0;
-            valB = new Date(valB).getTime() || 0;
-        } else if (typeof valA === 'string' || typeof valB === 'string') {
-            valA = String(valA).toLowerCase();
-            valB = String(valB).toLowerCase();
-        }
-
-        if (valA < valB) return window.currentSortDir === 'asc' ? -1 : 1;
-        if (valA > valB) return window.currentSortDir === 'asc' ? 1 : -1;
-        return 0;
+    // Format labels: "3 Sep", "10 Sep", etc.
+    const labels = sortedWeeks.map(w => {
+        const d = new Date(w);
+        return d.getDate() + ' ' + d.toLocaleString('id-ID', { month: 'short' });
     });
 
-    if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:32px; color:var(--text-secondary);">Tidak ada data leads ditemukan.</td></tr>`;
-        const pf = document.getElementById('pageInfo');
-        if (pf) pf.textContent = `Showing 0 of 0`;
-        return;
-    }
+    // Cumulative running total
+    let cumulative = 0;
+    const cumulativeVals = weekVals.map(v => { cumulative += v; return cumulative; });
 
-    // Pagination Logic
-    const pageSizeEl = document.getElementById('pageSize');
-    let limit = pageSizeEl ? pageSizeEl.value : '20';
-    let startIdx = 0;
-    let endIdx = filtered.length;
-    let totalItems = filtered.length;
+    if (chartTrend) chartTrend.destroy();
 
-    if (limit !== 'All') {
-        limit = parseInt(limit, 10);
-        let maxPage = Math.ceil(totalItems / limit) || 1;
-        if (currentPage > maxPage) currentPage = maxPage;
+    const ctxFill = ctx.getContext('2d');
+    const grad1 = ctxFill.createLinearGradient(0, 0, 0, 280);
+    grad1.addColorStop(0, 'rgba(37, 99, 234, 0.2)');
+    grad1.addColorStop(1, 'rgba(37, 99, 234, 0)');
 
-        startIdx = (currentPage - 1) * limit;
-        endIdx = startIdx + limit;
+    const grad2 = ctxFill.createLinearGradient(0, 0, 0, 280);
+    grad2.addColorStop(0, 'rgba(16, 185, 129, 0.12)');
+    grad2.addColorStop(1, 'rgba(16, 185, 129, 0)');
 
-        // update UI info
-        let displayEnd = Math.min(endIdx, totalItems);
-        const pf = document.getElementById('pageInfo');
-        if (pf) pf.textContent = `Showing ${startIdx + 1} - ${displayEnd} of ${totalItems}`;
-        const pBtn = document.getElementById('btnPagePrev');
-        if (pBtn) pBtn.disabled = currentPage === 1;
-        const nBtn = document.getElementById('btnPageNext');
-        if (nBtn) nBtn.disabled = currentPage === maxPage;
-    } else {
-        const pf = document.getElementById('pageInfo');
-        if (pf) pf.textContent = `Showing All ${totalItems}`;
-        const pBtn = document.getElementById('btnPagePrev');
-        if (pBtn) pBtn.disabled = true;
-        const nBtn = document.getElementById('btnPageNext');
-        if (nBtn) nBtn.disabled = true;
-    }
-
-    const highlightCount = parseInt(window.uiHighlightCount) || 5;
-    const recentlyUpdatedIds = [...allLeads]
-        .filter(l => l.updated_at && (new Date(l.updated_at).getTime() > new Date(l.created_at).getTime() + 1000))
-        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-        .slice(0, highlightCount)
-        .map(l => l.id);
-
-    filtered.slice(startIdx, endIdx).forEach(L => {
-        let statCls = (L.status_followup || '').toLowerCase().replace(/\s+/g, '');
-        const csName = L.assigned_to_name || L.assigned_to || '—';
-        const csInitial = csName !== '—' ? csName.charAt(0).toUpperCase() : '?';
-        const csColors = [
-            '#6366F1', '#22D3EE', '#F472B6', '#34D399', '#FBBF24', '#FB923C', '#A78BFA', '#60A5FA'
-        ];
-        const csColorIdx = csName.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % csColors.length;
-        const csColor = csColors[csColorIdx];
-
-        // Smart Copy element (Only for Super Admin)
-        const isSuperAdmin = currentUserData?.role === 'super_admin';
-        const smartCopyHtml = isSuperAdmin
-            ? `<button class="btn-mini btn-outline" style="border:none; padding:2px 4px; font-size:0.8rem; margin-left:6px; color:var(--brand); background:rgba(91,158,244,0.1);" title="Smart Copy" onclick="openSmartCopyModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"><i class="far fa-copy"></i></button>`
-            : '';
-
-        const tr = document.createElement('tr');
-        tr.className = 'table-main-row';
-
-        const recentIdx = recentlyUpdatedIds.indexOf(L.id);
-        if (recentIdx !== -1) {
-            const hColor = window.uiHighlightColor || '#16A34A';
-            const hStyle = window.uiHighlightStyle || 'solid';
-            const opacity = 0.25 - (recentIdx * 0.04);
-
-            let r = 22, g = 163, b = 74;
-            let m = hColor.match(/^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);
-            if (m) {
-                let hex = m[1];
-                if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
-                r = parseInt(hex.substring(0, 2), 16);
-                g = parseInt(hex.substring(2, 4), 16);
-                b = parseInt(hex.substring(4, 6), 16);
-            }
-
-            if (hStyle === 'glow') {
-                tr.style.setProperty('box-shadow', `inset 0 0 16px rgba(${r}, ${g}, ${b}, ${opacity * 1.5})`, 'important');
-                tr.style.setProperty('border', `2px solid rgba(${r}, ${g}, ${b}, ${opacity * 2})`, 'important');
-            } else if (hStyle === 'text') {
-                tr.style.setProperty('color', `rgba(${r}, ${g}, ${b}, ${opacity * 3 + 0.3})`, 'important');
-                tr.style.setProperty('font-weight', `bold`, 'important');
-            } else {
-                tr.style.setProperty('background-color', `rgba(${r}, ${g}, ${b}, ${opacity})`, 'important');
+    chartTrend = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Leads / Minggu',
+                    data: weekVals,
+                    borderColor: '#2563ea',
+                    backgroundColor: grad1,
+                    fill: true,
+                    tension: 0.45,
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    pointHitRadius: 20,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: '#2563ea',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Total Kumulatif',
+                    data: cumulativeVals,
+                    borderColor: '#10B981',
+                    backgroundColor: grad2,
+                    fill: true,
+                    tension: 0.45,
+                    borderWidth: 1.5,
+                    borderDash: [4, 3],
+                    pointRadius: 0,
+                    pointHitRadius: 20,
+                    pointHoverRadius: 4,
+                    pointHoverBackgroundColor: '#10B981',
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end',
+                    labels: {
+                        color: '#8896AB',
+                        font: { size: 11 },
+                        boxWidth: 12,
+                        boxHeight: 2,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15,23,42,0.95)',
+                    titleColor: '#e2e8f0',
+                    bodyColor: '#94a3b8',
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 10,
+                    displayColors: true,
+                    callbacks: {
+                        title: (items) => 'Minggu ' + items[0].label
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    position: 'left',
+                    grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                    ticks: { color: '#8896AB', font: { size: 11 }, padding: 6 },
+                    title: { display: false }
+                },
+                y1: {
+                    beginAtZero: true,
+                    position: 'right',
+                    grid: { display: false },
+                    ticks: { color: '#6ee7b7', font: { size: 10 }, padding: 6 },
+                    title: { display: false }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        color: '#8896AB',
+                        font: { size: 10 },
+                        maxRotation: 45,
+                        autoSkip: true,
+                        maxTicksLimit: 12
+                    }
+                }
             }
         }
-
-        tr.onclick = (e) => {
-            if (e.target.tagName.toLowerCase() === 'button' || e.target.closest('button')) return; // ignore if clicking buttons
-            if (e.target.type === 'checkbox') {
-                toggleSelectLead(L.id, e.target.checked);
-                return;
-            }
-            toggleAccordion(L.id);
-        };
-        tr.innerHTML = `
-            <td style="text-align:center;">
-                <input type="checkbox" class="lead-checkbox" value="${L.id}" ${selectedLeads.has(L.id) ? 'checked' : ''} style="cursor:pointer; width:16px; height:16px; accent-color:var(--brand);">
-            </td>
-            <td>
-                <span
-                    style="color:var(--brand); font-weight:700; cursor:pointer; font-size:0.82rem; letter-spacing:0.3px;"
-                    title="Klik untuk Smart Copy info lead"
-                    onclick="smartCopyLead('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"
-                    onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration=''">
-                    ${L.user_id || L.id}
-                </span>
-            </td>
-            <td>
-                ${L.domisili || '-'}
-            </td>
-            <td>
-                <span>${formatDate(L.created_at)}</span><br>
-                <small style="color:var(--text-secondary)">${timeAgo(L.created_at)}</small>
-            </td>
-            <td>
-                <div style="display:flex; align-items:center;">
-                    <strong style="cursor:pointer;" title="Klik untuk Smart Copy" onclick="smartCopyLead('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"
-                        onmouseover="this.style.color='var(--brand)'" onmouseout="this.style.color=''">${L.nama_lengkap || '-'} ${L.is_restored ? '<i class="fas fa-pen" style="color:#EC4899; font-size:0.75rem; margin-left:4px;" title="Dipulihkan dari Recycle Bin"></i>' : ''}</strong>
-                    <button class="btn-mini" style="border:none; padding:2px 5px; font-size:0.75rem; margin-left:5px; color:var(--brand); background:transparent; cursor:pointer;" 
-                        title="Copy: Nama + No HP"
-                        onclick="copyNameWa('${(L.nama_lengkap || '').replace(/'/g, '&#39;')}', '${L.whatsapp_num || ''}', this)">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </div>
-                <a href="#" class="wa-direct" onclick="alertWA('${L.whatsapp_num || ''}'); return false;" style="color:var(--success); font-weight:600; text-decoration:none; display:inline-block; margin-top:2px;">${L.whatsapp_num || '-'}</a>
-            </td>
-            <td>
-                ${L.paket_pilihan || 'N/A'}<br>
-                <small style="color:var(--text-secondary)">${L.yang_berangkat || '1 Pax'}</small>
-            </td>
-            <td>
-                ${(() => {
-                const progName = L.program_id ? getProgramName(L.program_id) : null;
-                const rev = L.revenue || 0;
-                const isDollar = rev > 0 && rev < 100000;
-                const revBadge = rev > 0
-                    ? (isDollar
-                        ? `<span style="color:#FBBF24;font-size:0.65rem;font-weight:700;">$${Number(rev).toLocaleString('en-US')}</span>`
-                        : `<span style="color:#10B981;font-size:0.65rem;font-weight:700;">Rp ${formatRpShort(rev)}</span>`)
-                    : '';
-                const hasProg = progName && progName !== '-';
-                if (!hasProg && !revBadge) return `<span style="color:var(--text-secondary);font-size:0.75rem;">—</span>`;
-                return `<div style="display:flex;flex-direction:column;gap:2px;">
-                        <span style="font-size:0.76rem;font-weight:600;color:${hasProg ? 'var(--text-primary)' : 'var(--text-secondary)'};line-height:1.3;">${hasProg ? progName : '—'}</span>
-                        ${(hasProg && L.paket_pilihan) ? `<span style="font-size:0.62rem;color:var(--brand);background:rgba(91,158,244,0.1);padding:1px 5px;border-radius:50px;width:fit-content;">${L.paket_pilihan}</span>` : ''}
-                        ${revBadge}
-                    </div>`;
-            })()}
-            </td>
-
-            <td>
-                <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="width:26px; height:26px; border-radius:50%; background:${csColor}22; border:1.5px solid ${csColor}; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:${csColor}; flex-shrink:0;">${csInitial}</div>
-                    <span style="font-size:0.8rem; font-weight:600;">${csName}</span>
-                </div>
-            </td>
-            <td>
-                <span style="font-weight:600; font-size:0.85rem;">${formatLpName(L.landing_page)}</span><br>
-                <small style="color:var(--text-secondary); text-transform:uppercase;">${L.utm_source || 'organic'}</small>
-            </td>
-            <td>
-                <span style="font-weight:600; font-size:0.85rem;">${L.form_source || 'Default'}</span>
-            </td>
-            <td>
-                <span class="status st-${statCls}">${L.status_followup}</span>
-                ${L.catatan ? `<div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${L.catatan.substring(0, 25)}...</div>` : ''}
-            </td>
-             <td style="text-align:right;">
-                <div class="act-row" style="justify-content:flex-end;">
-                    <button class="btn-mini btn-outline" onclick="toggleAccordion('${L.id}')"><i class="fas fa-chevron-down"></i> Detail</button>
-                    <button class="btn-mini btn-primary" onclick="openWaModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"><i class="fab fa-whatsapp"></i></button>
-                    ${currentUserData?.role === 'super_admin' ? `<button class="btn-mini btn-danger" style="background:var(--danger-light); color:var(--danger); border-color:transparent;" onclick="deleteLead('${L.id}', '${(L.nama_lengkap || '').replace(/'/g, '')}')" title="Hapus Lead" onmouseover="this.style.background='var(--danger)'; this.style.color='#fff'" onmouseout="this.style.background='var(--danger-light)'; this.style.color='var(--danger)'"><i class="fas fa-trash"></i></button>` : ''}
-                </div>
-            </td>
-        `;
-        body.appendChild(tr);
-
-        const trAcc = document.createElement('tr');
-        trAcc.className = 'accordion-row';
-        trAcc.id = 'acc-' + L.id;
-        trAcc.innerHTML = `
-            <td colspan="10" class="accordion-content" style="padding: 20px 24px !important; background: var(--bg-surface);">
-                <div style="display:grid; grid-template-columns: 1fr 1.3fr 1FR; gap: 20px; font-size: 0.85rem;">
-                    
-                    <!-- Profil Singkat -->
-                    <div style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-                        <strong style="display:flex; align-items:center; gap:8px; margin-bottom:12px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-id-card"></i> Kebutuhan Jamaah</strong>
-                        <ul style="list-style:none; padding:0; margin:0; line-height:1.7; color:var(--text-primary);">
-                            <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Domisili</span> <strong>${L.domisili || '-'}</strong></li>
-                            <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Paspor</span> <strong>${L.kesiapan_paspor || '-'}</strong></li>
-                            <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Jumlah</span> <strong>${L.yang_berangkat || '-'}</strong></li>
-                            <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Paket</span> <strong>${L.paket_pilihan || '-'}</strong></li>
-                            <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Rencana</span> <strong>${L.rencana_umrah || '-'}</strong></li>
-                            <li style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); display:flex; align-items:center;">
-                                <span style="color:var(--text-secondary); width:70px;">Sales/CS</span> 
-                                <span style="background:var(--brand-light); color:var(--brand); padding:2px 8px; border-radius:12px; font-weight:600; font-size:0.75rem;">${L.assigned_to_name || L.assigned_to || 'Belum Assigned'}</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Log Status & Program -->
-                    <div style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); display:flex; flex-direction:column; gap:12px;">
-                        <strong style="display:flex; align-items:center; gap:8px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-tasks"></i> Follow-up & Program</strong>
-                        
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            <select id="selStatus-${L.id}" class="select-base" style="padding:6px; flex:1;" onchange="toggleInlineRevenue('${L.id}')">
-                                <option value="New Data" ${L.status_followup === 'New Data' ? 'selected' : ''}>New Data</option>
-                                <option value="Contacted" ${L.status_followup === 'Contacted' ? 'selected' : ''}>Contacted</option>
-                                <option value="Proses FU" ${L.status_followup === 'Proses FU' ? 'selected' : ''}>Proses FU</option>
-                                <option value="DP" ${L.status_followup === 'DP' ? 'selected' : ''}>DP</option>
-                                <option value="Order Complete" ${L.status_followup === 'Order Complete' ? 'selected' : ''}>Order Complete</option>
-                                <option value="Lost" ${L.status_followup === 'Lost' ? 'selected' : ''}>Lost</option>
-                                <option value="Pembatalan" ${L.status_followup === 'Pembatalan' ? 'selected' : ''}>Pembatalan</option>
-                                <option value="Pengembalian" ${L.status_followup === 'Pengembalian' ? 'selected' : ''}>Pengembalian</option>
-                            </select>
-                            <input type="text" id="note-${L.id}" placeholder="Catatan baru..." style="flex:1.5; padding:6px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-surface); color:var(--text-primary);" oninput="markSaveBtn('${L.id}')">
-                            <button class="btn-primary btn-mini btn-save-lead" id="saveBtn-${L.id}" onclick="updateLeadStatus('${L.id}')" title="Simpan Log" style="background:#EC4899; border-color:#EC4899; padding:6px 14px;" data-saved="false"><i class="fas fa-save"></i></button>
-                        </div>
-                        
-                        <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-sm); border:1px solid var(--border);">
-                            <div style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-                                <small style="color:var(--text-secondary);">Update Terakhir: ${formatDate(L.updated_at || L.created_at)}</small>
-                                <a href="#" onclick="openStatusHistory('${L.id}', '${encodeURIComponent(L.nama_lengkap || '').replace(/'/g, "%27")}'); return false;" style="color:var(--brand); text-decoration:none; font-weight:600; display:flex; align-items:center; gap:4px;"><i class="fas fa-history"></i> Log</a>
-                            </div>
-                            <div style="line-height:1.4;"><strong style="color:var(--brand)">[${L.status_followup}]</strong> - ${L.catatan || 'Lead Masuk Sistem'}</div>
-                        </div>
-
-                        <div style="border-top:1px dashed var(--border); padding-top:12px; margin-top:auto;">
-                            <label style="font-weight:600; display:block; margin-bottom:6px; color:var(--text-secondary);">Pemilihan Program & Revenue</label>
-                            <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-                                <select id="selProg-${L.id}" class="select-base prog-select" style="padding:6px; flex:1;" onchange="handleProgramChange('${L.id}')">
-                                    <option value="">— Pilih Program Khusus —</option>
-                                    ${programsListCache.map(p => `<option value="${p.id}" ${p.id === L.program_id ? 'selected' : ''}>${p.nama_program}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div id="pkgDropRow-${L.id}" style="display:${L.program_id ? 'flex' : 'none'}; gap:8px; align-items:center; margin-bottom:8px;">
-                                <select id="selPkg-${L.id}" class="select-base" style="padding:6px; flex:1; border-color:rgba(251,191,36,0.4);" onchange="handlePkgDropdownChange('${L.id}')">
-                                    ${getPkgDropdownOptions(L.program_id, L.paket_pilihan)}
-                                </select>
-                            </div>
-                            <div id="progSummary-${L.id}">
-                                ${L.program_id ? getProgramSummaryHtml(L) : ''}
-                            </div>
-                            <div id="revRow-${L.id}" style="display:${['DP', 'Order Complete'].includes(L.status_followup) ? 'flex' : 'none'}; gap:8px; align-items:center; margin-top:10px; background:var(--bg-surface); padding:8px 12px; border-radius:var(--radius-sm); border:1px solid rgba(245,158,11,0.3);">
-                                <label style="font-weight:700; white-space:nowrap; color:#F59E0B;"><i class="fas fa-money-bill-wave" style="margin-right:6px;"></i>Nominal Rp</label>
-                                <input type="text" id="rev-${L.id}" value="${L.revenue ? Number(L.revenue).toLocaleString('id-ID') : ''}" placeholder="mis: 35.000.000" style="flex:1; padding:6px 10px; font-size:1rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-app); color:var(--text-primary); font-weight:700;" class="rp-input" inputmode="numeric">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action & Templates(Brosur / GDrive) -->
-                    <div style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); display:flex; flex-direction:column;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                            <strong style="color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-paper-plane"></i> Komunikasi Lead</strong>
-                            <button class="btn-mini btn-outline" onclick="openEditModal('${L.id}', '${L.status_followup}', \`${(L.catatan || '').replace(/`/g, "'")}\`, ${L.revenue || 0}, '${L.program_id || ''}')"><i class="fas fa-external-link-alt" style="margin-right:4px;"></i> Full Edit</button>
-                        </div>
-                        
-                        <div style="margin-bottom:16px;">
-                            <label style="font-weight:600; display:block; margin-bottom:6px; color:var(--text-secondary);">Lampiran Link (Drive / Brosur)</label>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <i class="fab fa-google-drive" style="color:#4285F4; font-size:1.2rem;"></i>
-                                <input type="url" id="waLink-${L.id}" placeholder="https://..." style="flex:1; padding:8px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-surface); color:var(--text-primary);">
-                            </div>
-                        </div>
-
-                        <div style="background:var(--bg-surface); padding:12px; border-radius:var(--radius-sm); border:1px dashed var(--border);">
-                            <label style="font-weight:600; display:block; margin-bottom:8px; color:var(--text-secondary); text-align:center;">Template Pesan WA Otomatis</label>
-                            <div style="margin-bottom:12px; display:flex; gap:8px;">
-                                ${(() => {
-                const savedPrefix = localStorage.getItem('user_prefix') || 'Bapak/Ibu';
-                return `
-                                    <select id="userPrefix-${L.id}" class="user-prefix-input select-base" style="flex:1; padding:6px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-app); color:var(--text-primary); font-size:0.8rem;" onchange="localStorage.setItem('user_prefix', this.value); document.querySelectorAll('.user-prefix-input').forEach(el => el.value = this.value);">
-                                        <option value="Bapak/Ibu" ${savedPrefix === 'Bapak/Ibu' ? 'selected' : ''}>Bapak/Ibu</option>
-                                        <option value="Kakak" ${savedPrefix === 'Kakak' ? 'selected' : ''}>Kakak</option>
-                                        <option value="Mas/Mbak" ${savedPrefix === 'Mas/Mbak' ? 'selected' : ''}>Mas/Mbak</option>
-                                        <option value="Agan" ${savedPrefix === 'Agan' ? 'selected' : ''}>Agan</option>
-                                        <option value="Ust/Usth" ${savedPrefix === 'Ust/Usth' ? 'selected' : ''}>Ust/Usth</option>
-                                    </select>
-                                    `;
-            })()}
-                                <input type="text" id="csName-${L.id}" class="cs-name-input" placeholder="Panggilan CS (Cth: Teh Nisa)" value="${localStorage.getItem('cs_nickname') || ''}" style="flex:1; padding:6px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-app); color:var(--text-primary); font-size:0.8rem; text-align:center;" onchange="localStorage.setItem('cs_nickname', this.value); document.querySelectorAll('.cs-name-input').forEach(el => el.value = this.value);">
-                            </div>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;" id="waTplGrid-${L.id}">
-                                <button class="btn-outline btn-mini" onclick="sendWAtpl('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}', 1)" style="padding:8px; justify-content:center;"><i class="fab fa-whatsapp" style="color:#25D366; font-size:1rem;"></i> Katalog</button>
-                                <button class="btn-outline btn-mini" onclick="sendWAtpl('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}', 2)" style="padding:8px; justify-content:center;"><i class="fab fa-whatsapp" style="color:#25D366; font-size:1rem;"></i> Paspor</button>
-                                <button class="btn-outline btn-mini" onclick="sendWAtpl('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}', 3)" style="padding:8px; justify-content:center;"><i class="fab fa-whatsapp" style="color:#25D366; font-size:1rem;"></i> Kabar</button>
-                                <button class="btn-primary btn-mini" onclick="openWaModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')" style="padding:8px; justify-content:center;"><i class="fas fa-comment-dots" style="font-size:1rem;"></i> WA Custom</button>
-                                ${getCustomWaTplButtonsHtml(L)}
-                            </div>
-                            <div style="display:flex; gap:8px; margin-top:8px;">
-                                <button class="btn-secondary btn-mini w-100" onclick="openTplBuilderModal()" style="background:var(--bg-app); border-color:var(--border); color:var(--text-secondary);"><i class="fas fa-magic" style="margin-right:6px; color:#EC4899;"></i>Kelola Template Khusus</button>
-                            </div>
-                            <button class="btn-primary btn-mini w-100" style="margin-top:8px; background:#EC4899; border-color:#EC4899;" onclick="openCustomFuModal('${encodeURIComponent(JSON.stringify(L)).replace(/'/g, "%27")}')"><i class="fas fa-clipboard-check" style="margin-right:6px;"></i>Log Follow Up Custom</button>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        `;
-        body.appendChild(trAcc);
     });
-    // Attach Rp formatter to new .rp-input elements rendered inside accordion
-    initAllRpInputs();
 }
 
-// CUSTOM CONFIRM MODAL PROMISE
-window.showConfirmModal = function (title, message) {
-    return new Promise((resolve) => {
-        const overlay = document.getElementById('confirmOverlay');
-        const titleEl = document.getElementById('confirmTitle');
-        const msgEl = document.getElementById('confirmMessage');
-        const btnOk = document.getElementById('confirmBtnOk');
-        const btnCancel = document.getElementById('confirmBtnCancel');
+function drawPackageChart(leadsArray) {
+    const ctx = document.getElementById('packageChart');
+    if (!ctx) return;
 
-        if (!overlay) {
-            resolve(confirm(title + '\n\n' + message));
-            return;
-        }
-
-        titleEl.textContent = title;
-        msgEl.textContent = message;
-
-        overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-
-        const cleanup = () => {
-            overlay.style.display = 'none';
-            document.body.style.overflow = '';
-            btnOk.onclick = null;
-            btnCancel.onclick = null;
-        };
-
-        btnOk.onclick = () => {
-            cleanup();
-            resolve(true);
-        };
-
-        btnCancel.onclick = () => {
-            cleanup();
-            resolve(false);
-        };
+    const grouped = {};
+    leadsArray.forEach(L => {
+        let p = L.paket_pilihan && L.paket_pilihan.trim() !== '' ? L.paket_pilihan : 'Lainnya';
+        grouped[p] = (grouped[p] || 0) + 1;
     });
-};
 
-// DELETE LEAD — Super Admin only
-window.deleteLead = async function (id, nama) {
-    if (currentUserData?.role !== 'super_admin') {
-        showToast('Hanya super admin yang bisa menghapus lead.', 'error');
-        return;
-    }
-    const isOK = await showConfirmModal('Hapus Lead?', `⚠️ Yakin hapus lead "${nama}"?\n\nData yang dihapus TIDAK bisa dikembalikan.`);
-    if (!isOK) return;
-    try {
-        const res = await fetch(`${API_URL}/leads/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        const data = await res.json();
-        if (data.success) {
-            showToast(`🗑️ Lead "${nama}" berhasil dihapus.`);
-            allLeads = allLeads.filter(L => L.id !== id && L._id !== id);
-            renderLeadsTable();
-            // Re-render overview widgets with updated data
-            const sd = document.getElementById('overviewStartDate')?.value;
-            const ed = document.getElementById('overviewEndDate')?.value;
-            renderWidgetsAndCharts(filterByDateRange(allLeads, sd, ed));
+    const total = leadsArray.length || 1;
+
+    // Sort and limit to 6 + Lainnya to avoid clutter
+    const sorted = Object.entries(grouped).sort((a, b) => b[1] - a[1]);
+    let finalLabels = [];
+    let finalValues = [];
+    let otherCount = 0;
+
+    sorted.forEach((item, index) => {
+        if (index < 6) {
+            finalLabels.push(item[0]);
+            finalValues.push(item[1]);
         } else {
-            showToast('Gagal menghapus: ' + (data.message || 'Server error'), 'error');
+            otherCount += item[1];
         }
-    } catch (err) {
-        console.error('Delete lead error:', err);
-        showToast('Gagal menghapus lead. Cek koneksi.', 'error');
+    });
+
+    if (otherCount > 0) {
+        finalLabels.push('Lainnya');
+        finalValues.push(otherCount);
     }
-};
+
+    if (chartPkg) chartPkg.destroy();
+
+    const chartColors = ['#2563ea', '#ea580c', '#16a34a', '#d97706', '#9333ea', '#ec4899', '#64748b'];
+
+    chartPkg = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: finalLabels,
+            datasets: [{
+                data: finalValues,
+                backgroundColor: chartColors.slice(0, finalLabels.length),
+                borderWidth: 2,
+                borderColor: 'var(--bg-card, #1a1f35)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%', // Thinner ring looks more modern
+            plugins: {
+                legend: {
+                    position: 'right', // Move legend to right to save vertical space
+                    labels: {
+                        color: '#8896AB',
+                        font: { size: 11 },
+                        padding: 12,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        generateLabels: function (chart) {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => {
+                                const val = data.datasets[0].data[i];
+                                const pct = ((val / total) * 100).toFixed(1);
+                                // Truncate long package names
+                                let shortLabel = label.length > 22 ? label.substring(0, 22) + '...' : label;
+                                return {
+                                    text: `${shortLabel} (${pct}%)`,
+                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                    strokeStyle: 'transparent',
+                                    pointStyle: 'circle',
+                                    index: i
+                                };
+                            });
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15,23,42,0.95)',
+                    titleColor: '#e2e8f0',
+                    bodyColor: '#94a3b8',
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        label: function (ctx) {
+                            const val = ctx.raw;
+                            const pct = ((val / total) * 100).toFixed(1);
+                            return ` ${ctx.label}: ${val} leads (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+var chartFunnel = null;
+var chartCity = null;
+
+function drawStatusFunnelChart(leadsArray) {
+    const ctx = document.getElementById('statusFunnelChart');
+    if (!ctx) return;
+
+    const statusOrder = ['New Data', 'Contacted', 'Proses FU', 'DP', 'Order Complete', 'Lost'];
+    const statusColors = ['#2563ea', '#9333EA', '#3B82F6', '#F59E0B', '#16a34a', '#DC2626'];
+    const counts = statusOrder.map(s => leadsArray.filter(L => L.status_followup === s).length);
+
+    if (chartFunnel) chartFunnel.destroy();
+    chartFunnel = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: statusOrder,
+            datasets: [{
+                label: 'Jumlah',
+                data: counts,
+                backgroundColor: statusColors,
+                borderRadius: 6,
+                barThickness: 22
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, grid: { display: false }, ticks: { color: '#8896AB' } },
+                y: { grid: { display: false }, ticks: { color: '#8896AB' } }
+            }
+        }
+    });
+}
+
+function drawCityChart(leadsArray) {
+    const ctx = document.getElementById('cityChart');
+    if (!ctx) return;
+
+    const grouped = {};
+    leadsArray.forEach(L => {
+        const city = L.domisili && L.domisili.trim() !== '' ? L.domisili : 'Tidak Diketahui';
+        grouped[city] = (grouped[city] || 0) + 1;
+    });
+
+    // Sort by count descending, take top 8
+    const sorted = Object.entries(grouped).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const cityColors = ['#2563ea', '#16a34a', '#D97706', '#9333EA', '#DB2777', '#DC2626', '#64748b', '#0891b2'];
+
+    if (chartCity) chartCity.destroy();
+    chartCity = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+                label: 'Leads',
+                data: sorted.map(s => s[1]),
+                backgroundColor: cityColors.slice(0, sorted.length),
+                borderRadius: 6,
+                barThickness: 28
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#8896AB' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
 

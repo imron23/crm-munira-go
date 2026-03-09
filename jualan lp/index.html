@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title">Umrah CRM - Solusi Premium untuk Bisnis Travel Berkelas</title>
+
+    <!-- Google Fonts - Inter for Apple-style aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Meta & Pixel Code Placeholders -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    <script>
+        // Inline script to prevent theme flicker
+        const theme = localStorage.getItem('munira-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark-mode');
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-kaaba" style="color: var(--primary);"></i>
+                <span>UMRAH CRM</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" data-i18n="nav_home">Beranda</a></li>
+                <li><a href="#interest" data-i18n="nav_features">Keunggulan</a></li>
+                <li><a href="#problem" data-i18n="nav_problem">Solusi</a></li>
+                <li><a href="#pricing" data-i18n="nav_pricing">Harga</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- REVISED PREMIUM TECH HERO -->
+        <section class="apple-hero" id="home">
+            <div class="hero-glow-sphere"></div>
+            <div class="spiritual-overlay"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('kaaba-spiritual.png') center/contain no-repeat; opacity: 0.05; pointer-events: none;">
+            </div>
+
+            <div class="reveal">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span data-i18n="hero_badge">Sistem CRM Tercepat di Indonesia</span>
+                </div>
+
+                <h1 class="hero-title">
+                    <span data-i18n="hero_title_1">Transformasi Digital</span><br>
+                    <span data-i18n="hero_title_2">Travel Umrah Premium</span>
+                </h1>
+
+                <p class="hero-subtitle" data-i18n="hero_subtitle">
+                    Kendalikan ribuan jamaah, pantau performa tim real-time, dan tingkatkan konversi iklan Anda dengan
+                    teknologi CRM berbasis AI tercanggih.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#action" class="btn-glow" data-i18n="hero_cta_demo">Jadwalkan Demo Sekarang</a>
+                    <a href="#interest" class="apple-btn" data-i18n="hero_cta_learn">Pelajari Fitur</a>
+                </div>
+            </div>
+
+            <div class="hero-mockup-wrapper">
+                <div class="floating-data-card" style="top: 10%; right: -5%; transition-delay: 0.5s;">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <i class="fas fa-chart-line" style="color: var(--primary); margin:0;"></i>
+                        <div>
+                            <small style="display: block; opacity: 0.6;" data-i18n="card_stats_title">Konversi
+                                Iklan</small>
+                            <strong style="font-size: 1.2rem;">+312%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-data-card" style="bottom: 20%; left: -8%; transition-delay: 0.8s;">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <i class="fas fa-users" style="color: var(--primary); margin:0;"></i>
+                        <div>
+                            <small style="display: block; opacity: 0.6;" data-i18n="card_users_title">Total
+                                Jamaah</small>
+                            <strong style="font-size: 1.2rem;">12.840</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-main-preview" id="heroMockup">
+                    <div class="scanning-beam"></div>
+                    <img src="hero-mockup.png" alt="Munira CRM Dashboard Preview">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: THE BITTER REALITY -->
+        <section class="section" id="problem">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <span class="section-label" style="color: #ff3b30;" data-i18n="label_urgency">The Bitter Reality</span>
+                <h2 class="section-title reveal" id="typewriterHeadline"
+                    style="min-height: 2.5em; max-width: 1000px; margin: 0 auto;"></h2>
+            </div>
+
+            <div class="grid-3">
+                <div class="apple-card problem urgent reveal">
+                    <i class="fas fa-funnel-dollar" style="color: #ff3b30; font-size: 3rem;"></i>
+                    <h3 data-i18n="prob_1_title">Bocor Anggaran Iklan</h3>
+                    <p data-i18n="prob_1_desc">Iklan sudah mahal di Meta/Google, tapi Landing Page lemot? Calon jamaah
+                        kabur dalam 3 detik
+                        pertama. Anda membayar klik untuk orang yang bahkan tidak melihat paket Anda.</p>
+                </div>
+                <div class="apple-card problem urgent reveal" style="transition-delay: 0.1s;">
+                    <i class="fas fa-biohazard" style="color: #ff3b30; font-size: 3rem;"></i>
+                    <h3 data-i18n="prob_2_title">Blind Management</h3>
+                    <p data-i18n="prob_2_desc">Mengelola database jamaah modal "scroll" WhatsApp? Anda tidak tahu CS
+                        mana yang closing, mana
+                        yang loyo, dan ribuan data potensial akhirnya tenggelam tak terjamah.</p>
+                </div>
+                <div class="apple-card problem urgent reveal" style="transition-delay: 0.2s;">
+                    <i class="fas fa-radiation" style="color: #ff3b30; font-size: 3rem;"></i>
+                    <h3 data-i18n="prob_3_title">Database "Bocor"</h3>
+                    <p data-i18n="prob_3_desc">Saat karyawan andalan resign, mereka sering membawa aset data jamaah
+                        Anda. Tanpa sistem terpusat,
+                        Anda membangun kerajaan di atas tanah orang lain.</p>
+                </div>
+            </div>
+
+            <div class="reveal" style="margin-top: 60px; text-align: center;">
+                <h3 style="font-size: 1.5rem; color: var(--text-dark);" data-i18n="urgency_footer">Berhenti "Membakar"
+                    Uang Anda.<br>Saatnya
+                    Bertransformasi ke Era Digital yang Presisi.</h3>
+                <i class="fas fa-chevron-down"
+                    style="margin-top: 30px; color: var(--primary); animation: bounce 2s infinite;"></i>
+            </div>
+        </section>
+
+        <!-- SECTION: THE SPEED ADVANTAGE -->
+        <section class="section bg-offset" id="interest">
+            <div style="text-align: center;">
+                <span class="section-label" data-i18n="label_performance">Ad-Conversion Focused</span>
+                <h2 class="section-title reveal" data-i18n="perf_title">Iklan Anda Berharga.<br>Jangan Biarkan Kecepatan
+                    Membuangnya.</h2>
+            </div>
+
+            <div class="speed-meter reveal">
+                <div class="speed-row">
+                    <div class="speed-label-group">
+                        <div class="speed-name" data-i18n="speed_wp">Website WordPress (Konvensional)</div>
+                        <div class="speed-time" style="color: #ff3b30;">6.0s</div>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill danger reveal-bar" data-width="100%"></div>
+                    </div>
+                    <div class="speed-hint">
+                        <i class="fas fa-exclamation-triangle" style="color: #ff3b30;"></i>
+                        <span data-i18n="speed_wp_hint">User kehilangan minat. Potensi "boncos" Iklan mencapai 60%
+                            karena bounce rate tinggi.</span>
+                    </div>
+                </div>
+
+                <div class="speed-row">
+                    <div class="speed-label-group">
+                        <div class="speed-name" data-i18n="speed_munira">Munira High-Speed Stack</div>
+                        <div class="speed-time" style="color: var(--primary);">1.5s</div>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill success reveal-bar" data-width="25%"></div>
+                    </div>
+                    <div class="speed-hint">
+                        <i class="fas fa-check-circle" style="color: var(--primary);"></i>
+                        <span style="color: var(--primary); font-weight: 600;" data-i18n="speed_munira_hint">Full Load
+                            Instan. Setiap rupiah iklan Anda terkonversi menjadi Lead berkualitas.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PERFORMANCE PROOF (Self-Referential) -->
+        <section class="proof-section">
+            <div class="container">
+                <div class="proof-card reveal">
+                    <h2 class="proof-title" data-i18n="proof_title">Suka dengan Kecepatan & Kemewahan Web Ini?</h2>
+                    <p class="proof-desc" data-i18n="proof_desc">Website yang sedang Anda buka saat ini adalah bukti
+                        nyata teknologi Munira. Bayangkan jika Travel Anda memiliki kecepatan dan kemewahan yang
+                        sama—konversi naik, jamaah makin percaya.</p>
+                    <a href="#action" class="btn-glow" data-i18n="proof_btn">Saya Mau Web Seperti Ini</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ECOSYSTEM INFOGRAPHIC -->
+        <section class="ecosystem-section">
+            <div class="container">
+                <div style="text-align: center;">
+                    <span class="section-label" data-i18n="label_eco">Munira Ecosystem</span>
+                    <h2 class="section-title reveal" data-i18n="eco_title">Alur Keberangkatan Digital</h2>
+                </div>
+
+                <div class="infographic-container reveal" style="position: relative;">
+                    <div class="pulse-dot"></div>
+                    <div class="coin-container" id="coinContainer"></div>
+
+                    <!-- SOCIAL MEDIA -->
+                    <div class="info-node" onclick="showNodeDetail(this, 'sosmed')">
+                        <div class="info-icon-wrapper"><i class="fab fa-instagram"></i></div>
+                        <div class="info-title" data-i18n="eco_sos_t">Social Media</div>
+                        <div class="info-desc" data-i18n="eco_sos_d">Organic Traffic</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_sos_t">Omnichannel Presence</h4>
+                            <p data-i18n="tt_sos_d">Menjaring jamaah dari Instagram, TikTok, dan Facebook secara
+                                organik.</p>
+                            <span class="node-tech-badge">Tracking Pixel</span>
+                        </div>
+                    </div>
+
+                    <!-- WA DIRECT -->
+                    <div class="info-node" onclick="showNodeDetail(this, 'wa')">
+                        <div class="info-icon-wrapper"><i class="fab fa-whatsapp"></i></div>
+                        <div class="info-title" data-i18n="eco_wa_t">WA Direct</div>
+                        <div class="info-desc" data-i18n="eco_wa_d">Direct Inquiries</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_wa_t">Instant Connection</h4>
+                            <p data-i18n="tt_wa_d">Link WhatsApp otomatis yang langsung terdata di sistem Munira.</p>
+                            <span class="node-tech-badge">API Gateway</span>
+                        </div>
+                    </div>
+
+                    <div class="info-node" onclick="showNodeDetail(this, 'ads')">
+                        <div class="info-icon-wrapper"><i class="fas fa-bullhorn"></i></div>
+                        <div class="info-title" data-i18n="eco_1_t">Ads Traffic</div>
+                        <div class="info-desc" data-i18n="eco_1_d">Meta & Google Ads</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_ads_t">Paid Acquisition</h4>
+                            <p data-i18n="tt_ads_d">Optimasi biaya iklan dengan integrasi API Conversions Meta.</p>
+                            <span class="node-tech-badge">GTM & CAPI</span>
+                        </div>
+                    </div>
+
+                    <div class="info-node" onclick="showNodeDetail(this, 'lp')">
+                        <div class="info-icon-wrapper"><i class="fas fa-bolt"></i></div>
+                        <div class="info-title" data-i18n="eco_2_t">Fast LP</div>
+                        <div class="info-desc" data-i18n="eco_2_d">1.5s Load Time</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_lp_t">High Speed Engine</h4>
+                            <p data-i18n="tt_lp_d">Landing Page super ringan yang meminimalisir bounce rate.</p>
+                            <span class="node-tech-badge">Golang & Gin</span>
+                        </div>
+                    </div>
+
+                    <div class="info-node" onclick="showNodeDetail(this, 'ai')">
+                        <div class="info-icon-wrapper"><i class="fas fa-brain"></i></div>
+                        <div class="info-title" data-i18n="eco_3_t">AI Scorer</div>
+                        <div class="info-desc" data-i18n="eco_3_d">Qualify Leads</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_ai_t">Smart Qualification</h4>
+                            <p data-i18n="tt_ai_d">AI menyaring calon jamaah yang paling potensial untuk dicheckout.</p>
+                            <span class="node-tech-badge">Python ML</span>
+                        </div>
+                    </div>
+
+                    <div class="info-node" onclick="showNodeDetail(this, 'crm')">
+                        <div class="info-icon-wrapper"><i class="fas fa-hubspot"></i></div>
+                        <div class="info-title" data-i18n="eco_4_t">CRM Center</div>
+                        <div class="info-desc" data-i18n="eco_4_d">Manage & Close</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_crm_t">Centralized Control</h4>
+                            <p data-i18n="tt_crm_d">Manajemen data jamaah terpusat untuk tim sales dan operasional.</p>
+                            <span class="node-tech-badge">Postgres JSONB</span>
+                        </div>
+                    </div>
+
+                    <div class="info-node node-success" onclick="triggerSuccessAnim(this)">
+                        <div class="info-icon-wrapper" style="background: rgba(212, 175, 55, 0.1); color: #d4af37;"><i
+                                class="fas fa-kaaba"></i></div>
+                        <div class="info-title" data-i18n="eco_5_t">Success</div>
+                        <div class="info-desc" data-i18n="eco_5_d">Berangkat!</div>
+                        <div class="node-tooltip">
+                            <h4 data-i18n="tt_suc_t">Mission Accomplished</h4>
+                            <p data-i18n="tt_suc_d">Selamat! Jamaah berangkat dengan aman dan travel Anda untung besar.
+                            </p>
+                            <span class="node-tech-badge">Profit Maximizer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ADVANCED TECH BENTO -->
+        <section class="section" id="advanced-features">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span class="section-label" data-i18n="label_advanced">Engine Technology</span>
+                <h2 class="section-title reveal" data-i18n="advanced_title">Teknologi Masa Depan,<br>Dalam Kendali Anda.
+                </h2>
+            </div>
+
+            <div class="feature-bento">
+                <!-- BI Command Center -->
+                <div class="bento-card card-bi reveal">
+                    <i class="fas fa-microchip"></i>
+                    <h3 data-i18n="feat_bi_t">BI Command Center (Real-Time)</h3>
+                    <p data-i18n="feat_bi_d">Ditenagai Golang Engine untuk pengolahan data ribuan jamaah dalam
+                        milidetik. Monitoring ROI Ads & Staff secara instan tanpa lag.</p>
+                    <div class="bi-visual">
+                        <div class="mini-chart">
+                            <div class="chart-bar-fill" style="height: 60%;"></div>
+                            <div class="chart-bar-fill" style="height: 85%;"></div>
+                            <div class="chart-bar-fill" style="height: 40%;"></div>
+                            <div class="chart-bar-fill" style="height: 95%;"></div>
+                            <div class="chart-bar-fill" style="height: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Stream -->
+                <div class="bento-card card-stream reveal" style="background: #05070a; color: white;">
+                    <span class="status-actv"
+                        style="background: #ef4444; margin-bottom: 15px; display: inline-block;">LIVE</span>
+                    <h3 data-i18n="feat_stream_t" style="font-size: 1.4rem;">LIVE LEADS STREAM</h3>
+                    <div class="stream-list">
+                        <div class="stream-item">
+                            <span>#8291 H. Ahmad</span>
+                            <span class="score-badge">Score: 98</span>
+                        </div>
+                        <div class="stream-item" style="opacity: 0.6;">
+                            <span>#8290 Hj. Laila</span>
+                            <span class="score-badge">Score: 92</span>
+                        </div>
+                        <div class="stream-item" style="opacity: 0.3;">
+                            <span>#8289 Bpk. Eko</span>
+                            <span class="score-badge">Score: 85</span>
+                        </div>
+                    </div>
+                    <p data-i18n="feat_stream_d" style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">Pantau arus
+                        pendaftaran jamaah secara langsung dengan AI Scorer terintegrasi.</p>
+                </div>
+
+                <!-- WA Panel Builder -->
+                <div class="bento-card card-wa reveal">
+                    <i class="fab fa-whatsapp"></i>
+                    <h3 data-i18n="feat_wa_t">WA Panel Builder</h3>
+                    <p data-i18n="feat_wa_d">Rakit template WhatsApp otomatis dengan AI scorer untuk konversi instan.
+                    </p>
+                    <div class="visual-mask"></div>
+                </div>
+
+                <!-- Program Builder -->
+                <div class="bento-card card-prog reveal">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3 data-i18n="feat_prog_t">Program Builder</h3>
+                    <p data-i18n="feat_prog_d">Kelola paket Umrah & Haji dengan sistem drag-and-drop yang intuitif.</p>
+                    <div class="visual-mask" style="background: rgba(212, 175, 55, 0.1);"></div>
+                </div>
+            </div>
+            <!-- SECTION: CYBER SECURITY WALL -->
+            <section class="cyber-security-wall reveal">
+                <div class="cyber-grid"></div>
+                <div style="position: relative; z-index: 2; text-align: center;">
+                    <div class="shield-pulse">
+                        <i class="fas fa-shield-halved" style="font-size: 2.5rem; color: white;"></i>
+                    </div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 20px;" data-i18n="feat_sec_t">Enterprise Architecture
+                        Security</h2>
+                    <p style="max-width: 700px; margin: 0 auto 40px; opacity: 0.7;" data-i18n="feat_sec_d">
+                        Satu-satunya CRM Umrah yang menggunakan sistem enkripsi berlapis dan proteksi data terpusat.
+                        Aset jamaah Anda aman, tidak ada kebocoran database saat tim resign.
+                    </p>
+                    <div class="db-grid"
+                        style="grid-template-columns: repeat(3, 1fr); margin-top: 40px; position: relative; z-index: 2; text-align: left;">
+                        <div class="security-module reveal">
+                            <div class="sec-icon-box"><i class="fas fa-lock"></i></div>
+                            <div class="sec-title" data-i18n="sec_mod_1_t">AES-256 Encryption</div>
+                            <div class="sec-subtitle" data-i18n="sec_mod_1_s">Military Grade Protection</div>
+                        </div>
+                        <div class="security-module reveal" style="transition-delay: 0.1s;">
+                            <div class="sec-icon-box"><i class="fas fa-user-shield"></i></div>
+                            <div class="sec-title" data-i18n="sec_mod_2_t">DDoS Protection</div>
+                            <div class="sec-subtitle" data-i18n="sec_mod_2_s">Enterprise Defense System</div>
+                        </div>
+                        <div class="security-module reveal" style="transition-delay: 0.2s;">
+                            <div class="sec-icon-box"><i class="fas fa-database"></i></div>
+                            <div class="sec-title" data-i18n="sec_mod_3_t">Auto Backup</div>
+                            <div class="sec-subtitle" data-i18n="sec_mod_3_s">Safe Storage Every 6 Hours</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: TECH ANALOGIES (The Invisible Powerhouse) -->
+            <section class="tech-analogy-section" id="tech-story">
+                <div class="container">
+                    <div style="text-align: center; margin-bottom: 60px;">
+                        <span class="section-label" data-i18n="tech_label">The Invisible Powerhouse</span>
+                        <h2 class="section-title reveal" data-i18n="tech_subtitle">Arsitektur Tanpa Kompromi</h2>
+                    </div>
+
+                    <div class="tech-visual-grid">
+                        <div class="analogy-card reveal">
+                            <span class="tech-name">POWERED BY GOLANG</span>
+                            <div class="analogy-icon"><i class="fas fa-fighter-jet"></i></div>
+                            <h3 class="analogy-title" data-i18n="ana_1_t">Mesin Jet (Golang Engine)</h3>
+                            <p class="analogy-desc" data-i18n="ana_1_d">Dibuat dengan bahasa yang sama dengan Google.
+                                Memproses data ribuan jamaah dalam milidetik—secepat jet tempur yang menembus awan.</p>
+                        </div>
+
+                        <div class="analogy-card reveal">
+                            <span class="tech-name">POSTGRESQL JSONB</span>
+                            <div class="analogy-icon" style="background: var(--secondary);"><i class="fas fa-vault"></i>
+                            </div>
+                            <h3 class="analogy-title" data-i18n="ana_2_t">Brankas Pintar (JSONB Storage)</h3>
+                            <p class="analogy-desc" data-i18n="ana_2_d">Data jamaah Anda disimpan dalam laci digital
+                                fleksibel yang tidak pernah penuh. Ia mengenali profil jamaah secara cerdas seperti
+                                brankas pintar kelas atas.</p>
+                        </div>
+
+                        <div class="analogy-card reveal">
+                            <span class="tech-name">PURE VANILLA JS</span>
+                            <div class="analogy-icon" style="background: #f59e0b;"><i class="fas fa-running"></i></div>
+                            <h3 class="analogy-title" data-i18n="ana_3_t">Pelari Tanpa Beban (Vanilla JS)</h3>
+                            <p class="analogy-desc" data-i18n="ana_3_d">Tanpa beban library berat yang bikin lelet.
+                                Munira berlari sangat ringan, memberikan loading instan meskipun sinyal jamaah di
+                                lapangan sedang sulit.</p>
+                        </div>
+
+                        <div class="analogy-card reveal">
+                            <span class="tech-name">MULTI-FAILBACK AI</span>
+                            <div class="analogy-icon" style="background: #ef4444;"><i class="fas fa-brain"></i></div>
+                            <h3 class="analogy-title" data-i18n="ana_4_t">Kecerdasan Abadi (AI Failback)</h3>
+                            <p class="analogy-desc" data-i18n="ana_4_d">Sistem kecerdasan yang tidak pernah mati. Jika
+                                satu otak AI sedang sibuk, cadangannya langsung mengambil alih dalam mikrodetik tanpa
+                                Anda sadari.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION: THE SCIENCE OF SELLING -->
+            <section class="science-section" id="science">
+                <div class="science-bg-decoration"></div>
+                <div class="container">
+                    <div style="text-align: center; margin-bottom: 80px;">
+                        <span class="section-label" data-i18n="label_science" style="color: #a855f7;">Science of
+                            Selling</span>
+                        <h2 class="section-title reveal" data-i18n="sci_title">Emotional Closing & Deep Tech</h2>
+                    </div>
+
+                    <div class="science-grid">
+                        <!-- Technical Panel -->
+                        <div class="science-panel reveal">
+                            <h3 data-i18n="sci_deep_t" style="color: var(--primary); margin-bottom: 5px;">Deep Dive
+                                Analysis</h3>
+                            <p data-i18n="sci_deep_s" style="margin-bottom: 30px; opacity: 0.6; font-size: 0.9rem;">
+                                Penjelasan Detail Untuk Orang Awam</p>
+
+                            <div class="emotion-card">
+                                <div class="emo-icon-box"><i class="fas fa-microchip"></i></div>
+                                <div>
+                                    <h4 data-i18n="sci_go_t">Golang Engine</h4>
+                                    <p data-i18n="sci_go_d">Bahasa Google. Memproses data jamaah secepat jet tempur.</p>
+                                </div>
+                            </div>
+                            <div class="emotion-card" style="border-left-color: var(--secondary);">
+                                <div class="emo-icon-box" style="color: var(--secondary);"><i class="fas fa-server"></i>
+                                </div>
+                                <div>
+                                    <h4 data-i18n="sci_brankas_t">Smart Vault</h4>
+                                    <p data-i18n="sci_brankas_d">Penyimpanan fleksibel PostgreSQL yang tidak pernah
+                                        penuh.</p>
+                                </div>
+                            </div>
+                            <div class="emotion-card" style="border-left-color: #f59e0b;">
+                                <div class="emo-icon-box" style="color: #f59e0b;"><i class="fas fa-code"></i></div>
+                                <div>
+                                    <h4 data-i18n="sci_vanilla_t">Vanilla JS</h4>
+                                    <p data-i18n="sci_vanilla_d">Web super ringan tanpa beban, loading instan di mana
+                                        saja.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Central Nexus -->
+                        <div class="science-nexus reveal" style="transition-delay: 0.2s;">
+                            <div class="nexus-line"></div>
+                            <div class="nexus-core">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div
+                                style="margin-top: 20px; font-weight: 800; font-size: 0.7rem; color: var(--primary); letter-spacing: 2px;">
+                                INTEGRATED ENGINE</div>
+                        </div>
+
+                        <!-- Emotional Panel -->
+                        <div class="science-panel reveal" style="transition-delay: 0.4s;">
+                            <h3 data-i18n="sci_psych_t" style="color: #a855f7; margin-bottom: 5px;">Emotional Layer</h3>
+                            <p style="margin-bottom: 30px; opacity: 0.6; font-size: 0.9rem;">Psikologi Penjualan
+                                Terotomatisasi</p>
+
+                            <div class="emotion-card">
+                                <div class="emo-icon-box" style="color: #a855f7;"><i
+                                        class="fas fa-hand-holding-heart"></i></div>
+                                <div>
+                                    <h4 data-i18n="sci_emo_1_t">Spiritual Connection</h4>
+                                    <p data-i18n="sci_emo_1_d">Menyentuh sisi 'Niyat' dan kerinduan jamaah akan
+                                        Baitullah.</p>
+                                </div>
+                            </div>
+                            <div class="emotion-card">
+                                <div class="emo-icon-box" style="color: #a855f7;"><i class="fas fa-users-cog"></i></div>
+                                <div>
+                                    <h4 data-i18n="sci_emo_2_t">Solution-Oriented</h4>
+                                    <p data-i18n="sci_emo_2_d">Fokus pada kemudahan dan kenyamanan keluarga travel.</p>
+                                </div>
+                            </div>
+                            <div class="emotion-card">
+                                <div class="emo-icon-box" style="color: #a855f7;"><i class="fas fa-hourglass-start"></i>
+                                </div>
+                                <div>
+                                    <h4 data-i18n="sci_emo_3_t">Scarcity & Urgency</h4>
+                                    <p data-i18n="sci_emo_3_d">Menciptakan urgensi cerdas agar jamaah segera memutuskan.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: DASHBOARD OVERVIEW (SHOWCASE) -->
+            <section class="section" id="overview">
+                <div style="text-align: center; margin-bottom: 60px;">
+                    <span class="section-label" data-i18n="ov_title">Dashboard Overview</span>
+                    <h2 class="section-title reveal" data-i18n="ov_subtitle">Kendalikan seluruh ekosistem bisnis Anda
+                        dalam satu layar intuitif.</h2>
+                </div>
+
+                <div class="ov-viewport reveal">
+                    <div class="dashboard-mockup">
+                        <div class="db-header">
+                            <div>
+                                <span data-i18n="ov_period">Periode</span>:
+                                <div class="db-filters">
+                                    <button class="filter-btn active">Today</button>
+                                    <button class="filter-btn">Yday</button>
+                                    <button class="filter-btn">7D</button>
+                                    <button class="filter-btn">1M</button>
+                                    <button class="filter-btn">All</button>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <div class="db-filters"><button class="filter-btn">All CS / Global</button></div>
+                                <input type="text" value="07/03/2026 — 08/03/2026"
+                                    style="padding:8px; border-radius:8px; border:1px solid var(--border-light); font-size:0.8rem;">
+                                <button class="btn-glow" style="padding:8px 20px; font-size:0.8rem;"
+                                    data-i18n="ov_apply">Apply</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:20px; font-weight:700;" data-i18n="ov_perf">Performa Umum</div>
+                        <div class="db-grid">
+                            <div class="stat-card">
+                                <span class="stat-label" data-i18n="ov_leads">Total Leads</span>
+                                <div class="stat-value">200</div>
+                                <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12% vs yday</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label" data-i18n="ov_inq">Today's Inquiries</span>
+                                <div class="stat-value">0</div>
+                                <span class="stat-trend" data-i18n="ov_inq_d">hari ini</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label" data-i18n="ov_cvr">CVR % (Closing Rate)</span>
+                                <div class="stat-value">37.5%</div>
+                                <span class="stat-trend" data-i18n="ov_cvr_d">order / total lead</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label" data-i18n="ov_resp">Avg Response</span>
+                                <div class="stat-value">5m 17s</div>
+                                <span class="stat-trend" data-i18n="ov_resp_d">kecepatan CS follow up</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:20px; font-weight:700;" data-i18n="ov_sales">Hasil Penjualan & Revenue
+                        </div>
+                        <div class="db-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="stat-card">
+                                <span class="stat-label">Order Complete + DP</span>
+                                <div class="stat-value" data-i18n="ov_deals">75 deals won</div>
+                                <div class="stat-trend trend-down" data-i18n="ov_lost_d">57 tidak closing</div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label" data-i18n="ov_rev">Revenue (Rp)</span>
+                                <div class="stat-value">Rp 668.000.000</div>
+                                <div class="stat-trend" data-i18n="ov_rev_d">DP + Order Complete</div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-label">Total Sales (Packs)</span>
+                                <div class="stat-value">142</div>
+                                <div class="stat-trend">Umrah & Haji Plus</div>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:30px; margin-top:20px;">
+                            <div>
+                                <div style="margin-bottom:20px; font-weight:700;" data-i18n="ov_recent">Recent Inquiries
+                                </div>
+                                <div
+                                    style="background:var(--bg-input); border-radius:15px; overflow:hidden; border:1px solid var(--border-light);">
+                                    <table class="db-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Lead Name</th>
+                                                <th>Package</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Budi Hidayat</td>
+                                                <td>Liburan Keluarga</td>
+                                                <td><span class="badge badge-lost">Lost</span></td>
+                                                <td>07/03/26</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Eko Hidayat</td>
+                                                <td>Umrah Plus Turki</td>
+                                                <td><span class="badge badge-contacted">Contacted</span></td>
+                                                <td>07/03/26</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fitri Suryono</td>
+                                                <td>Umrah Hemat</td>
+                                                <td><span class="badge badge-fu">In Success</span></td>
+                                                <td>07/03/26</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rudi Suryono</td>
+                                                <td>Umrah Reguler</td>
+                                                <td><span class="badge badge-contacted">Contacted</span></td>
+                                                <td>07/03/26</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="margin-bottom:20px; font-weight:700;" data-i18n="ov_lb">CS Leaderboard</div>
+                                <div class="leaderboard-list">
+                                    <div class="leader-item">
+                                        <div class="leader-rank">1</div>
+                                        <div style="flex:1;"><strong>Dina Lestari</strong><br><small>22 closing</small>
+                                        </div>
+                                        <div style="text-align:right;"><strong>48.9%</strong><br><small>CR</small></div>
+                                    </div>
+                                    <div class="leader-item">
+                                        <div class="leader-rank" style="background:#86868b">2</div>
+                                        <div style="flex:1;"><strong>Siti Aminah</strong><br><small>18 closing</small>
+                                        </div>
+                                        <div style="text-align:right;"><strong>40.9%</strong><br><small>CR</small></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- SECTION: PROGRESSIVE FORM TECHNOLOGY -->
+        <section class="section" id="forms" style="background-color: var(--bg-offset);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+                <div class="reveal">
+                    <span class="section-label" data-i18n="label_form">Conversion optimization</span>
+                    <h2 class="section-title" data-i18n="form_title">Formulir Progresif:<br>Jangan Biarkan Jamaah Bosan.
+                    </h2>
+                    <p style="color: var(--text-gray); font-size: 1.2rem; margin-bottom: 30px; line-height: 1.6;"
+                        data-i18n="form_desc">
+                        Kebanyakan landing page kehilangan leads karena formulir yang panjang dan menakutkan.
+                        Munira CRM menggunakan teknologi <strong>Progressive Filling</strong>.
+                    </p>
+                    <div style="display: grid; gap: 20px;">
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <i class="fas fa-layer-group" style="color: var(--primary); margin-top: 5px;"></i>
+                            <p><strong data-i18n="form_f1_t">Micro-Step Interaction:</strong> <span
+                                    data-i18n="form_f1_d">Memecah pertanyaan menjadi langkah kecil yang menyenangkan dan
+                                    interaktif.</span></p>
+                        </div>
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <i class="fas fa-magic" style="color: var(--primary); margin-top: 5px;"></i>
+                            <p><strong data-i18n="form_f2_t">Smart Auto-Complete:</strong> <span
+                                    data-i18n="form_f2_d">Deteksi wilayah (Kecamatan/Kota) secara otomatis untuk
+                                    kenyamanan user.</span></p>
+                        </div>
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <i class="fas fa-chart-line" style="color: var(--primary); margin-top: 5px;"></i>
+                            <p><strong data-i18n="form_f3_t">30% Higher Conversion:</strong> <span
+                                    data-i18n="form_f3_d">Dibuktikan secara teknis meningkatkan jumlah leads masuk
+                                    dibanding form konvensional.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" id="realFormContainer"
+                    style="background: var(--bg-card); padding: 50px; border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.05); border: 1px solid var(--border-light); position: relative; min-height: 650px; display: flex; flex-direction: column;">
+                    <div class="try-form-badge" data-i18n="form_try_badge"
+                        style="position: absolute; top: -15px; right: 40px; background: var(--secondary); color: var(--primary); padding: 10px 25px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; z-index: 10;">
+                        <i class="fas fa-magic" style="margin-right:8px;"></i> COBALAH FORM INI
+                    </div>
+                    <div class="form-progress-bar"
+                        style="display: flex; gap: 15px; margin-bottom: 50px; position: relative;">
+                        <div class="step-num active">1</div>
+                        <div class="step-line active"
+                            style="flex: 1; height: 4px; background: var(--primary); border-radius: 10px; align-self: center;">
+                        </div>
+                        <div class="step-num">2</div>
+                        <div class="step-line"
+                            style="flex: 1; height: 4px; background: var(--border-light); border-radius: 10px; align-self: center;">
+                        </div>
+                        <div class="step-num">3</div>
+                    </div>
+
+                    <form id="realMuniraForm">
+                        <div class="form-step active" id="step1">
+                            <span data-i18n="form_s1_label"
+                                style="font-size: 0.8rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Langkah
+                                1: Identitas Dasar</span>
+                            <h4 data-i18n="form_s1_title" style="margin: 15px 0 25px; font-size: 1.5rem;">Informasi
+                                Kontak Anda</h4>
+                            <div style="display: grid; gap: 20px;">
+                                <div class="input-group">
+                                    <label data-i18n="form_name_l"
+                                        style="display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600;">Nama
+                                        Lengkap</label>
+                                    <input type="text" id="eNama" placeholder="Contoh: Budi Santoso">
+                                </div>
+                                <div class="input-group">
+                                    <label data-i18n="form_loc_l"
+                                        style="display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600;">Kecamatan
+                                        Domisili</label>
+                                    <input type="text" id="eDomisili" placeholder="Ketik 3 huruf nama kecamatan...">
+                                    <div id="eDomisiliDropdown" class="ac-dropdown"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label data-i18n="form_wa_l"
+                                        style="display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600;">Nomor
+                                        WhatsApp</label>
+                                    <input type="tel" id="eWA" placeholder="081234567890">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-step" id="step2" style="display: none;">
+                            <span data-i18n="form_s2_label"
+                                style="font-size: 0.8rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Langkah
+                                2: Rencana Perjalanan</span>
+                            <h4 data-i18n="form_s2_title" style="margin: 15px 0 10px; font-size: 1.5rem;">Detail
+                                Keberangkatan</h4>
+                            <div style="display: grid; gap: 20px;">
+                                <div class="input-group">
+                                    <label data-i18n="form_exp_l"
+                                        style="display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600;">Pernah
+                                        Umrah?</label>
+                                    <select id="ePengalaman">
+                                        <option data-i18n="form_exp_o1" value="Pernah">Pernah</option>
+                                        <option data-i18n="form_exp_o2" value="Belum">Belum</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label data-i18n="form_qty_l"
+                                        style="display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600;">Jumlah
+                                        Peserta</label>
+                                    <input type="number" id="eJumlah" placeholder="Contoh: 4">
+                                </div>
+                                <div id="eUsiaContainer"></div>
+                            </div>
+                        </div>
+                        <div class="form-step" id="step3" style="display: none;">
+                            <h4 data-i18n="form_s3_title" style="margin: 15px 0 25px; font-size: 1.5rem;">Pilihan Paket
+                            </h4>
+                            <select id="ePaket">
+                                <option value="Gold">Gold Class</option>
+                                <option value="Platinum">Platinum Class</option>
+                            </select>
+                        </div>
+                        <div class="form-step" id="stepSuccess"
+                            style="display: none; text-align: center; padding: 40px 0;">
+                            <div class="user-avatar" style="margin: 0 auto 30px; width: 80px; height: 80px;"><i
+                                    class="fas fa-check"></i></div>
+                            <h3 data-i18n="form_succ_t">Pendaftaran Berhasil!</h3>
+                            <p data-i18n="form_succ_d">Konsultan kami akan segera menghubungi Anda melalui WhatsApp.</p>
+                            <button type="button" onclick="location.reload()" class="apple-btn"
+                                data-i18n="form_succ_b">Kembali</button>
+                        </div>
+                    </form>
+                    <div id="formNav"
+                        style="display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px;">
+                        <button type="button" id="prevBtn" class="apple-btn" data-i18n="form_prev_b">Kembali</button>
+                        <button type="button" id="nextBtn" class="btn-glow" data-i18n="form_next_b">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: TESTIMONIALS SLIDER -->
+        <section class="section" id="testimonials">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <span class="section-label" data-i18n="label_testimonials">Testimonials</span>
+                <h2 class="section-title reveal" data-i18n="testi_title">Dipercaya Oleh Para Pemilik Travel Premium.
+                </h2>
+            </div>
+
+            <div class="testimonial-viewport" id="testiSlider">
+                <div class="testimonial-track">
+                    <!-- 1 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_1_text">"Dulu pusing pantau 10 CS, sekarang saya tinggal buka HP sambil
+                            ngopi. Semua KPI tim terpantau real-time."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">AF</div>
+                            <div><strong data-i18n="testi_1_name">H. Ahmad Fauzi</strong><small
+                                    data-i18n="testi_1_pos">Owner Travel Jakarta</small></div>
+                        </div>
+                    </div>
+                    <!-- 2 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_2_text">"Paling males dulu urusan pindah data. Di Munira, semuanya rapi
+                            banget. Tim saya jadi gak gampang capek."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">SN</div>
+                            <div><strong data-i18n="testi_2_name">Hj. Siti Nurhaliza</strong><small
+                                    data-i18n="testi_2_pos">Direktur Ops Surabaya</small></div>
+                        </div>
+                    </div>
+                    <!-- 3 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_3_text">"Landing Page super kencang! Jamaah tidak kabur nunggu loading lemot
+                            ala WordPress. Investasi terbaik saya."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">RP</div>
+                            <div><strong data-i18n="testi_3_name">Ridwan Prasetyo</strong><small
+                                    data-i18n="testi_3_pos">Owner Travel Bandung</small></div>
+                        </div>
+                    </div>
+                    <!-- 4 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_4_text">"Gak perlu lagi rekap manual malem-malem. Owner tinggal liat
+                            dashboard, profit kelihatan jelas. Mantap Munira!"</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">MS</div>
+                            <div><strong data-i18n="testi_4_name">H. Muhammad Sholeh</strong><small
+                                    data-i18n="testi_4_pos">Marketing Makassar</small></div>
+                        </div>
+                    </div>
+                    <!-- 5 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_5_text">"Fitur AI-nya bantu CS saya jawab pertanyaan jamaah dengan bahasa
+                            yang sangat sopan. Branding travel kami premium."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">DR</div>
+                            <div><strong data-i18n="testi_5_name">Dian Rahmawati</strong><small
+                                    data-i18n="testi_5_pos">Head of Digital Medan</small></div>
+                        </div>
+                    </div>
+                    <!-- 6 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_6_text">"Setup-nya dibantu sampai bisa. Tim support Munira responsif banget,
+                            gak dilepas gitu aja. Sangat worth it!"</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">HS</div>
+                            <div><strong data-i18n="testi_6_name">Hj. Haryati Saputra</strong><small
+                                    data-i18n="testi_6_pos">Pimpinan Travel Yogyakarta</small></div>
+                        </div>
+                    </div>
+                    <!-- 7 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_7_text">"Biasanya data jamaah berantakan di Excel. Sekarang terpusat, aman,
+                            dan gak bisa dicolong tim yang resign."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">AK</div>
+                            <div><strong data-i18n="testi_7_name">Abdullah Karim</strong><small
+                                    data-i18n="testi_7_pos">Manager Ops Samarinda</small></div>
+                        </div>
+                    </div>
+                    <!-- 8 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_8_text">"Integrasi Meta Pixel-nya gampang banget. Saya bisa tau iklan mana
+                            yang beneran ngasilin duit, bukan cuma like."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">LN</div>
+                            <div><strong data-i18n="testi_8_name">Laila Nurhasanah</strong><small
+                                    data-i18n="testi_8_pos">Lead CS Jakarta</small></div>
+                        </div>
+                    </div>
+                    <!-- 9 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_9_text">"Tampilan mobile-nya keren banget. Jamaah jadi makin percaya kalau
+                            travel kami itu profesional."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">FR</div>
+                            <div><strong data-i18n="testi_9_name">Faisal Ridho</strong><small
+                                    data-i18n="testi_9_pos">Creative Lead Bandung</small></div>
+                        </div>
+                    </div>
+                    <!-- 10 -->
+                    <div class="testimonial-card">
+                        <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-i18n="testi_10_text">"Gak ada lagi drama rebutan lead antar admin. Semuanya diatur
+                            otomatis, adil, dan transparan."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">IH</div>
+                            <div><strong data-i18n="testi_10_name">Ibu Hikmah</strong><small
+                                    data-i18n="testi_10_pos">Staff Ops Palembang</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PRICING -->
+        <section class="section" id="pricing">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span class="section-label" data-i18n="label_pricing">Pricing</span>
+                <h2 class="section-title reveal" data-i18n="price_title">Nilai Berlimpah, Harga Terjangkau.</h2>
+                <div class="scarcity-badge reveal" data-i18n="scarcity_limit"
+                    style="display: inline-block; padding: 10px 20px; background: rgba(255, 59, 48, 0.1); color: #ff3b30; border-radius: 50px; font-weight: 700; font-size: 0.9rem; margin-top: 15px; border: 1px solid rgba(255, 59, 48, 0.2);">
+                    ⚠️ Slot Terbatas: Hanya bersisa 2 dari 10 slot Travel & 1 dari 4 slot Ads Premium bulan ini.
+                </div>
+            </div>
+            <div class="grid-3" style="align-items: stretch;">
+                <!-- 6 Months -->
+                <div class="price-box reveal" style="display: flex; flex-direction: column;">
+                    <h3 data-i18n="price_1_title">Paket 6 Bulan</h3>
+                    <div class="price-old">Rp 12.000.000</div>
+                    <div class="price-main">10jt</div>
+                    <div style="margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 0.8rem; letter-spacing: 1px;"
+                        data-i18n="price_f_all">SEMUA FITUR TERMASUK</div>
+                    <ul class="price-features" style="flex-grow: 1; text-align: left; margin-bottom: 30px;">
+                        <li data-i18n="price_f1"><i class="fas fa-check-circle"></i> Dashboard Management Real-time</li>
+                        <li data-i18n="price_f2"><i class="fas fa-check-circle"></i> High-Speed Landing Page</li>
+                        <li data-i18n="price_f3"><i class="fas fa-check-circle"></i> AI Scorer & WA Analytics</li>
+                        <li data-i18n="price_f4"><i class="fas fa-check-circle"></i> Enterprise Data Shield</li>
+                        <li data-i18n="price_f5"><i class="fas fa-check-circle"></i> Full AI Concierge 24/7</li>
+                        <li data-i18n="price_f6"><i class="fas fa-check-circle"></i> Support Prioritas & Update</li>
+                    </ul>
+                    <a href="#action" class="apple-btn" style="width: 100%;" data-i18n="price_btn">Pilih Paket</a>
+                </div>
+
+                <!-- 12 Months (Best Value) -->
+                <div class="price-box featured reveal"
+                    style="display: flex; flex-direction: column; transform: scale(1.05);">
+                    <span class="price-badge" data-i18n="price_best">HEMAT 50%</span>
+                    <h3 data-i18n="price_2_title">Paket 12 Bulan</h3>
+                    <div class="price-old">Rp 24.000.000</div>
+                    <div class="price-main">16jt</div>
+                    <div style="margin-bottom: 20px; font-weight: 700; color: var(--secondary); font-size: 0.8rem; letter-spacing: 1px;"
+                        data-i18n="price_f_all">SEMUA FITUR TERMASUK</div>
+                    <ul class="price-features" style="flex-grow: 1; text-align: left; margin-bottom: 30px;">
+                        <li data-i18n="price_f1"><i class="fas fa-check-circle"></i> Dashboard Management Real-time</li>
+                        <li data-i18n="price_f2"><i class="fas fa-check-circle"></i> High-Speed Landing Page</li>
+                        <li data-i18n="price_f3"><i class="fas fa-check-circle"></i> AI Scorer & WA Analytics</li>
+                        <li data-i18n="price_f4"><i class="fas fa-check-circle"></i> Enterprise Data Shield</li>
+                        <li data-i18n="price_f5"><i class="fas fa-check-circle"></i> Full AI Concierge 24/7</li>
+                        <li data-i18n="price_f6"><i class="fas fa-check-circle"></i> Support Prioritas & Update</li>
+                    </ul>
+                    <a href="#action" class="btn-glow" style="width: 100%;" data-i18n="price_btn_best">Dapatkan
+                        Sekarang</a>
+                </div>
+
+                <!-- Monthly -->
+                <div class="price-box reveal" style="display: flex; flex-direction: column;">
+                    <h3 data-i18n="price_3_title">Paket Bulanan</h3>
+                    <div class="price-main">2jt<small>/bln</small></div>
+                    <div style="margin-bottom: 20px; font-weight: 700; color: var(--primary); font-size: 0.8rem; letter-spacing: 1px;"
+                        data-i18n="price_f_all">SEMUA FITUR TERMASUK</div>
+                    <ul class="price-features" style="flex-grow: 1; text-align: left; margin-bottom: 30px;">
+                        <li data-i18n="price_f1"><i class="fas fa-check-circle"></i> Dashboard Management Real-time</li>
+                        <li data-i18n="price_f2"><i class="fas fa-check-circle"></i> High-Speed Landing Page</li>
+                        <li data-i18n="price_f3"><i class="fas fa-check-circle"></i> AI Scorer & WA Analytics</li>
+                        <li data-i18n="price_f4"><i class="fas fa-check-circle"></i> Enterprise Data Shield</li>
+                        <li data-i18n="price_f5"><i class="fas fa-check-circle"></i> Full AI Concierge 24/7</li>
+                        <li data-i18n="price_f6"><i class="fas fa-check-circle"></i> Support Prioritas & Update</li>
+                    </ul>
+                    <a href="#action" class="apple-btn" style="width: 100%;" data-i18n="price_btn">Coba Dulu</a>
+                </div>
+            </div>
+        </section>
+        <!-- SECTION: FAQ -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <div style="text-align: center;">
+                    <span class="section-label" data-i18n="label_faq">FAQ</span>
+                    <h2 class="section-title reveal" data-i18n="faq_title">Pertanyaan Umum</h2>
+                </div>
+
+                <div class="faq-container reveal">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span data-i18n="faq_1_q">Apakah saya perlu server sendiri?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_1_a">Tidak perlu. Munira CRM berbasis Cloud (SaaS), semua infrastruktur
+                                kami yang kelola dengan standar keamanan bank.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span data-i18n="faq_2_q">Bagaimana jika CS saya awam teknologi?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_2_a">Justru Munira dibuat untuk CS awam. Dengan AI Template Builder, CS
+                                Anda tinggal klik saran pesan yang paling emosional dan closing-rate tinggi.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span data-i18n="faq_3_q">Apakah data saya aman?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-i18n="faq_3_a">Sangat aman. Kami menggunakan enkripsi AES-256 dan sistem Staff Data
+                                Masking agar data tidak bisa dibawa lari saat staff resign.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTION SECTION -->
+        <section class="cta-premium" id="action" style="position: relative; overflow: hidden; background: #05070a;">
+            <div class="kaaba-motif"></div>
+            <div class="spiritual-orbit"></div>
+            <div class="cta-container reveal" style="position: relative; z-index: 10; padding: 0 20px;">
+                <h2 data-i18n="cta_title" style="color: white; margin-bottom: 20px;">Siap Transformasi Bisnis Anda?</h2>
+                <p data-i18n="cta_desc" style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">Dapatkan akses demo
+                    gratis dan lihat masa depan travel Umrah Anda.</p>
+                <div class="scarcity-text" data-i18n="cta_scarcity"
+                    style="margin-bottom: 40px; color: var(--secondary); font-weight: 600; font-style: italic; font-size: 1.1rem;">
+                    Kami hanya menerima level travel tertentu. Amankan slot konsultasi Anda hari ini.
+                </div>
+                <a href="https://wa.me/62812345678" target="_blank" class="btn-glow" data-i18n="cta_btn">Jadwalkan
+                    Konsultasi Gratis</a>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="padding: 60px 20px; text-align: center; color: var(--text-gray); border-top: 1px solid var(--border-light);">
+        <p data-i18n="footer_text">&copy; 2026 Munira Technology CRM. Dirancang Khusus untuk Travel Umrah & Haji.</p>
+    </footer>
+
+    <!-- Unified Control Panel -->
+    <div class="control-panel">
+        <button id="langToggle" class="panel-btn" title="Switch Language">ID</button>
+        <button id="themeToggle" class="panel-btn" title="Switch Theme">
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+
+    <!-- DUMMY PROGRAM MODAL -->
+    <div class="modal-overlay" id="programModal">
+        <div class="program-modal">
+            <div class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="dummy-program-content">
+                <h3 data-i18n="modal_prog_title">Umrah Premium 9 Hari</h3>
+                <div class="itinerary-list">
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_1">H-1</div>
+                        <div class="itinerary-desc" data-i18n="day_1_d">Keberangkatan: Jakarta - Jeddah. Check-in Hotel
+                            Makkah.</div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_2">H-2</div>
+                        <div class="itinerary-desc" data-i18n="day_2_d">Ibadah Umrah Utama (Tawaf, Sa'I, Tahallul).
+                        </div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_3">H-3</div>
+                        <div class="itinerary-desc" data-i18n="day_3_d">Ziarah Kota Makkah (Jabal Tsur, Arafah, Mina).
+                        </div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_4">H-4</div>
+                        <div class="itinerary-desc" data-i18n="day_4_d">Perbanyak Ibadah Mandiri & Tausiyah Senja.</div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_5">H-5</div>
+                        <div class="itinerary-desc" data-i18n="day_5_d">Menuju Madinah via Kereta Cepat (High Speed
+                            Rail).</div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_6">H-6</div>
+                        <div class="itinerary-desc" data-i18n="day_6_d">Ziarah Raudhah & Masjid Nabawi.</div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_7">H-7</div>
+                        <div class="itinerary-desc" data-i18n="day_7_d">Ziarah Kota Madinah (Masjid Quba, Kebun Kurma).
+                        </div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_8">H-8</div>
+                        <div class="itinerary-desc" data-i18n="day_8_d">Persiapan Kepulangan & Belanja Oleh-oleh.</div>
+                    </div>
+                    <div class="itinerary-item">
+                        <div class="itinerary-day" data-i18n="day_9">H-9</div>
+                        <div class="itinerary-desc" data-i18n="day_9_d">Kepulangan: Jeddah - Jakarta. Sampai Jumpa
+                            Kembali!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

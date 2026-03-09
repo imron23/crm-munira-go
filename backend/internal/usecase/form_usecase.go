@@ -25,6 +25,12 @@ func (u *formUsecase) CreateForm(c context.Context, form *domain.Form) error {
 	return u.formRepo.Create(ctx, form)
 }
 
+func (u *formUsecase) UpdateForm(c context.Context, form *domain.Form) error {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.formRepo.Update(ctx, form)
+}
+
 func (u *formUsecase) GetFormByID(c context.Context, id string) (*domain.Form, error) {
 	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
 	defer cancel()
@@ -35,4 +41,10 @@ func (u *formUsecase) FetchAllForms(c context.Context) ([]domain.Form, error) {
 	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
 	defer cancel()
 	return u.formRepo.FetchAll(ctx)
+}
+
+func (u *formUsecase) DeleteForm(c context.Context, id string) error {
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+	return u.formRepo.Delete(ctx, id)
 }

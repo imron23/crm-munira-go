@@ -1,0 +1,68 @@
+services:
+  # ─── Nginx Reverse Proxy ─────────────────────────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: crm-munira-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    restart: always
+
+  # ─── Go Backend API + Static Dashboard ───────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: crm-munira-go-backend
+    container_name: crm-munira-go-api
+    expose:
+      - "8080"
+    environment:
+      - PORT=8080
+      - POSTGRES_URI=postgresql://munira:munira_password@postgres:5432/munira_crm
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./dashboard:/dashboard
+      - ./lp-2-long:/lp-2-long
+      - ./lp-liburan:/lp-liburan
+      - ./lp-bakti-anak:/lp-bakti-anak
+      - ./lp-itikaf-premium:/lp-itikaf-premium
+      - ./lp-spiritual-journey:/lp-spiritual-journey
+      - ./jualan-lp:/jualan-lp
+      - ./jualan lp:/jualan-lp-space
+      - ./assets:/assets
+      - ./index.html:/index.html
+    restart: always
+
+  # ─── PostgreSQL Database ──────────────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: crm-munira-postgres
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=munira
+      - POSTGRES_PASSWORD=munira_password
+      - POSTGRES_DB=munira_crm
+    volumes:
+      - munira_postgres_data:/var/lib/postgresql/data
+      - ./migration-docs/02_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./migration-docs/05_schema_additions.sql:/docker-entrypoint-initdb.d/02_schema_additions.sql
+      - ./migration-docs/06_schema_soft_deletes.sql:/docker-entrypoint-initdb.d/03_schema_soft_deletes.sql
+      - ./migration-docs/07_leads_crm_upgrade.sql:/docker-entrypoint-initdb.d/04_leads_crm_upgrade.sql
+      - ./migration-docs/08_forms_crm_upgrade.sql:/docker-entrypoint-initdb.d/05_forms_crm_upgrade.sql
+      - ./migration-docs/09_seed_admin_user.sql:/docker-entrypoint-initdb.d/06_seed_admin_user.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U munira -d munira_crm" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+
+volumes:
+  munira_postgres_data:

@@ -1868,8 +1868,8 @@
             <script>
                 /* ── Kecamatan Autocomplete for Short Form ── */
                 (function () {
-                    const API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
-                        ? 'http://localhost:3000/api' : '/api';
+                    const API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                        ? 'http://localhost:8080/api' : '/api';
 
                     const inp = document.getElementById('sfDomisiliInput');
                     const dd = document.getElementById('sfDomisiliDropdown');
@@ -2043,8 +2043,8 @@
                         try { if (typeof fbq === 'function') fbq('track', 'Lead'); } catch (t) { }
                         try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { send_to: 'G-11PXTCBM9L' }); } catch (t) { }
 
-                        const API_URL = (window.location.protocol === 'file:' || window.location.port === '3000')
-                            ? 'http://localhost:3000/api/leads' : '/api/leads';
+                        const API_URL = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                            ? 'http://localhost:8080/api/leads' : '/api/leads';
                         const params = new URLSearchParams(window.location.search);
 
                         const payload = {
@@ -2073,14 +2073,17 @@
                             }
                         }
 
-                        fetch(API_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        }).finally(() => {
+                        (async function() {
+                            try {
+                                const res = await fetch(API_URL, {
+                                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload), keepalive: true
+                                });
+                                if (!res.ok) console.warn('[Lead]', res.status, await res.text());
+                            } catch (err) { console.warn('[Lead]', err); }
                             const text = `Assalamu'alaikum Konsultan Munira World,\n\nSaya tertarik dengan Program Umrah Keluarga Liburan Sekolah 10 Hari.\n\n👤 Nama: ${nama}\n📱 No. WA: ${hp}\n📍 Domisili: ${domisili || 'Belum diisi'}\n🕋 Paket Diminati: ${paket || 'Minta info semua paket'}\n\nMohon info detail, jadwal, dan ketersediaan seat. Terima kasih.`;
                             window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
-                        });
+                        })();
                     });
                 });
             </script>
@@ -2140,8 +2143,8 @@
     <script>
         (function () {
             var LP_FOLDER = 'lp-liburan-short';
-            var API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
-                ? 'http://localhost:3000/api' : '/api';
+            var API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                ? 'http://localhost:8080/api' : '/api';
             async function loadAndInjectForm() {
                 try {
                     // /api/pages/:folder/config returns { success, form: {...}, programs: [...] }

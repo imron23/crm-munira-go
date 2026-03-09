@@ -1,32 +1,21 @@
 package domain
 
-import (
-	"context"
-	"time"
-)
-
-type Admin struct {
-	ID        int       `json:"id"`
-	Username  string    `json:"username"`
-	Password  string    `json:"-"`
-	Role      string    `json:"role"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
-type LoginRequest struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
-type AuthResponse struct {
-	Token string `json:"token"`
-	User  Admin  `json:"user"`
-}
+import "context"
 
 type AuthRepository interface {
-	GetByUsername(ctx context.Context, username string) (*Admin, error)
+	GetByUsername(ctx context.Context, username string) (*AdminUser, error)
 }
 
 type AuthUsecase interface {
 	Login(ctx context.Context, req LoginRequest) (*AuthResponse, error)
+}
+
+type LoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type AuthResponse struct {
+	Token string     `json:"token"`
+	User  *AdminUser `json:"user"`
 }

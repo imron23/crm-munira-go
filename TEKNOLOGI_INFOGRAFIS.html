@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Architecture | Munira Workspace CRM</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette - Deep Slate & Royal Blue */
+            --bg-body: #05070a;
+            --bg-card: rgba(13, 17, 23, 0.7);
+            --bg-nav: rgba(5, 7, 10, 0.8);
+
+            --brand-primary: #3b82f6;
+            --brand-primary-glow: rgba(59, 130, 246, 0.5);
+            --brand-secondary: #8b5cf6;
+            --brand-accent: #10b981;
+            --brand-gold: #f59e0b;
+            --brand-rose: #f43f5e;
+
+            --text-main: #f0f6fc;
+            --text-dim: #8b949e;
+            --text-muted: #484f58;
+
+            --border-subtle: rgba(240, 246, 252, 0.1);
+            --border-bright: rgba(240, 246, 252, 0.2);
+
+            --glass-blur: blur(12px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Base Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-font {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* Decorative Background Elements */
+        .bg-glow {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--brand-primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -10%;
+            left: -10%;
+        }
+
+        .glow-2 {
+            bottom: -10%;
+            right: -10%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--bg-nav);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        nav .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--brand-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--brand-primary);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #fff 0%, var(--brand-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+            text-align: left;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header h2 i {
+            color: var(--brand-primary);
+            font-size: 1.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        /* Layout Grids */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .content-split {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .content-split.reverse {
+            grid-template-columns: 0.8fr 1.2fr;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 35px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--brand-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card i.main-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--brand-primary);
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 25px;
+        }
+
+        /* Tech Lists */
+        ul.bullet-list {
+            list-style: none;
+        }
+
+        ul.bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        ul.bullet-list li i {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            font-size: 0.85rem;
+            color: var(--brand-primary);
+        }
+
+        ul.bullet-list li strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        ul.bullet-list li span {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* Visual Blocks */
+        .visual-block {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Code Block */
+        .code-snippet {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            overflow-x: auto;
+        }
+
+        .code-snippet .keyword {
+            color: #ff7b72;
+        }
+
+        .code-snippet .func {
+            color: #d2a8ff;
+        }
+
+        .code-snippet .str {
+            color: #a5d6ff;
+        }
+
+        .code-snippet .comment {
+            color: #8b949e;
+        }
+
+        /* Steps */
+        .step-list {
+            position: relative;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            padding-bottom: 35px;
+            position: relative;
+        }
+
+        .step-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border-subtle);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .step-content strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .step-content span {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Utility */
+        @media (max-width: 1024px) {
+
+            .content-split,
+            .content-split.reverse {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .content-split.reverse .content-visual {
+                order: 1;
+            }
+
+            .content-split.reverse .content-text {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+
+        /* Custom Visuals */
+        .fallback-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bar-item {
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .bar-item.active {
+            border-color: var(--brand-accent);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .tag {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid currentColor;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .kpi-card span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+
+        .kpi-card strong {
+            font-size: 1.2rem;
+            color: var(--brand-primary);
+        }
+
+        /* Accordion Styling */
+        .accordion-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 30px;
+            border: 1px dashed var(--border-subtle);
+        }
+
+        details {
+            margin-bottom: 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        details[open] {
+            border-color: var(--brand-primary);
+        }
+
+        summary {
+            padding: 20px 25px;
+            font-weight: 700;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s;
+            color: var(--brand-primary);
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .details-content {
+            padding: 0 25px 25px;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .details-content strong {
+            color: var(--brand-primary);
+        }
+
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                <i class="fas fa-layer-group"></i>
+                <span class="brand-font">Munira Architecture</span>
+            </a>
+            <div class="nav-links">
+                <a href="#core">Core Backend</a>
+                <a href="#ui">Frontend</a>
+                <a href="#ai">AI Engine</a>
+                <a href="#workflow">Workflow</a>
+                <a href="#infra">Infra</a>
+                <a href="#deepdive">Deep Dive</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- HERO -->
+        <header class="hero">
+            <span class="badge">Architecture V2.0 — Production Ready</span>
+            <h1>Eksplorasi Teknologi Munira</h1>
+            <p>Bedah tuntas infrastruktur CRM modern yang ditenagai oleh performa ekstrim, kecerdasan buatan, dan
+                efisiensi resource yang revolusioner.</p>
+            <div style="display:flex; justify-content:center; gap:15px;">
+                <a href="#core"
+                    style="padding:14px 28px; background:var(--brand-primary); color:white; border-radius:12px; text-decoration:none; font-weight:700; font-size:0.9rem;">Mulai
+                    Eksplorasi</a>
+                <a href="#ai"
+                    style="padding:14px 28px; background:var(--glass-nav); border:1px solid var(--border-bright); color:white; border-radius:12px; text-decoration:none; font-weight:700; font-size:0.9rem;">Pelajari
+                    AI</a>
+            </div>
+        </header>
+
+        <!-- 1. The Power Triple Cards -->
+        <section id="basics" style="border-top: 1px solid var(--border-subtle);">
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fas fa-microchip main-icon"></i>
+                    <h3>Golang Engine</h3>
+                    <p>Mesin backend ultra-cepat yang dirancang untuk stabilitas data ribuan jamaah secara konkuren.</p>
+                    <ul class="bullet-list">
+                        <li><i class="fas fa-check"></i> Clean Architecture Patterns</li>
+                        <li><i class="fas fa-check"></i> High Performance Gin Gonic</li>
+                        <li><i class="fas fa-check"></i> JWT Secure Authentication</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <i class="fas fa-paint-brush main-icon" style="color:var(--brand-secondary)"></i>
+                    <h3>Reactive UI</h3>
+                    <p>Antarmuka premium dengan kecepatan respons instan tanpa beban library JavaScript berat.</p>
+                    <ul class="bullet-list">
+                        <li><i class="fas fa-check" style="color:var(--brand-secondary)"></i> Vanilla JS Module-Based
+                        </li>
+                        <li><i class="fas fa-check" style="color:var(--brand-secondary)"></i> Glassmorphism UI Style
+                        </li>
+                        <li><i class="fas fa-check" style="color:var(--brand-secondary)"></i> PWA Ready (Mobile Web)
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <i class="fas fa-brain main-icon" style="color:var(--brand-accent)"></i>
+                    <h3>AI Concierge</h3>
+                    <p>Infrastruktur kecerdasan buatan yang memproses psikologi komunikasi untuk konversi tinggi.</p>
+                    <ul class="bullet-list">
+                        <li><i class="fas fa-check" style="color:var(--brand-accent)"></i> 3-Tier Failback System</li>
+                        <li><i class="fas fa-check" style="color:var(--brand-accent)"></i> Emotional Tone Mapping</li>
+                        <li><i class="fas fa-check" style="color:var(--brand-accent)"></i> Dynamic Prompt Injection</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.1 Live Dashboard Preview (High Fidelity) -->
+        <section id="preview">
+            <div class="section-header" style="text-align: center;">
+                <span class="badge"
+                    style="background:rgba(59, 130, 246, 0.1); color:var(--brand-primary); border-color:rgba(59, 130, 246, 0.2);">Live
+                    Dashboard Preview</span>
+                <h2>Antarmuka Premium & Powerfull</h2>
+                <p>Preview sistem manajemen operasional jamaah yang modern, elegan, dan informatif.</p>
+            </div>
+
+            <div
+                style="background: rgba(13, 17, 23, 0.5); border: 1px solid var(--border-subtle); border-radius: 30px; padding: 40px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.6);">
+                <img src="/Users/user/.gemini/antigravity/brain/6063427a-96a6-4599-aa11-015bc60cd8bc/munira_crm_dashboard_preview_1772964469568.png"
+                    alt="Munira CRM Dashboard Preview"
+                    style="width: 100%; max-width: 1000px; border-radius: 15px; border: 1px solid var(--border-bright); box-shadow: 0 0 50px rgba(59, 130, 246, 0.2);">
+
+                <div class="grid-3" style="margin-top: 50px; text-align: left;">
+                    <div class="card" style="background: rgba(255,255,255,0.02);">
+                        <i class="fas fa-chart-pie main-icon" style="color:var(--brand-gold);"></i>
+                        <h3>Strategic Overview</h3>
+                        <p>Halaman utama yang menyajikan <strong>KPI (Key Performance Indicators)</strong> secara
+                            real-time. Memantau efektivitas iklan dan grafik tren jamaah harian untuk pengambilan
+                            keputusan cepat.</p>
+                    </div>
+                    <div class="card" style="background: rgba(255,255,255,0.02);">
+                        <i class="fas fa-hand-holding-heart main-icon" style="color:var(--brand-accent);"></i>
+                        <h3>Leads Proficiency</h3>
+                        <p>Halaman manajemen jamaah yang presisi. Filter data berdasarkan status, paket, dan skor minat
+                            untuk memastikan CS hanya menghubungi lead yang paling potensial.</p>
+                    </div>
+                    <div class="card" style="background: rgba(255,255,255,0.02);">
+                        <i class="fas fa-mobile-alt main-icon" style="color:var(--brand-secondary);"></i>
+                        <h3>Desktop to Mobile</h3>
+                        <p>Desain arsitektur dashboard yang responsif. Tetap nyaman diakses melalui laptop di kantor
+                            atau melalui smartphone saat sedang mendampingi jamaah di lapangan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Core Backend Deep Dive -->
+        <section id="core">
+            <div class="content-split">
+                <div class="content-text">
+                    <div class="section-header">
+                        <h2><i class="fas fa-code-branch"></i> Backend Core Engine</h2>
+                        <p>Mengapa performa Go (Golang) sangat krusial bagi CRM ini.</p>
+                    </div>
+                    <ul class="bullet-list">
+                        <li>
+                            <strong>Kompilasi Binary Machine Code</strong>
+                            <span>Berbeda dengan bahasa scripting, Go dikompilasi menjadi machine code tunggal,
+                                memproses request dalam mikrodetik.</span>
+                        </li>
+                        <li>
+                            <strong>Concurreny - The Goroutine Power</strong>
+                            <span>Menghandle ribuan tugas paralel (kirim bot, log data, AI call) hanya dengan resource
+                                memori minimal (2KB per task).</span>
+                        </li>
+                        <li>
+                            <strong>Repository Pattern</strong>
+                            <span>Pemisahan ketat antara DB logic dan Business logic untuk kemudahan skalabilitas tanpa
+                                resiko bug sistemik.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-visual">
+                    <div class="visual-block">
+                        <div class="code-snippet">
+                            <span class="keyword">func</span> (<span class="func">uc</span> *Usecase) <span
+                                class="func">Process</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">go</span> <span class="func">func</span>() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Async Work</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">CallAI</span>(leadData)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">LogAction</span>(LEAD_ID)<br>
+                            &nbsp;&nbsp;}()<br>
+                            &nbsp;&nbsp;<span class="keyword">return</span> <span class="str">"Success"</span><br>
+                            }
+                        </div>
+                        <p style="font-size:0.75rem; color:var(--text-dim); margin-top:15px; text-align:center;">
+                            Goroutine (kata kunci <code>go</code>) memungkinkan multitasking tanpa menguras CPU.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Visual Workspace Mockup (High Fidelity) -->
+        <section id="mockup">
+            <div class="section-header" style="text-align: center;">
+                <span class="badge"
+                    style="background:rgba(245, 158, 11, 0.1); color:var(--brand-gold); border-color:rgba(245, 158, 11, 0.2);">Product
+                    Experience</span>
+                <h2>Dashboard & AI Workspace</h2>
+                <p>Antarmuka premium yang dirancang untuk kenyamanan operasional tingkat tinggi.</p>
+            </div>
+
+            <div class="grid-3" style="grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start;">
+                <!-- Simulated Dashboard List -->
+                <div class="card"
+                    style="padding: 0; overflow: hidden; border-color: rgba(59, 130, 246, 0.3); background: #0c0f1a;">
+                    <div
+                        style="padding: 15px 25px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--brand-primary);"><i
+                                class="fas fa-list-ul"></i> ACTIVE LEADS</span>
+                        <div style="display:flex; gap:8px;">
+                            <div style="width:10px; height:10px; border-radius:50%; background:#ff5f56;"></div>
+                            <div style="width:10px; height:10px; border-radius:50%; background:#ffbd2e;"></div>
+                            <div style="width:10px; height:10px; border-radius:50%; background:#27c93f;"></div>
+                        </div>
+                    </div>
+                    <div style="padding: 20px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                            <thead>
+                                <tr
+                                    style="text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border-subtle);">
+                                    <th style="padding: 12px 10px;">ID</th>
+                                    <th style="padding: 12px 10px;">JAMAAH</th>
+                                    <th style="padding: 12px 10px;">STATUS</th>
+                                    <th style="padding: 12px 10px;">REVENUE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-subtle);">
+                                    <td style="padding: 15px 10px; color:var(--text-muted);">#8291</td>
+                                    <td style="padding: 15px 10px;"><strong>H. Ahmad Subarjo</strong><br><small
+                                            style="color:var(--text-dim)">+62 812-34xx-xxxx</small></td>
+                                    <td style="padding: 15px 10px;"><span
+                                            style="padding:4px 10px; background:rgba(16, 185, 129, 0.1); color:var(--brand-accent); border-radius:6px; font-weight:700; font-size:0.65rem;">NEW
+                                            DATA</span></td>
+                                    <td style="padding: 15px 10px; font-family:'Fira Code'; color:var(--brand-gold);">Rp
+                                        45.5M</td>
+                                </tr>
+                                <tr
+                                    style="border-bottom: 1px solid var(--border-subtle); background: rgba(59, 130, 246, 0.05);">
+                                    <td style="padding: 15px 10px; color:var(--text-muted);">#8292</td>
+                                    <td style="padding: 15px 10px;"><strong>Hj. Siti Rahmawati</strong><br><small
+                                            style="color:var(--text-dim)">+62 877-11xx-xxxx</small></td>
+                                    <td style="padding: 15px 10px;"><span
+                                            style="padding:4px 10px; background:rgba(59, 130, 246, 0.1); color:var(--brand-primary); border-radius:6px; font-weight:700; font-size:0.65rem;">FOLLOW
+                                            UP</span></td>
+                                    <td style="padding: 15px 10px; font-family:'Fira Code'; color:var(--brand-gold);">Rp
+                                        52.0M</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px 10px; color:var(--text-muted);">#8293</td>
+                                    <td style="padding: 15px 10px;"><strong>Bpk. Indro Kusuma</strong><br><small
+                                            style="color:var(--text-dim)">+62 856-78xx-xxxx</small></td>
+                                    <td style="padding: 15px 10px;"><span
+                                            style="padding:4px 10px; background:rgba(245, 158, 11, 0.1); color:var(--brand-gold); border-radius:6px; font-weight:700; font-size:0.65rem;">PIPELINE</span>
+                                    </td>
+                                    <td style="padding: 15px 10px; font-family:'Fira Code'; color:var(--brand-gold);">Rp
+                                        38.0M</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Simulated AI WA Panel -->
+                <div class="card"
+                    style="padding: 0; overflow: hidden; border-color: rgba(139, 92, 246, 0.4); background: #1a1d26;">
+                    <div
+                        style="padding: 15px; background: #075e54; color: white; display: flex; align-items: center; gap: 12px;">
+                        <div
+                            style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 700;">AI WA Assistant</div>
+                            <div style="font-size: 0.65rem; opacity: 0.8;">Online • Senior Concierge Mode</div>
+                        </div>
+                    </div>
+                    <div style="padding: 20px; display: flex; flex-direction: column; gap: 15px;">
+                        <div style="display: flex; gap: 8px;">
+                            <span
+                                style="padding: 5px 12px; background: var(--brand-secondary); color: white; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">✨
+                                SPIRITUAL TONE</span>
+                        </div>
+                        <div
+                            style="background: white; color: #1a1a2e; padding: 15px; border-radius: 12px 12px 12px 0; font-size: 0.8rem; line-height: 1.5; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                            "Assalamu'alaikum <strong>Bapak Ahmad</strong> 🌙,<br><br>
+                            Alhamdulillah, kami sangat bahagia menerima niat mulia Bapak untuk menuju Baitullah bersama
+                            keluarga tahun ini..."
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button
+                                style="padding: 8px 16px; background: #25d366; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-paper-plane"></i> KIRIM KE WA
+                            </button>
+                        </div>
+                        <div
+                            style="margin-top: 10px; padding: 12px; background: rgba(139, 92, 246, 0.05); border: 1px dashed var(--brand-secondary); border-radius: 10px; font-size: 0.75rem; color: var(--text-dim); text-align: center;">
+                            <i class="fas fa-robot"></i> AI Fallback: <strong>Active (GPT-4o)</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Workflow Section -->
+        <section id="workflow">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> Integrated CRM Lifecycle</h2>
+                <p>Bagaimana data diolah dari Landing Page hingga menjadi transaksi closing.</p>
+            </div>
+            <div class="content-split">
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Intent-Based Capture</strong>
+                            <span>Formulir di Landing Page dirancang sebagai proses kualifikasi, menangkap niat (intent)
+                                jamaah melalui field-field psikologis.</span>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Backend Parsing & Sync</strong>
+                            <span>Data disimpan dalam <strong>JSONB</strong> PostgreSQL, memungkinkan fleksibilitas data
+                                kustom tanpa downtime skema database.</span>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>AI Concierge Preparation</strong>
+                            <span>AI Profiling Engine menyiapkan draf pesan personal untuk CS berdasarkan data usia,
+                                rombongan, dan preferensi fasilitas.</span>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Dashboard Execution</strong>
+                            <span>Admin mengeksekusi aksi yang telah "dipertajam" oleh AI, meningkatkan rasio closing
+                                produk High-Ticket (Umrah Premium).</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-visual">
+                    <div class="visual-block" style="background:var(--bg-card);">
+                        <div class="kpi-grid">
+                            <div class="kpi-card"><span>Konversi AI</span><strong>+300%</strong></div>
+                            <div class="kpi-card"><span>Load Time</span><strong>0.4s</strong></div>
+                            <div class="kpi-card"><span>Data Integrity</span><strong>100%</strong></div>
+                            <div class="kpi-card"><span>Concurrency</span><strong>5k+ req/s</strong></div>
+                        </div>
+                        <p style="font-size:0.75rem; color:var(--text-dim); margin-top:20px; text-align:center;">
+                            Performa Dashboard: Cepat, Akurat, dan Powerfull.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Infrastructure Section -->
+        <section id="infra">
+            <div class="content-split reverse">
+                <div class="content-visual">
+                    <div class="visual-block">
+                        <div style="display:flex; justify-content:center; gap:20px; margin-bottom:20px;">
+                            <div
+                                style="width:100px; height:100px; border-radius:15px; background:white; display:flex; align-items:center; justify-content:center;">
+                                <img src="https://www.docker.com/wp-content/uploads/2023/05/symbol-dark-blue.png"
+                                    alt="Docker" width="60">
+                            </div>
+                        </div>
+                        <div
+                            style="padding:15px; border-radius:12px; background:rgba(0,0,0,0.3); border:1px solid var(--border-subtle);">
+                            <div
+                                style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:5px;">
+                                <span>CPU Usage (2 Cores)</span>
+                                <span style="color:var(--brand-accent)">~15% Idle</span>
+                            </div>
+                            <div style="height:6px; background:var(--border-subtle); border-radius:10px;">
+                                <div
+                                    style="width:15%; height:100%; background:var(--brand-accent); border-radius:10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-text">
+                    <div class="section-header">
+                        <h2><i class="fas fa-server"></i> Infra Efficiency & Scale</h2>
+                        <p>Efisiensi ekstrim untuk operasional Ads skala nasional.</p>
+                    </div>
+                    <ul class="bullet-list">
+                        <li>
+                            <strong>15.000+ Daily Visitors</strong>
+                            <span>Server hanya dibebani minimal meski trafik iklan meledak berkat binary exec yang
+                                efisien.</span>
+                        </li>
+                        <li>
+                            <strong>Resources: 2GB RAM / 2 Cores</strong>
+                            <span>Infrastruktur minimal untuk performa maksimal. Menghemat operasional server hingga 70%
+                                dibanding stack biasa.</span>
+                        </li>
+                        <li>
+                            <strong>Dockerized Environment</strong>
+                            <span>Deploy instan di mana saja. Konsistensi sistem tetap terjaga baik di server lokal
+                                maupun cloud besar.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Deep Dive Accordion (For Non-Tech) -->
+        <section id="deepdive" class="accordion-section">
+            <div class="section-header" style="text-align: center; margin-bottom: 40px;">
+                <span class="badge"
+                    style="background:rgba(139, 92, 246, 0.1); color:var(--brand-secondary); border-color:rgba(139, 92, 246, 0.2);">Deep
+                    Dive Analysis</span>
+                <h2>Penjelasan Detail Untuk Orang Awam</h2>
+                <p>Ingin tahu lebih dalam teknologi apa saja yang ada di balik layar?</p>
+            </div>
+
+            <details>
+                <summary>Golang (Go) — Mengapa sangat cepat?</summary>
+                <div class="details-content">
+                    Diibaratkan mesin mobil F1. Kecil tapi sangat kencang. Bahasa pemrograman **Go** dibuat oleh
+                    insinyur Google untuk memproses data dalam jumlah besar dengan sangat cepat. Ini yang membuat
+                    website Munira tidak lelet saat diakses ribuan orang sekaligus.
+                </div>
+            </details>
+
+            <details>
+                <summary>Gin Framework — Jalan Tol bagi data</summary>
+                <div class="details-content">
+                    Bila Go adalah mesinnya, maka **Gin** adalah jalan tolnya. Gin mengatur lalu-lintas data agar
+                    mengalir tanpa hambatan dari aplikasi ke HP Anda. Sangat ringan sehingga tidak membebani server.
+                </div>
+            </details>
+
+            <details>
+                <summary>PostgreSQL & JSONB — Brankas pintar</summary>
+                <div class="details-content">
+                    Tempat menyimpan data jamaah dengan sangat aman dan rapi. Fitur **JSONB** adalah "Laci Ajaib" yang
+                    bisa menampung apa saja tanpa harus dibongkar atau disusun ulang setiap ada jenis data keluarga baru
+                    yang masuk.
+                </div>
+            </details>
+
+            <details>
+                <summary>Vanilla JavaScript — Rahasia web super ringan</summary>
+                <div class="details-content">
+                    Ibarat orang lari tanpa membawa tas berat. Karena kita menggunakan **Vanilla JS** (tanpa tambahan
+                    beban berat), website Munira jadi sangat ringan dan lancar saat dibuka di browser HP meskipun sinyal
+                    internet sedang tidak stabil.
+                </div>
+            </details>
+
+            <details>
+                <summary>AI Engine & Fallback — Otak cerdas yang tak pernah tidur</summary>
+                <div class="details-content">
+                    Sistem ini menggunakan kecerdasan dari **OpenAI (ChatGPT)** dan **Gemini (Google)**. Hebatnya, ada
+                    sistem **Fallback**: jika satu asisten sedang sibuk, asisten lainnya akan menggantikan secara
+                    otomatis dalam sekejap. CS Anda tidak akan pernah kehilangan asisten pintarnya.
+                </div>
+            </details>
+
+            <details>
+                <summary>Goroutines — Multitasking tanpa lelah</summary>
+                <div class="details-content">
+                    Ini adalah kemampuan unik sistem untuk mengerjakan ribuan tugas sekaligus (seperti buat pesan,
+                    simpan log, dan kirim notifikasi) tanpa membuat server hang atau panas. Efisiensi tingkat tinggi!
+                </div>
+            </details>
+
+            <details>
+                <summary>Docker — Peti Kemas digital</summary>
+                <div class="details-content">
+                    Aplikasi dibungkus rapi dalam **Docker** (seperti peti kemas). Ini memastikan aplikasi bekerja
+                    lancar di server manapun tanpa perlu instal-instal manual yang rumit dan beresiko rusak.
+                </div>
+            </details>
+
+            <details>
+                <summary>JWT (Digital Keycard) — Keamanan tingkat bank</summary>
+                <div class="details-content">
+                    Setiap admin yang masuk diberi **Kartu Akses Digital (JWT)** yang sangat sulit dipalsukan. Ini
+                    menjamin data jamaah Anda aman dari tangan orang yang tidak bertanggung jawab.
+                </div>
+            </details>
+        </section>
+
+        <!-- 12. The Science of Emotional Closing: AI WA Architecture -->
+        <div class="section-title">
+            <h2>The Science of Emotional Closing</h2>
+            <p style="color:var(--text-secondary); margin-top:10px;">Bagaimana kecerdasan buatan mengubah data dingin
+                menjadi keputusan emosional.</p>
+        </div>
+
+        <div class="content-split">
+            <div class="content-text">
+                <h3><i class="fas fa-heart" style="color:var(--brand-rose)"></i> Emotional Layer (Psikologi Penjualan)
+                </h3>
+                <p>AI Munira tidak sekadar mengirim pesan, ia memetakan psikologi jamaah ke dalam 3 spektrum emosi
+                    utama:</p>
+                <ul class="bullet-list">
+                    <li>
+                        <strong>Spiritual Connection</strong>
+                        <span>Menyentuh sisi "Niyat" dan kerinduan jamaah akan Baitullah. Sangat efektif untuk jamaah
+                            usia senior yang mengutamakan kekhusyukan.</span>
+                    </li>
+                    <li>
+                        <strong>Solution-Oriented</strong>
+                        <span>Fokus pada kemudahan fasilitas (Hotel dekat, Bus nyaman, Makanan cocok). Efektif untuk
+                            jamaah yang membawa orang tua atau anak kecil.</span>
+                    </li>
+                    <li>
+                        <strong>Scarcity & Urgency</strong>
+                        <span>Menciptakan rasa takut kehilangan (FOMO) terhadap sisa kuota atau harga promo. Ampuh untuk
+                            mendorong jamaah yang suka menunda keputusan.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-text">
+                <h3><i class="fas fa-database" style="color:var(--brand-primary)"></i> Data-Driven Layer (Akurasi
+                    Presisi)</h3>
+                <p>Pesan emosional tersebut dipicu oleh <strong>Data Points</strong> yang diambil dari formulir Landing
+                    Page:</p>
+                <ul class="bullet-list">
+                    <li>
+                        <strong>Gender & Age Mapping</strong>
+                        <span>Sapaan "Abah/Umi/Pak/Bu" ditentukan otomatis oleh AI agar komunikasi terasa sangat
+                            personal dan penuh hormat.</span>
+                    </li>
+                    <li>
+                        <strong>Family Composition</strong>
+                        <span>AI mengenali rombongan keluarga dan secara cerdas menyarankan paket kamar (Quad/Triple)
+                            yang paling hemat dan nyaman.</span>
+                    </li>
+                    <li>
+                        <strong>Passport Readiness</strong>
+                        <span>Jika data paspor kosong, AI menyelipkan bantuan birokrasi sebagai "Value-Add" untuk
+                            membangun *trust* instan.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card"
+            style="margin-top: 40px; border-left: 5px solid var(--brand-accent); background: rgba(16, 185, 129, 0.05);">
+            <h3 style="color:var(--brand-accent); margin-bottom: 15px;"><i class="fas fa-chart-line"></i> Business
+                Impact: Mengapa Sistem Ini Berharga Mahal?</h3>
+            <p style="font-size: 1.1rem; color: var(--text-main); line-height: 1.8;">
+                Menurut riset industri, <strong>80% keputusan pembelian High-Ticket (Milyaran/Puluhan Juta) didorong
+                    oleh emosi dan kepercayaan (trust)</strong>.
+                Munira CRM menstandarisasi kualitas pesan CS Anda setara dengan *Top Sales Expert*.
+                Hasilnya: Tingkat *Closing* meningkat pesat karena jamaah merasa <strong>didengar, dipahami, dan
+                    dilayani dengan sangat personal</strong> bahkan sebelum mereka menelpon kantor Anda.
+            </p>
+        </div>
+
+        <footer>
+            <div style="margin-bottom:20px;">
+                <i class="fas fa-layer-group" style="font-size:1.5rem; color:var(--brand-primary);"></i>
+            </div>
+            <p>© 2026 Munira Workspace CRM — Technical Documentation</p>
+            <p style="margin-top:10px; font-size:0.75rem;">Arsitektur ini dirancang untuk Kecepatan, Skalabilitas, dan
+                Penjualan Premium.</p>
+        </footer>
+    </main>
+
+</body>
+
+</html>

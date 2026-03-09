@@ -161,19 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Post to CRM API
-            const API_URL = (window.location.protocol === 'file:' || window.location.port === '3000') ? 'http://localhost:3000/api/leads' : '/api/leads';
-            fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(leadData)
-            }).then(() => {
-                // Ignore result, redirect to WA immediately
+            const API_URL = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port)) ? 'http://localhost:8080/api/leads' : '/api/leads';
+            (async function() {
+                try {
+                    const res = await fetch(API_URL, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(leadData), keepalive: true
+                    });
+                    if (!res.ok) console.warn('[Lead]', res.status, await res.text());
+                } catch (err) { console.warn('[Lead]', err); }
                 window.top.location.href = waLink;
-            }).catch((err) => {
-                console.error("Failed to track lead:", err);
-                // Still redirect to WA even if tracking fails (fail-safe)
-                window.top.location.href = waLink;
-            });
+            })();
         });
     }
 

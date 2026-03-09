@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS CRM Travel Umrah - Kelola Travel Sambil Duduk Tenang</title>
+    <meta name="description"
+        content="CRM & Landing Page High-Tech khusus Bos Travel. Pantau hasil lewat satu dashboard tanpa ribet server dan coding.">
+
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- AOS (Animate on Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <style>
+        :root {
+            --primary: #5fa8d3;
+            /* Pastel Blue */
+            --secondary: #62c370;
+            /* Soft Emerald */
+            --accent: #f0f7f4;
+            /* Warm White */
+            --text-main: #1d1d1f;
+            /* Apple Black */
+            --text-secondary: #86868b;
+            /* Apple Gray */
+            --bg-body: #fbfbfd;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* --- Global Elements --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 980px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(95, 168, 211, 0.39);
+        }
+
+        .btn-primary:hover {
+            background-color: #4a90b8;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(95, 168, 211, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+
+        .hero-mockup {
+            margin-top: 60px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+            background: white;
+            padding: 10px;
+        }
+
+        .hero-mockup img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* --- Comparison Section (Value vs Cost) --- */
+        .comparison {
+            background-color: var(--white);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .cost-card {
+            background: var(--accent);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+        }
+
+        .cost-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .savings-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 980px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* --- Infographic Section --- */
+        .analytics {
+            background: #fff;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .chart-container {
+            background: var(--bg-body);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .chart-container h4 {
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* --- Features --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* --- Pricing --- */
+        .pricing {
+            background: var(--bg-body);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .price-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .price-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .featured-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .price-features li {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .check-icon {
+            color: var(--secondary);
+            flex-shrink: 0;
+        }
+
+        /* --- Meta Ads Section --- */
+        .meta-ads {
+            background: linear-gradient(135deg, #1d1d1f, #2d3142);
+            color: white;
+            border-radius: 40px;
+            margin: 60px 0;
+            padding: 60px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .meta-content {
+            flex: 1;
+        }
+
+        .meta-content h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .badge-ads {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 0 40px;
+            background: var(--white);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .footer-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .copyright {
+            margin-top: 80px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .comparison-grid,
+            .chart-grid,
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meta-ads {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .price-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Tooltip-like animation for numbers */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container">
+            <div class="logo">Munira CRM</div>
+            <div class="nav-links">
+                <a href="#fitur">Fitur</a>
+                <a href="#analitik">Analitik</a>
+                <a href="#harga">Harga</a>
+            </div>
+            <a href="#demo" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.85rem;">Demo Gratis</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container" data-aos="fade-up">
+                <h1>
+                    Kelola Travel Umrah Sambil <br>
+                    <span class="gradient-text">Duduk Tenang.</span>
+                </h1>
+                <p>
+                    CRM & Landing Page High-Tech khusus Bos Travel. Pantau hasil lewat satu dashboard.
+                    Tanpa ribet urusan server, tanpa pusing urusan coding. Tinggal jualan, biar sistem yang bekerja.
+                </p>
+                <div class="hero-btns">
+                    <a href="#demo" class="btn btn-primary">Jadwalkan Demo Gratis Sekarang</a>
+                </div>
+
+                <div class="hero-mockup" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="hero.png" alt="Munira CRM Dashboard Mockup">
+                </div>
+            </div>
+        </section>
+
+        <!-- VALUE VS COST -->
+        <section class="comparison">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Investasi yang Masuk Akal</h2>
+                    <p style="color: var(--text-secondary);">Bandingkan pengeluaran operasional Anda dengan teknologi
+                        masa depan.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="cost-card" data-aos="fade-right">
+                        <h3>Biaya Rekrutmen & Gaji (3 Admin/Manager)</h3>
+                        <div class="price-tag" style="color: #e63946;">Rp 15.000.000+</div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Per bulan, belum termasuk resiko
+                            resign & kelelahan.</p>
+                    </div>
+
+                    <div class="cost-card" style="background: #f0faf4; border: 1px solid #c3e6cb;" data-aos="fade-left">
+                        <h3>Biaya Munira CRM</h3>
+                        <div class="price-tag" style="color: var(--secondary);">Rp 2.000.000</div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Bekerja 24/7 tanpa lelah, data 100%
+                            aman.</p>
+                        <div class="savings-badge">Hemat Rp 13.000.000 / Bulan</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section id="fitur">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Lebih Dari Sekadar Database</h2>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon"><i data-lucide="zap"></i></div>
+                        <h3>Bukan WordPress</h3>
+                        <p>Teknologi modern yang jauh lebih ringan & cepat. Anti-lemoood saat dihajar iklan Meta Ads
+                            atau Google Ads.</p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                        <h3>Anti-Ghosting Data</h3>
+                        <p>Data adalah aset. Setiap database jamaah terkunci di sistem perusahaan, bukan tertahan di
+                            handphone admin.</p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon"><i data-lucide="bell"></i></div>
+                        <h3>Automated Follow-up</h3>
+                        <p>Sistem pengingat otomatis untuk jamaah yang belum bayar DP. Tingkatkan closing rate tanpa
+                            manual chat.</p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon"><i data-lucide="layout"></i></div>
+                        <h3>Instalasi Setrika Beres</h3>
+                        <p>Tidak perlu sewa server atau setting token AI. Semua sudah terpasang, Anda tinggal login dan
+                            pakai.</p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature-icon"><i data-lucide="activity"></i></div>
+                        <h3>Dashboard Real-Time</h3>
+                        <p>Pantau kualitas closing dan aktivitas tim marketing detik ini juga dari manapun Anda berada.
+                        </p>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="feature-icon"><i data-lucide="lock"></i></div>
+                        <h3>Keamanan Tingkat Tinggi</h3>
+                        <p>Enkripsi data berlapis. Data jamaah Anda adalah prioritas utama kami, terjamin tidak bocor ke
+                            kompetitor.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPILL TECHNIQUE (CHARTS) -->
+        <section id="analitik" class="analytics">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Spill "Teknik Monitoring"</h2>
+                    <p style="color: var(--text-secondary);">Visualisasikan performa tim Anda secara transparan.</p>
+                </div>
+
+                <div class="chart-grid">
+                    <div class="chart-container" data-aos="fade-right">
+                        <h4>Closing Ratio: Admin A vs Admin B</h4>
+                        <canvas id="closingRelChart"></canvas>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 15px;">
+                            Ciptakan kompetisi sehat di tim sales dengan data real-time.
+                        </p>
+                    </div>
+
+                    <div class="chart-container" data-aos="fade-left">
+                        <h4>Heatmap: Jam Sibuk Admin</h4>
+                        <canvas id="heatmapChart"></canvas>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 15px;">
+                            Identifikasi jam-jam emas untuk memaksimalkan respon chat jamaah.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECH METAPHOR -->
+        <section class="tech-advantage">
+            <div class="container" style="text-align: center;">
+                <div style="max-width: 800px; margin: 0 auto;" data-aos="fade-up">
+                    <div style="font-size: 2rem; margin-bottom: 25px; font-weight: 600;">
+                        "Kenapa Harus Pindah dari WordPress?"
+                    </div>
+                    <div
+                        style="background: var(--accent); padding: 40px; border-radius: 30px; display: flex; align-items: center; gap: 30px; text-align: left;">
+                        <div style="font-size: 3rem;">⚡</div>
+                        <div>
+                            <p style="font-size: 1.1rem; line-height: 1.6;">
+                                Kalau <strong>WordPress</strong> itu seperti mobil tua yang banyak aksesoris, sering
+                                mogok (error) dan berat.
+                                Teknologi kami seperti <strong>Motor Listrik Terbaru</strong>: Ringan, sat-set, dan
+                                langsung lari begitu gas (iklan) ditekan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section id="harga" class="pricing">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Pilih Paket Sesuai Kebutuhan</h2>
+                    <p style="color: var(--text-secondary);">Semua paket termasuk Unlimited Team Member & Unlimited
+                        Database.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Paket Bulanan -->
+                    <div class="price-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Paket Bulanan</h3>
+                        <div class="price-amount">2 Juta<span
+                                style="font-size: 1rem; color: var(--text-secondary);">/bln</span></div>
+                        <ul class="price-features">
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> CRM Full Access</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Gratis 3 Halaman LP</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Automated Follow-up</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Support 24/7</li>
+                        </ul>
+                        <a href="#demo" class="btn btn-primary" style="width: 100%;">Pilih Paket</a>
+                    </div>
+
+                    <!-- Paket 12 Bulan (Best Value) -->
+                    <div class="price-card featured" data-aos="fade-up" data-aos-delay="200">
+                        <div class="featured-label">HARGA TERBAIK</div>
+                        <h3>Paket 12 Bulan</h3>
+                        <div class="price-amount">16 Juta</div>
+                        <p style="color: var(--secondary); font-weight: 600; margin-top: -20px; margin-bottom: 25px;">
+                            Hemat 8 Juta!</p>
+                        <ul class="price-features">
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Semua Fitur Premium</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Domain .com/.id Gratis</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Prioritas Update Fitur</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> VIP Support Account</li>
+                        </ul>
+                        <a href="#demo" class="btn btn-primary" style="width: 100%;">Ambil Penawaran</a>
+                    </div>
+
+                    <!-- Paket 6 Bulan -->
+                    <div class="price-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3>Paket 6 Bulan</h3>
+                        <div class="price-amount">10 Juta</div>
+                        <p style="color: var(--secondary); font-weight: 600; margin-top: -20px; margin-bottom: 25px;">
+                            Hemat 2 Juta</p>
+                        <ul class="price-features">
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> CRM Full Access</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Gratis 3 Halaman LP</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Dashboard Real-Time</li>
+                            <li><i data-lucide="check-circle-2" class="check-icon"></i> Training Tim Sales</li>
+                        </ul>
+                        <a href="#demo" class="btn btn-primary" style="width: 100%;">Pilih Paket</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPSELL ADS -->
+        <section class="container">
+            <div class="meta-ads" data-aos="zoom-in">
+                <div class="meta-content">
+                    <div class="badge-ads">Exclusive Offer</div>
+                    <h2>Jasa Meta Ads Eksklusif</h2>
+                    <p style="opacity: 0.9; line-height: 1.6; margin-bottom: 20px;">
+                        Banjiri CRM Anda dengan Leads berkualitas tinggi. Ditangani langsung oleh tim berpengalaman 10
+                        tahun+
+                        di industri Umrah. Fokus jualan, biar kami yang datangkan jamaah.
+                    </p>
+                    <div style="font-size: 1.1rem; font-weight: 600;">
+                        Biaya: 2jt/bln + 5% dari Spend Iklan.
+                    </div>
+                </div>
+                <div class="meta-action">
+                    <a href="#demo" class="btn" style="background: white; color: #1d1d1f;">Konsultasi Iklan</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADDITIONAL INFO -->
+        <section class="container" style="padding-bottom: 60px;">
+            <div
+                style="background: white; border-radius: 30px; padding: 40px; border: 1px dashed var(--primary); display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div style="background: var(--accent); padding: 15px; border-radius: 50%; color: var(--primary);">
+                        <i data-lucide="info"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Butuh Halaman Tambahan?</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Gratis 3 Halaman LP. Tambahan
+                            halaman hanya 300rb/LP.</p>
+                    </div>
+                </div>
+                <a href="#demo" style="color: var(--primary); font-weight: 600; text-decoration: none;">Tanya Admin
+                    &rarr;</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="demo">
+        <div class="container">
+            <div class="footer-cta" data-aos="fade-up">
+                <h2>Siap Transformasi Bisnis Umrah Anda?</h2>
+                <a href="https://wa.me/yournumber" class="btn btn-primary"
+                    style="font-size: 1.2rem; padding: 20px 40px;">
+                    Jadwalkan Demo Gratis Sekarang
+                </a>
+            </div>
+
+            <p class="copyright">
+                &copy; 2026 Munira World CRM. Built with high-performance technology.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // --- CHARTS ---
+
+        // Closing Rel Chart
+        const ctxClosing = document.getElementById('closingRelChart').getContext('2d');
+        new Chart(ctxClosing, {
+            type: 'bar',
+            data: {
+                labels: ['Admin Ari', 'Admin Budi', 'Admin Citra', 'Admin Dedi'],
+                datasets: [{
+                    label: 'Closing Ratio (%)',
+                    data: [75, 58, 82, 64],
+                    backgroundColor: [
+                        '#62c370',
+                        '#5fa8d3',
+                        '#a8dadc',
+                        '#457b9d'
+                    ],
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // Heatmap Simulated Chart (using line for peak hours)
+        const ctxHeatmap = document.getElementById('heatmapChart').getContext('2d');
+        new Chart(ctxHeatmap, {
+            type: 'line',
+            data: {
+                labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                datasets: [{
+                    label: 'Chat Activity',
+                    data: [20, 45, 90, 65, 80, 50, 95, 30],
+                    borderColor: '#5fa8d3',
+                    backgroundColor: 'rgba(95, 168, 211, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#5fa8d3'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { display: false }
+                }
+
+            }
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

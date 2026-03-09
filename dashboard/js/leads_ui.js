@@ -1,6 +1,6 @@
 // Chart Instance Trackers
-let chartTrend = null;
-let chartPkg = null;
+var chartTrend = null;
+var chartPkg = null;
 
 function drawTrendChart(leadsArray) {
     const ctx = document.getElementById('leadsTrendChart');
@@ -244,8 +244,8 @@ function drawPackageChart(leadsArray) {
     });
 }
 
-let chartFunnel = null;
-let chartCity = null;
+var chartFunnel = null;
+var chartCity = null;
 
 function drawStatusFunnelChart(leadsArray) {
     const ctx = document.getElementById('statusFunnelChart');
@@ -321,11 +321,11 @@ function drawCityChart(leadsArray) {
 }
 
 // Chart instance trackers for advanced analytics
-let chartSource = null;
-let chartWinRatePkg = null;
-let chartLostReason = null;
-let chartHourly = null;
-let chartSpeedRate = null;
+var chartSource = null;
+var chartWinRatePkg = null;
+var chartLostReason = null;
+var chartHourly = null;
+var chartSpeedRate = null;
 
 // ============================================================
 // BULK ACTIONS
@@ -445,7 +445,7 @@ window.bulkDeleteLeads = async function () {
             });
             const data = await res.json();
             if (data.success) {
-                allLeads = allLeads.filter(L => L.id !== id && L._id !== id);
+                allLeads = allLeads.filter(L => L.id !== id && L.id !== id);
                 successCount++;
             }
         }
@@ -498,17 +498,17 @@ function populateCSFilter() {
     }
 }
 
-const pageSizeEl = document.getElementById('pageSize');
+var pageSizeEl = document.getElementById('pageSize');
 if (pageSizeEl) pageSizeEl.addEventListener('change', () => { currentPage = 1; renderLeadsTable(); });
 
-const btnPrev = document.getElementById('btnPagePrev');
+var btnPrev = document.getElementById('btnPagePrev');
 if (btnPrev) btnPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderLeadsTable(); } });
 
-const btnNext = document.getElementById('btnPageNext');
+var btnNext = document.getElementById('btnPageNext');
 if (btnNext) btnNext.addEventListener('click', () => { currentPage++; renderLeadsTable(); });
 
 // FETCH PAGES DIRECTORY (New CMS Features)
-let pagesListCache = [];
+var pagesListCache = [];
 
 async function fetchPages() {
     try {
@@ -591,12 +591,12 @@ async function fetchPages() {
 }
 
 // ==================== LP EDIT MODAL ====================
-const lpEditOverlay = document.getElementById('lpEditOverlay');
-const lpEditForm = document.getElementById('lpEditForm');
-const lpEditImageInput = document.getElementById('lpEditImage');
-const lpEditImgPreview = document.getElementById('lpEditImgPreview');
-const lpEditImgTag = document.getElementById('lpEditImgTag');
-const lpEditImgError = document.getElementById('lpEditImgError');
+var lpEditOverlay = document.getElementById('lpEditOverlay');
+var lpEditForm = document.getElementById('lpEditForm');
+var lpEditImageInput = document.getElementById('lpEditImage');
+var lpEditImgPreview = document.getElementById('lpEditImgPreview');
+var lpEditImgTag = document.getElementById('lpEditImgTag');
+var lpEditImgError = document.getElementById('lpEditImgError');
 
 document.getElementById('lpEditClose')?.addEventListener('click', closeLpEdit);
 document.getElementById('lpEditCancelBtn')?.addEventListener('click', closeLpEdit);
@@ -673,7 +673,7 @@ async function populateLpFormDropdown(selectEl, currentFormId) {
         const forms = (data.data || []).filter(f => f.is_active);
         selectEl.innerHTML = `<option value="">— Tanpa Form (kosong) —</option>`;
         forms.forEach(f => {
-            selectEl.innerHTML += `<option value="${f._id}" ${f._id === currentFormId ? 'selected' : ''}>${f.name}</option>`;
+            selectEl.innerHTML += `<option value="${f.id}" ${f.id === currentFormId ? 'selected' : ''}>${f.name}</option>`;
         });
     } catch (e) {
         console.warn('Cannot load forms for LP dropdown:', e);
@@ -693,14 +693,14 @@ async function populateLpProgramCheckboxes(selectedIds) {
             return;
         }
         container.innerHTML = programs.map(p => {
-            const checked = selectedIds.includes(String(p._id)) || selectedIds.includes(p.id);
+            const checked = selectedIds.includes(String(p.id)) || selectedIds.includes(p.id);
             const minPrice = p.packages?.length ? Math.min(...p.packages.map(pk => pk.price)) : 0;
             const priceStr = minPrice ? `mulai ${formatRpShort(minPrice)}` : '';
             return `
             <label style="display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:10px; cursor:pointer; transition:background 0.15s; border:1px solid transparent;"
                 onmouseover="this.style.background='rgba(251,191,36,0.08)'; this.style.borderColor='rgba(251,191,36,0.2)'"
                 onmouseout="this.style.background=''; this.style.borderColor='transparent'">
-                <input type="checkbox" name="lpProgramCheck" value="${p._id || p.id}"
+                <input type="checkbox" name="lpProgramCheck" value="${p.id || p.id}"
                     ${checked ? 'checked' : ''}
                     style="width:16px; height:16px; accent-color:#FBBF24; margin-top:2px; flex-shrink:0;">
                 <div>
@@ -865,7 +865,7 @@ async function fetchPrograms() {
 }
 
 // Store programs data for edit
-let programsCache = [];
+var programsCache = [];
 
 async function openProgramModal(editId) {
     const overlay = document.getElementById('programOverlay');
@@ -886,7 +886,7 @@ async function openProgramModal(editId) {
         try {
             const res = await fetch(`${API_URL}/programs`, { headers: { 'Authorization': `Bearer ${authToken}` } });
             const data = await res.json();
-            const pg = data.programs.find(p => String(p.id || p._id) === String(editId));
+            const pg = data.programs.find(p => String(p.id || p.id) === String(editId));
             if (pg) {
                 document.getElementById('programId').value = pg.id;
                 document.getElementById('programNama').value = pg.nama_program;
@@ -1080,7 +1080,7 @@ document.getElementById('btnExport')?.addEventListener('click', async () => {
 
 // CUSTOM FU MODAL LOGIC
 // ======================================
-const buildCfuOverlay = () => {
+var buildCfuOverlay = () => {
     document.getElementById('customFuClose')?.addEventListener('click', () => document.getElementById('customFuOverlay').classList.remove('active'));
     document.getElementById('cfuCancelBtn')?.addEventListener('click', () => document.getElementById('customFuOverlay').classList.remove('active'));
     const form = document.getElementById('customFuForm');
@@ -1119,85 +1119,18 @@ buildCfuOverlay();
 
 window.openCustomFuModal = function (encodedLead) {
     const L = JSON.parse(decodeURIComponent(encodedLead));
-    document.getElementById('cfuLeadId').value = L.id || L._id || '';
+    document.getElementById('cfuLeadId').value = L.id || L.id || '';
     document.getElementById('cfuStatus').value = L.status_followup || 'New Data';
     document.getElementById('cfuNotes').value = '';
     document.getElementById('customFuOverlay').classList.add('active');
 };
 
-// MODAL WA EDITOR Logic
-let activeWhatsApp = '';
-const waOverlay = document.getElementById('waOverlay');
-const waText = document.getElementById('waText');
-window.openWaModal = function (leadStr) {
-    const L = JSON.parse(decodeURIComponent(leadStr));
-    activeWhatsApp = L.whatsapp_num.replace(/[^\d]/g, ''); // sanitize dial string
-    if (activeWhatsApp.startsWith('0')) activeWhatsApp = '62' + activeWhatsApp.substring(1);
-
-    const txt = `Assalamu'alaikum Bpk/Ibu ${L.nama_lengkap},\n\nTerima kasih telah mengunjungi halaman Munira World (${L.landing_page || 'Official Site'}).\nKami melihat Anda tertarik dengan program ${L.paket_pilihan || 'Umrah'}.\n\nApakah ada informasi yang bisa kami bantu jelaskan lebih lanjut terkait ketersediaan Seat atau Fasilitas?\n\nSalam Hangat,\nKonsultan Munira World`;
-    waText.value = txt;
-    waOverlay.classList.add('active');
-}
-
-document.getElementById('waClose').addEventListener('click', () => waOverlay.classList.remove('active'));
-document.getElementById('waCopy').addEventListener('click', () => { navigator.clipboard.writeText(waText.value); alert('Script copied!'); });
-
-const waAttachLink = document.getElementById('waAttachLink');
-if (waAttachLink) {
-    waAttachLink.addEventListener('click', () => {
-        const link = prompt("Masukkan Link Google Drive atau Website:");
-        if (link && link.trim() !== '') {
-            waText.value += `\n\nBapak/Ibu juga bisa melihat informasi selengkapnya melalui tautan berikut:\n${link}`;
-        }
-    });
-}
-const waAttachPdf = document.getElementById('waAttachPdf');
-if (waAttachPdf) {
-    waAttachPdf.addEventListener('click', () => {
-        const link = prompt("Masukkan Link URL Berkas Brosur PDF:");
-        if (link && link.trim() !== '') {
-            waText.value += `\n\nUntuk rincian paket selengkapnya, Bapak/Ibu dapat meninjau brosur pada tautan berikut:\n${link}`;
-        }
-    });
-}
-
-window.openWaPanel = function (phone, text) {
-    let clean = (phone || '').replace(/[^\d]/g, '');
-    if (clean.startsWith('0')) clean = '62' + clean.substring(1);
-
-    // Gunakan URL web.whatsapp.com secara langsung untuk iframe WA Web
-    let url = `https://web.whatsapp.com/send/?phone=${clean}`;
-    if (text) url += `&text=${encodeURIComponent(text)}`;
-
-    document.getElementById('waIframe').src = url;
-    document.getElementById('waPanel').classList.add('active');
-    document.body.classList.add('wa-panel-open');
-}
-
-// Logic untuk WA Panel Toggle
-document.getElementById('waToggle')?.addEventListener('click', () => {
-    const waPanel = document.getElementById('waPanel');
-    waPanel.classList.toggle('active');
-    document.body.classList.toggle('wa-panel-open');
-});
-
-document.getElementById('waPanelClose')?.addEventListener('click', () => {
-    document.getElementById('waPanel').classList.remove('active');
-    document.body.classList.remove('wa-panel-open');
-});
-
-document.getElementById('waSend').addEventListener('click', () => {
-    window.openWaPanel(activeWhatsApp, waText.value);
-    waOverlay.classList.remove('active');
-});
-window.alertWA = function (num) {
-    window.openWaPanel(num, '');
-}
+// MODAL WA EDITOR Logic migrated to app.js
 
 // MODAL EDIT LOGIC
-const editOverlay = document.getElementById('editOverlay');
-const editForm = document.getElementById('editForm');
-const editStatusEl = document.getElementById('editStatus');
+var editOverlay = document.getElementById('editOverlay');
+var editForm = document.getElementById('editForm');
+var editStatusEl = document.getElementById('editStatus');
 
 // Revenue visibility toggle for edit modal
 if (editStatusEl) {
@@ -1212,7 +1145,7 @@ if (editStatusEl) {
 }
 
 // Revenue toggle for manual order modal
-const moStatusEl = document.getElementById('moStatus');
+var moStatusEl = document.getElementById('moStatus');
 if (moStatusEl) {
     moStatusEl.addEventListener('change', () => {
         const g = document.getElementById('moRevenueGroup');
@@ -1231,7 +1164,7 @@ window.toggleInlineRevenue = function (id) {
 }
 
 // Programs cache for name lookup
-let programsListCache = [];
+var programsListCache = [];
 async function loadProgramsList() {
     try {
         const res = await fetch(`${API_URL}/programs`, { headers: { 'Authorization': `Bearer ${authToken}` } });
@@ -1242,7 +1175,7 @@ async function loadProgramsList() {
 
 function getProgramName(progId) {
     if (!progId) return '-';
-    const p = programsListCache.find(x => String(x.id || x._id) === String(progId));
+    const p = programsListCache.find(x => String(x.id || x.id) === String(progId));
     if (p) return p.nama_program;
     // Still loading? show abbreviated ID
     return '⏳ Memuat...';
@@ -1251,7 +1184,7 @@ function getProgramName(progId) {
 function getProgramSummaryHtml(L) {
     const progId = L.program_id;
     if (!progId) return '';
-    const p = programsListCache.find(x => String(x.id || x._id) === String(progId));
+    const p = programsListCache.find(x => String(x.id || x.id) === String(progId));
     if (!p) return '';
 
     // Dates
@@ -1320,7 +1253,7 @@ window.openEditModal = async function (id, status, notes, revenue, programId) {
     if (programId) document.getElementById('editProgram').value = programId;
 
     // AI Insight
-    const leadObj = allLeads.find(l => String(l.id || l._id) === String(id));
+    const leadObj = allLeads.find(l => String(l.id || l.id) === String(id));
     const insightBox = document.getElementById('aiLeadInsightBox');
     if (leadObj && window.analyzeLead && insightBox) {
         const insight = window.analyzeLead(leadObj);
@@ -1460,7 +1393,7 @@ window.toggleAccordion = function (id) {
 // Helper: generate <option> list for package dropdown
 function getPkgDropdownOptions(programId, selectedPaket) {
     if (!programId) return '<option value="">— Pilih Paket —</option>';
-    const prog = programsListCache.find(x => String(x.id || x._id) === String(programId));
+    const prog = programsListCache.find(x => String(x.id || x.id) === String(programId));
     if (!prog) return '<option value="">— Pilih Paket —</option>';
     const pkgs = (prog.packages || []).filter(x => x.price > 0);
     if (!pkgs.length) return '<option value="">Tidak ada paket tersedia</option>';
@@ -1667,7 +1600,11 @@ window.sendWAtpl = function (leadStr, type) {
 
     // Instead of sending immediately, preview it via WA Modal
     waText.value = txt;
-    waOverlay.classList.add('active');
+    const waPanel = document.getElementById('waPanel');
+    if (waPanel) {
+        waPanel.classList.add('active');
+        document.body.classList.add('wa-panel-open');
+    }
 }
 
 // ============================================================
@@ -1693,7 +1630,7 @@ document.addEventListener('change', function (e) {
 // ============================================================
 // SMART COPY (Khusus Super Admin)
 // ============================================================
-let smartCopyActiveLead = null;
+var smartCopyActiveLead = null;
 
 window.openSmartCopyModal = function (leadStr) {
     if (currentUserData?.role !== 'super_admin') {

@@ -2,25 +2,33 @@
 // WA TEMPLATE BUILDER & UTILS
 // ============================================================
 
-const tplBuilderOverlay = document.getElementById('tplBuilderOverlay');
-const customTplListEl = document.getElementById('customTplList');
-
 window.openTplBuilderModal = function () {
+    var tplBuilderOverlay = document.getElementById('tplBuilderOverlay');
+    if (!tplBuilderOverlay) return;
     tplBuilderOverlay.classList.add('active');
 
     // Auto-fill configuration
     const savedCsName = localStorage.getItem('cs_nickname') || '';
     const savedUserPrefix = localStorage.getItem('user_prefix') || '';
-    document.getElementById('globalCsName').value = savedCsName;
-    document.getElementById('globalUserPrefix').value = savedUserPrefix;
+    const gcn = document.getElementById('globalCsName');
+    const gup = document.getElementById('globalUserPrefix');
+    if (gcn) gcn.value = savedCsName;
+    if (gup) gup.value = savedUserPrefix;
 
     renderCustomTplList();
 }
 
-document.getElementById('tplBuilderClose')?.addEventListener('click', () => {
-    tplBuilderOverlay.classList.remove('active');
-    if (typeof fetchDashboardData === 'function') fetchDashboardData(); // to refresh the table to show new buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const tplBuilderOverlay = document.getElementById('tplBuilderOverlay');
+    const closeBtn = document.getElementById('tplBuilderClose');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            if (tplBuilderOverlay) tplBuilderOverlay.classList.remove('active');
+            if (typeof fetchDashboardData === 'function') fetchDashboardData();
+        });
+    }
 });
+
 
 window.updateGlobalCsName = function (val) {
     localStorage.setItem('cs_nickname', val);
@@ -100,10 +108,11 @@ window.sendCustomWAtpl = function (leadStr, tplId) {
     }
 
     const waText = document.getElementById('waText');
-    const waOverlay = document.getElementById('waOverlay');
-    if (waText && waOverlay) {
+    const waPanel = document.getElementById('waPanel');
+    if (waText && waPanel) {
         waText.value = txt;
-        waOverlay.classList.add('active');
+        waPanel.classList.add('active');
+        document.body.classList.add('wa-panel-open');
     }
 }
 
@@ -195,6 +204,7 @@ window.deleteCustomTpl = function (id) {
 }
 
 function renderCustomTplList() {
+    const customTplListEl = document.getElementById('customTplList');
     if (!customTplListEl) return;
     const tpls = getSavedTpls();
     if (tpls.length === 0) {

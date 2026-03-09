@@ -8,25 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Extending domain for type assertion in handler
-type ExtendedAdminUsecase interface {
-	domain.AdminUsecase
-	UpdateMember(ctx context.Context, id string, user *domain.AdminUser) error
-	DeleteMember(ctx context.Context, id string) error
-	ResetPassword(ctx context.Context, id string, newPassword string) error
-}
-
 type TeamHandler struct {
-	usecase ExtendedAdminUsecase
+	usecase domain.AdminUsecase
 }
 
 func NewTeamHandler(router *gin.RouterGroup, usecase domain.AdminUsecase) {
-	eu, ok := usecase.(ExtendedAdminUsecase)
-	if !ok {
-		panic("usecase does not implement ExtendedAdminUsecase")
-	}
-
-	handler := &TeamHandler{usecase: eu}
+	handler := &TeamHandler{usecase: usecase}
 
 	teamRouter := router.Group("/team")
 	{

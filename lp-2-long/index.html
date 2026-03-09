@@ -1572,8 +1572,7 @@
             <span class="section-label">Langkah Awal Ke Baitullah</span>
             <h2 class="section-title">Konsultasi <span style="color:var(--gold)">Keberangkatan</span></h2>
             <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">
-                Isi data di bawah ini untuk mendapatkan detail fasilitas, ketersediaan seat, dan penawaran khusus dari
-                Konsultan Munira World.
+                Isi data di bawah ini bantu kami memahami kebutuhan anda
             </p>
 
             <!-- ═══ INLINE EMBEDDED FORM (mengganti iframe yang diblokir X-Frame-Options) ═══ -->
@@ -2003,6 +2002,7 @@
                             <input type="number" id="eJumlah" class="emb-inp" min="1" max="30" placeholder="Contoh: 4">
                             <div class="emb-errmsg" id="ee-jumlah">Masukkan jumlah peserta (min. 1).</div>
                         </div>
+                        <div id="eUsiaContainer"></div>
 
                         <div class="emb-actions between">
                             <button type="button" class="emb-btn-prev" data-eprev="1"><i class="fas fa-arrow-left"></i>
@@ -2190,8 +2190,8 @@
                     document.addEventListener('DOMContentLoaded', function () {
                         /* ── Kecamatan Autocomplete for Long Form ── */
                         (function () {
-                            const API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
-                                ? 'http://localhost:3000/api' : '/api';
+                    const API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                        ? 'http://localhost:8080/api' : '/api';
                             const inp = document.getElementById('eDomisiliInput');
                             const dd = document.getElementById('eDomisiliDropdown');
                             const hidKec = document.getElementById('eKec');
@@ -2293,6 +2293,41 @@
                             el.addEventListener('input', () => el.classList.remove('err'));
                         });
 
+                        // Dynamic Jamaah Fields
+                        const ejumlahInput = document.getElementById('eJumlah');
+                        const eusiaContainer = document.getElementById('eUsiaContainer');
+                        if (ejumlahInput && eusiaContainer) {
+                            ejumlahInput.addEventListener('input', function () {
+                                let html = '';
+                                const j = parseInt(this.value) || 0;
+                                if (j > 0 && j <= 30) {
+                                    for (let i = 1; i <= j; i++) {
+                                        html += `
+                                        <div class="emb-group" style="padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; margin-top:10px;">
+                                            <label style="color:#C5A059;">Data Calon Jamaah ${i}</label>
+                                            <div class="emb-row">
+                                                <div style="flex:1;">
+                                                    <select id="eRelasi_${i}" class="emb-inp" style="padding:10px;">
+                                                        <option value="" disabled selected>Hubungan/Status...</option>
+                                                        <option value="Saya Sendiri">Saya Sendiri</option>
+                                                        <option value="Suami/Istri">Suami/Istri</option>
+                                                        <option value="Anak">Anak</option>
+                                                        <option value="Ayah/Ibu">Ayah/Ibu</option>
+                                                        <option value="Saudara">Saudara</option>
+                                                        <option value="Orang Lain">Orang Lain</option>
+                                                    </select>
+                                                </div>
+                                                <div style="flex:1;">
+                                                    <input type="number" id="eUsia_${i}" class="emb-inp" style="padding:10px;" placeholder="Usia (Thn)" min="0" max="120">
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                                eusiaContainer.innerHTML = html;
+                            });
+                        }
+
                         // Submit
                         const form = document.getElementById('embLeadForm');
                         if (form) {
@@ -2319,6 +2354,16 @@
                                 const bayar = document.querySelector('input[name="eBayar"]:checked')?.value || '';
                                 const params = new URLSearchParams(window.location.search);
 
+                                const jamaahUsiaDetail = [];
+                                let jamaahText = '';
+                                const jCount = parseInt(jumlah) || 0;
+                                for (let i = 1; i <= jCount; i++) {
+                                    const rel = document.getElementById('eRelasi_' + i)?.value || 'Belum Diisi';
+                                    const usia = document.getElementById('eUsia_' + i)?.value || '-';
+                                    jamaahUsiaDetail.push({ hubungan: rel, usia: usia + ' Thn' });
+                                    jamaahText += `\n   ${i}. ${rel} (${usia} Thn)`;
+                                }
+
                                 try { if (typeof fbq === 'function') fbq('track', 'Lead'); } catch (_) { }
                                 try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { send_to: 'G-11PXTCBM9L', value: 1, currency: 'IDR' }); } catch (_) { }
 
@@ -2327,6 +2372,7 @@
                                     whatsapp_num: wa,
                                     domisili,
                                     yang_berangkat: `${jumlah} Orang (${rencana})`,
+                                    jamaah_usia_detail: jamaahUsiaDetail,
                                     paket_pilihan: paket,
                                     kesiapan_paspor: paspor,
                                     fasilitas_utama: bayar,
@@ -2336,8 +2382,8 @@
                                     utm_campaign: params.get('utm_campaign') || ''
                                 };
 
-                                const API = (window.location.protocol === 'file:' || window.location.port === '3000')
-                                    ? 'http://localhost:3000/api/leads' : '/api/leads';
+                                const API = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                                    ? 'http://localhost:8080/api/leads' : '/api/leads';
 
                                 // Pick WA number: from injected rotator or fallback default
                                 let waTarget = '6285261349134';
@@ -2351,11 +2397,19 @@
                                     }
                                 }
 
-                                fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-                                    .finally(() => {
-                                        const text = `Assalamu'alaikum Konsultan Munira World,\n\nSaya tertarik dengan Program Umrah Keluarga Liburan Sekolah 10 Hari.\n\n*--- DATA IDENTITAS ---*\n👤 Nama: ${nama}\n📱 No. WhatsApp: ${wa}\n📍 Domisili: ${domisili}\n\n*--- RENCANA PERJALANAN ---*\n🕋 Pengalaman Umrah: ${pengalaman}\n📅 Rencana Berangkat: ${rencana}\n👨‍👩‍👧‍👦 Jumlah Peserta: ${jumlah} Orang\n\n*--- PREFERENSI ---*\n🛏 Paket Pilihan: ${paket}\n🛂 Status Paspor: ${paspor}\n💳 Pembayaran: ${bayar}\n\nMohon bantuannya untuk info detail, ketersediaan seat, dan penawaran terbaik. Terima kasih.`;
-                                        window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
-                                    });
+                                (async function() {
+                                    try {
+                                        const res = await fetch(API, { 
+                                            method: 'POST', 
+                                            headers: { 'Content-Type': 'application/json' }, 
+                                            body: JSON.stringify(payload),
+                                            keepalive: true
+                                        });
+                                        if (!res.ok) console.warn('[Lead] API:', res.status, await res.text());
+                                    } catch (e) { console.warn('[Lead]', e); }
+                                    const text = `Assalamu'alaikum Konsultan Munira World,\n\nSaya tertarik dengan Program Umrah Keluarga Liburan Sekolah 10 Hari.\n\n*--- DATA IDENTITAS ---*\n👤 Nama: ${nama}\n📱 No. WhatsApp: ${wa}\n📍 Domisili: ${domisili}\n\n*--- RENCANA PERJALANAN ---*\n🕋 Pengalaman Umrah: ${pengalaman}\n📅 Rencana Berangkat: ${rencana}\n👨‍👩‍👧‍👦 Jumlah Peserta: ${jumlah} Orang\n*Rincian Jamaah:*${jamaahText}\n\n*--- PREFERENSI ---*\n🛏 Paket Pilihan: ${paket}\n🛂 Status Paspor: ${paspor}\n💳 Pembayaran: ${bayar}\n\nMohon bantuannya untuk info detail, ketersediaan seat, dan penawaran terbaik. Terima kasih.`;
+                                    window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
+                                })();
                             });
                         }
                     });
@@ -2419,8 +2473,8 @@
     <script>
         (function () {
             var LP_FOLDER = 'lp-2-long';
-            var API_BASE = (window.location.protocol === 'file:' || window.location.port === '3000')
-                ? 'http://localhost:3000/api' : '/api';
+            var API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                ? 'http://localhost:8080/api' : '/api';
 
             async function loadAndInjectForm() {
                 try {

@@ -55,7 +55,7 @@ func (r *leadRepository) GetLeads(ctx context.Context, status, search, assignedT
 		return nil, 0, err
 	}
 
-	query := "SELECT id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, paket_pilihan, kesiapan_paspor, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, created_at, updated_at FROM leads " + whereClause + fmt.Sprintf(" ORDER BY created_at DESC LIMIT $%d OFFSET $%d", argIdx, argIdx+1)
+	query := "SELECT id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, jamaah_usia_detail, paket_pilihan, kesiapan_paspor, pengalaman_umrah, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, preferences, created_at, updated_at FROM leads " + whereClause + fmt.Sprintf(" ORDER BY created_at DESC LIMIT $%d OFFSET $%d", argIdx, argIdx+1)
 	args = append(args, limit, offset)
 
 	rows, err := r.db.Query(ctx, query, args...)
@@ -68,11 +68,15 @@ func (r *leadRepository) GetLeads(ctx context.Context, status, search, assignedT
 	for rows.Next() {
 		var l domain.Lead
 		var historyJSON []byte
-		err := rows.Scan(&l.ID, &l.UserID, &l.NamaLengkap, &l.WhatsappNum, &l.Domisili, &l.YangBerangkat, &l.PaketPilihan, &l.KesiapanPaspor, &l.FasilitasUtama, &l.UTMSource, &l.UTMMedium, &l.UTMCampaign, &l.LandingPage, &l.FormSource, &l.StatusFollowUp, &l.Catatan, &l.Revenue, &l.ProgramID, &l.LastContact, &l.RencanaUmrah, &l.AssignedTo, &l.AssignedToName, &historyJSON, &l.CreatedAt, &l.UpdatedAt)
+		var jamaahUsiaDetail []byte
+		var prefJSON []byte
+		err := rows.Scan(&l.ID, &l.UserID, &l.NamaLengkap, &l.WhatsappNum, &l.Domisili, &l.YangBerangkat, &jamaahUsiaDetail, &l.PaketPilihan, &l.KesiapanPaspor, &l.PengalamanUmrah, &l.FasilitasUtama, &l.UTMSource, &l.UTMMedium, &l.UTMCampaign, &l.LandingPage, &l.FormSource, &l.StatusFollowUp, &l.Catatan, &l.Revenue, &l.ProgramID, &l.LastContact, &l.RencanaUmrah, &l.AssignedTo, &l.AssignedToName, &historyJSON, &prefJSON, &l.CreatedAt, &l.UpdatedAt)
 		if err != nil {
 			return nil, 0, err
 		}
 		json.Unmarshal(historyJSON, &l.StatusHistory)
+		json.Unmarshal(jamaahUsiaDetail, &l.JamaahUsiaDetail)
+		json.Unmarshal(prefJSON, &l.Preferences)
 		leads = append(leads, l)
 	}
 
@@ -80,12 +84,14 @@ func (r *leadRepository) GetLeads(ctx context.Context, status, search, assignedT
 }
 
 func (r *leadRepository) GetLeadByID(ctx context.Context, id string) (*domain.Lead, error) {
-	query := `SELECT id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, paket_pilihan, kesiapan_paspor, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, created_at, updated_at FROM leads WHERE id = $1 AND is_deleted = false`
+	query := `SELECT id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, jamaah_usia_detail, paket_pilihan, kesiapan_paspor, pengalaman_umrah, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, preferences, created_at, updated_at FROM leads WHERE id = $1 AND is_deleted = false`
 	row := r.db.QueryRow(ctx, query, id)
 
 	var l domain.Lead
 	var historyJSON []byte
-	err := row.Scan(&l.ID, &l.UserID, &l.NamaLengkap, &l.WhatsappNum, &l.Domisili, &l.YangBerangkat, &l.PaketPilihan, &l.KesiapanPaspor, &l.FasilitasUtama, &l.UTMSource, &l.UTMMedium, &l.UTMCampaign, &l.LandingPage, &l.FormSource, &l.StatusFollowUp, &l.Catatan, &l.Revenue, &l.ProgramID, &l.LastContact, &l.RencanaUmrah, &l.AssignedTo, &l.AssignedToName, &historyJSON, &l.CreatedAt, &l.UpdatedAt)
+	var jamaahUsiaDetail []byte
+	var prefJSON []byte
+	err := row.Scan(&l.ID, &l.UserID, &l.NamaLengkap, &l.WhatsappNum, &l.Domisili, &l.YangBerangkat, &jamaahUsiaDetail, &l.PaketPilihan, &l.KesiapanPaspor, &l.PengalamanUmrah, &l.FasilitasUtama, &l.UTMSource, &l.UTMMedium, &l.UTMCampaign, &l.LandingPage, &l.FormSource, &l.StatusFollowUp, &l.Catatan, &l.Revenue, &l.ProgramID, &l.LastContact, &l.RencanaUmrah, &l.AssignedTo, &l.AssignedToName, &historyJSON, &prefJSON, &l.CreatedAt, &l.UpdatedAt)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, nil // Indicate not found
@@ -93,20 +99,24 @@ func (r *leadRepository) GetLeadByID(ctx context.Context, id string) (*domain.Le
 		return nil, err
 	}
 	json.Unmarshal(historyJSON, &l.StatusHistory)
+	json.Unmarshal(jamaahUsiaDetail, &l.JamaahUsiaDetail)
+	json.Unmarshal(prefJSON, &l.Preferences)
 	return &l, nil
 }
 
 func (r *leadRepository) CreateLead(ctx context.Context, lead *domain.Lead) error {
 	historyJSON, _ := json.Marshal(lead.StatusHistory)
-	query := `INSERT INTO leads (id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, paket_pilihan, kesiapan_paspor, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, created_at, updated_at) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
+	jamaahJSON, _ := json.Marshal(lead.JamaahUsiaDetail)
+	prefJSON, _ := json.Marshal(lead.Preferences)
+	query := `INSERT INTO leads (id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, jamaah_usia_detail, paket_pilihan, kesiapan_paspor, pengalaman_umrah, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, preferences, created_at, updated_at) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)
 ON CONFLICT (id) DO UPDATE SET
 	user_id = EXCLUDED.user_id, nama_lengkap = EXCLUDED.nama_lengkap, whatsapp_num = EXCLUDED.whatsapp_num, domisili = EXCLUDED.domisili, 
-	yang_berangkat = EXCLUDED.yang_berangkat, paket_pilihan = EXCLUDED.paket_pilihan, kesiapan_paspor = EXCLUDED.kesiapan_paspor, 
+	yang_berangkat = EXCLUDED.yang_berangkat, jamaah_usia_detail = EXCLUDED.jamaah_usia_detail, paket_pilihan = EXCLUDED.paket_pilihan, kesiapan_paspor = EXCLUDED.kesiapan_paspor, pengalaman_umrah = EXCLUDED.pengalaman_umrah, 
 	fasilitas_utama = EXCLUDED.fasilitas_utama, utm_source = EXCLUDED.utm_source, utm_medium = EXCLUDED.utm_medium, utm_campaign = EXCLUDED.utm_campaign, 
-	landing_page = EXCLUDED.landing_page, form_source = EXCLUDED.form_source, rencana_umrah = EXCLUDED.rencana_umrah
+	landing_page = EXCLUDED.landing_page, form_source = EXCLUDED.form_source, rencana_umrah = EXCLUDED.rencana_umrah, preferences = EXCLUDED.preferences
 `
-	_, err := r.db.Exec(ctx, query, lead.ID, lead.UserID, lead.NamaLengkap, lead.WhatsappNum, lead.Domisili, lead.YangBerangkat, lead.PaketPilihan, lead.KesiapanPaspor, lead.FasilitasUtama, lead.UTMSource, lead.UTMMedium, lead.UTMCampaign, lead.LandingPage, lead.FormSource, lead.StatusFollowUp, lead.Catatan, lead.Revenue, lead.ProgramID, lead.LastContact, lead.RencanaUmrah, lead.AssignedTo, lead.AssignedToName, historyJSON, lead.CreatedAt, lead.UpdatedAt)
+	_, err := r.db.Exec(ctx, query, lead.ID, lead.UserID, lead.NamaLengkap, lead.WhatsappNum, lead.Domisili, lead.YangBerangkat, jamaahJSON, lead.PaketPilihan, lead.KesiapanPaspor, lead.PengalamanUmrah, lead.FasilitasUtama, lead.UTMSource, lead.UTMMedium, lead.UTMCampaign, lead.LandingPage, lead.FormSource, lead.StatusFollowUp, lead.Catatan, lead.Revenue, lead.ProgramID, lead.LastContact, lead.RencanaUmrah, lead.AssignedTo, lead.AssignedToName, historyJSON, prefJSON, lead.CreatedAt, lead.UpdatedAt)
 	return err
 }
 

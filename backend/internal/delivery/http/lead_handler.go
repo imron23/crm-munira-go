@@ -2,6 +2,9 @@ package http
 
 import (
 	"context"
+	"crypto/rand"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -14,17 +17,26 @@ type LeadHandler struct {
 	usecase domain.LeadUsecase
 }
 
+func genUUID() string {
+	b := make([]byte, 16)
+	rand.Read(b)
+	b[6] = (b[6] & 0x0f) | 0x40
+	b[8] = (b[8] & 0x3f) | 0x80
+	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:16])
+}
+
 func NewLeadHandler(router *gin.RouterGroup, usecase domain.LeadUsecase) {
 	handler := &LeadHandler{usecase: usecase}
 
 	leadRouter := router.Group("/leads")
 	{
-		leadRouter.GET("", handler.GetLeads)
-		leadRouter.GET("/:id", handler.GetLead)
+		leadRouter.POST("", handler.CreateLead)        // Public: form LP (harus sebelum /:id)
+		leadRouter.POST("/manual", handler.CreateManualLead)
 		leadRouter.GET("/stats/overview", handler.GetStatsOverview)
 		leadRouter.GET("/:id/history", handler.GetHistory)
+		leadRouter.GET("", handler.GetLeads)
+		leadRouter.GET("/:id", handler.GetLead)
 		leadRouter.PUT("/:id", handler.UpdateLead)
-		leadRouter.POST("/manual", handler.CreateManualLead)
 		leadRouter.DELETE("/:id", handler.DeleteLead)
 	}
 }
@@ -124,6 +136,41 @@ func (h *LeadHandler) UpdateLead(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"success": true, "message": "Lead berhasil diperbarui"})
+}
+
+// CreateLead handles POST /api/leads — lead masuk dari form LP/landing page (public, no auth)
+func (h *LeadHandler) CreateLead(c *gin.Context) {
+	var body domain.Lead
+	if err := c.ShouldBindJSON(&body); err != nil {
+		log.Printf("[CreateLead] Bind error: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "Input tidak valid: " + err.Error()})
+		return
+	}
+	log.Printf("[CreateLead] Received: %s | %s | %s", body.NamaLengkap, body.WhatsappNum, body.PaketPilihan)
+
+	if body.NamaLengkap == "" || body.WhatsappNum == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "Nama dan nomor WhatsApp wajib diisi"})
+		return
+	}
+	if body.ID == "" {
+		body.ID = genUUID()
+	}
+	body.StatusFollowUp = "New Data"
+	if body.LandingPage == "" {
+		body.LandingPage = c.Request.Referer()
+		if body.LandingPage == "" {
+			body.LandingPage = "Landing Page"
+		}
+	}
+
+	err := h.usecase.AddLead(context.Background(), &body)
+	if err != nil {
+		log.Printf("[CreateLead] DB error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "message": "Gagal menyimpan: " + err.Error()})
+		return
+	}
+	log.Printf("[CreateLead] OK lead_id=%s", body.ID)
+	c.JSON(http.StatusCreated, gin.H{"success": true, "message": "Lead berhasil terdaftar", "lead_id": body.ID})
 }
 
 func (h *LeadHandler) CreateManualLead(c *gin.Context) {

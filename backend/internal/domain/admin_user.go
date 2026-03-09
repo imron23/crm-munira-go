@@ -35,4 +35,7 @@ type AdminUsecase interface {
 	Impersonate(ctx context.Context, id string) (string, *AdminUser, error)
 	Register(ctx context.Context, user *AdminUser) error
 	FetchAllTeam(ctx context.Context) ([]AdminUser, error)
+	UpdateMember(ctx context.Context, id string, user *AdminUser) error
+	DeleteMember(ctx context.Context, id string) error
+	ResetPassword(ctx context.Context, id string, newPassword string) error
 }

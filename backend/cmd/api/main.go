@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
 	"os"
+	"time"
 
 	"munira_crm_backend/internal/config"
 	delivery "munira_crm_backend/internal/delivery/http"
@@ -29,20 +29,92 @@ func main() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	// CORS Middleware
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
 	})
+
+	// Melayani folder "dashboard" HTML lama sebagai dashboard utama
+	// Pada go run, working directory di-sesuaikan
+	dashboardPath := "../../dashboard"
+	if _, err := os.Stat("/dashboard"); err == nil {
+		dashboardPath = "/dashboard"
+	} else if _, err := os.Stat("dashboard"); err == nil {
+		dashboardPath = "./dashboard"
+	} else if _, err := os.Stat("../dashboard"); err == nil {
+		dashboardPath = "../dashboard"
+	}
+
+	router.Static("/Imron23", dashboardPath)
+	router.Static("/dashboard", dashboardPath)
+
+	// Melayani root file seperti index.html yang lama (jika ada) atau lp
+	rootPath := "../../"
+	if _, err := os.Stat("/lp-2-long/index.html"); err == nil {
+		rootPath = "/"
+	} else if _, err := os.Stat("lp-2-long/index.html"); err == nil {
+		rootPath = "./"
+	} else if _, err := os.Stat("../lp-2-long/index.html"); err == nil {
+		rootPath = "../"
+	}
+
+	router.StaticFile("/", rootPath+"lp-2-long/index.html")
+	router.StaticFile("/logo.png", rootPath+"logo.png")
+	router.Static("/assets", rootPath+"assets")
+	router.Static("/lp-liburan", rootPath+"lp-liburan")
+	router.Static("/lp-2-long", rootPath+"lp-2-long")
+	router.Static("/lp-spiritual-journey", rootPath+"lp-spiritual-journey")
 
 	api := router.Group("/api")
 	{
+		timeoutContext := time.Duration(2) * time.Second
+
+		// Repositories
 		vendorRepo := postgres.NewVendorRepository(dbPool)
-		vendorUsecase := usecase.NewVendorUsecase(vendorRepo)
-
 		leadRepo := postgres.NewLeadRepository(dbPool)
-		leadUsecase := usecase.NewLeadUsecase(leadRepo)
+		formRepo := postgres.NewFormRepository(dbPool)
+		adminRepo := postgres.NewAdminRepository(dbPool)
+		programRepo := postgres.NewProgramRepository(dbPool)
+		settingRepo := postgres.NewSettingRepository(dbPool)
+		pageSettingRepo := postgres.NewPageSettingRepository(dbPool)
 
+		// Usecases
+		vendorUsecase := usecase.NewVendorUsecase(vendorRepo)
+		leadUsecase := usecase.NewLeadUsecase(leadRepo)
+		formUsecase := usecase.NewFormUsecase(formRepo, timeoutContext)
+		adminUsecase := usecase.NewAdminUsecase(adminRepo)
+		programUsecase := usecase.NewProgramUsecase(programRepo)
+		trashUsecase := usecase.NewTrashUsecase(dbPool)
+		settingUsecase := usecase.NewSettingUsecase(settingRepo)
+		pageSettingUsecase := usecase.NewPageSettingUsecase(pageSettingRepo)
+		aiUsecase := usecase.NewAIUsecase()
+
+		// Handlers - semua di-wire sekarang
 		delivery.NewVendorHandler(api, vendorUsecase)
 		delivery.NewLeadHandler(api, leadUsecase)
+		delivery.NewFormHandler(api, formUsecase)
+		delivery.NewProgramHandler(api, programUsecase)
+		delivery.NewTrashHandler(api, trashUsecase)
+		delivery.NewTeamHandler(api, adminUsecase)
+		delivery.NewSettingHandler(api, settingUsecase)
+		delivery.NewPageSettingHandler(api, pageSettingUsecase)
+		delivery.NewWilayahHandler(api)
+		delivery.NewAIHandler(api, aiUsecase, leadUsecase)
+
+		// Gunakan AdminHandler untuk melayani endpoint Auth karena frontend menembak ke /api/auth
+		// Dan endpoint ini mencakup login admin dan impersonate yang persis sama dengan request dashboard HTML
+		authGroup := api.Group("/auth")
+		delivery.NewAdminHandler(authGroup, adminUsecase)
 	}
 
 	port := os.Getenv("PORT")

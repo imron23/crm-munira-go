@@ -1,10 +1,10 @@
 // ============================================================
 // NOTIFICATION SYSTEM (Bell Alert)
 // ============================================================
-let notifications = JSON.parse(localStorage.getItem('munira_notifications') || '[]');
-let notifPanelOpen = false;
-let lastLeadCount = null;
-let bellAudio = null;
+var notifications = JSON.parse(localStorage.getItem('munira_notifications') || '[]');
+var notifPanelOpen = false;
+var lastLeadCount = null;
+var bellAudio = null;
 
 function playBellSound() {
     try {

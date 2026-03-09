@@ -38,6 +38,7 @@ CREATE TABLE forms (
 );
 
 -- 4. Table Leads (Calon Jamaah yang masuk lewat Form/Landing Page)
+-- 4. Table Leads (Calon Jamaah yang masuk lewat Form/Landing Page)
 CREATE TABLE leads (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     form_id UUID REFERENCES forms(id) ON DELETE SET NULL,
@@ -45,6 +46,7 @@ CREATE TABLE leads (
     name VARCHAR(255) NOT NULL,
     phone_number VARCHAR(50) NOT NULL,
     email VARCHAR(255),
+    jamaah_usia_detail JSONB,
     -- Menyimpan status lead dalam pipeline CRM
     status VARCHAR(50) DEFAULT 'NEW', -- NEW, FOLLOW_UP, BOOKED, CLOSED_LOST
     follow_up_notes TEXT,
