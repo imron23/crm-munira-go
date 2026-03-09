@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"log"
 	"munira_crm_backend/internal/domain"
 	"os"
 
@@ -26,7 +27,12 @@ func (u *adminUsecase) Login(ctx context.Context, username, password string) (st
 	envUser := os.Getenv("ADMIN_USERNAME")
 	envPass := os.Getenv("ADMIN_PASSWORD")
 
+	// Debug logging
+	log.Printf("[LOGIN DEBUG] Input: username=%s, password=%s", username, password)
+	log.Printf("[LOGIN DEBUG] ENV: ADMIN_USERNAME=%s, ADMIN_PASSWORD=%s", envUser, envPass)
+
 	if envUser != "" && envPass != "" && username == envUser && password == envPass {
+		log.Printf("[LOGIN DEBUG] ENV bypass successful!")
 		// Bypass database, return super admin user
 		masterUser := &domain.AdminUser{
 			ID:       "master-admin-env",
