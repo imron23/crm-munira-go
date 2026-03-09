@@ -1,6 +1,9 @@
 # Build stage
 FROM golang:1.24-alpine AS builder
 
+# Force cache bust for new builds
+ARG CACHE_BUST=1
+
 WORKDIR /app
 
 # Copy go mod and sum files
@@ -14,6 +17,9 @@ RUN go mod download
 
 # Copy source code and json assets
 COPY . .
+
+# Explicitly remove .env file if present (use container environment variables)
+RUN rm -f .env
 
 # Force downgrade go version in go.mod strictly for container build to bypass local go1.25.4 requirements
 RUN sed -i 's/^go 1.*/go 1.22/' go.mod && go mod tidy || true
