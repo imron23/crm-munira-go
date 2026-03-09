@@ -32,8 +32,7 @@ RUN apk --no-cache add tzdata
 # Copy binary
 COPY --from=builder /app/munira-api .
 
-# Copy environment variables and json assets
-COPY --from=builder /app/.env .
+# Copy json assets (do NOT copy .env - use container environment variables)
 COPY --from=builder /app/wilayah.json ./wilayah.json
 
 # Expose port
