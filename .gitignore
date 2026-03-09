@@ -16,7 +16,6 @@ frontend/node_modules/
 backend/munira_app
 backend/munira-api
 backend/app.log
-backend/wilayah.json
 
 # Database files
 server/db/*.db-shm
