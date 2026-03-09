@@ -43,7 +43,6 @@ COPY lp-bakti-anak/ ./lp-bakti-anak/
 COPY lp-itikaf-premium/ ./lp-itikaf-premium/
 COPY lp-spiritual-journey/ ./lp-spiritual-journey/
 COPY jualan-lp/ ./jualan-lp/
-COPY "jualan lp/" ./jualan-lp-space/
 COPY assets/ ./assets/
 COPY index.html ./index.html
 COPY manifest.json ./manifest.json
