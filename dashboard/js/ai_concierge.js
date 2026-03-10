@@ -423,9 +423,19 @@ window.generateAndShowConcierge = async function () {
     container.innerHTML = `
         <div style="text-align:center; padding:24px; color:var(--text-secondary);">
             <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:8px; display:block; color:var(--brand);"></i>
-            <span style="font-size:0.85rem;">Menganalisis profil jamaah dan membuat pesan (didukung AI)...</span>
+            <span style="font-size:0.85rem;">Menganalisis profil jamaah dan membuat pesan...</span>
         </div>
     `;
+
+    // Helper function to check if response is mock data
+    const isMockResponse = (data) => {
+        if (!data || !data.toneA) return true;
+        // Check if toneA contains MOCK indicators
+        if (data.toneA.includes('[MOCK') || data.toneA.includes('MOCK SPIRITUAL')) return true;
+        if (data.toneB && data.toneB.includes('[MOCK')) return true;
+        if (data.toneC && data.toneC.includes('[MOCK')) return true;
+        return false;
+    };
 
     try {
         const response = await fetch('/api/ai/concierge/' + L.id, {
@@ -434,13 +444,17 @@ window.generateAndShowConcierge = async function () {
         });
         const resData = await response.json();
 
-        if (resData.success && resData.data) {
+        // Use local generation if API returns mock data or failed
+        if (resData.success && resData.data && !isMockResponse(resData.data)) {
             _renderConciergeResult(container, resData.data, L);
         } else {
+            // Use local generation (better quality than mock)
+            console.log('[AI Concierge] Using local generation (API unavailable or returned mock)');
             const fallback = window.generateConciergeMessages(L, csName);
             _renderConciergeResult(container, fallback, L);
         }
     } catch (err) {
+        console.log('[AI Concierge] API error, using local generation:', err);
         const fallback = window.generateConciergeMessages(L, csName);
         _renderConciergeResult(container, fallback, L);
     }
