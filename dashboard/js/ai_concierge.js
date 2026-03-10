@@ -375,7 +375,13 @@ _${csNickname}_`;
 // ─────────────────────────────────────────────────
 // UI RENDERER: Render AI Concierge Panel inside waPanel
 // ─────────────────────────────────────────────────
+// Global variable to store current lead for AI Concierge
+window._conciergeCurrentLead = null;
+
 window.renderConciergePanel = function (L) {
+    // Store lead reference globally
+    window._conciergeCurrentLead = L;
+
     const container = document.getElementById('aiConciergeBox');
     if (!container) return;
 
@@ -386,18 +392,31 @@ window.renderConciergePanel = function (L) {
         </div>
     `;
 
-    // Store lead reference for generation
+    // Also store on container for backward compatibility
     container._currentLead = L;
+
+    // Update info text if available
+    const infoEl = document.getElementById('conciergeLeadInfo');
+    if (infoEl && L) {
+        infoEl.innerHTML = `
+            <span><i class="fas fa-user"></i> ${L.nama_lengkap || 'Unknown'}</span>
+            <span><i class="fas fa-phone"></i> ${L.whatsapp_num || '-'}</span>
+            <span><i class="fas fa-box"></i> ${L.paket_pilihan || 'N/A'}</span>
+        `;
+    }
 };
 
 window.generateAndShowConcierge = async function () {
     const container = document.getElementById('aiConciergeBox');
-    if (!container || !container._currentLead) {
+
+    // Use global variable first, fallback to container
+    const L = window._conciergeCurrentLead || (container ? container._currentLead : null);
+
+    if (!L) {
         showToast('Pilih lead terlebih dahulu sebelum generate pesan.', 'error');
         return;
     }
 
-    const L = container._currentLead;
     const csName = localStorage.getItem('cs_nickname') || '';
 
     // Show loading
