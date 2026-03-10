@@ -23,6 +23,8 @@ services:
     environment:
       - PORT=8080
       - POSTGRES_URI=postgresql://munira:munira_password@postgres:5432/munira_crm
+      - ADMIN_USERNAME=Imron23
+      - ADMIN_PASSWORD=Imunira234..
     depends_on:
       postgres:
         condition: service_healthy

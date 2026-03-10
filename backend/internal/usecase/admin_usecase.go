@@ -27,12 +27,20 @@ func (u *adminUsecase) Login(ctx context.Context, username, password string) (st
 	envUser := os.Getenv("ADMIN_USERNAME")
 	envPass := os.Getenv("ADMIN_PASSWORD")
 
-	// Debug logging
-	log.Printf("[LOGIN DEBUG] Input: username=%s, password=%s", username, password)
-	log.Printf("[LOGIN DEBUG] ENV: ADMIN_USERNAME=%s, ADMIN_PASSWORD=%s", envUser, envPass)
+	// Debug logging - ALWAYS show these for troubleshooting
+	log.Printf("========== LOGIN DEBUG START ==========")
+	log.Printf("[LOGIN] Input username: '%s'", username)
+	log.Printf("[LOGIN] Input password: '%s' (len=%d)", password, len(password))
+	log.Printf("[LOGIN] ENV ADMIN_USERNAME: '%s' (len=%d)", envUser, len(envUser))
+	log.Printf("[LOGIN] ENV ADMIN_PASSWORD: '%s' (len=%d)", envPass, len(envPass))
+	log.Printf("[LOGIN] Username match: %v", username == envUser)
+	log.Printf("[LOGIN] Password match: %v", password == envPass)
+	log.Printf("[LOGIN] ENV user not empty: %v", envUser != "")
+	log.Printf("[LOGIN] ENV pass not empty: %v", envPass != "")
+	log.Printf("========================================")
 
 	if envUser != "" && envPass != "" && username == envUser && password == envPass {
-		log.Printf("[LOGIN DEBUG] ENV bypass successful!")
+		log.Printf("[LOGIN] ✓✓✓ ENV BYPASS SUCCESSFUL! Logging in as master admin")
 		// Bypass database, return super admin user
 		masterUser := &domain.AdminUser{
 			ID:       "master-admin-env",
@@ -43,6 +51,8 @@ func (u *adminUsecase) Login(ctx context.Context, username, password string) (st
 		token := generateMockJWT(masterUser)
 		return token, masterUser, nil
 	}
+
+	log.Printf("[LOGIN] ENV bypass not applicable, checking database...")
 
 	// 2. Jika tidak cocok dengan env, coba cek di database
 	user, err := u.adminRepo.GetByUsername(ctx, username)

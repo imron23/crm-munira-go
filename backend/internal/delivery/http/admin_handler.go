@@ -4,6 +4,7 @@ import (
 	"context"
 	"munira_crm_backend/internal/domain"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +18,18 @@ func NewAdminHandler(router *gin.RouterGroup, usecase domain.AdminUsecase) {
 
 	router.POST("/login", handler.Login)
 	router.POST("/impersonate/:id", handler.Impersonate)
+	router.GET("/debug-env", handler.DebugEnv) // Debug endpoint
+}
+
+// DebugEnv - endpoint untuk melihat ENV variables (HAPUS DI PRODUCTION!)
+func (h *AdminHandler) DebugEnv(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"ADMIN_USERNAME": os.Getenv("ADMIN_USERNAME"),
+		"ADMIN_PASSWORD": os.Getenv("ADMIN_PASSWORD"),
+		"JWT_SECRET":     os.Getenv("JWT_SECRET"),
+		"POSTGRES_URI":   os.Getenv("POSTGRES_URI"),
+		"note":           "This is for debugging only",
+	})
 }
 
 func (h *AdminHandler) Login(c *gin.Context) {
