@@ -68,7 +68,19 @@ func main() {
 		rootPath = "../public-lp/"
 	}
 
-	router.StaticFile("/", rootPath+"lp-2-long/index.html")
+	router.GET("/", func(c *gin.Context) {
+		host := c.Request.Host
+		if host == "muniraworld.id" || host == "www.muniraworld.id" {
+			// Menampilkan landing page liburan-26-sf sebagai homepage untuk muniraworld.id
+			c.File(rootPath + "liburan-26-sf/index.html")
+		} else if host == "muniraworld.web.id" || host == "www.muniraworld.web.id" {
+			// Menampilkan landing page catalog lama untuk muniraworld.web.id
+			c.File(rootPath + "index.html")
+		} else {
+			// Default fallback
+			c.File(rootPath + "liburan-26-sf/index.html")
+		}
+	})
 	router.StaticFile("/logo.png", rootPath+"logo.png")
 	
 	router.Static("/assets", rootPath+"assets")
