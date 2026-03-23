@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Munira World — Daftar Umrah Liburan Sekolah 2026 (30 Detik)</title>
+    <title>Munira World — Umrah Liburan Tanpa Lelah & Tanpa Khawatir</title>
     <meta name="description"
-        content="Daftar konsultasi gratis Program Umrah Liburan Sekolah 10 Hari bersama Munira World. Keberangkatan 29 Juni - 08 Juli 2026. Isi form 30 detik, Konsultan kami hubungi via WhatsApp.">
+        content="Program Umrah Liburan Sekolah Premium 10 Hari bersama Munira World. Perjalanan spiritual tanpa rasa lelah dan khawatir. Kereta Cepat Haramain, VIP Lounge, bimbingan ramah anak.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,13 @@
     <style>
         .timeline-section {
             background: var(--white-pure);
-            padding: 100px 0;
+            padding: 72px 0;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-section {
+                padding: 56px 0 40px;
+            }
         }
 
         .timeline-container {
@@ -35,33 +41,19 @@
             position: relative;
         }
 
+        /* Minimalist style: remove vertical line */
         .timeline-container::before {
-            content: '';
-            position: absolute;
-            left: 40px;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--gold) 0%, rgba(197, 160, 89, 0.2) 100%);
-            border-radius: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .timeline-container::before {
-                left: 24px;
-            }
+            content: none;
         }
 
         .timeline-item {
             position: relative;
-            padding-left: 80px;
-            margin-bottom: 48px;
+            margin-bottom: 24px;
         }
 
         @media (max-width: 768px) {
             .timeline-item {
-                padding-left: 60px;
-                margin-bottom: 32px;
+                margin-bottom: 16px;
             }
         }
 
@@ -69,63 +61,39 @@
             margin-bottom: 0;
         }
 
+        /* Hide old timeline dots for cleaner look */
         .timeline-dot {
-            position: absolute;
-            left: 28px;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            background: var(--white-pure);
-            border: 4px solid var(--gold);
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .timeline-dot {
-                left: 12px;
-                width: 24px;
-                height: 24px;
-                top: 4px;
-            }
+            display: none;
         }
 
         .timeline-content {
-            background: #F8F9FA;
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid rgba(26, 54, 93, 0.05);
-            box-shadow: 0 10px 30px rgba(26, 54, 93, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        @media (max-width: 768px) {
-            .timeline-content {
-                padding: 20px;
-            }
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid rgba(26, 54, 93, 0.08);
+            box-shadow: none;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
         }
 
         .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(26, 54, 93, 0.08);
+            background: #F8F9FA;
+            border-color: rgba(26, 54, 93, 0.16);
         }
 
         .timeline-date {
             font-weight: 700;
             color: var(--gold);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             display: block;
         }
 
         .timeline-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             color: var(--navy);
-            margin-bottom: 16px;
+            margin-bottom: 0;
             line-height: 1.3;
         }
 
@@ -159,23 +127,19 @@
             font-weight: 600;
         }
 
-        /* Accordion Styles */
-        .timeline-content {
-            padding: 0;
-            /* Override padding since we're using accordion header/body */
-        }
-
+        /* Accordion Styles – compact & mobile-first */
         .accordion-header {
-            padding: 24px 32px;
+            padding: 16px 20px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 12px;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 769px) {
             .accordion-header {
-                padding: 16px 20px;
+                padding: 18px 24px;
             }
         }
 
@@ -185,18 +149,14 @@
 
         .accordion-icon {
             color: var(--gold);
-            font-size: 1.2rem;
-            margin-left: 16px;
-            transition: transform 0.3s ease;
+            font-size: 1.1rem;
+            margin-left: 4px;
+            margin-top: 2px;
+            transition: transform 0.25s ease;
         }
 
         .timeline-content.active .accordion-icon {
             transform: rotate(180deg);
-        }
-
-        .timeline-title {
-            margin-bottom: 0;
-            transition: color 0.3s ease;
         }
 
         .accordion-header:hover .timeline-title {
@@ -206,23 +166,16 @@
         .accordion-body {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding-bottom 0.5s ease;
-            padding: 0 32px;
+            transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), padding-bottom 0.3s ease, opacity 0.3s ease;
+            padding: 0 20px;
             opacity: 0;
         }
 
         .timeline-content.active .accordion-body {
             max-height: 1000px;
             /* arbitrary high number */
-            padding-bottom: 24px;
-            transition: max-height 1s ease-in-out, padding-bottom 0.5s ease;
+            padding-bottom: 16px;
             opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .accordion-body {
-                padding: 0 20px;
-            }
         }
 
         .point-sales-grid {
@@ -339,6 +292,232 @@
                 opacity: 0;
             }
         }
+
+        /* Hero Section - Tenang & Nyaman */
+        .hero-badge-tenang {
+            background: linear-gradient(90deg, #10B981, #059669);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+            border: 2px dashed #fff;
+            font-size: 0.95rem;
+        }
+
+        .hero-title-tenang {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            line-height: 1.4;
+        }
+
+        .tenang-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        .tenang-text span {
+            font-size: clamp(2.5rem, 6.5vw, 5rem);
+            line-height: 1.1;
+            background: linear-gradient(135deg, #10B981, #34D399, #6EE7B7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        /* Decorative Elements - Tenang */
+        .decor-tenang {
+            position: absolute;
+            z-index: 5;
+            animation: floatTenang 6s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .dt-circle-1 {
+            width: 50px;
+            height: 50px;
+            border: 8px solid #10B981;
+            border-radius: 50%;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .dt-circle-2 {
+            width: 30px;
+            height: 30px;
+            background: #10B981;
+            border-radius: 50%;
+            top: 60%;
+            right: 15%;
+            animation-delay: 1.5s;
+            opacity: 0.8;
+        }
+
+        .dt-leaf-1 {
+            top: 25%;
+            right: 8%;
+            color: #10B981;
+            font-size: 3rem;
+            animation: floatTenang 5s infinite reverse;
+            opacity: 0.8;
+        }
+
+        .dt-cloud {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 5rem;
+            top: 65%;
+            left: 85%;
+            transform: scaleX(-1);
+            animation-delay: 2s;
+        }
+
+        @keyframes floatTenang {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Value Section - Anti Lelah */
+        .value-highlight-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
+            border: 2px solid #10B981;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .value-highlight-box h4 {
+            color: #10B981;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .value-highlight-box p {
+            color: var(--navy);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Anti-Khawatir Section */
+        .anti-khawatir-section {
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+            padding: 80px 0;
+        }
+
+        .anti-khawatir-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .anti-khawatir-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .anti-khawatir-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .anti-khawatir-card:hover {
+            border-color: #10B981;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+        }
+
+        .anti-khawatir-card .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .anti-khawatir-card .icon i {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .anti-khawatir-card h4 {
+            color: var(--navy);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .anti-khawatir-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Banner - Tenang */
+        .cta-tenang {
+            background: linear-gradient(135deg, #064E3B 0%, #065F46 50%, #047857 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-tenang h2 {
+            color: #fff;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: 16px;
+        }
+
+        .cta-tenang p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
+        .cta-tenang .btn-gold {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: #fff;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-tenang .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
+        }
     </style>
 
     <!-- Favicon -->
@@ -353,10 +532,10 @@
 <body>
     <!-- PRELOADER -->
     <div id="pageLoader"
-        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1628 0%,#1a365d 50%,#0a1628 100%);transition:opacity .6s ease,visibility .6s ease;">
+        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,#047857 100%);transition:opacity .6s ease,visibility .6s ease;">
         <div style="text-align:center;">
             <div
-                style="width:60px;height:60px;border:3px solid rgba(191,163,107,.2);border-top-color:#BFA36B;border-radius:50%;animation:loaderSpin 1s linear infinite;margin:0 auto 20px;">
+                style="width:60px;height:60px;border:3px solid rgba(16,185,129,.2);border-top-color:#10B981;border-radius:50%;animation:loaderSpin 1s linear infinite;margin:0 auto 20px;">
             </div>
             <img src="/logo.png" alt="Munira World" style="height:50px;opacity:.9;margin-bottom:12px;">
             <p style="color:rgba(255,255,255,.6);font-family:Montserrat,sans-serif;font-size:.8rem;letter-spacing:2px;">
@@ -400,7 +579,8 @@
                 <li><a href="#testimoni">Testimoni</a></li>
             </ul>
             <div class="navbar-cta">
-                <a href="#daftar" class="btn btn-gold" id="nav-cta">
+                <a href="#daftar" class="btn btn-gold" id="nav-cta"
+                    style="background: linear-gradient(135deg, #10B981, #34D399);">
                     Daftar Sekarang
                 </a>
             </div>
@@ -411,243 +591,38 @@
     </nav>
 
     <!-- ═══════════════════════════════════════════════════
-       SECTION 1: HERO — THE DREAM STATE
+       SECTION 1: HERO — TANPA LELEH & TANPA KHAWATIR
        ═══════════════════════════════════════════════════ -->
     <section class="hero" id="hero" style="overflow: hidden; position: relative;">
-        <img class="hero-video" src="/lp-liburan/fam.jpeg" alt="Keluarga Umrah"
-            style="object-fit:cover; width:100%; height:100%;">
-        <!-- Soft, Magical Gradient Overlay for Kids Theme -->
+        <video class="hero-video" autoplay muted loop playsinline preload="auto">
+            <source src="../assets/munira-hero.mp4" type="video/mp4">
+            Browser Anda tidak mendukung video HTML5.
+        </video>
+        <!-- Calm & Peaceful Gradient Overlay -->
         <div class="hero-overlay"
-            style="background: linear-gradient(135deg, rgba(26,54,93,0.75) 0%, rgba(132,94,194,0.5) 50%, rgba(255,150,113,0.6) 100%);">
+            style="background: linear-gradient(135deg, rgba(6,78,59,0.85) 0%, rgba(4,120,87,0.7) 50%, rgba(16,185,129,0.6) 100%);">
         </div>
 
-        <!-- Soft Animations -->
-        <i class="fas fa-paper-plane soft-graphic plane-soft"
-            style="color: #FF9671; font-size: 3.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));"></i>
-        <i class="fas fa-train soft-graphic train-soft" style="color: rgba(255,215,0,0.6);"></i>
-
-        <!-- Extra Kids Decorative Elements -->
-        <style>
-            .kids-decor {
-                position: absolute;
-                z-index: 5;
-                pointer-events: none;
-                animation: floatKids 4s ease-in-out infinite;
-            }
-
-            .kd-star1 {
-                top: 20%;
-                left: 15%;
-                color: #FFD700;
-                font-size: 2rem;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            }
-
-            .kd-star2 {
-                top: 35%;
-                right: 20%;
-                color: #FFD700;
-                font-size: 1.5rem;
-                animation-delay: 1.5s;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            }
-
-            .kd-moon {
-                top: 50%;
-                left: 85%;
-                color: #FF9671;
-                font-size: 3.5rem;
-                animation-duration: 6s;
-                opacity: 0.9;
-                filter: drop-shadow(0 0 10px rgba(255, 150, 113, 0.5));
-            }
-
-            .kd-cloud {
-                top: 65%;
-                left: 8%;
-                color: rgba(255, 255, 255, 0.6);
-                font-size: 4rem;
-                animation-duration: 7s;
-            }
-
-            @keyframes floatKids {
-                0% {
-                    transform: translateY(0);
-                }
-
-                50% {
-                    transform: translateY(-15px) rotate(5deg);
-                }
-
-                100% {
-                    transform: translateY(0);
-                }
-            }
-
-            .hero-badge-kids {
-                background: linear-gradient(90deg, #FF9671, #FF2A54);
-                color: #fff;
-                padding: 12px 24px;
-                border-radius: 30px;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
-                margin-bottom: 24px;
-                display: inline-block;
-                box-shadow: 0 4px 15px rgba(255, 42, 84, 0.5);
-                border: 2px dashed #fff;
-                font-size: 0.95rem;
-            }
-
-            .kids-text {
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 900;
-                letter-spacing: 2px;
-                display: inline-block;
-                padding-bottom: 5px;
-                margin-top: 5px;
-            }
-
-            .kids-text span {
-                -webkit-text-stroke: 1.5px #fff;
-                text-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1), 0px 8px 15px rgba(0, 0, 0, 0.3);
-                font-size: clamp(2.5rem, 6.5vw, 5rem);
-                line-height: 1.1;
-            }
-
-            .word-wrap {
-                display: inline-block;
-                white-space: nowrap;
-                margin: 0 8px;
-            }
-
-            .hero-title-kids {
-                font-size: clamp(1.8rem, 4vw, 3rem);
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 800;
-                color: #FFFFFF;
-                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-                line-height: 1.4;
-            }
-
-            .hero-overlay {
-                background: linear-gradient(135deg, rgba(26, 54, 93, 0.85) 0%, rgba(132, 94, 194, 0.7) 50%, rgba(255, 150, 113, 0.8) 100%) !important;
-            }
-
-            .hero-wave {
-                position: absolute;
-                bottom: -2px;
-                left: 0;
-                right: 0;
-                z-index: 10;
-                width: 100%;
-                height: auto;
-            }
-
-            /* Bright Memphis Decor */
-            .decor-shape {
-                position: absolute;
-                z-index: 5;
-                animation: floatKids 6s ease-in-out infinite alternate;
-                pointer-events: none;
-            }
-
-            .ds-circle-1 {
-                width: 50px;
-                height: 50px;
-                border: 8px solid #00C896;
-                border-radius: 50%;
-                top: 15%;
-                left: 10%;
-                animation-delay: 0s;
-            }
-
-            .ds-circle-2 {
-                width: 30px;
-                height: 30px;
-                background: #FFD700;
-                border-radius: 50%;
-                top: 60%;
-                right: 15%;
-                animation-delay: 1.5s;
-                opacity: 0.8;
-            }
-
-            .ds-triangle-1 {
-                width: 0;
-                height: 0;
-                border-left: 25px solid transparent;
-                border-right: 25px solid transparent;
-                border-bottom: 45px solid #FF2A54;
-                top: 25%;
-                right: 8%;
-                transform: rotate(20deg);
-                animation-delay: 0.5s;
-            }
-
-            .ds-wave {
-                top: 40%;
-                left: 8%;
-                color: #009DFF;
-                font-size: 3rem;
-                animation: floatKids 5s infinite reverse;
-                opacity: 0.8;
-            }
-
-            .ds-cloud {
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 5rem;
-                top: 65%;
-                left: 85%;
-                transform: scaleX(-1);
-                animation-delay: 2s;
-            }
-        </style>
-
-        <!-- Fun Memphis Shapes -->
-        <div class="decor-shape ds-circle-1"></div>
-        <div class="decor-shape ds-circle-2"></div>
-        <div class="decor-shape ds-triangle-1"></div>
-        <i class="fas fa-paper-plane decor-shape ds-wave"></i>
-        <i class="fas fa-cloud decor-shape ds-cloud"></i>
+        <!-- Decorative Elements - Tenang -->
+        <div class="decor-tenang dt-circle-1"></div>
+        <div class="decor-tenang dt-circle-2"></div>
+        <i class="fas fa-leaf decor-tenang dt-leaf-1"></i>
+        <i class="fas fa-cloud decor-tenang dt-cloud"></i>
 
         <div class="hero-content" style="z-index: 20;">
-            <div class="hero-badge-kids"><i class="fas fa-ticket-alt" style="margin-right:6px;"></i> Tiket Liburan: 29
-                Juni - 08 Juli 2026</div>
-            <h1 class="hero-title-kids">Berikan Mereka Hadiah Terbaik:<br>
-                <div class="kids-text">
-                    <span class="word-wrap">
-                        <span style="color:#FF2A54 !important;">U</span><span
-                            style="color:#FF9B00 !important;">m</span><span
-                            style="color:#FFD700 !important;">r</span><span
-                            style="color:#00C896 !important;">a</span><span style="color:#009DFF !important;">h</span>
-                    </span>
-                    <span class="word-wrap">
-                        <span style="color:#A700FF !important;">L</span><span
-                            style="color:#FF2A54 !important;">i</span><span
-                            style="color:#FF9B00 !important;">b</span><span
-                            style="color:#FFD700 !important;">u</span><span
-                            style="color:#00C896 !important;">r</span><span
-                            style="color:#009DFF !important;">a</span><span style="color:#A700FF !important;">n</span>
-                    </span>
-                    <br>
-                    <span class="word-wrap">
-                        <span style="color:#FF2A54 !important;">S</span><span
-                            style="color:#FF9B00 !important;">e</span><span
-                            style="color:#FFD700 !important;">k</span><span
-                            style="color:#00C896 !important;">o</span><span
-                            style="color:#009DFF !important;">l</span><span
-                            style="color:#A700FF !important;">a</span><span style="color:#FF2A54 !important;">h</span>
-                    </span>
-                </div><br>
-                Tanpa Lelah & Tanpa Drama.
+            <div class="hero-badge-tenang"><i class="fas fa-spa" style="margin-right:6px;"></i> Perjalanan Tenang &
+                Nyaman</div>
+            <h1 class="hero-title-tenang">Umrah Liburan Sekolah<br>
+                <div class="tenang-text">
+                    <span>Tanpa Lelah</span> & <span>Tanpa Khawatir</span>
+                </div>
             </h1>
             <p class="hero-sub" style="font-weight: 500; font-size: clamp(1.1rem, 2vw, 1.3rem); margin-top: 15px;">
-                10 Hari perjalanan spiritual seru & edukatif.<br>Kenyamanan anak 100% terjaga.
+                10 Hari perjalanan spiritual yang menyenangkan.<br>Semua sudah kami urus — Anda cukup fokus ibadah.
             </p>
             <div class="hero-buttons">
                 <a href="#daftar" class="btn btn-gold" id="hero-cta"
-                    style="border-radius: 30px; box-shadow: 0 10px 20px rgba(197,160,89,0.4); font-weight: 800; font-size: 1.1rem; padding: 15px 30px; border: 2px solid #fff; background: #FF9B00; color: #fff;">
+                    style="border-radius: 30px; box-shadow: 0 10px 20px rgba(16,185,129,0.4); font-weight: 800; font-size: 1.1rem; padding: 15px 30px; border: 2px solid #fff; background: linear-gradient(135deg, #10B981, #34D399); color: #fff;">
                     <i class="fab fa-whatsapp"></i> Amankan Seat Liburan Keluarga
                 </a>
             </div>
@@ -658,7 +633,7 @@
             <i class="fas fa-chevron-down"></i>
         </div>
 
-        <!-- Wave Divider for playful bottom edge -->
+        <!-- Wave Divider -->
         <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
             <path fill="#ffffff" fill-opacity="1"
                 d="M0,32L80,37.3C160,43,320,53,480,58.7C640,64,800,64,960,53.3C1120,43,1280,21,1360,10.7L1440,0L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z">
@@ -667,7 +642,7 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════
-       MITRA &amp; MASKAPAI (Partner Logos)
+       MITRA & MASKAPAI (Partner Logos)
        ═══════════════════════════════════════════════════ -->
     <div class="partner-strip">
         <div class="container container-partners">
@@ -687,58 +662,115 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════
-       SECTION 2: THE LOGIC OF VALUE
+       SECTION 2: ANTI LELEH & ANTI KHAWATIR
        ═══════════════════════════════════════════════════ -->
     <section class="value-section" id="keunggulan">
         <div class="container" style="text-align:center;">
-            <span class="section-label reveal">The Anti-Drama Comparison</span>
-            <h2 class="section-title reveal" style="max-width:800px; margin:0 auto; font-size:2.4rem;">Kenapa Memilih
-                Kenyamanan Adalah <span style="color:var(--gold)">Investasi Terbaik?</span></h2>
+            <span class="section-label reveal">Kenapa Pilih Kami?</span>
+            <h2 class="section-title reveal" style="max-width:800px; margin:0 auto; font-size:2.4rem;">
+                <span style="color:#10B981">Tanpa Lelah</span> & <span style="color:#10B981">Tanpa Khawatir</span>
+            </h2>
             <p class="section-subtitle reveal" style="max-width:800px; margin:16px auto 48px;">
-                Harga premium yang menjustifikasi kualitas. Bandingkan perjalanan travel biasa yang menguras energi
-                dengan keistimewaan program Munira VIP:
+                Kami merancang perjalanan umrah yang mengutamakan kenyamanan Anda. Semua detail sudah kami pikirkan,
+                sehingga Anda bisa fokus pada ibadah tanpa rasa lelah dan khawatir.
             </p>
 
             <div class="value-grid"
                 style="grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto;">
                 <!-- Travel Biasa -->
                 <div class="value-card reveal reveal-delay-1" style="border-top: 3px solid #E53E3E;">
-                    <h3 style="color:#E53E3E; font-size:1.5rem; margin-bottom:20px;">Umrah Biasa</h3>
+                    <h3 style="color:#E53E3E; font-size:1.5rem; margin-bottom:20px;">🥵 Umrah Biasa</h3>
                     <ul style="list-style:none; padding:0; text-align:left;">
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Penerbangan:</strong> Transit lama, anak kelelahan
+                            <strong>Lelah:</strong> Bus 6 jam Mekkah-Madinah, transit lama
                         </li>
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Transportasi:</strong> Bus 6 jam Mekkah-Madinah, rawan rewel
+                            <strong>Khawatir:</strong> Hotel jauh dari masjid, anak rewel
                         </li>
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Akomodasi:</strong> Hotel jauh, kaki lecet berjalan jauh
+                            <strong>Pusing:</strong> Urus koper sendiri, antre panjang
                         </li>
                     </ul>
                 </div>
                 <!-- Munira VIP -->
                 <div class="value-card reveal reveal-delay-2"
-                    style="border-top: 3px solid var(--gold); border: 2px solid var(--gold); background: #FAFDFE;">
-                    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:20px;">Munira VIP <i
-                            class="fas fa-check-circle" style="color:var(--gold);"></i></h3>
+                    style="border-top: 3px solid #10B981; border: 2px solid #10B981; background: #F0FDF4;">
+                    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:20px;">😌 Munira VIP <i
+                            class="fas fa-check-circle" style="color:#10B981;"></i></h3>
                     <ul style="list-style:none; padding:0; text-align:left;">
-                        <li style="margin-bottom:16px;"><i class="fas fa-check"
-                                style="color:var(--gold); width:24px;"></i> <strong>Penerbangan:</strong> Direct Flight
-                            Saudia, anak tetap segar</li>
-                        <li style="margin-bottom:16px;"><i class="fas fa-check"
-                                style="color:var(--gold); width:24px;"></i> <strong>Transportasi:</strong> Kereta Cepat
-                            Haramain 2 Jam, lebih seru</li>
-                        <li style="margin-bottom:16px;"><i class="fas fa-check"
-                                style="color:var(--gold); width:24px;"></i> <strong>Akomodasi:</strong> Hotel Premium 0
-                            Meter, fokus ibadah</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
+                            <strong>Tanpa Lelah:</strong> Kereta Cepat Haramain 2 jam, direct flight</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
+                            <strong>Tanpa Khawatir:</strong> Hotel 0 meter dari masjid, VIP handling</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
+                            <strong>Tenang:</strong> Koper diurus tim, fast track immigration</li>
                     </ul>
                 </div>
             </div>
-        </div>
 
-        <!-- Airplane Animation -->
-        <div class="plane-animation" id="planeAnim">
-            <i class="fas fa-plane-departure"></i>
+            <div class="value-highlight-box reveal">
+                <h4><i class="fas fa-heart" style="margin-right:8px;"></i>Jaminan Ketenangan Anda</h4>
+                <p>Dengan pengalaman 14+ tahun melayani lebih dari 5000 jamaah, kami memahami bahwa ibadah yang tenang
+                    adalah hak setiap muslim. Mari wujudkan umrah impian Anda tanpa drama dan tanpa kelelahan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+       ANTI KHAWATIR SECTION
+       ═══════════════════════════════════════════════════ -->
+    <section class="anti-khawatir-section" id="anti-khawatir">
+        <div class="container" style="text-align:center;">
+            <span class="section-label reveal">Garansi Ketenangan</span>
+            <h2 class="section-title reveal">8 Alasan Kenapa Anda <span style="color:#10B981">Tidak Perlu
+                    Khawatir</span></h2>
+            <p class="section-subtitle reveal">
+                Semua kekhawatiran Anda sudah kami antisipasi dengan solusi nyata.
+            </p>
+
+            <div class="anti-khawatir-grid">
+                <div class="anti-khawatir-card reveal reveal-delay-1">
+                    <div class="icon"><i class="fas fa-train"></i></div>
+                    <h4>Tidak Mabuk Darat</h4>
+                    <p>Kereta Cepat Haramain hanya 2 jam Madinah-Mekkah. Nyaman, cepat, dan bebas mabuk perjalanan.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-2">
+                    <div class="icon"><i class="fas fa-bed"></i></div>
+                    <h4>Hotel Depan Masjid</h4>
+                    <p>Tidak perlu jalan jauh. Hotel bintang 5 hanya 1-2 menit berjalan kaki ke Masjidil Haram.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-3">
+                    <div class="icon"><i class="fas fa-suitcase-rolling"></i></div>
+                    <h4>Koper Diantar ke Kamar</h4>
+                    <p>Tim kami yang urus bagasi dari bandara sampai ke kamar hotel. Anda cukup jalan santai.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-1">
+                    <div class="icon"><i class="fas fa-child"></i></div>
+                    <h4>Ramah Anak & Lansia</h4>
+                    <p>Itinerary fleksibel, banyak waktu istirahat, dan pembimbing sabar mendampingi seluruh keluarga.
+                    </p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-2">
+                    <div class="icon"><i class="fas fa-utensils"></i></div>
+                    <h4>Makanan Halal & Terjamin</h4>
+                    <p>Menu Indonesia tersedia, semua halal dan sesuai selera. Tidak perlu khawatir makanan.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-3">
+                    <div class="icon"><i class="fas fa-hands-helping"></i></div>
+                    <h4>Pendampingan Intensif</h4>
+                    <p>Ust. Yaumil Akhir, Lc dan tim siap membimbing 24/7. Tidak ada pertanyaan yang terlewat.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-1">
+                    <div class="icon"><i class="fas fa-plane-departure"></i></div>
+                    <h4>Direct Flight Saudia</h4>
+                    <p>Penerbangan langsung tanpa transit. Tidur nyenyak sampai tujuan, anak tetap segar.</p>
+                </div>
+                <div class="anti-khawatir-card reveal reveal-delay-2">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h4>Terdaftar Resmi Kemenag</h4>
+                    <p>Izin PPIU resmi & terintegrasi SISKOPATUH. Keberangkatan terjamin, dana aman.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -747,10 +779,10 @@
        ═══════════════════════════════════════════════════ -->
     <section class="timeline-section" id="itinerary">
         <div class="container" style="text-align:center; margin-bottom: 56px;">
-            <span class="section-label reveal">Momen Emas Tarbiyah Anak</span>
-            <h2 class="section-title reveal">Itinerary <span style="color:var(--gold)">Premium (10 Hari)</span></h2>
+            <span class="section-label reveal">Perjalanan Nyaman 10 Hari</span>
+            <h2 class="section-title reveal">Itinerary <span style="color:var(--gold)">Tanpa Terburu-buru</span></h2>
             <p class="section-subtitle reveal">
-                "Membangun Kedekatan Spiritual Keluarga Tanpa Lelah"
+                Jadwal yang dirancang untuk kenyamanan — tidak ada rush, tidak ada kelelahan berlebih.
             </p>
         </div>
 
@@ -770,32 +802,23 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-clock"></i>
-                            <div><strong>13.30:</strong> Berkumpul di Lounge VIP Bandara Soekarno-Hatta (Bukan di area
-                                publik). Proses handling dokumen dilakukan oleh tim khusus.</div>
+                            <div><strong>13.30:</strong> Berkumpul di Lounge VIP Bandara Soekarno-Hatta. Proses handling
+                                dokumen dilakukan oleh tim khusus.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-plane-departure"></i>
                             <div><strong>17.30:</strong> Keberangkatan dengan Saudi Airlines SV819 (Direct Flight).
-                                Fasilitas
-                                Full
-                                Service & In-flight Entertainment untuk anak-anak.</div>
+                                Tidur nyenyak di pesawat.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-passport"></i>
-                            <div><strong>23.30:</strong> Tiba di Jeddah. Proses Fast Track Immigration (Tanpa antre
-                                panjang).</div>
-                        </div>
-                        <div class="timeline-point">
-                            <i class="fas fa-bus"></i>
-                            <div><strong>01.00 (+1):</strong> Perjalanan ke Madinah dengan Bus VIP 2026 Edition (Kursi
-                                luas,
-                                sirkulasi udara optimal).</div>
+                            <div><strong>23.30:</strong> Tiba di Jeddah. Fast Track Immigration — tanpa antre panjang.
+                            </div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-hotel"></i>
-                            <div><strong>05.00 (+1):</strong> Check-in Hotel Bintang 5 (Depan Pelataran Masjid Nabawi).
-                                Welcome
-                                Drink & Breakfast khusus di kamar untuk keluarga.</div>
+                            <div><strong>05.00 (+1):</strong> Check-in Hotel Bintang 5 depan Masjid Nabawi. Welcome
+                                Drink & Breakfast di kamar.</div>
                         </div>
                     </div>
                 </div>
@@ -815,18 +838,18 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-moon"></i>
-                            <div><strong>03.30:</strong> Shalat Tahajud & Subuh berjamaah di Masjid Nabawi.</div>
+                            <div><strong>03.30:</strong> Shalat Tahajud & Subuh berjamaah di Masjid Nabawi (hanya 2
+                                menit jalan kaki).</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-mosque"></i>
-                            <div><strong>08.00:</strong> Ziarah Raudah (Dipesankan melalui sistem E'tamarna/Nusuk oleh
-                                tim).
-                                Jemaah tidak perlu antre manual.</div>
+                            <div><strong>08.00:</strong> Ziarah Raudah via E'tamarna/Nusuk — tidak perlu antre manual.
+                            </div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <div><strong>16.00:</strong> Kajian Keluarga bersama Ust. Yaumil Akhir, Lc dengan tema
-                                "Meneladani Akhlak Rasulullah untuk Milenial & Gen Z".</div>
+                                "Meneladani Akhlak Rasulullah".</div>
                         </div>
                     </div>
                 </div>
@@ -846,12 +869,12 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-map-marked-alt"></i>
-                            <div><strong>07.00:</strong> Ziarah Luar (Masjid Quba, Kebun Kurma, Gunung Uhud).</div>
+                            <div><strong>07.00:</strong> Ziarah Luar (Masjid Quba, Kebun Kurma, Gunung Uhud) dengan Bus
+                                VIP yang nyaman.</div>
                         </div>
                         <div class="timeline-highlight">
                             <i class="fas fa-star" style="margin-right:8px;"></i> Extra Value: Kunjungan VIP ke Museum
-                            Al-Qur'an/Museum Wahyu dengan panduan Private Guide. Visual sejarah Islam interaktif agar
-                            anak-anak mudah paham.
+                            Al-Qur'an dengan panduan Private Guide.
                         </div>
                     </div>
                 </div>
@@ -876,14 +899,13 @@
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-train"></i>
-                            <div><strong>12.00:</strong> Menggunakan Haramain High-Speed Train (VIP Class).
-                                Madinah-Makkah
-                                hanya dalam 2 jam (Bukan 6 jam bus). Menghindari drama anak-anak bosan di jalan.</div>
+                            <div><strong>12.00:</strong> Haramain High-Speed Train (VIP Class) — Madinah-Makkah hanya 2
+                                jam, bukan 6 jam bus!</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>17.00:</strong> Pelaksanaan Ibadah Umroh Pertama (Dibimbing secara intensif
-                                per-keluarga).</div>
+                            <div><strong>17.00:</strong> Pelaksanaan Ibadah Umroh Pertama dengan bimbingan intensif
+                                per-keluarga.</div>
                         </div>
                     </div>
                 </div>
@@ -904,18 +926,17 @@
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
                             <div><strong>Day 5:</strong> Fokus memperbanyak Ibadah di Masjidil Haram. Private Consulting
-                                dengan Pembimbing untuk evaluasi ibadah umroh.</div>
+                                dengan Pembimbing.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-mountain"></i>
-                            <div><strong>Day 6 Pagi:</strong> City Tour Makkah (Jabal Tsur, Arafah, Muzdalifah, Mina).
-                                Lalu
-                                lanjut ke Kota sejuk Thaif naik Bus VIP.</div>
+                            <div><strong>Day 6 Pagi:</strong> City Tour Makkah (Jabal Tsur, Arafah, Muzdalifah, Mina) +
+                                Thaif yang sejuk.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-utensils"></i>
-                            <div><strong>Day 6 Malam:</strong> Makan malam eksklusif di restoran lokal terbaik di Thaif
-                                sebelum kembali ke Makkah.</div>
+                            <div><strong>Day 6 Malam:</strong> Makan malam eksklusif di restoran lokal terbaik Thaif.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -935,12 +956,13 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-coffee"></i>
-                            <div><strong>Day 7 Sore:</strong> Afternoon Tea di Lounge Hotel menghadap Ka’bah untuk momen
+                            <div><strong>Day 7 Sore:</strong> Afternoon Tea di Lounge Hotel menghadap Ka'bah untuk momen
                                 bonding keluarga.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>Day 8:</strong> Fokus memperbanyak Ibadah di Masjidil Haram.</div>
+                            <div><strong>Day 8:</strong> Fokus memperbanyak Ibadah di Masjidil Haram. Waktu untuk tawaf
+                                sunnah dan doa.</div>
                         </div>
                     </div>
                 </div>
@@ -949,8 +971,7 @@
             <!-- DAY 9 & 10 -->
             <div class="timeline-item reveal reveal-delay-1">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content accordion-item"
-                    style="border: 2px solid var(--gold); background: #FAFDFE;">
+                <div class="timeline-content accordion-item" style="border: 2px solid #10B981; background: #F0FDF4;">
                     <div class="accordion-header">
                         <div class="accordion-title-wrap">
                             <span class="timeline-date">Day 9 & 10 • 07-08 Juli 2026</span>
@@ -961,20 +982,17 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>Day 9 (pagi):</strong> Tawaf Wada’ perpisahan dengan Ka'bah.</div>
+                            <div><strong>Day 9 (pagi):</strong> Tawaf Wada' perpisahan dengan Ka'bah.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-plane"></i>
-                            <div><strong>Day 9 (20.20):</strong> Keberangkatan dengan Saudi Airlines SV820 dari Jeddah
-                                menuju Jakarta. Penerbangan Direct kembali ke Tanah Air.</div>
+                            <div><strong>Day 9 (20.20):</strong> Keberangkatan dengan Saudi Airlines SV820 (Direct
+                                Flight) ke Jakarta.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-home"></i>
-                            <div><strong>Day 10 (10.25):</strong> Tiba di Jakarta. Penjemputan bagasi sepenuhnya diurus
-                                oleh tim
-                                Munira World. Jemaah langsung pulang ke rumah & berkumpul dengan keluarga bebas dari
-                                rasa
-                                lelah berlebih.</div>
+                            <div><strong>Day 10 (10.25):</strong> Tiba di Jakarta. Bagasi diurus tim Munira. Anda
+                                langsung pulang dengan hati tenang.</div>
                         </div>
                     </div>
                 </div>
@@ -984,46 +1002,40 @@
 
         <div class="container reveal">
             <div style="text-align:center; margin-top: 64px;">
-                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; color:var(--navy);">Justifikasi
-                    Investasi Anda</h3>
-                <p style="color:var(--text-light); max-width:600px; margin: 8px auto 0;">Mengapa harga +30% dari market
-                    standar adalah keputusan cerdas untuk orang tua.</p>
+                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; color:var(--navy);">Investasi untuk
+                    Ketenteraman Anda</h3>
+                <p style="color:var(--text-light); max-width:600px; margin: 8px auto 0;">Mengapa harga premium adalah
+                    investasi terbaik untuk ibadah yang tenang.</p>
             </div>
             <div class="point-sales-grid">
                 <div class="ps-card">
                     <img src="/assets/train.png" alt="Kereta Cepat Haramain" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🚄 Kereta Cepat Haramain (VIP Class)</h4>
-                        <p>Menghilangkan total risiko mabuk darat dan kelelahan berlebih pada anak-anak/lansia. Hanya 2
-                            jam
-                            nyaman antar kota.</p>
+                        <h4>🚄 Kereta Cepat Haramain</h4>
+                        <p>Menghilangkan total risiko mabuk darat. Hanya 2 jam nyaman antar kota — bukan 6 jam bus.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="/assets/hotel.png" alt="Hotel Premium Mekkah" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🏨 Hotel Zero-Distance (Depan Masjid)</h4>
-                        <p>Menjamin jemaah bisa ke Masjidil Haram hanya dengan jalan kaki 1-2 menit. Waktu istirahat
-                            jadi
-                            lebih panjang, anak bangun subuh tanpa rewel.</p>
+                        <h4>🏨 Hotel Zero-Distance</h4>
+                        <p>Jalan kaki 1-2 menit ke Masjidil Haram. Waktu istirahat lebih panjang, tidak kelelahan.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80"
                         alt="Saudi Airlines" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>✈️ Saudi Airlines Direct Flight</h4>
-                        <p>Tidak ada risiko koper hilang saat transit atau kelelahan di bandara penghubung luar negara.
-                            Tidur nyenyak sampai tujuan.</p>
+                        <h4>✈️ Direct Flight Saudia</h4>
+                        <p>Tidak ada transit, tidak ada risiko koper hilang. Tidur nyenyak sampai tujuan.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="https://images.unsplash.com/photo-1554342872-034a06541bad?auto=format&fit=crop&w=600&q=80"
                         alt="VIP Baggage" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🎒 Full VIP Baggage Handling</h4>
-                        <p>Orang tua hanya perlu menggandeng tangan anak. Jemaah tidak mengurus koper sama sekali sejak
-                            turun pesawat hingga dalam kamar.</p>
+                        <h4>🎒 Full VIP Handling</h4>
+                        <p>Orang tua hanya perlu menggandeng tangan anak. Koper diurus dari A sampai Z.</p>
                     </div>
                 </div>
             </div>
@@ -1111,7 +1123,8 @@
                         <li><i class="fas fa-check-circle"></i> Bimbingan khusus keluarga selama di Mekkah & Madinah
                         </li>
                     </ul>
-                    <a href="#daftar" class="btn btn-gold reveal" id="guide-cta">
+                    <a href="#daftar" class="btn btn-gold reveal" id="guide-cta"
+                        style="background: linear-gradient(135deg, #10B981, #34D399);">
                         <i class="fab fa-whatsapp"></i> Tanya Lebih Lanjut
                     </a>
                 </div>
@@ -1128,7 +1141,7 @@
             <h2 class="section-title reveal">Pilih Paket <span style="color:var(--gold)">Terbaik</span> Anda</h2>
             <p class="section-subtitle reveal">
                 29 Juni - 08 Juli 2026 — Program 10 Hari Umrah Liburan Sekolah. Tiket Confirmed via Saudia Airlines.
-                (EKSLUSIF HANYA 25 SEAT)
+                (EKSKLUSIF HANYA 25 SEAT)
             </p>
 
             <!-- PACKAGE INFO & EXCLUSIONS -->
@@ -1137,29 +1150,29 @@
                 <div style="display:flex; flex-wrap:wrap; gap: 24px;">
                     <div style="flex:1; min-width:280px;">
                         <h4 style="color:var(--navy); margin-bottom:12px; font-size:1.1rem;"><i
-                                class="fas fa-check-circle" style="color:var(--gold);"></i> Paket Termasuk</h4>
+                                class="fas fa-check-circle" style="color:#10B981;"></i> Paket Termasuk</h4>
                         <ul
                             style="list-style:none; padding:0; line-height:1.7; font-size:.9rem; color:var(--text-light);">
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Tiket penerbangan (economy class)
+                                    style="color:#10B981; margin-right:6px;"></i> Tiket penerbangan (economy class)
                                 Saudia Airlines</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Akomodasi Hotel *5 Madinah &
-                                Mekkah</li>
+                                    style="color:#10B981; margin-right:6px;"></i> Akomodasi Hotel *5 Madinah & Mekkah
+                            </li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Transportasi Bus & Kereta Cepat
+                                    style="color:#10B981; margin-right:6px;"></i> Transportasi Bus & Kereta Cepat
                                 Haramain</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Visa Umroh & Travel Insurance</li>
+                                    style="color:#10B981; margin-right:6px;"></i> Visa Umroh & Travel Insurance</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Ustadz Pembimbing, Muthowif &
+                                    style="color:#10B981; margin-right:6px;"></i> Ustadz Pembimbing, Muthowif &
                                 Muthowifah</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Perlengkapan Umroh (Koper 2pcs,
+                                    style="color:#10B981; margin-right:6px;"></i> Perlengkapan Umroh (Koper 2PCS,
                                 Seragam, dsb)</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:var(--gold); margin-right:6px;"></i> Manasik Umroh 2x, Al Baik,
-                                Handling Soetta, dll</li>
+                                    style="color:#10B981; margin-right:6px;"></i> Manasik Umroh 2x, Al Baik, Handling
+                                Soetta, dll</li>
                         </ul>
                     </div>
                     <div style="flex:1; min-width:280px;">
@@ -1230,7 +1243,7 @@
                     left: 0;
                     right: 0;
                     height: 80px;
-                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23c5a059" fill-opacity="0.1" d="M0,160L48,160C96,160,192,160,288,181.3C384,203,480,245,576,234.7C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2310B981" fill-opacity="0.1" d="M0,160L48,160C96,160,192,160,288,181.3C384,203,480,245,576,234.7C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
                     background-size: cover;
                     background-position: bottom;
                     z-index: 0;
@@ -1254,13 +1267,13 @@
                     position: absolute;
                     top: -10px;
                     left: -10px;
-                    background: linear-gradient(135deg, #F9D423 0%, #FF4E50 100%);
+                    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
                     color: #fff;
                     padding: 16px 32px 16px 40px;
                     border-radius: 0 0 24px 0;
                     font-weight: 800;
                     font-size: 1.1rem;
-                    box-shadow: 5px 5px 15px rgba(249, 212, 35, 0.3);
+                    box-shadow: 5px 5px 15px rgba(16, 185, 129, 0.3);
                     z-index: 2;
                 }
 
@@ -1317,8 +1330,8 @@
                 }
 
                 .pkg-opt-box-gold {
-                    background: linear-gradient(to bottom, #fff, #fef9c3);
-                    border-color: #fde047;
+                    background: linear-gradient(to bottom, #fff, #d1fae5);
+                    border-color: #10B981;
                 }
 
                 .pkg-opt-box.silver-theme {
@@ -1403,8 +1416,8 @@
 
                 <!-- PAKET GOLD -->
                 <div class="package-card reveal reveal-delay-2"
-                    style="border-top: 5px solid #F9D423; transform: scale(1.02); box-shadow: 0 25px 50px rgba(249,212,35,0.15);">
-                    <div class="pkg-badge-gold">Paket Gold</div>
+                    style="border-top: 5px solid #10B981; transform: scale(1.02); box-shadow: 0 25px 50px rgba(16,185,129,0.15);">
+                    <div class="pkg-badge-gold">Paket Gold ⭐</div>
 
                     <div class="pkg-price-main">
                         <span class="label">Quad</span>
@@ -1430,7 +1443,7 @@
                     </div>
 
                     <a href="#daftar" class="btn btn-gold"
-                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; box-shadow: 0 10px 20px rgba(197,160,89,0.3);">Pilih
+                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; box-shadow: 0 10px 20px rgba(16,185,129,0.3); background: linear-gradient(135deg, #10B981, #059669);">Pilih
                         Gold</a>
                 </div>
 
@@ -1544,7 +1557,7 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                             class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <h4>Pelayanan Ramah &amp; Kekeluargaan</h4>
+                    <h4>Pelayanan Ramah & Kekeluargaan</h4>
                     <p class="testimonial-text">&ldquo;Munira World memiliki staff yang ramah dan mampu menciptakan
                         suasana kekeluargaan ketika saya berangkat umrah tahun 2015, seperti umrah dengan keluarga
                         sendiri.&rdquo;</p>
@@ -1599,7 +1612,7 @@
     <!-- ═══════════════════════════════════════════════════
        CTA BANNER
        ═══════════════════════════════════════════════════ -->
-    <section class="cta-banner">
+    <section class="cta-tenang">
         <div class="container">
             <h2 class="reveal">Jangan Sampai Kehabisan Seat</h2>
             <p class="reveal">Keberangkatan 29 Juni 2026 — Kuota sangat terbatas hanya 25 Seat.</p>
@@ -1610,7 +1623,7 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════
-       SHORT REGISTRATION FORM (30 Detik)
+       REGISTRATION FORM
        ═══════════════════════════════════════════════════ -->
     <section class="form-section" id="daftar">
         <div class="container form-container reveal">
@@ -1865,8 +1878,10 @@
                         let ok = true; sfState.usia = [];
                         document.querySelectorAll('.u-inp').forEach((inp, idx) => {
                             const val = parseInt(inp.value);
+                            const relNode = document.querySelectorAll('.u-rel')[idx];
+                            const rel = relNode ? relNode.value : 'Jamaah';
                             if(isNaN(val) || val < 1) { inp.classList.add('error'); ok=false; }
-                            else { inp.classList.remove('error'); sfState.usia.push({santri: idx+1, usia: val}); }
+                            else { inp.classList.remove('error'); sfState.usia.push({santri: rel, usia: val}); }
                         });
                         if(!ok) { showErr('eUsia', true); return; } else showErr('eUsia', false);
                         
@@ -1875,7 +1890,7 @@
                         document.getElementById('sHp').textContent = sfState.hp;
                         document.getElementById('sDom').textContent = `${sfState.kec}, ${sfState.kab}`;
                         document.getElementById('sPax').textContent = sfState.pax + ' Orang';
-                        document.getElementById('sUsia').innerHTML = sfState.usia.map(u => `<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">J${u.santri}: ${u.usia}th</span>`).join('');
+                        document.getElementById('sUsia').innerHTML = sfState.usia.map(u => `<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">${u.santri}: ${u.usia}th</span>`).join('');
                     }
 
                     document.getElementById('step'+step).classList.remove('active');
@@ -1934,14 +1949,32 @@
 
                 function renderUsia() {
                     const list = document.getElementById('usiaList');
-                    const existing = Array.from(list.querySelectorAll('.u-inp')).map(el => el.value);
-                    list.innerHTML = Array(sfState.pax).fill(0).map((_,i) => `
+                    const existingU = Array.from(list.querySelectorAll('.u-inp')).map(el => el.value);
+                    const existingR = Array.from(list.querySelectorAll('.u-rel')).map(el => el.value);
+                    list.innerHTML = Array(sfState.pax).fill(0).map((_,i) => {
+                        let relHtml = '';
+                        if(i === 0) {
+                            relHtml = `<span style="font-size:0.9rem; font-weight:600; color:var(--navy); flex:1;">Saya</span><input type="hidden" class="u-rel" value="Saya">`;
+                        } else {
+                            const pastRel = existingR[i] || 'Suami / Istri';
+                            relHtml = `
+                                <select class="sf-inp u-rel" style="flex:1; padding:8px; font-weight:600;">
+                                    <option value="Suami / Istri" ${pastRel==='Suami / Istri'?'selected':''}>Suami / Istri</option>
+                                    <option value="Anak" ${pastRel==='Anak'?'selected':''}>Anak</option>
+                                    <option value="Orang Tua" ${pastRel==='Orang Tua'?'selected':''}>Orang Tua</option>
+                                    <option value="Saudara" ${pastRel==='Saudara'?'selected':''}>Saudara</option>
+                                </select>
+                            `;
+                        }
+
+                        return `
                         <div class="usia-card">
                             <span class="idx">${i+1}</span>
-                            <span style="font-size:0.9rem; font-weight:600; color:var(--navy); flex:1;">Usia Jamaah ${i+1}</span>
-                            <input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Thn" min="1" value="${existing[i]||''}" oninput="this.classList.remove('error'); showErr('eUsia',false)">
+                            ${relHtml}
+                            <input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Usia (Thn)" min="1" value="${existingU[i]||''}" oninput="this.classList.remove('error'); showErr('eUsia',false)">
                         </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 }
 
                 // Submit
@@ -1959,7 +1992,7 @@
                         jamaah_usia_detail: sfState.usia,
                         paket_pilihan: sfState.paket || 'Umrah Liburan',
                         fasilitas_utama: 'Bersedia Dihubungi',
-                        landing_page: window.location.href, form_source: 'lp-liburan-short-progressive'
+                        landing_page: window.location.href, form_source: 'liburan-26-lf'
                     };
 
                     const API_URL = window.location.protocol === 'file:' ? 'http://localhost:8080/api/leads' : '/api/leads';
@@ -1973,17 +2006,6 @@
                     document.querySelector('.sf-prog-track').style.display = 'none';
                     document.getElementById('progForm').style.display = 'none';
                     document.getElementById('sfThankYou').style.display = 'block';
-
-                    // WA Router logic (simplified)
-                    setTimeout(() => {
-                        let waTarget = '6285261349134';
-                        if(window.__MUNIRA_WA_ROTATOR__ && window.__MUNIRA_WA_ROTATOR__.length) {
-                            const act = window.__MUNIRA_WA_ROTATOR__.filter(n => n.is_active !== false);
-                            if(act.length) waTarget = act[Math.floor(Math.random() * act.length)].number.replace(/\D/g, '');
-                        }
-                        const text = `Assalamu'alaikum Konsultan Munira World,\nSaya tertarik mendaftar Umrah Liburan Sekolah.\n\n👤 Nama: ${sfState.nama}\n📱 WA: ${sfState.hp}\n📍 Domisili: ${sfState.kec}, ${sfState.kab}\n🕋 Paket: ${sfState.paket || 'Minta info'}\n👥 Jumlah: ${sfState.pax} Jamaah\n\nMohon info selengkapnya.`;
-                        window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
-                    }, 2500);
                 }
             </script>
         </div>

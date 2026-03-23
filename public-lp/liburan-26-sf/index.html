@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Munira World — Umrah Liburan Tanpa Lelah & Tanpa Khawatir</title>
+    <title>Munira World — Daftar Umrah Liburan Sekolah 2026 (30 Detik)</title>
     <meta name="description"
-        content="Program Umrah Liburan Sekolah Premium 10 Hari bersama Munira World. Perjalanan spiritual tanpa rasa lelah dan khawatir. Kereta Cepat Haramain, VIP Lounge, bimbingan ramah anak.">
+        content="Daftar konsultasi gratis Program Umrah Liburan Sekolah 10 Hari bersama Munira World. Keberangkatan 29 Juni - 08 Juli 2026. Isi form 30 detik, Konsultan kami hubungi via WhatsApp.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,13 +25,7 @@
     <style>
         .timeline-section {
             background: var(--white-pure);
-            padding: 72px 0;
-        }
-
-        @media (max-width: 768px) {
-            .timeline-section {
-                padding: 56px 0 40px;
-            }
+            padding: 100px 0;
         }
 
         .timeline-container {
@@ -41,19 +35,33 @@
             position: relative;
         }
 
-        /* Minimalist style: remove vertical line */
         .timeline-container::before {
-            content: none;
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--gold) 0%, rgba(197, 160, 89, 0.2) 100%);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 24px;
+            }
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 24px;
+            padding-left: 80px;
+            margin-bottom: 48px;
         }
 
         @media (max-width: 768px) {
             .timeline-item {
-                margin-bottom: 16px;
+                padding-left: 60px;
+                margin-bottom: 32px;
             }
         }
 
@@ -61,39 +69,63 @@
             margin-bottom: 0;
         }
 
-        /* Hide old timeline dots for cleaner look */
         .timeline-dot {
-            display: none;
+            position: absolute;
+            left: 28px;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--white-pure);
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-dot {
+                left: 12px;
+                width: 24px;
+                height: 24px;
+                top: 4px;
+            }
         }
 
         .timeline-content {
-            background: #FFFFFF;
-            border-radius: 12px;
-            border: 1px solid rgba(26, 54, 93, 0.08);
-            box-shadow: none;
-            transition: background-color 0.25s ease, border-color 0.25s ease;
+            background: #F8F9FA;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(26, 54, 93, 0.05);
+            box-shadow: 0 10px 30px rgba(26, 54, 93, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-content {
+                padding: 20px;
+            }
         }
 
         .timeline-content:hover {
-            background: #F8F9FA;
-            border-color: rgba(26, 54, 93, 0.16);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(26, 54, 93, 0.08);
         }
 
         .timeline-date {
             font-weight: 700;
             color: var(--gold);
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             display: block;
         }
 
         .timeline-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             color: var(--navy);
-            margin-bottom: 0;
+            margin-bottom: 16px;
             line-height: 1.3;
         }
 
@@ -127,19 +159,23 @@
             font-weight: 600;
         }
 
-        /* Accordion Styles – compact & mobile-first */
+        /* Accordion Styles */
+        .timeline-content {
+            padding: 0;
+            /* Override padding since we're using accordion header/body */
+        }
+
         .accordion-header {
-            padding: 16px 20px;
+            padding: 24px 32px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
+            align-items: center;
         }
 
-        @media (min-width: 769px) {
+        @media (max-width: 768px) {
             .accordion-header {
-                padding: 18px 24px;
+                padding: 16px 20px;
             }
         }
 
@@ -149,14 +185,18 @@
 
         .accordion-icon {
             color: var(--gold);
-            font-size: 1.1rem;
-            margin-left: 4px;
-            margin-top: 2px;
-            transition: transform 0.25s ease;
+            font-size: 1.2rem;
+            margin-left: 16px;
+            transition: transform 0.3s ease;
         }
 
         .timeline-content.active .accordion-icon {
             transform: rotate(180deg);
+        }
+
+        .timeline-title {
+            margin-bottom: 0;
+            transition: color 0.3s ease;
         }
 
         .accordion-header:hover .timeline-title {
@@ -166,16 +206,23 @@
         .accordion-body {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.45s cubic-bezier(0, 1, 0, 1), padding-bottom 0.3s ease, opacity 0.3s ease;
-            padding: 0 20px;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding-bottom 0.5s ease;
+            padding: 0 32px;
             opacity: 0;
         }
 
         .timeline-content.active .accordion-body {
             max-height: 1000px;
             /* arbitrary high number */
-            padding-bottom: 16px;
+            padding-bottom: 24px;
+            transition: max-height 1s ease-in-out, padding-bottom 0.5s ease;
             opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .accordion-body {
+                padding: 0 20px;
+            }
         }
 
         .point-sales-grid {
@@ -292,232 +339,6 @@
                 opacity: 0;
             }
         }
-
-        /* Hero Section - Tenang & Nyaman */
-        .hero-badge-tenang {
-            background: linear-gradient(90deg, #10B981, #059669);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 24px;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
-            border: 2px dashed #fff;
-            font-size: 0.95rem;
-        }
-
-        .hero-title-tenang {
-            font-size: clamp(1.8rem, 4vw, 3rem);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            color: #FFFFFF;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            line-height: 1.4;
-        }
-
-        .tenang-text {
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            letter-spacing: 2px;
-            display: inline-block;
-            padding-bottom: 5px;
-            margin-top: 5px;
-        }
-
-        .tenang-text span {
-            font-size: clamp(2.5rem, 6.5vw, 5rem);
-            line-height: 1.1;
-            background: linear-gradient(135deg, #10B981, #34D399, #6EE7B7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
-
-        /* Decorative Elements - Tenang */
-        .decor-tenang {
-            position: absolute;
-            z-index: 5;
-            animation: floatTenang 6s ease-in-out infinite alternate;
-            pointer-events: none;
-        }
-
-        .dt-circle-1 {
-            width: 50px;
-            height: 50px;
-            border: 8px solid #10B981;
-            border-radius: 50%;
-            top: 15%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .dt-circle-2 {
-            width: 30px;
-            height: 30px;
-            background: #10B981;
-            border-radius: 50%;
-            top: 60%;
-            right: 15%;
-            animation-delay: 1.5s;
-            opacity: 0.8;
-        }
-
-        .dt-leaf-1 {
-            top: 25%;
-            right: 8%;
-            color: #10B981;
-            font-size: 3rem;
-            animation: floatTenang 5s infinite reverse;
-            opacity: 0.8;
-        }
-
-        .dt-cloud {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 5rem;
-            top: 65%;
-            left: 85%;
-            transform: scaleX(-1);
-            animation-delay: 2s;
-        }
-
-        @keyframes floatTenang {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px) rotate(5deg);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        /* Value Section - Anti Lelah */
-        .value-highlight-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.05));
-            border: 2px solid #10B981;
-            border-radius: 16px;
-            padding: 24px;
-            margin-top: 32px;
-            text-align: center;
-        }
-
-        .value-highlight-box h4 {
-            color: #10B981;
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-        }
-
-        .value-highlight-box p {
-            color: var(--navy);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Anti-Khawatir Section */
-        .anti-khawatir-section {
-            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
-            padding: 80px 0;
-        }
-
-        .anti-khawatir-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .anti-khawatir-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .anti-khawatir-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px 24px;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .anti-khawatir-card:hover {
-            border-color: #10B981;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
-        }
-
-        .anti-khawatir-card .icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #10B981, #34D399);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .anti-khawatir-card .icon i {
-            font-size: 2rem;
-            color: #fff;
-        }
-
-        .anti-khawatir-card h4 {
-            color: var(--navy);
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-        }
-
-        .anti-khawatir-card p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* CTA Banner - Tenang */
-        .cta-tenang {
-            background: linear-gradient(135deg, #064E3B 0%, #065F46 50%, #047857 100%);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .cta-tenang h2 {
-            color: #fff;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            margin-bottom: 16px;
-        }
-
-        .cta-tenang p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            margin-bottom: 32px;
-        }
-
-        .cta-tenang .btn-gold {
-            background: linear-gradient(135deg, #10B981, #34D399);
-            color: #fff;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .cta-tenang .btn-gold:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
-        }
     </style>
 
     <!-- Favicon -->
@@ -532,10 +353,10 @@
 <body>
     <!-- PRELOADER -->
     <div id="pageLoader"
-        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,#047857 100%);transition:opacity .6s ease,visibility .6s ease;">
+        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1628 0%,#1a365d 50%,#0a1628 100%);transition:opacity .6s ease,visibility .6s ease;">
         <div style="text-align:center;">
             <div
-                style="width:60px;height:60px;border:3px solid rgba(16,185,129,.2);border-top-color:#10B981;border-radius:50%;animation:loaderSpin 1s linear infinite;margin:0 auto 20px;">
+                style="width:60px;height:60px;border:3px solid rgba(191,163,107,.2);border-top-color:#BFA36B;border-radius:50%;animation:loaderSpin 1s linear infinite;margin:0 auto 20px;">
             </div>
             <img src="/logo.png" alt="Munira World" style="height:50px;opacity:.9;margin-bottom:12px;">
             <p style="color:rgba(255,255,255,.6);font-family:Montserrat,sans-serif;font-size:.8rem;letter-spacing:2px;">
@@ -579,8 +400,7 @@
                 <li><a href="#testimoni">Testimoni</a></li>
             </ul>
             <div class="navbar-cta">
-                <a href="#daftar" class="btn btn-gold" id="nav-cta"
-                    style="background: linear-gradient(135deg, #10B981, #34D399);">
+                <a href="#daftar" class="btn btn-gold" id="nav-cta">
                     Daftar Sekarang
                 </a>
             </div>
@@ -591,38 +411,243 @@
     </nav>
 
     <!-- ═══════════════════════════════════════════════════
-       SECTION 1: HERO — TANPA LELEH & TANPA KHAWATIR
+       SECTION 1: HERO — THE DREAM STATE
        ═══════════════════════════════════════════════════ -->
     <section class="hero" id="hero" style="overflow: hidden; position: relative;">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto">
-            <source src="../assets/munira-hero.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video HTML5.
-        </video>
-        <!-- Calm & Peaceful Gradient Overlay -->
+        <img class="hero-video" src="/lp-liburan/fam.jpeg" alt="Keluarga Umrah"
+            style="object-fit:cover; width:100%; height:100%;">
+        <!-- Soft, Magical Gradient Overlay for Kids Theme -->
         <div class="hero-overlay"
-            style="background: linear-gradient(135deg, rgba(6,78,59,0.85) 0%, rgba(4,120,87,0.7) 50%, rgba(16,185,129,0.6) 100%);">
+            style="background: linear-gradient(135deg, rgba(26,54,93,0.75) 0%, rgba(132,94,194,0.5) 50%, rgba(255,150,113,0.6) 100%);">
         </div>
 
-        <!-- Decorative Elements - Tenang -->
-        <div class="decor-tenang dt-circle-1"></div>
-        <div class="decor-tenang dt-circle-2"></div>
-        <i class="fas fa-leaf decor-tenang dt-leaf-1"></i>
-        <i class="fas fa-cloud decor-tenang dt-cloud"></i>
+        <!-- Soft Animations -->
+        <i class="fas fa-paper-plane soft-graphic plane-soft"
+            style="color: #FF9671; font-size: 3.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));"></i>
+        <i class="fas fa-train soft-graphic train-soft" style="color: rgba(255,215,0,0.6);"></i>
+
+        <!-- Extra Kids Decorative Elements -->
+        <style>
+            .kids-decor {
+                position: absolute;
+                z-index: 5;
+                pointer-events: none;
+                animation: floatKids 4s ease-in-out infinite;
+            }
+
+            .kd-star1 {
+                top: 20%;
+                left: 15%;
+                color: #FFD700;
+                font-size: 2rem;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            .kd-star2 {
+                top: 35%;
+                right: 20%;
+                color: #FFD700;
+                font-size: 1.5rem;
+                animation-delay: 1.5s;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            .kd-moon {
+                top: 50%;
+                left: 85%;
+                color: #FF9671;
+                font-size: 3.5rem;
+                animation-duration: 6s;
+                opacity: 0.9;
+                filter: drop-shadow(0 0 10px rgba(255, 150, 113, 0.5));
+            }
+
+            .kd-cloud {
+                top: 65%;
+                left: 8%;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 4rem;
+                animation-duration: 7s;
+            }
+
+            @keyframes floatKids {
+                0% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-15px) rotate(5deg);
+                }
+
+                100% {
+                    transform: translateY(0);
+                }
+            }
+
+            .hero-badge-kids {
+                background: linear-gradient(90deg, #FF9671, #FF2A54);
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 30px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                margin-bottom: 24px;
+                display: inline-block;
+                box-shadow: 0 4px 15px rgba(255, 42, 84, 0.5);
+                border: 2px dashed #fff;
+                font-size: 0.95rem;
+            }
+
+            .kids-text {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 900;
+                letter-spacing: 2px;
+                display: inline-block;
+                padding-bottom: 5px;
+                margin-top: 5px;
+            }
+
+            .kids-text span {
+                -webkit-text-stroke: 1.5px #fff;
+                text-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1), 0px 8px 15px rgba(0, 0, 0, 0.3);
+                font-size: clamp(2.5rem, 6.5vw, 5rem);
+                line-height: 1.1;
+            }
+
+            .word-wrap {
+                display: inline-block;
+                white-space: nowrap;
+                margin: 0 8px;
+            }
+
+            .hero-title-kids {
+                font-size: clamp(1.8rem, 4vw, 3rem);
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 800;
+                color: #FFFFFF;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+                line-height: 1.4;
+            }
+
+            .hero-overlay {
+                background: linear-gradient(135deg, rgba(26, 54, 93, 0.85) 0%, rgba(132, 94, 194, 0.7) 50%, rgba(255, 150, 113, 0.8) 100%) !important;
+            }
+
+            .hero-wave {
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                z-index: 10;
+                width: 100%;
+                height: auto;
+            }
+
+            /* Bright Memphis Decor */
+            .decor-shape {
+                position: absolute;
+                z-index: 5;
+                animation: floatKids 6s ease-in-out infinite alternate;
+                pointer-events: none;
+            }
+
+            .ds-circle-1 {
+                width: 50px;
+                height: 50px;
+                border: 8px solid #00C896;
+                border-radius: 50%;
+                top: 15%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .ds-circle-2 {
+                width: 30px;
+                height: 30px;
+                background: #FFD700;
+                border-radius: 50%;
+                top: 60%;
+                right: 15%;
+                animation-delay: 1.5s;
+                opacity: 0.8;
+            }
+
+            .ds-triangle-1 {
+                width: 0;
+                height: 0;
+                border-left: 25px solid transparent;
+                border-right: 25px solid transparent;
+                border-bottom: 45px solid #FF2A54;
+                top: 25%;
+                right: 8%;
+                transform: rotate(20deg);
+                animation-delay: 0.5s;
+            }
+
+            .ds-wave {
+                top: 40%;
+                left: 8%;
+                color: #009DFF;
+                font-size: 3rem;
+                animation: floatKids 5s infinite reverse;
+                opacity: 0.8;
+            }
+
+            .ds-cloud {
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 5rem;
+                top: 65%;
+                left: 85%;
+                transform: scaleX(-1);
+                animation-delay: 2s;
+            }
+        </style>
+
+        <!-- Fun Memphis Shapes -->
+        <div class="decor-shape ds-circle-1"></div>
+        <div class="decor-shape ds-circle-2"></div>
+        <div class="decor-shape ds-triangle-1"></div>
+        <i class="fas fa-paper-plane decor-shape ds-wave"></i>
+        <i class="fas fa-cloud decor-shape ds-cloud"></i>
 
         <div class="hero-content" style="z-index: 20;">
-            <div class="hero-badge-tenang"><i class="fas fa-spa" style="margin-right:6px;"></i> Perjalanan Tenang &
-                Nyaman</div>
-            <h1 class="hero-title-tenang">Umrah Liburan Sekolah<br>
-                <div class="tenang-text">
-                    <span>Tanpa Lelah</span> & <span>Tanpa Khawatir</span>
-                </div>
+            <div class="hero-badge-kids"><i class="fas fa-ticket-alt" style="margin-right:6px;"></i> Tiket Liburan: 29
+                Juni - 08 Juli 2026</div>
+            <h1 class="hero-title-kids">Berikan Mereka Hadiah Terbaik:<br>
+                <div class="kids-text">
+                    <span class="word-wrap">
+                        <span style="color:#FF2A54 !important;">U</span><span
+                            style="color:#FF9B00 !important;">m</span><span
+                            style="color:#FFD700 !important;">r</span><span
+                            style="color:#00C896 !important;">a</span><span style="color:#009DFF !important;">h</span>
+                    </span>
+                    <span class="word-wrap">
+                        <span style="color:#A700FF !important;">L</span><span
+                            style="color:#FF2A54 !important;">i</span><span
+                            style="color:#FF9B00 !important;">b</span><span
+                            style="color:#FFD700 !important;">u</span><span
+                            style="color:#00C896 !important;">r</span><span
+                            style="color:#009DFF !important;">a</span><span style="color:#A700FF !important;">n</span>
+                    </span>
+                    <br>
+                    <span class="word-wrap">
+                        <span style="color:#FF2A54 !important;">S</span><span
+                            style="color:#FF9B00 !important;">e</span><span
+                            style="color:#FFD700 !important;">k</span><span
+                            style="color:#00C896 !important;">o</span><span
+                            style="color:#009DFF !important;">l</span><span
+                            style="color:#A700FF !important;">a</span><span style="color:#FF2A54 !important;">h</span>
+                    </span>
+                </div><br>
+                Tanpa Lelah & Tanpa Drama.
             </h1>
             <p class="hero-sub" style="font-weight: 500; font-size: clamp(1.1rem, 2vw, 1.3rem); margin-top: 15px;">
-                10 Hari perjalanan spiritual yang menyenangkan.<br>Semua sudah kami urus — Anda cukup fokus ibadah.
+                10 Hari perjalanan spiritual seru & edukatif.<br>Kenyamanan anak 100% terjaga.
             </p>
             <div class="hero-buttons">
                 <a href="#daftar" class="btn btn-gold" id="hero-cta"
-                    style="border-radius: 30px; box-shadow: 0 10px 20px rgba(16,185,129,0.4); font-weight: 800; font-size: 1.1rem; padding: 15px 30px; border: 2px solid #fff; background: linear-gradient(135deg, #10B981, #34D399); color: #fff;">
+                    style="border-radius: 30px; box-shadow: 0 10px 20px rgba(197,160,89,0.4); font-weight: 800; font-size: 1.1rem; padding: 15px 30px; border: 2px solid #fff; background: #FF9B00; color: #fff;">
                     <i class="fab fa-whatsapp"></i> Amankan Seat Liburan Keluarga
                 </a>
             </div>
@@ -633,7 +658,7 @@
             <i class="fas fa-chevron-down"></i>
         </div>
 
-        <!-- Wave Divider -->
+        <!-- Wave Divider for playful bottom edge -->
         <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
             <path fill="#ffffff" fill-opacity="1"
                 d="M0,32L80,37.3C160,43,320,53,480,58.7C640,64,800,64,960,53.3C1120,43,1280,21,1360,10.7L1440,0L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z">
@@ -642,7 +667,7 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════
-       MITRA & MASKAPAI (Partner Logos)
+       MITRA &amp; MASKAPAI (Partner Logos)
        ═══════════════════════════════════════════════════ -->
     <div class="partner-strip">
         <div class="container container-partners">
@@ -662,115 +687,58 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════
-       SECTION 2: ANTI LELEH & ANTI KHAWATIR
+       SECTION 2: THE LOGIC OF VALUE
        ═══════════════════════════════════════════════════ -->
     <section class="value-section" id="keunggulan">
         <div class="container" style="text-align:center;">
-            <span class="section-label reveal">Kenapa Pilih Kami?</span>
-            <h2 class="section-title reveal" style="max-width:800px; margin:0 auto; font-size:2.4rem;">
-                <span style="color:#10B981">Tanpa Lelah</span> & <span style="color:#10B981">Tanpa Khawatir</span>
-            </h2>
+            <span class="section-label reveal">The Anti-Drama Comparison</span>
+            <h2 class="section-title reveal" style="max-width:800px; margin:0 auto; font-size:2.4rem;">Kenapa Memilih
+                Kenyamanan Adalah <span style="color:var(--gold)">Investasi Terbaik?</span></h2>
             <p class="section-subtitle reveal" style="max-width:800px; margin:16px auto 48px;">
-                Kami merancang perjalanan umrah yang mengutamakan kenyamanan Anda. Semua detail sudah kami pikirkan,
-                sehingga Anda bisa fokus pada ibadah tanpa rasa lelah dan khawatir.
+                Harga premium yang menjustifikasi kualitas. Bandingkan perjalanan travel biasa yang menguras energi
+                dengan keistimewaan program Munira VIP:
             </p>
 
             <div class="value-grid"
                 style="grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto;">
                 <!-- Travel Biasa -->
                 <div class="value-card reveal reveal-delay-1" style="border-top: 3px solid #E53E3E;">
-                    <h3 style="color:#E53E3E; font-size:1.5rem; margin-bottom:20px;">🥵 Umrah Biasa</h3>
+                    <h3 style="color:#E53E3E; font-size:1.5rem; margin-bottom:20px;">Umrah Biasa</h3>
                     <ul style="list-style:none; padding:0; text-align:left;">
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Lelah:</strong> Bus 6 jam Mekkah-Madinah, transit lama
+                            <strong>Penerbangan:</strong> Transit lama, anak kelelahan
                         </li>
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Khawatir:</strong> Hotel jauh dari masjid, anak rewel
+                            <strong>Transportasi:</strong> Bus 6 jam Mekkah-Madinah, rawan rewel
                         </li>
                         <li style="margin-bottom:16px;"><i class="fas fa-times" style="color:#E53E3E; width:24px;"></i>
-                            <strong>Pusing:</strong> Urus koper sendiri, antre panjang
+                            <strong>Akomodasi:</strong> Hotel jauh, kaki lecet berjalan jauh
                         </li>
                     </ul>
                 </div>
                 <!-- Munira VIP -->
                 <div class="value-card reveal reveal-delay-2"
-                    style="border-top: 3px solid #10B981; border: 2px solid #10B981; background: #F0FDF4;">
-                    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:20px;">😌 Munira VIP <i
-                            class="fas fa-check-circle" style="color:#10B981;"></i></h3>
+                    style="border-top: 3px solid var(--gold); border: 2px solid var(--gold); background: #FAFDFE;">
+                    <h3 style="color:var(--navy); font-size:1.5rem; margin-bottom:20px;">Munira VIP <i
+                            class="fas fa-check-circle" style="color:var(--gold);"></i></h3>
                     <ul style="list-style:none; padding:0; text-align:left;">
-                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
-                            <strong>Tanpa Lelah:</strong> Kereta Cepat Haramain 2 jam, direct flight</li>
-                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
-                            <strong>Tanpa Khawatir:</strong> Hotel 0 meter dari masjid, VIP handling</li>
-                        <li style="margin-bottom:16px;"><i class="fas fa-check" style="color:#10B981; width:24px;"></i>
-                            <strong>Tenang:</strong> Koper diurus tim, fast track immigration</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Penerbangan:</strong> Direct Flight
+                            Saudia, anak tetap segar</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Transportasi:</strong> Kereta Cepat
+                            Haramain 2 Jam, lebih seru</li>
+                        <li style="margin-bottom:16px;"><i class="fas fa-check"
+                                style="color:var(--gold); width:24px;"></i> <strong>Akomodasi:</strong> Hotel Premium 0
+                            Meter, fokus ibadah</li>
                     </ul>
                 </div>
             </div>
-
-            <div class="value-highlight-box reveal">
-                <h4><i class="fas fa-heart" style="margin-right:8px;"></i>Jaminan Ketenangan Anda</h4>
-                <p>Dengan pengalaman 14+ tahun melayani lebih dari 5000 jamaah, kami memahami bahwa ibadah yang tenang
-                    adalah hak setiap muslim. Mari wujudkan umrah impian Anda tanpa drama dan tanpa kelelahan.</p>
-            </div>
         </div>
-    </section>
 
-    <!-- ═══════════════════════════════════════════════════
-       ANTI KHAWATIR SECTION
-       ═══════════════════════════════════════════════════ -->
-    <section class="anti-khawatir-section" id="anti-khawatir">
-        <div class="container" style="text-align:center;">
-            <span class="section-label reveal">Garansi Ketenangan</span>
-            <h2 class="section-title reveal">8 Alasan Kenapa Anda <span style="color:#10B981">Tidak Perlu
-                    Khawatir</span></h2>
-            <p class="section-subtitle reveal">
-                Semua kekhawatiran Anda sudah kami antisipasi dengan solusi nyata.
-            </p>
-
-            <div class="anti-khawatir-grid">
-                <div class="anti-khawatir-card reveal reveal-delay-1">
-                    <div class="icon"><i class="fas fa-train"></i></div>
-                    <h4>Tidak Mabuk Darat</h4>
-                    <p>Kereta Cepat Haramain hanya 2 jam Madinah-Mekkah. Nyaman, cepat, dan bebas mabuk perjalanan.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-2">
-                    <div class="icon"><i class="fas fa-bed"></i></div>
-                    <h4>Hotel Depan Masjid</h4>
-                    <p>Tidak perlu jalan jauh. Hotel bintang 5 hanya 1-2 menit berjalan kaki ke Masjidil Haram.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-3">
-                    <div class="icon"><i class="fas fa-suitcase-rolling"></i></div>
-                    <h4>Koper Diantar ke Kamar</h4>
-                    <p>Tim kami yang urus bagasi dari bandara sampai ke kamar hotel. Anda cukup jalan santai.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-1">
-                    <div class="icon"><i class="fas fa-child"></i></div>
-                    <h4>Ramah Anak & Lansia</h4>
-                    <p>Itinerary fleksibel, banyak waktu istirahat, dan pembimbing sabar mendampingi seluruh keluarga.
-                    </p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-2">
-                    <div class="icon"><i class="fas fa-utensils"></i></div>
-                    <h4>Makanan Halal & Terjamin</h4>
-                    <p>Menu Indonesia tersedia, semua halal dan sesuai selera. Tidak perlu khawatir makanan.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-3">
-                    <div class="icon"><i class="fas fa-hands-helping"></i></div>
-                    <h4>Pendampingan Intensif</h4>
-                    <p>Ust. Yaumil Akhir, Lc dan tim siap membimbing 24/7. Tidak ada pertanyaan yang terlewat.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-1">
-                    <div class="icon"><i class="fas fa-plane-departure"></i></div>
-                    <h4>Direct Flight Saudia</h4>
-                    <p>Penerbangan langsung tanpa transit. Tidur nyenyak sampai tujuan, anak tetap segar.</p>
-                </div>
-                <div class="anti-khawatir-card reveal reveal-delay-2">
-                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
-                    <h4>Terdaftar Resmi Kemenag</h4>
-                    <p>Izin PPIU resmi & terintegrasi SISKOPATUH. Keberangkatan terjamin, dana aman.</p>
-                </div>
-            </div>
+        <!-- Airplane Animation -->
+        <div class="plane-animation" id="planeAnim">
+            <i class="fas fa-plane-departure"></i>
         </div>
     </section>
 
@@ -779,10 +747,10 @@
        ═══════════════════════════════════════════════════ -->
     <section class="timeline-section" id="itinerary">
         <div class="container" style="text-align:center; margin-bottom: 56px;">
-            <span class="section-label reveal">Perjalanan Nyaman 10 Hari</span>
-            <h2 class="section-title reveal">Itinerary <span style="color:var(--gold)">Tanpa Terburu-buru</span></h2>
+            <span class="section-label reveal">Momen Emas Tarbiyah Anak</span>
+            <h2 class="section-title reveal">Itinerary <span style="color:var(--gold)">Premium (10 Hari)</span></h2>
             <p class="section-subtitle reveal">
-                Jadwal yang dirancang untuk kenyamanan — tidak ada rush, tidak ada kelelahan berlebih.
+                "Membangun Kedekatan Spiritual Keluarga Tanpa Lelah"
             </p>
         </div>
 
@@ -802,23 +770,32 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-clock"></i>
-                            <div><strong>13.30:</strong> Berkumpul di Lounge VIP Bandara Soekarno-Hatta. Proses handling
-                                dokumen dilakukan oleh tim khusus.</div>
+                            <div><strong>13.30:</strong> Berkumpul di Lounge VIP Bandara Soekarno-Hatta (Bukan di area
+                                publik). Proses handling dokumen dilakukan oleh tim khusus.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-plane-departure"></i>
                             <div><strong>17.30:</strong> Keberangkatan dengan Saudi Airlines SV819 (Direct Flight).
-                                Tidur nyenyak di pesawat.</div>
+                                Fasilitas
+                                Full
+                                Service & In-flight Entertainment untuk anak-anak.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-passport"></i>
-                            <div><strong>23.30:</strong> Tiba di Jeddah. Fast Track Immigration — tanpa antre panjang.
-                            </div>
+                            <div><strong>23.30:</strong> Tiba di Jeddah. Proses Fast Track Immigration (Tanpa antre
+                                panjang).</div>
+                        </div>
+                        <div class="timeline-point">
+                            <i class="fas fa-bus"></i>
+                            <div><strong>01.00 (+1):</strong> Perjalanan ke Madinah dengan Bus VIP 2026 Edition (Kursi
+                                luas,
+                                sirkulasi udara optimal).</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-hotel"></i>
-                            <div><strong>05.00 (+1):</strong> Check-in Hotel Bintang 5 depan Masjid Nabawi. Welcome
-                                Drink & Breakfast di kamar.</div>
+                            <div><strong>05.00 (+1):</strong> Check-in Hotel Bintang 5 (Depan Pelataran Masjid Nabawi).
+                                Welcome
+                                Drink & Breakfast khusus di kamar untuk keluarga.</div>
                         </div>
                     </div>
                 </div>
@@ -838,18 +815,18 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-moon"></i>
-                            <div><strong>03.30:</strong> Shalat Tahajud & Subuh berjamaah di Masjid Nabawi (hanya 2
-                                menit jalan kaki).</div>
+                            <div><strong>03.30:</strong> Shalat Tahajud & Subuh berjamaah di Masjid Nabawi.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-mosque"></i>
-                            <div><strong>08.00:</strong> Ziarah Raudah via E'tamarna/Nusuk — tidak perlu antre manual.
-                            </div>
+                            <div><strong>08.00:</strong> Ziarah Raudah (Dipesankan melalui sistem E'tamarna/Nusuk oleh
+                                tim).
+                                Jemaah tidak perlu antre manual.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <div><strong>16.00:</strong> Kajian Keluarga bersama Ust. Yaumil Akhir, Lc dengan tema
-                                "Meneladani Akhlak Rasulullah".</div>
+                                "Meneladani Akhlak Rasulullah untuk Milenial & Gen Z".</div>
                         </div>
                     </div>
                 </div>
@@ -869,12 +846,12 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-map-marked-alt"></i>
-                            <div><strong>07.00:</strong> Ziarah Luar (Masjid Quba, Kebun Kurma, Gunung Uhud) dengan Bus
-                                VIP yang nyaman.</div>
+                            <div><strong>07.00:</strong> Ziarah Luar (Masjid Quba, Kebun Kurma, Gunung Uhud).</div>
                         </div>
                         <div class="timeline-highlight">
                             <i class="fas fa-star" style="margin-right:8px;"></i> Extra Value: Kunjungan VIP ke Museum
-                            Al-Qur'an dengan panduan Private Guide.
+                            Al-Qur'an/Museum Wahyu dengan panduan Private Guide. Visual sejarah Islam interaktif agar
+                            anak-anak mudah paham.
                         </div>
                     </div>
                 </div>
@@ -899,13 +876,14 @@
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-train"></i>
-                            <div><strong>12.00:</strong> Haramain High-Speed Train (VIP Class) — Madinah-Makkah hanya 2
-                                jam, bukan 6 jam bus!</div>
+                            <div><strong>12.00:</strong> Menggunakan Haramain High-Speed Train (VIP Class).
+                                Madinah-Makkah
+                                hanya dalam 2 jam (Bukan 6 jam bus). Menghindari drama anak-anak bosan di jalan.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>17.00:</strong> Pelaksanaan Ibadah Umroh Pertama dengan bimbingan intensif
-                                per-keluarga.</div>
+                            <div><strong>17.00:</strong> Pelaksanaan Ibadah Umroh Pertama (Dibimbing secara intensif
+                                per-keluarga).</div>
                         </div>
                     </div>
                 </div>
@@ -926,17 +904,18 @@
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
                             <div><strong>Day 5:</strong> Fokus memperbanyak Ibadah di Masjidil Haram. Private Consulting
-                                dengan Pembimbing.</div>
+                                dengan Pembimbing untuk evaluasi ibadah umroh.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-mountain"></i>
-                            <div><strong>Day 6 Pagi:</strong> City Tour Makkah (Jabal Tsur, Arafah, Muzdalifah, Mina) +
-                                Thaif yang sejuk.</div>
+                            <div><strong>Day 6 Pagi:</strong> City Tour Makkah (Jabal Tsur, Arafah, Muzdalifah, Mina).
+                                Lalu
+                                lanjut ke Kota sejuk Thaif naik Bus VIP.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-utensils"></i>
-                            <div><strong>Day 6 Malam:</strong> Makan malam eksklusif di restoran lokal terbaik Thaif.
-                            </div>
+                            <div><strong>Day 6 Malam:</strong> Makan malam eksklusif di restoran lokal terbaik di Thaif
+                                sebelum kembali ke Makkah.</div>
                         </div>
                     </div>
                 </div>
@@ -956,13 +935,12 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-coffee"></i>
-                            <div><strong>Day 7 Sore:</strong> Afternoon Tea di Lounge Hotel menghadap Ka'bah untuk momen
+                            <div><strong>Day 7 Sore:</strong> Afternoon Tea di Lounge Hotel menghadap Ka’bah untuk momen
                                 bonding keluarga.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>Day 8:</strong> Fokus memperbanyak Ibadah di Masjidil Haram. Waktu untuk tawaf
-                                sunnah dan doa.</div>
+                            <div><strong>Day 8:</strong> Fokus memperbanyak Ibadah di Masjidil Haram.</div>
                         </div>
                     </div>
                 </div>
@@ -971,7 +949,8 @@
             <!-- DAY 9 & 10 -->
             <div class="timeline-item reveal reveal-delay-1">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content accordion-item" style="border: 2px solid #10B981; background: #F0FDF4;">
+                <div class="timeline-content accordion-item"
+                    style="border: 2px solid var(--gold); background: #FAFDFE;">
                     <div class="accordion-header">
                         <div class="accordion-title-wrap">
                             <span class="timeline-date">Day 9 & 10 • 07-08 Juli 2026</span>
@@ -982,17 +961,20 @@
                     <div class="accordion-body">
                         <div class="timeline-point">
                             <i class="fas fa-kaaba"></i>
-                            <div><strong>Day 9 (pagi):</strong> Tawaf Wada' perpisahan dengan Ka'bah.</div>
+                            <div><strong>Day 9 (pagi):</strong> Tawaf Wada’ perpisahan dengan Ka'bah.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-plane"></i>
-                            <div><strong>Day 9 (20.20):</strong> Keberangkatan dengan Saudi Airlines SV820 (Direct
-                                Flight) ke Jakarta.</div>
+                            <div><strong>Day 9 (20.20):</strong> Keberangkatan dengan Saudi Airlines SV820 dari Jeddah
+                                menuju Jakarta. Penerbangan Direct kembali ke Tanah Air.</div>
                         </div>
                         <div class="timeline-point">
                             <i class="fas fa-home"></i>
-                            <div><strong>Day 10 (10.25):</strong> Tiba di Jakarta. Bagasi diurus tim Munira. Anda
-                                langsung pulang dengan hati tenang.</div>
+                            <div><strong>Day 10 (10.25):</strong> Tiba di Jakarta. Penjemputan bagasi sepenuhnya diurus
+                                oleh tim
+                                Munira World. Jemaah langsung pulang ke rumah & berkumpul dengan keluarga bebas dari
+                                rasa
+                                lelah berlebih.</div>
                         </div>
                     </div>
                 </div>
@@ -1002,40 +984,46 @@
 
         <div class="container reveal">
             <div style="text-align:center; margin-top: 64px;">
-                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; color:var(--navy);">Investasi untuk
-                    Ketenteraman Anda</h3>
-                <p style="color:var(--text-light); max-width:600px; margin: 8px auto 0;">Mengapa harga premium adalah
-                    investasi terbaik untuk ibadah yang tenang.</p>
+                <h3 style="font-family:'Playfair Display', serif; font-size: 2rem; color:var(--navy);">Justifikasi
+                    Investasi Anda</h3>
+                <p style="color:var(--text-light); max-width:600px; margin: 8px auto 0;">Mengapa harga +30% dari market
+                    standar adalah keputusan cerdas untuk orang tua.</p>
             </div>
             <div class="point-sales-grid">
                 <div class="ps-card">
                     <img src="/assets/train.png" alt="Kereta Cepat Haramain" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🚄 Kereta Cepat Haramain</h4>
-                        <p>Menghilangkan total risiko mabuk darat. Hanya 2 jam nyaman antar kota — bukan 6 jam bus.</p>
+                        <h4>🚄 Kereta Cepat Haramain (VIP Class)</h4>
+                        <p>Menghilangkan total risiko mabuk darat dan kelelahan berlebih pada anak-anak/lansia. Hanya 2
+                            jam
+                            nyaman antar kota.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="/assets/hotel.png" alt="Hotel Premium Mekkah" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🏨 Hotel Zero-Distance</h4>
-                        <p>Jalan kaki 1-2 menit ke Masjidil Haram. Waktu istirahat lebih panjang, tidak kelelahan.</p>
+                        <h4>🏨 Hotel Zero-Distance (Depan Masjid)</h4>
+                        <p>Menjamin jemaah bisa ke Masjidil Haram hanya dengan jalan kaki 1-2 menit. Waktu istirahat
+                            jadi
+                            lebih panjang, anak bangun subuh tanpa rewel.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80"
                         alt="Saudi Airlines" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>✈️ Direct Flight Saudia</h4>
-                        <p>Tidak ada transit, tidak ada risiko koper hilang. Tidur nyenyak sampai tujuan.</p>
+                        <h4>✈️ Saudi Airlines Direct Flight</h4>
+                        <p>Tidak ada risiko koper hilang saat transit atau kelelahan di bandara penghubung luar negara.
+                            Tidur nyenyak sampai tujuan.</p>
                     </div>
                 </div>
                 <div class="ps-card">
                     <img src="https://images.unsplash.com/photo-1554342872-034a06541bad?auto=format&fit=crop&w=600&q=80"
                         alt="VIP Baggage" loading="lazy">
                     <div class="ps-card-body">
-                        <h4>🎒 Full VIP Handling</h4>
-                        <p>Orang tua hanya perlu menggandeng tangan anak. Koper diurus dari A sampai Z.</p>
+                        <h4>🎒 Full VIP Baggage Handling</h4>
+                        <p>Orang tua hanya perlu menggandeng tangan anak. Jemaah tidak mengurus koper sama sekali sejak
+                            turun pesawat hingga dalam kamar.</p>
                     </div>
                 </div>
             </div>
@@ -1123,8 +1111,7 @@
                         <li><i class="fas fa-check-circle"></i> Bimbingan khusus keluarga selama di Mekkah & Madinah
                         </li>
                     </ul>
-                    <a href="#daftar" class="btn btn-gold reveal" id="guide-cta"
-                        style="background: linear-gradient(135deg, #10B981, #34D399);">
+                    <a href="#daftar" class="btn btn-gold reveal" id="guide-cta">
                         <i class="fab fa-whatsapp"></i> Tanya Lebih Lanjut
                     </a>
                 </div>
@@ -1141,7 +1128,7 @@
             <h2 class="section-title reveal">Pilih Paket <span style="color:var(--gold)">Terbaik</span> Anda</h2>
             <p class="section-subtitle reveal">
                 29 Juni - 08 Juli 2026 — Program 10 Hari Umrah Liburan Sekolah. Tiket Confirmed via Saudia Airlines.
-                (EKSKLUSIF HANYA 25 SEAT)
+                (EKSLUSIF HANYA 25 SEAT)
             </p>
 
             <!-- PACKAGE INFO & EXCLUSIONS -->
@@ -1150,29 +1137,29 @@
                 <div style="display:flex; flex-wrap:wrap; gap: 24px;">
                     <div style="flex:1; min-width:280px;">
                         <h4 style="color:var(--navy); margin-bottom:12px; font-size:1.1rem;"><i
-                                class="fas fa-check-circle" style="color:#10B981;"></i> Paket Termasuk</h4>
+                                class="fas fa-check-circle" style="color:var(--gold);"></i> Paket Termasuk</h4>
                         <ul
                             style="list-style:none; padding:0; line-height:1.7; font-size:.9rem; color:var(--text-light);">
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Tiket penerbangan (economy class)
+                                    style="color:var(--gold); margin-right:6px;"></i> Tiket penerbangan (economy class)
                                 Saudia Airlines</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Akomodasi Hotel *5 Madinah & Mekkah
-                            </li>
+                                    style="color:var(--gold); margin-right:6px;"></i> Akomodasi Hotel *5 Madinah &
+                                Mekkah</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Transportasi Bus & Kereta Cepat
+                                    style="color:var(--gold); margin-right:6px;"></i> Transportasi Bus & Kereta Cepat
                                 Haramain</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Visa Umroh & Travel Insurance</li>
+                                    style="color:var(--gold); margin-right:6px;"></i> Visa Umroh & Travel Insurance</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Ustadz Pembimbing, Muthowif &
+                                    style="color:var(--gold); margin-right:6px;"></i> Ustadz Pembimbing, Muthowif &
                                 Muthowifah</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Perlengkapan Umroh (Koper 2PCS,
+                                    style="color:var(--gold); margin-right:6px;"></i> Perlengkapan Umroh (Koper 2pcs,
                                 Seragam, dsb)</li>
                             <li style="margin-bottom:4px;"><i class="fas fa-check"
-                                    style="color:#10B981; margin-right:6px;"></i> Manasik Umroh 2x, Al Baik, Handling
-                                Soetta, dll</li>
+                                    style="color:var(--gold); margin-right:6px;"></i> Manasik Umroh 2x, Al Baik,
+                                Handling Soetta, dll</li>
                         </ul>
                     </div>
                     <div style="flex:1; min-width:280px;">
@@ -1243,7 +1230,7 @@
                     left: 0;
                     right: 0;
                     height: 80px;
-                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2310B981" fill-opacity="0.1" d="M0,160L48,160C96,160,192,160,288,181.3C384,203,480,245,576,234.7C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23c5a059" fill-opacity="0.1" d="M0,160L48,160C96,160,192,160,288,181.3C384,203,480,245,576,234.7C672,224,768,160,864,138.7C960,117,1056,139,1152,160C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
                     background-size: cover;
                     background-position: bottom;
                     z-index: 0;
@@ -1267,13 +1254,13 @@
                     position: absolute;
                     top: -10px;
                     left: -10px;
-                    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+                    background: linear-gradient(135deg, #F9D423 0%, #FF4E50 100%);
                     color: #fff;
                     padding: 16px 32px 16px 40px;
                     border-radius: 0 0 24px 0;
                     font-weight: 800;
                     font-size: 1.1rem;
-                    box-shadow: 5px 5px 15px rgba(16, 185, 129, 0.3);
+                    box-shadow: 5px 5px 15px rgba(249, 212, 35, 0.3);
                     z-index: 2;
                 }
 
@@ -1330,8 +1317,8 @@
                 }
 
                 .pkg-opt-box-gold {
-                    background: linear-gradient(to bottom, #fff, #d1fae5);
-                    border-color: #10B981;
+                    background: linear-gradient(to bottom, #fff, #fef9c3);
+                    border-color: #fde047;
                 }
 
                 .pkg-opt-box.silver-theme {
@@ -1416,8 +1403,8 @@
 
                 <!-- PAKET GOLD -->
                 <div class="package-card reveal reveal-delay-2"
-                    style="border-top: 5px solid #10B981; transform: scale(1.02); box-shadow: 0 25px 50px rgba(16,185,129,0.15);">
-                    <div class="pkg-badge-gold">Paket Gold ⭐</div>
+                    style="border-top: 5px solid #F9D423; transform: scale(1.02); box-shadow: 0 25px 50px rgba(249,212,35,0.15);">
+                    <div class="pkg-badge-gold">Paket Gold</div>
 
                     <div class="pkg-price-main">
                         <span class="label">Quad</span>
@@ -1443,7 +1430,7 @@
                     </div>
 
                     <a href="#daftar" class="btn btn-gold"
-                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; box-shadow: 0 10px 20px rgba(16,185,129,0.3); background: linear-gradient(135deg, #10B981, #059669);">Pilih
+                        style="margin-top:24px; width:100%; text-align:center; position:relative; z-index:1; box-shadow: 0 10px 20px rgba(197,160,89,0.3);">Pilih
                         Gold</a>
                 </div>
 
@@ -1557,7 +1544,7 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                             class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <h4>Pelayanan Ramah & Kekeluargaan</h4>
+                    <h4>Pelayanan Ramah &amp; Kekeluargaan</h4>
                     <p class="testimonial-text">&ldquo;Munira World memiliki staff yang ramah dan mampu menciptakan
                         suasana kekeluargaan ketika saya berangkat umrah tahun 2015, seperti umrah dengan keluarga
                         sendiri.&rdquo;</p>
@@ -1612,7 +1599,7 @@
     <!-- ═══════════════════════════════════════════════════
        CTA BANNER
        ═══════════════════════════════════════════════════ -->
-    <section class="cta-tenang">
+    <section class="cta-banner">
         <div class="container">
             <h2 class="reveal">Jangan Sampai Kehabisan Seat</h2>
             <p class="reveal">Keberangkatan 29 Juni 2026 — Kuota sangat terbatas hanya 25 Seat.</p>
@@ -1623,536 +1610,483 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════
-       REGISTRATION FORM
+       SHORT REGISTRATION FORM (30 Detik)
        ═══════════════════════════════════════════════════ -->
     <section class="form-section" id="daftar">
         <div class="container form-container reveal">
             <span class="section-label">Langkah Awal Ke Baitullah</span>
-            <h2 class="section-title">Konsultasi <span style="color:var(--gold)">Keberangkatan</span></h2>
+            <h2 class="section-title">Konsultasi <span style="color:var(--gold)">Gratis</span> — 30 Detik</h2>
             <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">
-                Isi data di bawah ini bantu kami memahami kebutuhan anda
+                Isi 3 data ini, Konsultan Munira World akan menghubungi Anda via WhatsApp dalam 1×24 jam.
             </p>
 
-            <!-- ═══ INLINE EMBEDDED FORM ═══ -->
+            <!-- ═══ PROGRESSIVE SHORT FORM (Umrah) ═══ -->
             <style>
-                .emb-form-wrap {
-                    background: #fff;
+                .sf-prog-wrap {
+                    background: #ffffff;
                     border-radius: 20px;
-                    padding: 40px 36px;
-                    max-width: 620px;
+                    padding: 36px 32px;
+                    max-width: 580px;
                     margin: 32px auto 0;
-                    box-shadow: 0 16px 60px rgba(26, 54, 93, .1);
+                    box-shadow: 0 16px 60px rgba(26,54,93,0.1);
                     position: relative;
-                    overflow: hidden;
+                }
+                .sf-prog-wrap::before {
+                    content: ''; position: absolute; top:0; left:0; right:0; height: 4px;
+                    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+                    border-radius: 20px 20px 0 0;
+                }
+                
+                /* Progress Bar */
+                .sf-prog-label {
+                    font-size: 0.8rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+                }
+                .sf-prog-track {
+                    width: 100%; height: 6px; background: #e2e8f0; border-radius: 10px; margin-bottom: 28px; overflow: hidden;
+                }
+                .sf-prog-bar {
+                    height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-dark)); width: 25%; transition: width 0.3s ease;
                 }
 
-                .emb-form-wrap::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 4px;
-                    background: linear-gradient(90deg, #10B981, #059669);
+                /* Steps */
+                .sf-step { display: none; animation: slideUp 0.35s ease forwards; }
+                .sf-step.active { display: block; }
+                @keyframes slideUp { from {opacity:0; transform:translateY(15px);} to {opacity:1; transform:translateY(0);} }
+
+                .sf-step-title {
+                    font-size: 1.35rem; font-family: 'Playfair Display', serif; font-weight: 800; color: var(--navy); margin-bottom: 20px; text-align: center;
                 }
 
-                .emb-progress {
-                    display: flex;
-                    justify-content: space-between;
-                    position: relative;
-                    margin-bottom: 28px;
+                /* Inputs */
+                .sf-group { margin-bottom: 20px; text-align: left; }
+                .sf-group label {
+                    display: block; font-weight: 700; font-size: 0.9rem; color: #1a365d; margin-bottom: 6px; font-family: 'Montserrat', sans-serif;
                 }
-
-                .emb-progress::before {
-                    content: '';
-                    position: absolute;
-                    top: 50%;
-                    left: 0;
-                    right: 0;
-                    height: 2px;
-                    background: #e2e8f0;
-                    transform: translateY(-50%);
-                    z-index: 0;
+                .sf-group label .req { color: #e53e3e; }
+                .sf-inp {
+                    width: 100%; padding: 14px 16px; border: 1.5px solid #cbd5e0; border-radius: 12px; font-family: 'Montserrat', sans-serif;
+                    font-size: 0.95rem; color: #2d3748; background: #f8fafc; transition: 0.25s; box-sizing: border-box;
                 }
+                .sf-inp:focus { border-color: var(--gold); background: #fff; box-shadow: 0 0 0 3px rgba(197,160,89,0.15); outline: none; }
+                .sf-inp.error { border-color: #e53e3e; background: #fff5f5; }
+                .sf-err { font-size: 0.8rem; color: #e53e3e; margin-top: 5px; font-weight: 600; display: none; }
+                .sf-err.show { display: block; }
+                .sf-hint { font-size: 0.8rem; color: #718096; margin-top: 5px; }
 
-                .emb-pdot {
-                    position: relative;
-                    z-index: 1;
-                    background: #fff;
-                    border: 2px solid #e2e8f0;
-                    border-radius: 20px;
-                    padding: 4px 14px;
-                    font-size: .82rem;
-                    font-weight: 700;
-                    color: #718096;
-                    transition: .3s;
+                /* Autocomplete */
+                .sf-ac-wrap { position: relative; }
+                .sf-ac-dropdown {
+                    position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1.5px solid var(--gold); border-radius: 10px;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; z-index: 100; display: none; margin-top: 4px;
                 }
+                .sf-ac-dropdown.open { display: block; }
+                .sf-ac-item { padding: 12px 16px; font-size: 0.9rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+                .sf-ac-item:hover { background: #fefcfa; color: var(--gold-dark); }
+                .sf-ac-item strong { color: var(--navy); display: block; }
+                .sf-ac-item span { font-size: 0.8rem; color: #718096; }
+                .sf-badge { display: inline-flex; align-items: center; background: #fefcfa; border: 1px solid var(--gold); color: var(--gold-dark); padding: 4px 12px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-top: 8px; }
 
-                .emb-pdot.active {
-                    background: #10B981;
-                    border-color: #10B981;
-                    color: #fff;
+                /* Pax & Usia */
+                .pax-ctrl { display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #cbd5e0; padding: 10px 16px; border-radius: 12px; }
+                .pax-ctrl label { flex: 1; margin: 0; font-size: 0.95rem; }
+                .btn-pax { width: 36px; height: 36px; border-radius: 8px; background: var(--navy); color: #fff; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+                .btn-pax:active { transform: scale(0.95); }
+                .pax-num { font-size: 1.2rem; font-weight: 800; color: var(--gold-dark); min-width: 24px; text-align: center; }
+                
+                .usia-list { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+                .usia-card { display: flex; align-items: center; gap: 12px; background: rgba(197,160,89,0.05); padding: 12px; border-radius: 10px; border: 1px solid rgba(197,160,89,0.2); }
+                .usia-card span.idx { width: 28px; height: 28px; background: var(--gold); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.8rem; font-weight: 700; }
+                .usia-card input { flex:1; padding: 10px; border: 1px solid #cbd5e0; border-radius: 8px; text-align: center; font-weight: 700; }
+
+                /* Buttons */
+                .btn-next, .btn-submit {
+                    width: 100%; padding: 16px; border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
                 }
+                .btn-next { background: var(--navy); color: #fff; }
+                .btn-next:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,54,93,0.2); }
+                .btn-submit { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: var(--navy); box-shadow: 0 8px 20px rgba(197,160,89,0.25); }
+                .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(197,160,89,0.4); }
+                .btn-back { width: 100%; padding: 12px; background: none; border: none; color: #718096; font-weight: 600; font-family: 'Montserrat', sans-serif; cursor: pointer; margin-top: 4px; }
+                .btn-back:hover { color: var(--navy); }
 
-                .emb-pdot.done {
-                    background: var(--navy);
-                    border-color: var(--navy);
-                    color: #fff;
-                }
+                /* Summary */
+                .sum-row { display: flex; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 0.9rem; text-align: left;}
+                .sum-row:last-child { border-bottom: none; }
+                .sum-label { width: 100px; color: #718096; font-weight: 600; }
+                .sum-val { flex: 1; color: var(--navy); font-weight: 700; }
 
-                .emb-pane {
-                    display: none;
-                    animation: embFade .35s ease forwards;
-                }
+                /* Thank you */
+                #sfThankYou { display: none; text-align: center; padding: 20px 0; }
+                .ty-circle { width: 80px; height: 80px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--white-pure); margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(197,160,89,0.3); animation: pop 0.5s ease; }
+                @keyframes pop { 0%{transform:scale(0)} 80%{transform:scale(1.1)} 100%{transform:scale(1)} }
 
-                .emb-pane.active {
-                    display: block;
-                }
-
-                @keyframes embFade {
-                    from {
-                        opacity: 0;
-                        transform: translateY(8px);
-                    }
-
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                .emb-pane-title {
-                    font-family: 'Outfit', sans-serif;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    color: var(--navy);
-                    border-bottom: 1px solid #e2e8f0;
-                    padding-bottom: 10px;
-                    margin-bottom: 20px;
-                }
-
-                .emb-group {
-                    margin-bottom: 18px;
-                }
-
-                .emb-group label {
-                    display: block;
-                    font-weight: 700;
-                    font-size: .88rem;
-                    color: #1a365d;
-                    margin-bottom: 6px;
-                }
-
-                .emb-group label .req {
-                    color: #e53e3e;
-                }
-
-                .emb-inp {
-                    width: 100%;
-                    padding: 12px 14px;
-                    border: 1.5px solid #cbd5e0;
-                    border-radius: 10px;
-                    font-family: 'Nunito', sans-serif;
-                    font-size: .95rem;
-                    color: #2c3e50;
-                    background: #f8fafc;
-                    transition: .25s;
-                    box-sizing: border-box;
-                    outline: none;
-                    appearance: none;
-                }
-
-                .emb-inp:focus {
-                    border-color: #10B981;
-                    box-shadow: 0 0 0 3px rgba(16, 185, 129, .18);
-                    background: #fff;
-                }
-
-                .emb-inp.err {
-                    border-color: #e53e3e;
-                    background: #fff5f5;
-                }
-
-                .emb-errmsg {
-                    font-size: .8rem;
-                    color: #e53e3e;
-                    margin-top: 4px;
-                    display: none;
-                    font-weight: 600;
-                }
-
-                .emb-row {
-                    display: flex;
-                    gap: 12px;
-                }
-
-                .emb-row .emb-group {
-                    flex: 1;
-                }
-
-                .emb-radio-group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-
-                .emb-radio-group.hz {
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    gap: 14px;
-                }
-
-                .emb-rlabel {
-                    display: flex;
-                    align-items: flex-start;
-                    position: relative;
-                    padding-left: 28px;
-                    cursor: pointer;
-                    font-weight: 500;
-                    font-size: .9rem;
-                    color: #2c3e50;
-                }
-
-                .emb-rlabel input {
-                    position: absolute;
-                    opacity: 0;
-                }
-
-                .emb-rmark {
-                    position: absolute;
-                    left: 0;
-                    top: 2px;
-                    width: 18px;
-                    height: 18px;
-                    border: 2px solid #cbd5e0;
-                    border-radius: 50%;
-                    background: #fff;
-                    transition: .2s;
-                }
-
-                .emb-rlabel input:checked~.emb-rmark {
-                    border-color: #10B981;
-                }
-
-                .emb-rlabel input:checked~.emb-rmark::after {
-                    content: '';
-                    display: block;
-                    width: 8px;
-                    height: 8px;
-                    background: #10B981;
-                    border-radius: 50%;
-                    position: absolute;
-                    top: 3px;
-                    left: 3px;
-                }
-
-                .emb-rtext strong {
-                    color: #1a365d;
-                    font-size: .88rem;
-                    display: block;
-                }
-
-                .emb-rtext span {
-                    font-size: .8rem;
-                    color: #718096;
-                }
-
-                .emb-actions {
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-top: 22px;
-                    gap: 10px;
-                }
-
-                .emb-actions.between {
-                    justify-content: space-between;
-                }
-
-                .emb-btn-next,
-                .emb-btn-prev,
-                .emb-btn-submit {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 12px 24px;
-                    border-radius: 50px;
-                    font-family: 'Nunito', sans-serif;
-                    font-weight: 800;
-                    font-size: .92rem;
-                    cursor: pointer;
-                    border: none;
-                    transition: .3s;
-                }
-
-                .emb-btn-next,
-                .emb-btn-submit {
-                    background: linear-gradient(135deg, #10B981, #059669);
-                    color: #fff;
-                    box-shadow: 0 4px 14px rgba(16, 185, 129, .3);
-                }
-
-                .emb-btn-next:hover,
-                .emb-btn-submit:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 22px rgba(16, 185, 129, .4);
-                }
-
-                .emb-btn-prev {
-                    background: #f1f5f9;
-                    color: #475569;
-                }
-
-                .emb-btn-prev:hover {
-                    background: #e2e8f0;
-                }
-
-                .emb-privacy {
-                    display: flex;
-                    align-items: flex-start;
-                    gap: 8px;
-                    background: #f0fdf4;
-                    padding: 12px 14px;
-                    border-radius: 8px;
-                    border: 1px solid #c6f6d5;
-                    color: #276749;
-                    font-size: .8rem;
-                    line-height: 1.5;
-                    margin-top: 16px;
-                }
-
-                .emb-overlay {
-                    display: none;
-                    position: absolute;
-                    inset: 0;
-                    background: rgba(255, 255, 255, .9);
-                    border-radius: 20px;
-                    z-index: 10;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                }
-
-                .emb-overlay.on {
-                    display: flex;
-                }
-
-                .emb-spinner {
-                    width: 38px;
-                    height: 38px;
-                    border: 4px solid #e2e8f0;
-                    border-top-color: #10B981;
-                    border-radius: 50%;
-                    animation: embSpin 1s linear infinite;
-                    margin-bottom: 10px;
-                }
-
-                @keyframes embSpin {
-                    to {
-                        transform: rotate(360deg);
-                    }
-                }
-
-                @media(max-width:600px) {
-                    .emb-form-wrap {
-                        padding: 24px 16px;
-                    }
-
-                    .emb-row {
-                        flex-direction: column;
-                        gap: 0;
-                    }
-
-                    .emb-progress {
-                        display: none;
-                    }
-                }
+                @media(max-width: 600px) { .sf-prog-wrap { padding: 28px 20px; } }
             </style>
 
-            <div class="emb-form-wrap" style="margin-top:32px;">
+            <div class="sf-prog-wrap">
                 <!-- Progress -->
-                <div class="emb-progress">
-                    <div class="emb-pdot active" id="edot1">1. Identitas</div>
-                    <div class="emb-pdot" id="edot2">2. Rencana</div>
-                    <div class="emb-pdot" id="edot3">3. Preferensi</div>
+                <div class="sf-prog-label" id="pLabel">Langkah 1 dari 4</div>
+                <div class="sf-prog-track"><div class="sf-prog-bar" id="pBar"></div></div>
+
+                <div id="progForm">
+                    <!-- Step 1: Identitas -->
+                    <div class="sf-step active" id="step1">
+                        <div class="sf-step-title">Identitas Jamaah</div>
+                        <div class="sf-group">
+                            <label>Nama Lengkap <span class="req">*</span></label>
+                            <input type="text" id="sfNama" class="sf-inp" placeholder="Cth: Budi Santoso" autocomplete="name">
+                            <div class="sf-err" id="eNama">Nama harus diisi</div>
+                        </div>
+                        <div class="sf-group">
+                            <label>WhatsApp Aktif <span class="req">*</span></label>
+                            <input type="tel" id="sfHp" class="sf-inp" placeholder="Cth: 08123456789" autocomplete="tel">
+                            <div class="sf-err" id="eHp">Nomor HP tidak valid (min 9 digit)</div>
+                            <div class="sf-hint"><i class="fas fa-lock"></i> Data aman, hanya untuk CS menghubungi Anda.</div>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(1)"><i class="fas fa-arrow-right"></i> Lanjut</button>
+                    </div>
+
+                    <!-- Step 2: Lokasi & Paket -->
+                    <div class="sf-step" id="step2">
+                        <div class="sf-step-title">Domisili & Pilihan</div>
+                        <div class="sf-group">
+                            <label>Kecamatan Domisili <span class="req">*</span></label>
+                            <div class="sf-ac-wrap">
+                                <input type="text" id="sfKecInp" class="sf-inp" placeholder="Ketik 3 huruf kecamatan..." autocomplete="off">
+                                <div class="sf-ac-dropdown" id="sfKecDd"></div>
+                            </div>
+                            <div id="sfKecBadge"></div>
+                            <div class="sf-err" id="eKec">Pilih dari dropdown yang muncul</div>
+                        </div>
+                        <div class="sf-group">
+                            <label>Paket yang diminati <span style="color:#718096">(opsional)</span></label>
+                            <select id="sfPaket" class="sf-inp">
+                                <option value="">— Belum tahu / Minta rekomendasi —</option>
+                                <option value="Promo Liburan - Quad">Promo Liburan - Quad (Rp 37.9 Jt)</option>
+                                <option value="Promo Liburan - Double">Promo Liburan - Double (Rp 42.9 Jt)</option>
+                            </select>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(2)"><i class="fas fa-arrow-right"></i> Lanjut</button>
+                        <button class="btn-back" onclick="prevStep(2)">Kembali</button>
+                    </div>
+
+                    <!-- Step 3: Jamaah & Usia -->
+                    <div class="sf-step" id="step3">
+                        <div class="sf-step-title">Jumlah Jamaah</div>
+                        <div class="sf-group">
+                            <label>Berapa pax yang akan berangkat?</label>
+                            <div class="pax-ctrl">
+                                <button class="btn-pax" onclick="changePax(-1)">-</button>
+                                <div class="pax-num" id="paxVal">1</div>
+                                <label>Jamaah</label>
+                                <button class="btn-pax" onclick="changePax(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="sf-group">
+                            <label>Usia Jamaah <span class="req">*</span></label>
+                            <div class="usia-list" id="usiaList"></div>
+                            <div class="sf-err" id="eUsia">Lengkapi usia semua jamaah</div>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(3)"><i class="fas fa-arrow-right"></i> Lanjut</button>
+                        <button class="btn-back" onclick="prevStep(3)">Kembali</button>
+                    </div>
+
+                    <!-- Step 4: Review -->
+                    <div class="sf-step" id="step4">
+                        <div class="sf-step-title">Review Data</div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:20px;">
+                            <div class="sum-row"><span class="sum-label">Nama</span><span class="sum-val" id="sNama"></span></div>
+                            <div class="sum-row"><span class="sum-label">WhatsApp</span><span class="sum-val" id="sHp"></span></div>
+                            <div class="sum-row"><span class="sum-label">Domisili</span><span class="sum-val" id="sDom"></span></div>
+                            <div class="sum-row"><span class="sum-label">Jamaah</span><span class="sum-val" id="sP"><span id="sPax"></span></span></div>
+                            <div class="sum-row"><span class="sum-label" style="line-height:1.5;">Usia</span><span class="sum-val" id="sUsia" style="line-height:1.5; font-size:0.85rem;"></span></div>
+                        </div>
+                        
+                        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; margin-bottom:12px;">
+                            <input type="checkbox" id="sfSetuju" checked style="width:18px;height:18px;margin-top:2px;accent-color:var(--gold);">
+                            <span style="font-size:0.85rem; color:var(--navy); font-weight:600;">Saya bersedia dihubungi Konsultan Munira World dalam waktu 1-2 jam kerja.</span>
+                        </label>
+                        <div class="sf-err" id="eSetuju">Centang kotak persetujuan</div>
+
+                        <button class="btn-submit" id="btnSubmit" onclick="submitForm()"><i class="fab fa-whatsapp"></i> Amankan Seat via WA</button>
+                        <button class="btn-back" onclick="prevStep(4)">Ubah Data</button>
+                    </div>
                 </div>
 
-                <form id="embLeadForm">
-
-                    <!-- STEP 1: Identitas -->
-                    <div class="emb-pane active" id="ep1">
-                        <div class="emb-pane-title">Langkah 1 — Identitas Dasar</div>
-
-                        <div class="emb-group">
-                            <label for="eNama">Nama Lengkap (sesuai paspor) <span class="req">*</span></label>
-                            <input type="text" id="eNama" class="emb-inp" placeholder="Contoh: Budi Santoso"
-                                autocomplete="name">
-                            <div class="emb-errmsg" id="ee-nama">Nama harus diisi.</div>
-                        </div>
-
-                        <!-- Smart Kecamatan Autocomplete -->
-                        <div class="emb-group">
-                            <label for="eDomisiliInput">Kecamatan Domisili <span class="req">*</span></label>
-                            <div style="position:relative;">
-                                <input type="text" id="eDomisiliInput" class="emb-inp"
-                                    placeholder="Ketik 3 huruf nama kecamatan / kota..." autocomplete="off"
-                                    spellcheck="false">
-                                <div id="eDomisiliDropdown" style="
-                                    position:absolute; top:calc(100% + 4px); left:0; right:0;
-                                    background:#fff; border:1.5px solid #10B981; border-radius:10px;
-                                    box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:100;
-                                    max-height:220px; overflow-y:auto; display:none;
-                                "></div>
-                            </div>
-                            <!-- Hidden fields -->
-                            <input type="hidden" id="eKec" value="">
-                            <input type="hidden" id="eKab" value="">
-                            <input type="hidden" id="eProv" value="">
-                            <div id="eDomisiliHint" style="font-size:0.75rem; color:#a0aec0; margin-top:5px;">
-                                <i class="fas fa-search" style="margin-right:4px;"></i>Mulai ketik untuk cari
-                                kecamatan...
-                            </div>
-                            <div class="emb-errmsg" id="ee-kec">Pilih kecamatan domisili Anda.</div>
-                        </div>
-
-                        <div class="emb-group">
-                            <label for="eWA">Nomor WhatsApp Aktif <span class="req">*</span></label>
-                            <input type="tel" id="eWA" class="emb-inp" placeholder="Contoh: 081234567890"
-                                autocomplete="tel">
-                            <div class="emb-errmsg" id="ee-wa">Masukkan nomor WA yang valid.</div>
-                        </div>
-
-                        <div class="emb-actions">
-                            <button type="button" class="emb-btn-next" data-enext="2">Selanjutnya <i
-                                    class="fas fa-arrow-right"></i></button>
-                        </div>
+                <!-- Thank You -->
+                <div id="sfThankYou">
+                    <div class="ty-circle"><i class="fas fa-check"></i></div>
+                    <div class="sf-step-title">Pendaftaran Berhasil!</div>
+                    <p style="color:#4a5568; font-size:0.95rem; line-height:1.6; margin-bottom:20px;">
+                        Terima kasih, data Anda telah kami terima dengan aman. Konsultan kami akan langsung menghubungi Anda di WhatsApp dalam <strong>maksimal 2 jam kerja</strong>.
+                    </p>
+                    <div style="display:inline-flex; align-items:center; gap:8px; background:#f0fdf4; padding:8px 16px; border-radius:50px; color:#16a34a; font-weight:600; font-size:0.85rem;">
+                        <i class="fas fa-clock"></i> Estimasi Respon Cepat
                     </div>
+                </div>
+            </div>
 
+            <script>
+                // State
+                let sfState = { nama:'', hp:'', kec:'', kab:'', prov:'', paket:'', pax:1, usia:[] };
+                let acSelected = null, acDebounce = null;
 
-                    <!-- STEP 2: Rencana -->
-                    <div class="emb-pane" id="ep2">
-                        <div class="emb-pane-title">Langkah 2 — Rencana Perjalanan</div>
+                function updateProgress(step) {
+                    document.getElementById('pLabel').textContent = 'Langkah ' + step + ' dari 4';
+                    document.getElementById('pBar').style.width = (step * 25) + '%';
+                }
 
-                        <div class="emb-group">
-                            <label for="ePengalaman">Sudah pernah Umrah sebelumnya? <span class="req">*</span></label>
-                            <select id="ePengalaman" class="emb-inp">
-                                <option value="" disabled selected>Pilih salah satu...</option>
-                                <option value="Pernah">Pernah</option>
-                                <option value="Belum">Belum</option>
-                            </select>
-                            <div class="emb-errmsg" id="ee-pengalaman">Pilih pengalaman umrah.</div>
+                function showErr(id, show) {
+                    const el = document.getElementById(id);
+                    if(show) { el.classList.add('show'); el.previousElementSibling?.classList?.add('error'); }
+                    else { el.classList.remove('show'); el.previousElementSibling?.classList?.remove('error'); }
+                }
+
+                function nextStep(step) {
+                    // Validasi Step 1
+                    if(step === 1) {
+                        const nama = document.getElementById('sfNama').value.trim();
+                        const hp = document.getElementById('sfHp').value.replace(/\D/g,'');
+                        let ok = true;
+                        if(nama.length < 2) { showErr('eNama', true); ok=false; } else showErr('eNama', false);
+                        if(hp.length < 9) { showErr('eHp', true); ok=false; } else showErr('eHp', false);
+                        if(!ok) return;
+                        sfState.nama = nama; sfState.hp = hp;
+                    }
+                    // Validasi Step 2
+                    if(step === 2) {
+                        if(!acSelected) { showErr('eKec', true); return; } else showErr('eKec', false);
+                        sfState.kec = acSelected.kecamatan; sfState.kab = acSelected.kota; sfState.prov = acSelected.provinsi;
+                        sfState.paket = document.getElementById('sfPaket').value;
+                        renderUsia();
+                    }
+                    // Validasi Step 3
+                    if(step === 3) {
+                        let ok = true; sfState.usia = [];
+                        document.querySelectorAll('.u-inp').forEach((inp, idx) => {
+                            const val = parseInt(inp.value);
+                            const relNode = document.querySelectorAll('.u-rel')[idx];
+                            const rel = relNode ? relNode.value : 'Jamaah';
+                            if(isNaN(val) || val < 1) { inp.classList.add('error'); ok=false; }
+                            else { inp.classList.remove('error'); sfState.usia.push({santri: rel, usia: val}); }
+                        });
+                        if(!ok) { showErr('eUsia', true); return; } else showErr('eUsia', false);
+                        
+                        // Populate summary
+                        document.getElementById('sNama').textContent = sfState.nama;
+                        document.getElementById('sHp').textContent = sfState.hp;
+                        document.getElementById('sDom').textContent = `${sfState.kec}, ${sfState.kab}`;
+                        document.getElementById('sPax').textContent = sfState.pax + ' Orang';
+                        document.getElementById('sUsia').innerHTML = sfState.usia.map(u => `<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">${u.santri}: ${u.usia}th</span>`).join('');
+                    }
+
+                    document.getElementById('step'+step).classList.remove('active');
+                    document.getElementById('step'+(step+1)).classList.add('active');
+                    updateProgress(step+1);
+                }
+
+                function prevStep(step) {
+                    document.getElementById('step'+step).classList.remove('active');
+                    document.getElementById('step'+(step-1)).classList.add('active');
+                    updateProgress(step-1);
+                }
+
+                // Autocomplete
+                document.getElementById('sfKecInp').addEventListener('input', function() {
+                    const q = this.value.trim();
+                    const dd = document.getElementById('sfKecDd');
+                    acSelected = null; showErr('eKec', false);
+                    document.getElementById('sfKecBadge').innerHTML = '';
+                    if(q.length < 3) { dd.classList.remove('open'); return; }
+                    
+                    clearTimeout(acDebounce);
+                    acDebounce = setTimeout(async () => {
+                        dd.innerHTML = '<div style="padding:10px;text-align:center;color:#718096;font-size:0.85rem;"><i class="fas fa-spinner fa-spin"></i> Mencari...</div>';
+                        dd.classList.add('open');
+                        try {
+                            const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8080/api' : '/api';
+                            const res = await fetch(`${API_BASE}/wilayah/search?q=${encodeURIComponent(q)}`);
+                            const data = await res.json();
+                            if(!data.data || !data.data.length) {
+                                dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Tidak ditemukan.</div>'; return;
+                            }
+                            dd.innerHTML = data.data.slice(0,10).map((r, i) => 
+                                `<div class="sf-ac-item" onclick='setKec(${JSON.stringify(r)})'>
+                                    <strong>${r.kecamatan}</strong>
+                                    <span>${r.kota}, ${r.provinsi}</span>
+                                </div>`
+                            ).join('');
+                        } catch(e) { dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Gagal memuat API.</div>'; }
+                    }, 350);
+                });
+
+                window.setKec = function(r) {
+                    acSelected = r;
+                    document.getElementById('sfKecInp').value = '';
+                    document.getElementById('sfKecDd').classList.remove('open');
+                    document.getElementById('sfKecBadge').innerHTML = `<div class="sf-badge"><i class="fas fa-check-circle" style="margin-right:6px;"></i>${r.kecamatan}, ${r.kota}</div>`;
+                }
+
+                // Pax
+                function changePax(d) {
+                    sfState.pax = Math.max(1, Math.min(10, sfState.pax + d));
+                    document.getElementById('paxVal').textContent = sfState.pax;
+                    renderUsia();
+                }
+
+                function renderUsia() {
+                    const list = document.getElementById('usiaList');
+                    const existingU = Array.from(list.querySelectorAll('.u-inp')).map(el => el.value);
+                    const existingR = Array.from(list.querySelectorAll('.u-rel')).map(el => el.value);
+                    list.innerHTML = Array(sfState.pax).fill(0).map((_,i) => {
+                        let relHtml = '';
+                        if(i === 0) {
+                            relHtml = `<span style="font-size:0.9rem; font-weight:600; color:var(--navy); flex:1;">Saya</span><input type="hidden" class="u-rel" value="Saya">`;
+                        } else {
+                            const pastRel = existingR[i] || 'Suami / Istri';
+                            relHtml = `
+                                <select class="sf-inp u-rel" style="flex:1; padding:8px; font-weight:600;">
+                                    <option value="Suami / Istri" ${pastRel==='Suami / Istri'?'selected':''}>Suami / Istri</option>
+                                    <option value="Anak" ${pastRel==='Anak'?'selected':''}>Anak</option>
+                                    <option value="Orang Tua" ${pastRel==='Orang Tua'?'selected':''}>Orang Tua</option>
+                                    <option value="Saudara" ${pastRel==='Saudara'?'selected':''}>Saudara</option>
+                                </select>
+                            `;
+                        }
+
+                        return `
+                        <div class="usia-card">
+                            <span class="idx">${i+1}</span>
+                            ${relHtml}
+                            <input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Usia (Thn)" min="1" value="${existingU[i]||''}" oninput="this.classList.remove('error'); showErr('eUsia',false)">
                         </div>
+                        `;
+                    }).join('');
+                }
 
-                        <div class="emb-group">
-                            <label for="eRencana">Kapan rencana keberangkatan? <span class="req">*</span></label>
-                            <select id="eRencana" class="emb-inp">
-                                <option value="" disabled selected>Pilih estimasi waktu...</option>
-                                <option value="Liburan Sekolah Juni 2026 (29 Juni - 07 Juli)">Liburan Sekolah Juni 2026
-                                    — PRIORITAS</option>
-                                <option value="Segera (1-2 bulan)">Segera (1-2 bulan)</option>
-                                <option value="3-6 Bulan ke depan">3-6 Bulan ke depan</option>
-                                <option value="Di atas 6 Bulan">Di atas 6 Bulan</option>
-                            </select>
-                            <div class="emb-errmsg" id="ee-rencana">Pilih rencana keberangkatan.</div>
-                        </div>
+                // Submit
+                async function submitForm() {
+                    const setuju = document.getElementById('sfSetuju').checked;
+                    if(!setuju) { showErr('eSetuju', true); return; } else showErr('eSetuju', false);
 
-                        <div class="emb-group">
-                            <label for="eJumlah">Jumlah peserta yang berangkat <span class="req">*</span></label>
-                            <input type="number" id="eJumlah" class="emb-inp" min="1" max="30" placeholder="Contoh: 4">
-                            <div class="emb-errmsg" id="ee-jumlah">Masukkan jumlah peserta (min. 1).</div>
-                        </div>
-                        <div id="eUsiaContainer"></div>
+                    const btn = document.getElementById('btnSubmit');
+                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
 
-                        <div class="emb-actions between">
-                            <button type="button" class="emb-btn-prev" data-eprev="1"><i class="fas fa-arrow-left"></i>
-                                Kembali</button>
-                            <button type="button" class="emb-btn-next" data-enext="3">Selanjutnya <i
-                                    class="fas fa-arrow-right"></i></button>
-                        </div>
-                    </div>
+                    const payload = {
+                        nama_lengkap: sfState.nama, whatsapp_num: sfState.hp,
+                        domisili: `${sfState.kec}, ${sfState.kab}, ${sfState.prov}`,
+                        yang_berangkat: sfState.pax + ' Jamaah',
+                        jamaah_usia_detail: sfState.usia,
+                        paket_pilihan: sfState.paket || 'Umrah Liburan',
+                        fasilitas_utama: 'Bersedia Dihubungi',
+                        landing_page: window.location.href, form_source: 'liburan-26-sf'
+                    };
 
-                    <!-- STEP 3: Preferensi -->
-                    <div class="emb-pane" id="ep3">
-                        <div class="emb-pane-title">Langkah 3 — Pilihan Paket & Kesiapan</div>
+                    const API_URL = window.location.protocol === 'file:' ? 'http://localhost:8080/api/leads' : '/api/leads';
+                    try {
+                        await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+                        try{ gtag('event','generate_lead',{send_to:'G-11PXTCBM9L'}); fbq('track','Lead'); }catch(e){}
+                    } catch(e) {}
 
-                        <div class="emb-group">
-                            <label for="ePaket">Pilihan Paket <span class="req">*</span></label>
-                            <select id="ePaket" class="emb-inp">
-                                <option value="" disabled selected>Pilih kategori paket...</option>
-                                <option value="Paket Liburan Silver - Quad (Rp 37.9 Jt)">Silver - Quad · Rp 37.9 Jt
-                                </option>
-                                <option value="Paket Liburan Silver - Triple (Rp 39.9 Jt)">Silver - Triple · Rp 39.9 Jt
-                                </option>
-                                <option value="Paket Liburan Silver - Double (Rp 42.9 Jt)">Silver - Double · Rp 42.9 Jt
-                                </option>
-                                <option value="Paket Liburan Gold - Quad (Rp 41.9 Jt)">Gold - Quad · Rp 41.9 Jt</option>
-                                <option value="Paket Liburan Gold - Triple (Rp 43.9 Jt)">Gold - Triple · Rp 43.9 Jt
-                                </option>
-                                <option value="Paket Liburan Gold - Double (Rp 46.9 Jt)">Gold - Double · Rp 46.9 Jt
-                                </option>
-                                <option value="Belum menentukan - minta info semua paket">Belum menentukan — minta info
-                                </option>
-                            </select>
-                            <div class="emb-errmsg" id="ee-paket">Pilih paket.</div>
-                        </div>
+                    // Hide form, show thanks
+                    document.getElementById('pLabel').style.display = 'none';
+                    document.querySelector('.sf-prog-track').style.display = 'none';
+                    document.getElementById('progForm').style.display = 'none';
+                    document.getElementById('sfThankYou').style.display = 'block';
+                }
+            </script>
+        </div>
+    </section>
 
-                        <div class="emb-group">
-                            <label>Status Paspor Anda <span class="req">*</span></label>
-                            <div class="emb-radio-group" id="ePasporGroup">
-                                <label class="emb-rlabel">
-                                    <input type="radio" name="ePaspor" value="Sudah ada (aktif & siap berangkat)">
-                                    <span class="emb-rmark"></span>
-                                    <div class="emb-rtext"><strong>Sudah Ada</strong><span>Paspor aktif dan siap
-                                            berangkat.</span></div>
-                                </label>
-                                <label class="emb-rlabel">
-                                    <input type="radio" name="ePaspor" value="Sedang proses di Imigrasi">
-                                    <span class="emb-rmark"></span>
-                                    <div class="emb-rtext"><strong>Sedang Proses</strong><span>Dalam proses pembuatan di
-                                            Imigrasi.</span></div>
-                                </label>
-                                <label class="emb-rlabel">
-                                    <input type="radio" name="ePaspor" value="Belum ada (butuh bantuan pengurusan)">
-                                    <span class="emb-rmark"></span>
-                                    <div class="emb-rtext"><strong>Belum Ada</strong><span>Butuh info/bantuan syarat
-                                            bikin paspor.</span></div>
-                                </label>
-                            </div>
-                            <div class="emb-errmsg" id="ee-paspor">Pilih status paspor.</div>
-                        </div>
+    <!-- ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col" style="flex:1; min-width: 250px;">
+                    <a href="#" class="footer-logo" style="display:inline-block; margin-bottom:16px;">
+                        <img src="/logo.png" alt="Munira World" style="height: 48px;">
+                    </a>
+                    <p class="footer-text"
+                        style="color:rgba(255,255,255,.9); font-weight:600; font-size:.9rem; margin-bottom: 8px;">PT.
+                        Wisata Cahaya Tauhid</p>
+                    <p class="footer-text" style="line-height:1.6;">
+                        Jl. Kartini Raya No. 29H<br>
+                        Pancoran Mas - Depok<br>
+                        Jawa Barat - 16431
+                    </p>
+                </div>
+                <div class="footer-col" style="flex:1; min-width: 250px; text-align:right;">
+                    <ul class="footer-links" style="justify-content:flex-end;">
+                        <li><a href="#keunggulan">Keunggulan</a></li>
+                        <li><a href="#fasilitas">Fasilitas</a></li>
+                        <li><a href="#tentang">Tentang</a></li>
+                        <li><a href="#harga">Harga</a></li>
+                        <li><a href="#testimoni">Testimoni</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Munira World Tours & Travel. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
-                        <div class="emb-group">
-                            <label>Preferensi Pembayaran <span class="req">*</span></label>
-                            <div class="emb-radio-group hz">
-                                <label class="emb-rlabel">
-                                    <input type="radio" name="eBayar" value="Lunas">
-                                    <span class="emb-rmark"></span> Lunas
-                                </label>
-                                <label class="emb-rlabel">
-                                    <input type="radio" name="eBayar" value="Bertahap / Cicilan">
-                                    <span class="emb-rmark"></span> Bertahap / Cicilan
-                                </label>
-                            </div>
-                            <small style="color:#718096;font-size:.78rem;margin-top:6px;display:block;">*Pelunasan wajib
-                                4 minggu sebelum keberangkatan.</small>
-                            <div class="emb-errmsg" id="ee-bayar">Pilih metode pembayaran.</div>
-                        </div>
+    <!-- ═══════════════════════════════════════════════════
+       STICKY WHATSAPP BUTTON
+       ═══════════════════════════════════════════════════ -->
+    <a href="#daftar" class="wa-sticky" id="wa-sticky" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+        <span class="wa-sticky-text">Tanya CS Kami</span>
+    </a>
 
-                        <div class="emb-group">
-                            <label class="emb-rlabel" style="padding-left:26px;">
-                                <input type="checkbox" id="eSetuju" style="position:absolute;opacity:0;">
-                                <span class="emb-rmark" style="border-radius:4px;"></span>
-                                <span style="font-size:.87rem;line-height:1.4;margin-left:6px;">Saya setuju dihubungi
-                                    oleh Konsultan Munira World melalui WhatsApp/Telepon.</span>
-                            </label>
-                            <div class="emb-errmsg" id="ee-setuju">Anda harus menyetujui pernyataan ini.</div>
-                        </div>
+    <!-- Script -->
+    <script src="/assets/js/wilayah.js"></script>
+    <script src="/lp-liburan/script-liburan-v2.js"></script>
 
-                        <div class="emb-privacy">
-                            <i class="fas fa-shield-alt"></i> Data Anda aman & hanya digunakan Konsultan Ibadah
-                            kami. Tidak dijual ke pihak manapun.
-                        </div>
+    <script src="/shared/lp-cover.js"></script>
 
-                        <div class="emb-actions between" style="margin-top:22px;">
-                            <button type="button" class="emb-btn-prev" data-eprev="2"><i class="fas fa-arrow-left"></i>
-                                Kembali</button>
-                            <button type
+    <!-- DYNAMIC FORM INJECT — reads linked_form_id from API -->
+    <script>
+        (function () {
+            var LP_FOLDER = 'lp-liburan-short';
+            var API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+                ? 'http://localhost:8080/api' : '/api';
+            async function loadAndInjectForm() {
+                try {
+                    // /api/pages/:folder/config returns { success, form: {...}, programs: [...] }
+                    var cfgRes = await fetch(API_BASE + '/pages/' + LP_FOLDER + '/config');
+                    if (!cfgRes.ok) return;
+                    var cfg = await cfgRes.json();
+                    // Use form object directly from config response
+                    var form = cfg.form;
+                    if (!form) return; // no form linked, use existing hardcoded form
+
+                    window.__MUNIRA_INJECT_FORM__ = form;
+                    window.__MUNIRA_WA_ROTATOR__ = form.wa_rotator || [];
+                    window.__MUNIRA_SUCCESS_MSG__ = form.success_message || 'Terima kasih! Tim kami akan segera menghubungi Anda.';
+                    window.__MUNIRA_FORM_ID__ = form._id;
+                    window.__MUNIRA_ROTATOR_MODE__ = form.rotator_mode || 'round_robin';
+
+                    // Dev indicator badge
+                    var b = document.createElement('div');
+                    b.style.cssText = 'position:fixed;bottom:60px;right:16px;z-index:9999;background:rgba(34,211,238,0.9);color:#0c0f1a;font-size:0.65rem;padding:4px 10px;border-radius:20px;font-weight:700;pointer-events:none;';
+                    b.textContent = '\u26A1 Short Form: ' + (form.name || 'Dynamic');
+                    document.body.appendChild(b);
+                    setTimeout(function () { b.remove(); }, 4000);
+                    console.log('[MuniraInject] Short Form "' + form.name + '" ready. WA: ' + (form.wa_rotator || []).length + ' CS');
+                } catch (e) {
+                    console.warn('[MuniraInject] Fallback ke form default.', e);
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadAndInjectForm);
+            } else {
+                loadAndInjectForm();
+            }
+        })();
+    </script>
+</body>
+
+</html>

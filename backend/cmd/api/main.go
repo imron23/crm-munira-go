@@ -76,9 +76,9 @@ func main() {
 	router.Static("/lp-2-long", rootPath+"lp-2-long")
 	router.Static("/lp-bakti-anak", rootPath+"lp-bakti-anak")
 	router.Static("/lp-itikaf-premium", rootPath+"lp-itikaf-premium")
+	router.Static("/liburan-26-lf", rootPath+"liburan-26-lf")
+	router.Static("/liburan-26-sf", rootPath+"liburan-26-sf")
 	router.Static("/lp-liburan", rootPath+"lp-liburan")
-	router.Static("/lp-liburan-short", rootPath+"lp-liburan-short")
-	router.Static("/lp-liburan-tenang", rootPath+"lp-liburan-tenang")
 	router.Static("/lp-spiritual-journey", rootPath+"lp-spiritual-journey")
 
 	api := router.Group("/api")
