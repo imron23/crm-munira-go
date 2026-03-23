@@ -1535,69 +1535,208 @@
             </div>
 
             <div id="view-marketing" class="view-panel">
-                <div class="data-panel" style="max-width:600px;">
+                <div class="data-panel" style="max-width:780px;">
                     <div class="data-toolbar">
-                        <span style="font-weight:700; font-size:1.1rem;">Pengaturan Sistem Terpusat</span>
+                        <span style="font-weight:700; font-size:1.15rem;"><i class="fas fa-sliders-h" style="color:var(--brand); margin-right:8px;"></i>Pengaturan Sistem</span>
                     </div>
-                    <div style="padding:32px;">
+
+                    <!-- Settings Tabs -->
+                    <div style="display:flex; border-bottom:1px solid var(--border); padding:0 24px;">
+                        <button class="settings-tab active" onclick="switchSettingsTab('capi')" id="tabCapi" style="background:none; border:none; padding:12px 20px; cursor:pointer; font-size:0.85rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; transition:all .2s;">
+                            <i class="fab fa-facebook" style="margin-right:6px; color:#1877F2;"></i>Meta CAPI
+                        </button>
+                        <button class="settings-tab" onclick="switchSettingsTab('analytics')" id="tabAnalytics" style="background:none; border:none; padding:12px 20px; cursor:pointer; font-size:0.85rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; transition:all .2s;">
+                            <i class="fas fa-chart-line" style="margin-right:6px; color:#F59E0B;"></i>Analytics & Notif
+                        </button>
+                        <button class="settings-tab" onclick="switchSettingsTab('display')" id="tabDisplay" style="background:none; border:none; padding:12px 20px; cursor:pointer; font-size:0.85rem; font-weight:600; color:var(--text-secondary); border-bottom:2px solid transparent; transition:all .2s;">
+                            <i class="fas fa-paint-brush" style="margin-right:6px; color:#8B5CF6;"></i>Tampilan
+                        </button>
+                    </div>
+
+                    <div style="padding:28px;">
                         <form id="marketingForm">
-                            <div class="form-group">
-                                <label>Meta Pixel / FB Pixel ID</label>
-                                <input type="text" id="mFbPixel" placeholder="e.g. 957647783489493">
-                            </div>
-                            <div class="form-group">
-                                <label>Google Analytics 4 (GA4) ID</label>
-                                <input type="text" id="mGa4" placeholder="e.g. G-11PXTCBM9L">
-                            </div>
-                            <div class="form-group">
-                                <label>Telegram Bot Token (Optional)</label>
-                                <input type="text" id="mTgToken" placeholder="Leave blank if unused">
-                                <small style="color:var(--text-secondary); display:block; margin-top:4px;">Buat bot
-                                    Telegram via @BotFather, lalu paste token di sini.</small>
-                            </div>
-                            <div class="form-group">
-                                <label>Telegram Chat ID (Optional)</label>
-                                <input type="text" id="mTgChat" placeholder="Leave blank if unused">
-                                <small style="color:var(--text-secondary); display:block; margin-top:4px;">Gunakan
-                                    @userinfobot di Telegram untuk mendapatkan Chat ID Anda.</small>
-                            </div>
 
-                            <hr style="margin: 24px 0; border:none; border-top:1px dashed var(--border);">
-                            <div id="superAdminSettings" style="display:none;">
-                                <h4 style="margin-bottom: 12px; font-weight:700;">Pengaturan Tampilan (Super Admin)</h4>
-                                <div class="form-group">
-                                    <label>Warna Highlight Leads Baru Update</label>
-                                    <div style="display:flex; gap:12px; align-items:center;">
-                                        <input type="color" id="mUiHighlightColor"
-                                            style="flex:0 0 50px; height:40px; padding:2px; cursor:pointer;"
-                                            value="#16A34A">
-                                        <input type="text" id="mUiHighlightColorText" style="flex:1;" value="#16A34A"
-                                            placeholder="#HEXCODE atau RGB()">
+                            <!-- ===== TAB: META CAPI ===== -->
+                            <div id="panelCapi" class="settings-panel">
+                                <!-- Status Banner -->
+                                <div id="capiStatusBanner" style="display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:var(--radius-md); margin-bottom:20px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2);">
+                                    <i class="fas fa-exclamation-triangle" style="color:#EF4444; font-size:1.1rem;" id="capiStatusIcon"></i>
+                                    <div>
+                                        <div style="font-weight:600; font-size:0.85rem;" id="capiStatusTitle">CAPI Belum Dikonfigurasi</div>
+                                        <div style="font-size:0.75rem; color:var(--text-secondary);" id="capiStatusDesc">Isi Pixel ID dan Access Token untuk mengaktifkan server-side tracking.</div>
                                     </div>
-                                    <small style="color:var(--text-secondary); display:block; margin-top:4px;">Pilih
-                                        warna yang akan mem-pudar berjenjang untuk leads yang baru di-update.</small>
                                 </div>
-                                <div class="form-group">
-                                    <label>Gaya Visual Highlight</label>
-                                    <select id="mUiHighlightStyle" class="select-base">
-                                        <option value="solid">Solid Opacity (Standard)</option>
-                                        <option value="glow">Glowing Border (Neon)</option>
-                                        <option value="text">Warna Teks Saja</option>
-                                    </select>
+
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                                    <!-- Pixel ID Card -->
+                                    <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;">
+                                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:600; font-size:0.82rem;">
+                                            <span style="width:28px; height:28px; border-radius:8px; background:rgba(24,119,242,0.15); display:flex; align-items:center; justify-content:center;">
+                                                <i class="fab fa-facebook" style="color:#1877F2; font-size:0.85rem;"></i>
+                                            </span>
+                                            Meta Pixel ID
+                                        </label>
+                                        <input type="text" id="mFbPixel" placeholder="e.g. 957647783489493" style="width:100%; font-family:monospace;">
+                                        <small style="color:var(--text-secondary); display:block; margin-top:6px; font-size:0.7rem;">
+                                            <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+                                            Dapatkan dari <a href="https://business.facebook.com/events_manager2" target="_blank" style="color:var(--brand);">Events Manager</a> → Data Sources
+                                        </small>
+                                    </div>
+
+                                    <!-- Access Token Card -->
+                                    <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;">
+                                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:600; font-size:0.82rem;">
+                                            <span style="width:28px; height:28px; border-radius:8px; background:rgba(34,211,238,0.15); display:flex; align-items:center; justify-content:center;">
+                                                <i class="fas fa-key" style="color:#22D3EE; font-size:0.8rem;"></i>
+                                            </span>
+                                            CAPI Access Token
+                                        </label>
+                                        <div style="position:relative;">
+                                            <input type="password" id="mCapiToken" placeholder="EAAxxxxx..." style="width:100%; font-family:monospace; padding-right:40px;">
+                                            <button type="button" onclick="toggleCapiTokenVisibility()" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--text-secondary); font-size:0.8rem;" title="Tampilkan/Sembunyikan">
+                                                <i class="fas fa-eye" id="capiTokenEye"></i>
+                                            </button>
+                                        </div>
+                                        <small style="color:var(--text-secondary); display:block; margin-top:6px; font-size:0.7rem;">
+                                            <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+                                            Buat via Events Manager → Settings → Generate Token
+                                        </small>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Kapasitas Baris Highlight (2 - 10)</label>
-                                    <input type="number" id="mUiHighlightCount" class="select-base" min="2" max="10"
-                                        value="5">
-                                    <small style="color:var(--text-secondary); display:block; margin-top:4px;">Tentukan
-                                        berapa baris record teratas yang akan diberi efek highlight.</small>
+
+                                <!-- Test Event Code -->
+                                <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:16px;">
+                                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:600; font-size:0.82rem;">
+                                        <span style="width:28px; height:28px; border-radius:8px; background:rgba(16,185,129,0.15); display:flex; align-items:center; justify-content:center;">
+                                            <i class="fas fa-flask" style="color:#10B981; font-size:0.8rem;"></i>
+                                        </span>
+                                        Test Event Code (Optional)
+                                    </label>
+                                    <input type="text" id="mCapiTestCode" placeholder="e.g. TEST12345" style="font-family:monospace;">
+                                    <small style="color:var(--text-secondary); display:block; margin-top:6px; font-size:0.7rem;">
+                                        <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+                                        Gunakan saat mode testing. Dapatkan dari Events Manager → Test Events.
+                                    </small>
+                                </div>
+
+                                <!-- CAPI Test Button -->
+                                <div style="display:flex; gap:12px; align-items:center;">
+                                    <button type="button" onclick="testCapiConnection()" class="btn btn-outline btn-mini" style="border-color:rgba(24,119,242,0.4); color:#1877F2;">
+                                        <i class="fas fa-satellite-dish" style="margin-right:6px;"></i>Test Koneksi CAPI
+                                    </button>
+                                    <span id="capiTestResult" style="font-size:0.78rem; color:var(--text-secondary);"></span>
+                                </div>
+
+                                <!-- How it Works -->
+                                <div style="margin-top:20px; background:linear-gradient(135deg, rgba(24,119,242,0.06), rgba(139,92,246,0.06)); border:1px dashed rgba(24,119,242,0.3); border-radius:var(--radius-md); padding:16px;">
+                                    <div style="font-weight:700; font-size:0.82rem; margin-bottom:10px; color:var(--text-primary);">
+                                        <i class="fas fa-lightbulb" style="color:#F59E0B; margin-right:6px;"></i>Cara Kerja Meta CAPI
+                                    </div>
+                                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+                                        <div style="text-align:center;">
+                                            <div style="width:36px; height:36px; border-radius:50%; background:rgba(24,119,242,0.15); display:flex; align-items:center; justify-content:center; margin:0 auto 6px;">
+                                                <i class="fas fa-file-alt" style="color:#1877F2; font-size:0.8rem;"></i>
+                                            </div>
+                                            <div style="font-size:0.72rem; font-weight:600;">1. Form Submit</div>
+                                            <div style="font-size:0.65rem; color:var(--text-secondary);">Lead dari LP dikirim ke server</div>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <div style="width:36px; height:36px; border-radius:50%; background:rgba(139,92,246,0.15); display:flex; align-items:center; justify-content:center; margin:0 auto 6px;">
+                                                <i class="fas fa-server" style="color:#8B5CF6; font-size:0.8rem;"></i>
+                                            </div>
+                                            <div style="font-size:0.72rem; font-weight:600;">2. Server Proxy</div>
+                                            <div style="font-size:0.65rem; color:var(--text-secondary);">Backend kirim event ke Meta API</div>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <div style="width:36px; height:36px; border-radius:50%; background:rgba(16,185,129,0.15); display:flex; align-items:center; justify-content:center; margin:0 auto 6px;">
+                                                <i class="fas fa-bullseye" style="color:#10B981; font-size:0.8rem;"></i>
+                                            </div>
+                                            <div style="font-size:0.72rem; font-weight:600;">3. Optimization</div>
+                                            <div style="font-size:0.65rem; color:var(--text-secondary);">Meta optimasi targeting ads</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="margin-top:8px;"><i
-                                    class="fas fa-save"></i>
-                                Simpan
-                                Pengaturan</button>
+                            <!-- ===== TAB: ANALYTICS & NOTIF ===== -->
+                            <div id="panelAnalytics" class="settings-panel" style="display:none;">
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                                    <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;">
+                                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:600; font-size:0.82rem;">
+                                            <span style="width:28px; height:28px; border-radius:8px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center;">
+                                                <i class="fab fa-google" style="color:#F59E0B; font-size:0.8rem;"></i>
+                                            </span>
+                                            Google Analytics 4 (GA4)
+                                        </label>
+                                        <input type="text" id="mGa4" placeholder="e.g. G-11PXTCBM9L" style="font-family:monospace;">
+                                    </div>
+                                    <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;">
+                                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:600; font-size:0.82rem;">
+                                            <span style="width:28px; height:28px; border-radius:8px; background:rgba(34,211,238,0.15); display:flex; align-items:center; justify-content:center;">
+                                                <i class="fas fa-chart-pie" style="color:#22D3EE; font-size:0.8rem;"></i>
+                                            </span>
+                                            GTM Container ID
+                                        </label>
+                                        <input type="text" id="mGtm" placeholder="e.g. GTM-XXXXX" style="font-family:monospace;">
+                                    </div>
+                                </div>
+
+                                <hr style="margin: 20px 0; border:none; border-top:1px dashed var(--border);">
+                                <h4 style="margin-bottom:14px; font-weight:700; font-size:0.9rem;">
+                                    <i class="fab fa-telegram" style="color:#0088CC; margin-right:8px;"></i>Telegram Notification
+                                </h4>
+
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                                    <div class="form-group">
+                                        <label>Bot Token</label>
+                                        <input type="text" id="mTgToken" placeholder="123456:ABCdefGhIjKlMnO..." style="font-family:monospace;">
+                                        <small style="color:var(--text-secondary); display:block; margin-top:4px;">Dari @BotFather</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Chat ID</label>
+                                        <input type="text" id="mTgChat" placeholder="-100123456789" style="font-family:monospace;">
+                                        <small style="color:var(--text-secondary); display:block; margin-top:4px;">Dari @userinfobot</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ===== TAB: TAMPILAN ===== -->
+                            <div id="panelDisplay" class="settings-panel" style="display:none;">
+                                <div id="superAdminSettings">
+                                    <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-bottom:16px;">
+                                        <h4 style="margin-bottom: 14px; font-weight:700; font-size:0.9rem;">
+                                            <i class="fas fa-highlighter" style="color:#10B981; margin-right:8px;"></i>Highlight Leads Baru
+                                        </h4>
+                                        <div class="form-group">
+                                            <label>Warna Highlight</label>
+                                            <div style="display:flex; gap:12px; align-items:center;">
+                                                <input type="color" id="mUiHighlightColor"
+                                                    style="flex:0 0 50px; height:40px; padding:2px; cursor:pointer;"
+                                                    value="#16A34A">
+                                                <input type="text" id="mUiHighlightColorText" style="flex:1;"
+                                                    value="#16A34A" placeholder="#HEXCODE">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Gaya Visual</label>
+                                            <select id="mUiHighlightStyle" class="select-base">
+                                                <option value="solid">Solid Opacity (Standard)</option>
+                                                <option value="glow">Glowing Border (Neon)</option>
+                                                <option value="text">Warna Teks Saja</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kapasitas Baris (2 - 10)</label>
+                                            <input type="number" id="mUiHighlightCount" class="select-base" min="2"
+                                                max="10" value="5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top:12px;">
+                                <i class="fas fa-save"></i> Simpan Pengaturan
+                            </button>
                         </form>
                     </div>
                 </div>

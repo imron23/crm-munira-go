@@ -3,6 +3,27 @@
    Used by: liburan-26-sf & liburan-26-lf
    ============================================================ */
 
+/* ---------- Preloader Dismiss ---------- */
+(function () {
+    function dismissLoader() {
+        var l = document.getElementById('pageLoader');
+        if (l) {
+            l.style.opacity = '0';
+            l.style.visibility = 'hidden';
+            document.body.classList.remove('loading');
+            setTimeout(function () { l.remove(); }, 600);
+        }
+    }
+    // Dismiss after content loaded or max 3s
+    if (document.readyState === 'complete') {
+        setTimeout(dismissLoader, 300);
+    } else {
+        window.addEventListener('load', function () { setTimeout(dismissLoader, 300); });
+        // Fallback: dismiss after 3s no matter what
+        setTimeout(dismissLoader, 3000);
+    }
+})();
+
 /* ---------- State ---------- */
 var sfState = { nama: '', hp: '', kec: '', kab: '', prov: '', paket: '', pax: 1, usia: [] };
 var acSelected = null, acDebounce = null;
