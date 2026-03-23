@@ -117,6 +117,7 @@ func main() {
 		delivery.NewPageSettingHandler(api, pageSettingUsecase)
 		delivery.NewWilayahHandler(api)
 		delivery.NewAIHandler(api, aiUsecase, leadUsecase)
+		delivery.NewMetaTrackingHandler(api) // Meta CAPI proxy
 
 		// Gunakan AdminHandler untuk melayani endpoint Auth karena frontend menembak ke /api/auth
 		// Dan endpoint ini mencakup login admin dan impersonate yang persis sama dengan request dashboard HTML

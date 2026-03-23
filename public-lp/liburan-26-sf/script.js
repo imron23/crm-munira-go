@@ -1,222 +1,267 @@
 /* ============================================================
-   Munira World — liburan-26-sf/script.js
-   LP-Specific JavaScript
+   Munira World — Progressive Short Form Script
+   Used by: liburan-26-sf & liburan-26-lf
    ============================================================ */
 
-document.body.classList.add("loading");
-        setTimeout(function () {
-            var l = document.getElementById("pageLoader");
-            if (l) { l.style.opacity = "0"; l.style.visibility = "hidden"; }
-            document.body.classList.remove("loading");
-            setTimeout(function () { if (l) l.remove(); }, 600);
-        }, 2500);
+/* ---------- State ---------- */
+var sfState = { nama: '', hp: '', kec: '', kab: '', prov: '', paket: '', pax: 1, usia: [] };
+var acSelected = null, acDebounce = null;
 
-/* ---- */
+/* ---------- Progress ---------- */
+function updateProgress(step) {
+    var lbl = document.getElementById('pLabel');
+    var bar = document.getElementById('pBar');
+    if (lbl) lbl.textContent = 'Langkah ' + step + ' dari 4';
+    if (bar) bar.style.width = (step * 25) + '%';
+}
 
-// State
-                let sfState = { nama:'', hp:'', kec:'', kab:'', prov:'', paket:'', pax:1, usia:[] };
-                let acSelected = null, acDebounce = null;
+/* ---------- Error helpers ---------- */
+function showErr(id, show) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (show) {
+        el.classList.add('show');
+        if (el.previousElementSibling) el.previousElementSibling.classList.add('error');
+    } else {
+        el.classList.remove('show');
+        if (el.previousElementSibling) el.previousElementSibling.classList.remove('error');
+    }
+}
 
-                function updateProgress(step) {
-                    document.getElementById('pLabel').textContent = 'Langkah ' + step + ' dari 4';
-                    document.getElementById('pBar').style.width = (step * 25) + '%';
-                }
+/* ---------- Step navigation ---------- */
+window.nextStep = function (step) {
+    if (step === 1) {
+        var nama = document.getElementById('sfNama').value.trim();
+        var hp = document.getElementById('sfHp').value.replace(/\D/g, '');
+        var ok = true;
+        if (nama.length < 2) { showErr('eNama', true); ok = false; } else showErr('eNama', false);
+        if (hp.length < 9) { showErr('eHp', true); ok = false; } else showErr('eHp', false);
+        if (!ok) return;
+        sfState.nama = nama;
+        sfState.hp = hp;
+    }
 
-                function showErr(id, show) {
-                    const el = document.getElementById(id);
-                    if(show) { el.classList.add('show'); el.previousElementSibling?.classList?.add('error'); }
-                    else { el.classList.remove('show'); el.previousElementSibling?.classList?.remove('error'); }
-                }
+    if (step === 2) {
+        if (!acSelected) { showErr('eKec', true); return; } else showErr('eKec', false);
+        sfState.kec = acSelected.kecamatan;
+        sfState.kab = acSelected.kota;
+        sfState.prov = acSelected.provinsi;
+        sfState.paket = document.getElementById('sfPaket').value;
+        renderUsia();
+    }
 
-                function nextStep(step) {
-                    // Validasi Step 1
-                    if(step === 1) {
-                        const nama = document.getElementById('sfNama').value.trim();
-                        const hp = document.getElementById('sfHp').value.replace(/\D/g,'');
-                        let ok = true;
-                        if(nama.length < 2) { showErr('eNama', true); ok=false; } else showErr('eNama', false);
-                        if(hp.length < 9) { showErr('eHp', true); ok=false; } else showErr('eHp', false);
-                        if(!ok) return;
-                        sfState.nama = nama; sfState.hp = hp;
-                    }
-                    // Validasi Step 2
-                    if(step === 2) {
-                        if(!acSelected) { showErr('eKec', true); return; } else showErr('eKec', false);
-                        sfState.kec = acSelected.kecamatan; sfState.kab = acSelected.kota; sfState.prov = acSelected.provinsi;
-                        sfState.paket = document.getElementById('sfPaket').value;
-                        renderUsia();
-                    }
-                    // Validasi Step 3
-                    if(step === 3) {
-                        let ok = true; sfState.usia = [];
-                        document.querySelectorAll('.u-inp').forEach((inp, idx) => {
-                            const val = parseInt(inp.value);
-                            const relNode = document.querySelectorAll('.u-rel')[idx];
-                            const rel = relNode ? relNode.value : 'Jamaah';
-                            if(isNaN(val) || val < 1) { inp.classList.add('error'); ok=false; }
-                            else { inp.classList.remove('error'); sfState.usia.push({santri: rel, usia: val}); }
-                        });
-                        if(!ok) { showErr('eUsia', true); return; } else showErr('eUsia', false);
-                        
-                        // Populate summary
-                        document.getElementById('sNama').textContent = sfState.nama;
-                        document.getElementById('sHp').textContent = sfState.hp;
-                        document.getElementById('sDom').textContent = `${sfState.kec}, ${sfState.kab}`;
-                        document.getElementById('sPax').textContent = sfState.pax + ' Orang';
-                        document.getElementById('sUsia').innerHTML = sfState.usia.map(u => `<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">${u.santri}: ${u.usia}th</span>`).join('');
-                    }
-
-                    document.getElementById('step'+step).classList.remove('active');
-                    document.getElementById('step'+(step+1)).classList.add('active');
-                    updateProgress(step+1);
-                }
-
-                function prevStep(step) {
-                    document.getElementById('step'+step).classList.remove('active');
-                    document.getElementById('step'+(step-1)).classList.add('active');
-                    updateProgress(step-1);
-                }
-
-                // Autocomplete
-                document.getElementById('sfKecInp').addEventListener('input', function() {
-                    const q = this.value.trim();
-                    const dd = document.getElementById('sfKecDd');
-                    acSelected = null; showErr('eKec', false);
-                    document.getElementById('sfKecBadge').innerHTML = '';
-                    if(q.length < 3) { dd.classList.remove('open'); return; }
-                    
-                    clearTimeout(acDebounce);
-                    acDebounce = setTimeout(async () => {
-                        dd.innerHTML = '<div style="padding:10px;text-align:center;color:#718096;font-size:0.85rem;"><i class="fas fa-spinner fa-spin"></i> Mencari...</div>';
-                        dd.classList.add('open');
-                        try {
-                            const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8080/api' : '/api';
-                            const res = await fetch(`${API_BASE}/wilayah/search?q=${encodeURIComponent(q)}`);
-                            const data = await res.json();
-                            if(!data.data || !data.data.length) {
-                                dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Tidak ditemukan.</div>'; return;
-                            }
-                            dd.innerHTML = data.data.slice(0,10).map((r, i) => 
-                                `<div class="sf-ac-item" onclick='setKec(${JSON.stringify(r)})'>
-                                    <strong>${r.kecamatan}</strong>
-                                    <span>${r.kota}, ${r.provinsi}</span>
-                                </div>`
-                            ).join('');
-                        } catch(e) { dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Gagal memuat API.</div>'; }
-                    }, 350);
-                });
-
-                window.setKec = function(r) {
-                    acSelected = r;
-                    document.getElementById('sfKecInp').value = '';
-                    document.getElementById('sfKecDd').classList.remove('open');
-                    document.getElementById('sfKecBadge').innerHTML = `<div class="sf-badge"><i class="fas fa-check-circle" style="margin-right:6px;"></i>${r.kecamatan}, ${r.kota}</div>`;
-                }
-
-                // Pax
-                function changePax(d) {
-                    sfState.pax = Math.max(1, Math.min(10, sfState.pax + d));
-                    document.getElementById('paxVal').textContent = sfState.pax;
-                    renderUsia();
-                }
-
-                function renderUsia() {
-                    const list = document.getElementById('usiaList');
-                    const existingU = Array.from(list.querySelectorAll('.u-inp')).map(el => el.value);
-                    const existingR = Array.from(list.querySelectorAll('.u-rel')).map(el => el.value);
-                    list.innerHTML = Array(sfState.pax).fill(0).map((_,i) => {
-                        let relHtml = '';
-                        if(i === 0) {
-                            relHtml = `<span style="font-size:0.9rem; font-weight:600; color:var(--navy); flex:1;">Saya</span><input type="hidden" class="u-rel" value="Saya">`;
-                        } else {
-                            const pastRel = existingR[i] || 'Suami / Istri';
-                            relHtml = `
-                                <select class="sf-inp u-rel" style="flex:1; padding:8px; font-weight:600;">
-                                    <option value="Suami / Istri" ${pastRel==='Suami / Istri'?'selected':''}>Suami / Istri</option>
-                                    <option value="Anak" ${pastRel==='Anak'?'selected':''}>Anak</option>
-                                    <option value="Orang Tua" ${pastRel==='Orang Tua'?'selected':''}>Orang Tua</option>
-                                    <option value="Saudara" ${pastRel==='Saudara'?'selected':''}>Saudara</option>
-                                </select>
-                            `;
-                        }
-
-                        return `
-                        <div class="usia-card">
-                            <span class="idx">${i+1}</span>
-                            ${relHtml}
-                            <input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Usia (Thn)" min="1" value="${existingU[i]||''}" oninput="this.classList.remove('error'); showErr('eUsia',false)">
-                        </div>
-                        `;
-                    }).join('');
-                }
-
-                // Submit
-                async function submitForm() {
-                    const setuju = document.getElementById('sfSetuju').checked;
-                    if(!setuju) { showErr('eSetuju', true); return; } else showErr('eSetuju', false);
-
-                    const btn = document.getElementById('btnSubmit');
-                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
-
-                    const payload = {
-                        nama_lengkap: sfState.nama, whatsapp_num: sfState.hp,
-                        domisili: `${sfState.kec}, ${sfState.kab}, ${sfState.prov}`,
-                        yang_berangkat: sfState.pax + ' Jamaah',
-                        jamaah_usia_detail: sfState.usia,
-                        paket_pilihan: sfState.paket || 'Umrah Liburan',
-                        fasilitas_utama: 'Bersedia Dihubungi',
-                        landing_page: window.location.href, form_source: 'liburan-26-sf'
-                    };
-
-                    const API_URL = window.location.protocol === 'file:' ? 'http://localhost:8080/api/leads' : '/api/leads';
-                    try {
-                        await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-                        try{ gtag('event','generate_lead',{send_to:'G-11PXTCBM9L'}); fbq('track','Lead'); }catch(e){}
-                    } catch(e) {}
-
-                    // Hide form, show thanks
-                    document.getElementById('pLabel').style.display = 'none';
-                    document.querySelector('.sf-prog-track').style.display = 'none';
-                    document.getElementById('progForm').style.display = 'none';
-                    document.getElementById('sfThankYou').style.display = 'block';
-                }
-
-/* ---- */
-
-(function () {
-            var LP_FOLDER = 'lp-liburan-short';
-            var API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
-                ? 'http://localhost:8080/api' : '/api';
-            async function loadAndInjectForm() {
-                try {
-                    // /api/pages/:folder/config returns { success, form: {...}, programs: [...] }
-                    var cfgRes = await fetch(API_BASE + '/pages/' + LP_FOLDER + '/config');
-                    if (!cfgRes.ok) return;
-                    var cfg = await cfgRes.json();
-                    // Use form object directly from config response
-                    var form = cfg.form;
-                    if (!form) return; // no form linked, use existing hardcoded form
-
-                    window.__MUNIRA_INJECT_FORM__ = form;
-                    window.__MUNIRA_WA_ROTATOR__ = form.wa_rotator || [];
-                    window.__MUNIRA_SUCCESS_MSG__ = form.success_message || 'Terima kasih! Tim kami akan segera menghubungi Anda.';
-                    window.__MUNIRA_FORM_ID__ = form._id;
-                    window.__MUNIRA_ROTATOR_MODE__ = form.rotator_mode || 'round_robin';
-
-                    // Dev indicator badge
-                    var b = document.createElement('div');
-                    b.style.cssText = 'position:fixed;bottom:60px;right:16px;z-index:9999;background:rgba(34,211,238,0.9);color:#0c0f1a;font-size:0.65rem;padding:4px 10px;border-radius:20px;font-weight:700;pointer-events:none;';
-                    b.textContent = '\u26A1 Short Form: ' + (form.name || 'Dynamic');
-                    document.body.appendChild(b);
-                    setTimeout(function () { b.remove(); }, 4000);
-                    console.log('[MuniraInject] Short Form "' + form.name + '" ready. WA: ' + (form.wa_rotator || []).length + ' CS');
-                } catch (e) {
-                    console.warn('[MuniraInject] Fallback ke form default.', e);
-                }
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', loadAndInjectForm);
+    if (step === 3) {
+        var ok = true;
+        sfState.usia = [];
+        document.querySelectorAll('.u-inp').forEach(function (inp, idx) {
+            var val = parseInt(inp.value);
+            var relNode = document.querySelectorAll('.u-rel')[idx];
+            var rel = relNode ? relNode.value : 'Saya';
+            if (isNaN(val) || val < 1) {
+                inp.classList.add('error');
+                ok = false;
             } else {
-                loadAndInjectForm();
+                inp.classList.remove('error');
+                sfState.usia.push({ santri: rel, usia: val });
             }
-        })();
+        });
+        if (!ok) { showErr('eUsia', true); return; } else showErr('eUsia', false);
+
+        document.getElementById('sNama').textContent = sfState.nama;
+        document.getElementById('sHp').textContent = sfState.hp;
+        document.getElementById('sDom').textContent = sfState.kec + ', ' + sfState.kab;
+        document.getElementById('sPax').textContent = sfState.pax + ' Orang';
+        document.getElementById('sUsia').innerHTML = sfState.usia.map(function (u) {
+            return '<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">' + u.santri + ': ' + u.usia + 'th</span>';
+        }).join('');
+    }
+
+    document.getElementById('step' + step).classList.remove('active');
+    document.getElementById('step' + (step + 1)).classList.add('active');
+    updateProgress(step + 1);
+};
+
+window.prevStep = function (step) {
+    document.getElementById('step' + step).classList.remove('active');
+    document.getElementById('step' + (step - 1)).classList.add('active');
+    updateProgress(step - 1);
+};
+
+/* ---------- Autocomplete (Kecamatan) ---------- */
+var kecInp = document.getElementById('sfKecInp');
+if (kecInp) {
+    kecInp.addEventListener('input', function () {
+        var q = this.value.trim();
+        var dd = document.getElementById('sfKecDd');
+        acSelected = null;
+        showErr('eKec', false);
+        document.getElementById('sfKecBadge').innerHTML = '';
+        if (q.length < 3) { dd.classList.remove('open'); return; }
+
+        clearTimeout(acDebounce);
+        acDebounce = setTimeout(async function () {
+            dd.innerHTML = '<div style="padding:10px;text-align:center;color:#718096;font-size:0.85rem;"><i class="fas fa-spinner fa-spin"></i> Mencari...</div>';
+            dd.classList.add('open');
+            try {
+                var API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8080/api' : '/api';
+                var res = await fetch(API_BASE + '/wilayah/search?q=' + encodeURIComponent(q));
+                var data = await res.json();
+                if (!data.data || !data.data.length) {
+                    dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Tidak ditemukan.</div>';
+                    return;
+                }
+                dd.innerHTML = data.data.slice(0, 10).map(function (r) {
+                    return '<div class="sf-ac-item" onclick=\'setKec(' + JSON.stringify(r) + ')\'>' +
+                        '<strong>' + r.kecamatan + '</strong>' +
+                        '<span>' + r.kota + ', ' + r.provinsi + '</span>' +
+                        '</div>';
+                }).join('');
+            } catch (e) {
+                dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Gagal memuat API.</div>';
+            }
+        }, 350);
+    });
+}
+
+window.setKec = function (r) {
+    acSelected = r;
+    document.getElementById('sfKecInp').value = '';
+    document.getElementById('sfKecDd').classList.remove('open');
+    document.getElementById('sfKecBadge').innerHTML =
+        '<div class="sf-badge"><i class="fas fa-check-circle" style="margin-right:6px;"></i>' + r.kecamatan + ', ' + r.kota + '</div>';
+};
+
+/* ---------- Pax counter ---------- */
+window.changePax = function (d) {
+    sfState.pax = Math.max(1, Math.min(10, sfState.pax + d));
+    document.getElementById('paxVal').textContent = sfState.pax;
+    renderUsia();
+};
+
+/* ---------- Render Usia Cards ----------
+   RULE: ALL pax get a dropdown (termasuk pax ke-1 = default "Saya")
+   ------------------------------------------------------------ */
+function renderUsia() {
+    var list = document.getElementById('usiaList');
+    if (!list) return;
+    var existingU = Array.from(list.querySelectorAll('.u-inp')).map(function (el) { return el.value; });
+    var existingR = Array.from(list.querySelectorAll('.u-rel')).map(function (el) { return el.value; });
+
+    var relOptions = ['Saya', 'Suami / Istri', 'Anak', 'Orang Tua', 'Saudara'];
+
+    list.innerHTML = Array(sfState.pax).fill(0).map(function (_, i) {
+        var defaultRel = i === 0 ? 'Saya' : 'Suami / Istri';
+        var pastRel = existingR[i] || defaultRel;
+
+        var opts = relOptions.map(function (opt) {
+            return '<option value="' + opt + '"' + (pastRel === opt ? ' selected' : '') + '>' + opt + '</option>';
+        }).join('');
+
+        var relHtml = '<select class="sf-inp u-rel" style="flex:1; padding:8px; font-weight:600;">' + opts + '</select>';
+
+        return '<div class="usia-card">' +
+            '<span class="idx">' + (i + 1) + '</span>' +
+            relHtml +
+            '<input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Usia (Thn)" min="1" value="' + (existingU[i] || '') + '" oninput="this.classList.remove(\'error\'); showErr(\'eUsia\',false)">' +
+            '</div>';
+    }).join('');
+}
+
+// Init usia on load
+renderUsia();
+
+/* ---------- Form Submit ---------- */
+window.submitForm = async function () {
+    var setuju = document.getElementById('sfSetuju').checked;
+    if (!setuju) { showErr('eSetuju', true); return; } else showErr('eSetuju', false);
+
+    var btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+    // Get UTM from MuniraTracking if available
+    var utm = (window.MuniraTracking && window.MuniraTracking.getUTM) ? window.MuniraTracking.getUTM() : {};
+
+    // Determine form_source from LP folder path
+    var pathParts = window.location.pathname.replace(/^\//, '').split('/');
+    var formSource = pathParts[0] || 'liburan-sf';
+
+    var payload = {
+        nama_lengkap: sfState.nama,
+        whatsapp_num: sfState.hp,
+        domisili: sfState.kec + ', ' + sfState.kab + ', ' + sfState.prov,
+        yang_berangkat: sfState.pax + ' Jamaah',
+        jamaah_usia_detail: sfState.usia,
+        paket_pilihan: sfState.paket || 'Umrah Liburan',
+        fasilitas_utama: 'Bersedia Dihubungi',
+        landing_page: window.location.href,
+        form_source: formSource,
+        utm_source: utm.utm_source || '',
+        utm_medium: utm.utm_medium || '',
+        utm_campaign: utm.utm_campaign || ''
+    };
+
+    var API_URL = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+        ? 'http://localhost:8080/api/leads'
+        : '/api/leads';
+
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+        });
+        // Fire Meta CAPI (server-side + pixel dedup)
+        if (typeof window.sendMetaCAPI === 'function') {
+            window.sendMetaCAPI(payload);
+        } else {
+            try { gtag('event', 'generate_lead', { send_to: 'G-11PXTCBM9L' }); } catch (e) {}
+            try { fbq('track', 'Lead'); } catch (e) {}
+        }
+    } catch (e) {
+        console.warn('[SF Submit]', e);
+    }
+
+    // Hide form, show thanks
+    var pLabel = document.getElementById('pLabel');
+    var pTrack = document.querySelector('.sf-prog-track');
+    var progForm = document.getElementById('progForm');
+    var thankYou = document.getElementById('sfThankYou');
+    if (pLabel) pLabel.style.display = 'none';
+    if (pTrack) pTrack.style.display = 'none';
+    if (progForm) progForm.style.display = 'none';
+    if (thankYou) thankYou.style.display = 'block';
+};
+
+/* ---------- LP Config injection (dynamic form from CMS) ---------- */
+(function () {
+    var LP_FOLDER = window.location.pathname.replace(/^\//, '').split('/')[0] || '';
+    var API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
+        ? 'http://localhost:8080/api' : '/api';
+
+    async function loadAndInjectForm() {
+        if (!LP_FOLDER) return;
+        try {
+            var cfgRes = await fetch(API_BASE + '/pages/' + LP_FOLDER + '/config');
+            if (!cfgRes.ok) return;
+            var cfg = await cfgRes.json();
+            var form = cfg.form;
+            if (!form) return;
+
+            window.__MUNIRA_INJECT_FORM__ = form;
+            window.__MUNIRA_WA_ROTATOR__ = form.wa_rotator || [];
+            window.__MUNIRA_SUCCESS_MSG__ = form.success_message || 'Terima kasih!';
+            window.__MUNIRA_FORM_ID__ = form._id;
+            console.log('[MuniraInject] Form "' + form.name + '" ready.');
+        } catch (e) {
+            console.warn('[MuniraInject] Fallback ke form default.', e);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAndInjectForm);
+    } else {
+        loadAndInjectForm();
+    }
+})();

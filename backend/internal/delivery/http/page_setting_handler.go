@@ -69,104 +69,96 @@ func (h *PageSettingHandler) GetAll(c *gin.Context) {
 		settingMap[item.Folder] = item
 	}
 
-	// For go migration, the root dir is two levels up from binary or use env var
+	// Resolve LP root directory
 	rootDir := os.Getenv("LP_ROOT_DIR")
 	if rootDir == "" {
-		rootDir = "../" // assumption for execution from backend folder
+		// Try common paths for Docker and local
+		candidates := []string{"/public-lp", "../../public-lp", "../public-lp", "./public-lp"}
+		for _, p := range candidates {
+			if _, err := os.Stat(p); err == nil {
+				rootDir = p
+				break
+			}
+		}
+		if rootDir == "" {
+			rootDir = "../../public-lp"
+		}
 	}
+
+	// Folders to skip (not landing pages)
+	skipFolders := map[string]bool{"assets": true, "shared": true, "jualan-lp": true}
 
 	pages := make([]map[string]interface{}, 0)
 
-	// Process root index.html first
+	// Root index.html
 	rootIndex := filepath.Join(rootDir, "index.html")
 	if _, err := os.Stat(rootIndex); err == nil {
 		title, img := extractPageMeta(rootIndex)
 		if title == "" {
-			title = "Home / Root Domain"
+			title = "Home — Semua Paket"
 		}
-
 		dbEntry := settingMap["root"]
-		finalImg := dbEntry.ImageURL
-		if finalImg == "" {
-			finalImg = img
+		if dbEntry.ImageURL != "" {
+			img = dbEntry.ImageURL
 		}
-
-		linkedProgStr := dbEntry.LinkedProgramIDs
-		var progIds []string
-		if linkedProgStr == "" || linkedProgStr == "[]" {
-			progIds = []string{}
-		} else {
-			// For simplicity we just return empty array if not empty string in this mockup
-			progIds = []string{}
-		}
-
 		formId := ""
 		if dbEntry.LinkedFormID != nil {
 			formId = *dbEntry.LinkedFormID
 		}
-
 		pages = append(pages, map[string]interface{}{
 			"title":              title,
-			"alias":              "Homepage Utama",
+			"alias":              "Homepage (Semua Paket)",
 			"url":                "/",
 			"status":             "Live",
 			"path":               "index.html",
-			"image":              finalImg,
+			"image":              img,
 			"description":        dbEntry.Description,
 			"folder":             "root",
 			"linked_form_id":     formId,
-			"linked_program_ids": progIds,
+			"linked_program_ids": []string{},
 			"is_default":         dbEntry.IsDefault,
 		})
 	}
 
-	// Emulating NodeJS reading folders
+	// Scan all subfolders
 	entries, err := os.ReadDir(rootDir)
 	if err == nil {
 		for _, e := range entries {
-			if e.IsDir() && strings.HasPrefix(e.Name(), "lp-") {
-				mainIndex := filepath.Join(rootDir, e.Name(), "index.html")
-				if _, err := os.Stat(mainIndex); err == nil {
-					title, img := extractPageMeta(mainIndex)
-					if title == "" {
-						title = "Landing Page: " + e.Name()
-					}
-
-					dbEntry := settingMap[e.Name()]
-					finalImg := dbEntry.ImageURL
-					if finalImg == "" {
-						finalImg = img
-					}
-
-					linkedProgStr := dbEntry.LinkedProgramIDs
-					var progIds []string
-					if linkedProgStr == "" || linkedProgStr == "[]" {
-						progIds = []string{}
-					} else {
-						progIds = []string{}
-					}
-
-					formId := ""
-					if dbEntry.LinkedFormID != nil {
-						formId = *dbEntry.LinkedFormID
-					}
-
-					// We only map necessary fields mimicking JS behavior
-					pages = append(pages, map[string]interface{}{
-						"title":              title,
-						"alias":              e.Name(),
-						"url":                "/" + e.Name() + "/index.html",
-						"status":             "Live",
-						"path":               e.Name() + "/index.html",
-						"image":              finalImg,
-						"description":        dbEntry.Description,
-						"folder":             e.Name(),
-						"linked_form_id":     formId,
-						"linked_program_ids": progIds,
-						"is_default":         dbEntry.IsDefault,
-					})
-				}
+			if !e.IsDir() || skipFolders[e.Name()] {
+				continue
 			}
+			mainIndex := filepath.Join(rootDir, e.Name(), "index.html")
+			if _, err := os.Stat(mainIndex); err != nil {
+				continue // skip folders without index.html
+			}
+
+			title, img := extractPageMeta(mainIndex)
+			if title == "" {
+				title = "Landing Page: " + e.Name()
+			}
+
+			dbEntry := settingMap[e.Name()]
+			if dbEntry.ImageURL != "" {
+				img = dbEntry.ImageURL
+			}
+			formId := ""
+			if dbEntry.LinkedFormID != nil {
+				formId = *dbEntry.LinkedFormID
+			}
+
+			pages = append(pages, map[string]interface{}{
+				"title":              title,
+				"alias":              e.Name(),
+				"url":                "/" + e.Name() + "/index.html",
+				"status":             "Live",
+				"path":               e.Name() + "/index.html",
+				"image":              img,
+				"description":        dbEntry.Description,
+				"folder":             e.Name(),
+				"linked_form_id":     formId,
+				"linked_program_ids": []string{},
+				"is_default":         dbEntry.IsDefault,
+			})
 		}
 	}
 
@@ -190,8 +182,19 @@ func (h *PageSettingHandler) GetCover(c *gin.Context) {
 func (h *PageSettingHandler) GetPackages(c *gin.Context) {
 	rootDir := os.Getenv("LP_ROOT_DIR")
 	if rootDir == "" {
-		rootDir = "../"
+		candidates := []string{"/public-lp", "../../public-lp", "../public-lp", "./public-lp"}
+		for _, p := range candidates {
+			if _, err := os.Stat(p); err == nil {
+				rootDir = p
+				break
+			}
+		}
+		if rootDir == "" {
+			rootDir = "../../public-lp"
+		}
 	}
+
+	skipFolders := map[string]bool{"assets": true, "shared": true, "jualan-lp": true}
 
 	items, _ := h.usecase.FetchAll(context.Background())
 	settingMap := make(map[string]domain.PageSetting)
@@ -203,16 +206,25 @@ func (h *PageSettingHandler) GetPackages(c *gin.Context) {
 	entries, err := os.ReadDir(rootDir)
 	if err == nil {
 		for _, e := range entries {
-			if e.IsDir() && strings.HasPrefix(e.Name(), "lp-") {
-				dbEntry := settingMap[e.Name()]
-				packages = append(packages, map[string]interface{}{
-					"folder":      e.Name(),
-					"title":       e.Name(), // In real Node, reads index html. Kept simple here.
-					"url":         "/" + e.Name() + "/index.html",
-					"image_url":   dbEntry.ImageURL,
-					"description": dbEntry.Description,
-				})
+			if !e.IsDir() || skipFolders[e.Name()] {
+				continue
 			}
+			mainIndex := filepath.Join(rootDir, e.Name(), "index.html")
+			if _, err := os.Stat(mainIndex); err != nil {
+				continue
+			}
+			title, _ := extractPageMeta(mainIndex)
+			if title == "" {
+				title = e.Name()
+			}
+			dbEntry := settingMap[e.Name()]
+			packages = append(packages, map[string]interface{}{
+				"folder":      e.Name(),
+				"title":       title,
+				"url":         "/" + e.Name() + "/index.html",
+				"image_url":   dbEntry.ImageURL,
+				"description": dbEntry.Description,
+			})
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{"success": true, "packages": packages})

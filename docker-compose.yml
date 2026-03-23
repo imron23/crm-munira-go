@@ -13,10 +13,13 @@ services:
     environment:
       - PORT=8080
       - DB_URL=postgresql://munira:munira_password@postgres:5432/munira_crm
+      - REDIS_URL=redis://redis:6379
       - ADMIN_USERNAME=Imron23
       - ADMIN_PASSWORD=Imunira234..
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     volumes:
       - ./dashboard:/dashboard
@@ -48,5 +51,22 @@ services:
       retries: 10
     restart: always
 
+  # ─── Redis Cache ──────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: crm-munira-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru --appendonly yes
+    volumes:
+      - munira_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: always
+
 volumes:
   munira_postgres_data:
+  munira_redis_data:

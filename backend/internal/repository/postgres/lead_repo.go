@@ -108,15 +108,25 @@ func (r *leadRepository) CreateLead(ctx context.Context, lead *domain.Lead) erro
 	historyJSON, _ := json.Marshal(lead.StatusHistory)
 	jamaahJSON, _ := json.Marshal(lead.JamaahUsiaDetail)
 	prefJSON, _ := json.Marshal(lead.Preferences)
-	query := `INSERT INTO leads (id, user_id, nama_lengkap, whatsapp_num, domisili, yang_berangkat, jamaah_usia_detail, paket_pilihan, kesiapan_paspor, pengalaman_umrah, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, preferences, created_at, updated_at) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)
+	query := `INSERT INTO leads (id, user_id, name, phone_number, nama_lengkap, whatsapp_num, domisili, yang_berangkat, jamaah_usia_detail, paket_pilihan, kesiapan_paspor, pengalaman_umrah, fasilitas_utama, utm_source, utm_medium, utm_campaign, landing_page, form_source, status_followup, catatan, revenue, program_id, last_contact, rencana_umrah, assigned_to, assigned_to_name, status_history, preferences, created_at, updated_at) 
+VALUES ($1, $2, $3, $4, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)
 ON CONFLICT (id) DO UPDATE SET
-	user_id = EXCLUDED.user_id, nama_lengkap = EXCLUDED.nama_lengkap, whatsapp_num = EXCLUDED.whatsapp_num, domisili = EXCLUDED.domisili, 
+	user_id = EXCLUDED.user_id, name = EXCLUDED.name, phone_number = EXCLUDED.phone_number,
+	nama_lengkap = EXCLUDED.nama_lengkap, whatsapp_num = EXCLUDED.whatsapp_num, domisili = EXCLUDED.domisili, 
 	yang_berangkat = EXCLUDED.yang_berangkat, jamaah_usia_detail = EXCLUDED.jamaah_usia_detail, paket_pilihan = EXCLUDED.paket_pilihan, kesiapan_paspor = EXCLUDED.kesiapan_paspor, pengalaman_umrah = EXCLUDED.pengalaman_umrah, 
 	fasilitas_utama = EXCLUDED.fasilitas_utama, utm_source = EXCLUDED.utm_source, utm_medium = EXCLUDED.utm_medium, utm_campaign = EXCLUDED.utm_campaign, 
 	landing_page = EXCLUDED.landing_page, form_source = EXCLUDED.form_source, rencana_umrah = EXCLUDED.rencana_umrah, preferences = EXCLUDED.preferences
 `
-	_, err := r.db.Exec(ctx, query, lead.ID, lead.UserID, lead.NamaLengkap, lead.WhatsappNum, lead.Domisili, lead.YangBerangkat, jamaahJSON, lead.PaketPilihan, lead.KesiapanPaspor, lead.PengalamanUmrah, lead.FasilitasUtama, lead.UTMSource, lead.UTMMedium, lead.UTMCampaign, lead.LandingPage, lead.FormSource, lead.StatusFollowUp, lead.Catatan, lead.Revenue, lead.ProgramID, lead.LastContact, lead.RencanaUmrah, lead.AssignedTo, lead.AssignedToName, historyJSON, prefJSON, lead.CreatedAt, lead.UpdatedAt)
+	_, err := r.db.Exec(ctx, query,
+		lead.ID, lead.UserID,
+		lead.NamaLengkap, lead.WhatsappNum, // $3=name, $4=phone_number (reused as $3,$4 for nama_lengkap,whatsapp_num too)
+		lead.Domisili, lead.YangBerangkat, jamaahJSON, lead.PaketPilihan,
+		lead.KesiapanPaspor, lead.PengalamanUmrah, lead.FasilitasUtama,
+		lead.UTMSource, lead.UTMMedium, lead.UTMCampaign,
+		lead.LandingPage, lead.FormSource, lead.StatusFollowUp, lead.Catatan,
+		lead.Revenue, lead.ProgramID, lead.LastContact, lead.RencanaUmrah,
+		lead.AssignedTo, lead.AssignedToName, historyJSON, prefJSON,
+		lead.CreatedAt, lead.UpdatedAt)
 	return err
 }
 
