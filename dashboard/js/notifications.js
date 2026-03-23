@@ -9,17 +9,45 @@ var bellAudio = null;
 function playBellSound() {
     try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.3);
-        gain.gain.setValueAtTime(0.5, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.4);
+
+        // Fungsi bikin satu nada "ding"
+        function ding(freq, startTime, duration, volume) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            // Tambah harmonic overtone untuk suara lebih kaya
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+
+            osc.connect(gain);
+            osc2.connect(gain2);
+            gain.connect(ctx.destination);
+            gain2.connect(ctx.destination);
+
+            // Nada utama (triangle = lebih lembut dari sine)
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(volume, startTime + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+            // Harmonic overtone (satu oktaf lebih tinggi, volume kecil)
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(freq * 2, startTime);
+            gain2.gain.setValueAtTime(0, startTime);
+            gain2.gain.linearRampToValueAtTime(volume * 0.25, startTime + 0.01);
+            gain2.gain.exponentialRampToValueAtTime(0.001, startTime + duration * 0.7);
+
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+            osc2.start(startTime);
+            osc2.stop(startTime + duration);
+        }
+
+        // Double ding: nada pertama (do) → nada kedua (mi) — terdengar "Lead Baru!"
+        ding(659.25, ctx.currentTime,        0.6, 0.4);  // E5 — ding pertama
+        ding(783.99, ctx.currentTime + 0.18, 0.7, 0.35); // G5 — ding kedua (harmonis)
+        ding(1046.5, ctx.currentTime + 0.35, 0.8, 0.25); // C6 — ding ketiga (puncak)
+
     } catch (e) { }
 }
 
