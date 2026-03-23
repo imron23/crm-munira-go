@@ -242,9 +242,12 @@
         <!-- Success Step -->
         <div class="step" id="stepSuccess" style="text-align:center;">
             <div style="font-size:4rem; margin-bottom:20px;">🕋</div>
-            <h2>Alhamdulillah</h2>
-            <p>Niat baik Anda telah kami terima.<br>Tim Concierge kami akan segera menghubungi Anda memlalui WhatsApp
-                yang sudah dipersonalisasi.</p>
+            <h2 style="color: var(--brand-green); margin-bottom: 16px;">Alhamdulillah, selangkah lagi menuju Baitullah.
+            </h2>
+            <p id="successMessage"
+                style="line-height: 1.8; color: #2D3748; font-size: 1rem; max-width: 450px; margin: 0 auto;">
+                <!-- Will be filled dynamically with personalized name -->
+            </p>
         </div>
 
         <div class="plane-anim" id="plane">✈️</div>
@@ -317,6 +320,54 @@
             }
         }
 
+        /**
+         * Extract first name from full name and detect gender preference
+         * Returns object { firstName, genderGuess: 'male'|'female'|'unknown' }
+         */
+        function extractNameInfo(fullName) {
+            if (!fullName || !fullName.trim()) return { firstName: '', genderGuess: 'unknown' };
+
+            const name = fullName.trim();
+            const parts = name.split(/\s+/);
+            const firstName = parts[0] || '';
+
+            // Common Indonesian male/female name patterns
+            const malePatterns = /^(ahmad|muhammad|mohammad|budi|andi|dodi|edi|faisal|hamzah|ibrahim|joko|kamil|lutfi|muhammad|nurul|agus|yusuf|ali|umar|bilal|zain|fadli|reza|dimas|bayu|eko|hadi|irawan|joko|karim|latif|mahmud|nizar|osman|putra|qomar|rudi|surya|taufik|utsman|wahyu|yusuf|zaki|habib|imam|khalid|malik|omar|rafli|sultan|tariq|umar|vali|wali|xavier|yasir|zaid|arif|bambang|cahyo|dadan|erik|ferry|galih|hendra|iwan|jaya|krisna|liono|made|nana|opik|panji|qori|rian|setiawan|teguh|ujang|vino|wawan|yanto|zulfan)$/i;
+            const femalePatterns = /^(siti|nurul|fatimah|aisyah|khadijah|zainab|amina|sarah|maryam|dewi|putri|ratna|sri|wulan|yuni|ani|bella|citra|dina|eka|fitri|gita|hani|indah|julia|kartika|lisa|may|nia|olivia|putri|qori|rina|sinta|tia|uma|vivin|winda|xia|yolanda|zahra|amalia|bayan|celine|dinda|eliza|fira|gina|hana|irma|jihan|keisha|lara|mira|nadia|oka|putri|qiana|rani|salsabila|tania|ulfah|vera|widya|xena|yasmine|zeina|hapsari|kusuma|permata|safitri|wijaya|kusuma|ratu|melati|cempaka|mawar|anggrek|tulip|rose|dahlia)$/i;
+
+            let genderGuess = 'unknown';
+            if (malePatterns.test(firstName)) {
+                genderGuess = 'male';
+            } else if (femalePatterns.test(firstName)) {
+                genderGuess = 'female';
+            }
+
+            return { firstName, genderGuess };
+        }
+
+        /**
+         * Generate personalized success message
+         */
+        function generateSuccessMessage(fullName, aiGenderDetected) {
+            const { firstName, genderGuess } = extractNameInfo(fullName);
+
+            // Use AI detected gender if available, otherwise use local guess
+            const gender = aiGenderDetected || genderGuess;
+
+            // Determine salutation based on gender
+            let salutation = 'Bapak/Ibu'; // default
+            if (gender === 'male') {
+                salutation = 'Bapak';
+            } else if (gender === 'female') {
+                salutation = 'Ibu';
+            }
+
+            // Add first name if available
+            const personalizedSalutation = firstName ? `${salutation} ${firstName}` : salutation;
+
+            return `Terima kasih banyak sudah berbagi rencana ibadah Anda, <strong>${personalizedSalutation}</strong>. Kami sangat menghargai niat tulus ini.<br><br>Izinkan kami menyiapkan detail perjalanan yang paling tenang, nyaman, dan sesuai Sunnah untuk Anda. Tim kami akan menyapa melalui WhatsApp kurang dari 1-6 jam ke depan untuk berbincang lebih lanjut. Mohon ditunggu ya.`;
+        }
+
         async function finishForm() {
             // Get all data
             const prefs = {};
@@ -336,6 +387,12 @@
             const res = await saveLeadProgress(data);
 
             if (res && res.success) {
+                // Populate success message with personalized name
+                const successMsgEl = document.getElementById('successMessage');
+                if (successMsgEl) {
+                    successMsgEl.innerHTML = generateSuccessMessage(data.nama_lengkap, null);
+                }
+
                 document.getElementById('step3').classList.remove('active');
                 document.getElementById('stepSuccess').classList.add('active');
 

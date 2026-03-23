@@ -4,11 +4,14 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
+	"html"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"munira_crm_backend/internal/domain"
+	"munira_crm_backend/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,7 +33,7 @@ func NewLeadHandler(router *gin.RouterGroup, usecase domain.LeadUsecase) {
 
 	leadRouter := router.Group("/leads")
 	{
-		leadRouter.POST("", handler.CreateLead)        // Public: form LP (harus sebelum /:id)
+		leadRouter.POST("", middleware.RateLimit(3, time.Minute), handler.CreateLead) // Public: form LP (ratelimit 3/min)
 		leadRouter.POST("/manual", handler.CreateManualLead)
 		leadRouter.GET("/stats/overview", handler.GetStatsOverview)
 		leadRouter.GET("/:id/history", handler.GetHistory)
@@ -152,6 +155,13 @@ func (h *LeadHandler) CreateLead(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "Nama dan nomor WhatsApp wajib diisi"})
 		return
 	}
+
+	// Sanitization to prevent XSS
+	body.NamaLengkap = html.EscapeString(body.NamaLengkap)
+	body.WhatsappNum = html.EscapeString(body.WhatsappNum)
+	body.PaketPilihan = html.EscapeString(body.PaketPilihan)
+	body.Catatan = html.EscapeString(body.Catatan)
+
 	if body.ID == "" {
 		body.ID = genUUID()
 	}

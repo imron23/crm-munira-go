@@ -2668,6 +2668,14 @@ function renderLeadsTable() {
                             <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Domisili</span> <strong>${L.domisili || '-'}</strong></li>
                             <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Paspor</span> <strong>${L.kesiapan_paspor || '-'}</strong></li>
                             <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Jumlah</span> <strong>${L.yang_berangkat || '-'}</strong></li>
+                            ${(() => {
+                                let ud = L.jamaah_usia_detail;
+                                if (!ud) return '';
+                                if (typeof ud === 'string') { try { ud = JSON.parse(ud); } catch(e) { return ''; } }
+                                if (!Array.isArray(ud) || !ud.length) return '';
+                                const pills = ud.map(u => `<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(99,102,241,0.10);color:#6366F1;border-radius:99px;padding:2px 9px;font-size:0.72rem;font-weight:700;margin:2px 2px 0 0;"><i class="fas fa-child" style="font-size:.65rem;"></i> ${u.santri ? 'S'+u.santri+': ' : ''}${u.usia || u.age || '?'} thn</span>`).join('');
+                                return `<li style="margin-top:4px;display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap;"><span style="color:var(--text-secondary);width:70px;flex-shrink:0;line-height:2;">Usia</span><span style="display:flex;flex-wrap:wrap;">${pills}</span></li>`;
+                            })()}
                             <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Paket</span> <strong>${L.paket_pilihan || '-'}</strong></li>
                             <li><span style="color:var(--text-secondary); display:inline-block; width:70px;">Rencana</span> <strong>${L.rencana_umrah || '-'}</strong></li>
                             <li style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); display:flex; align-items:center;">
@@ -4248,7 +4256,18 @@ function timeAgo(dateString) {
 // INLINE TABLE LOGIC & ACCORDION
 window.toggleAccordion = function (id) {
     const row = document.getElementById('acc-' + id);
-    if (row) row.classList.toggle('expanded');
+    if (row) {
+        const isExpanded = row.classList.contains('expanded');
+        row.classList.toggle('expanded');
+
+        // When expanding, set current lead for AI Concierge
+        if (!isExpanded) {
+            const L = allLeads.find(l => l.id === id || l.id === id);
+            if (L && window.renderConciergePanel) {
+                window.renderConciergePanel(L);
+            }
+        }
+    }
 }
 
 // Helper: generate <option> list for package dropdown

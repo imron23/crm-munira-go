@@ -709,4 +709,169 @@ window.switchWaTab = function (tabName) {
     }
 };
 
+// ─────────────────────────────────────────────────
+// CS PREFERENCE-BASED MESSAGE GENERATOR
+// Generate pesan personal berdasarkan preferensi detail dari form
+// ─────────────────────────────────────────────────
+
+/**
+ * Generate pesan WhatsApp berdasarkan preferensi detail lead
+ * Dipakai saat CS akan menghubungi lead pertama kali
+ */
+window.generatePreferenceBasedMessage = function (L, csName) {
+    const nama = L.nama_lengkap || 'Calon Jamaah';
+    const csNickname = csName || localStorage.getItem('cs_nickname') || 'Konsultan Munira World';
+    const prefs = L.preferences || {};
+
+    // Get sapaan
+    const sapaan = _concierge_getSapaan(nama, L.usia || 0);
+
+    // Extract preferences
+    const pref_budget = prefs.pref_budget || prefs.budget || '';
+    const pref_tanggal_keberangkatan = prefs.pref_tanggal_keberangkatan || prefs.tanggal_keberangkatan || L.rencana_umrah || '';
+    const pref_jumlah_jamaah = prefs.pref_jumlah_jamaah || prefs.jumlah_jamaah || L.yang_berangkat || '';
+    const pref_tipe_kamar = prefs.pref_tipe_kamar || prefs.tipe_kamar || '';
+    const pref_catatan_khusus = prefs.pref_catatan_khusus || prefs.catatan_khusus || '';
+    const pref_small_group = prefs.pref_small_group || false;
+    const pref_audio_guide = prefs.pref_audio_guide || false;
+    const pref_handling_bagasi = prefs.pref_handling_bagasi || false;
+    const pref_manasik_privat = prefs.pref_manasik_privat || false;
+    const pref_dokumentasi = prefs.pref_dokumentasi || false;
+    const pref_muthawwif = prefs.pref_muthawwif || '';
+    const pref_hotel = prefs.pref_hotel || '';
+    const pref_maskapai = prefs.pref_maskapai || '';
+
+    // Build additional services text
+    let additionalServices = [];
+    if (pref_small_group) additionalServices.push('Grup Eksklusif/Kecil');
+    if (pref_audio_guide) additionalServices.push('Audio Guide');
+    if (pref_handling_bagasi) additionalServices.push('Handling Bagasi');
+    if (pref_manasik_privat) additionalServices.push('Manasik Privat');
+    if (pref_dokumentasi) additionalServices.push('Dokumentasi Perjalanan');
+
+    // Build preference summary
+    let prefSummary = [];
+    if (pref_budget) prefSummary.push(`Budget: ${pref_budget}`);
+    if (pref_tanggal_keberangkatan) prefSummary.push(`Rencana: ${pref_tanggal_keberangkatan}`);
+    if (pref_jumlah_jamaah) prefSummary.push(`Jamaah: ${pref_jumlah_jamaah}`);
+    if (pref_tipe_kamar) prefSummary.push(`Kamar: ${pref_tipe_kamar}`);
+    if (pref_hotel) prefSummary.push(`Hotel: ${pref_hotel}`);
+    if (pref_maskapai) prefSummary.push(`Maskapai: ${pref_maskapai}`);
+
+    // Build message
+    let message = `Assalamu'alaikum ${sapaan} 🌙
+
+Perkenalkan, saya ${csNickname} dari Munira World. Terima kasih sudah mendaftar dan mempercayai kami untuk perjalanan ibadah ${sapaan}.
+
+Saya melihat ${sapaan} telah mengisi preferensi perjalanan:
+${prefSummary.length > 0 ? prefSummary.map(p => `• ${p}`).join('\n') : '• Paket: ' + (L.paket_pilihan || 'Umrah')}`;
+
+    // Add additional services if any
+    if (additionalServices.length > 0) {
+        message += `\n\nLayanan tambahan yang ${sapaan} inginkan:\n${additionalServices.map(s => `✓ ${s}`).join('\n')}`;
+    }
+
+    // Add special notes if any
+    if (pref_catatan_khusus) {
+        message += `\n\n📝 Catatan khusus dari ${sapaan}: "${pref_catatan_khusus}"`;
+    }
+
+    // Paspor info
+    const paspor = _concierge_getPasporContext(L.kesiapan_paspor);
+    if (paspor.text) {
+        message += `\n\n📋 Status Paspor: ${paspor.text}`;
+        if (paspor.action) {
+            message += ` ${paspor.action}`;
+        }
+    }
+
+    // Closing
+    message += `
+
+Saya akan membantu menyusun paket terbaik sesuai kebutuhan ${sapaan}. Apakah ada waktu luang sebentar untuk berdiskusi lebih lanjut? Insya Allah saya siap membantu dari A sampai Z 🤲
+
+Wassalamu'alaikum,
+_${csNickname}_`;
+
+    return {
+        message: message.trim(),
+        meta: {
+            sapaan,
+            preferences: prefs,
+            prefSummary,
+            additionalServices,
+            hasPreferences: prefSummary.length > 0 || additionalServices.length > 0
+        }
+    };
+};
+
+/**
+ * Cek apakah lead punya preferensi yang bisa digunakan
+ */
+window.hasLeadPreferences = function (L) {
+    const prefs = L.preferences || {};
+    if (!prefs || Object.keys(prefs).length === 0) return false;
+
+    // Check for meaningful preferences
+    const meaningfulKeys = [
+        'pref_budget', 'budget',
+        'pref_tanggal_keberangkatan', 'tanggal_keberangkatan',
+        'pref_jumlah_jamaah', 'jumlah_jamaah',
+        'pref_tipe_kamar', 'tipe_kamar',
+        'pref_small_group', 'pref_audio_guide',
+        'pref_handling_bagasi', 'pref_manasik_privat',
+        'pref_dokumentasi', 'pref_hotel', 'pref_maskapai',
+        'pref_catatan_khusus', 'catatan_khusus', 'pref_muthawwif'
+    ];
+
+    return meaningfulKeys.some(key => prefs[key]);
+};
+
+/**
+ * Render tombol "Generate Pesan Preferensi" di accordion lead
+ */
+window.renderPreferenceMessageButton = function (L) {
+    const hasPrefs = window.hasLeadPreferences(L);
+
+    if (!hasPrefs) {
+        return ''; // Tidak ada tombol jika tidak ada preferensi
+    }
+
+    const encodedL = encodeURIComponent(JSON.stringify(L));
+
+    return `
+        <button class="btn-outline btn-mini" 
+            onclick="openPreferenceMessageModal('${encodedL}')"
+            style="padding:8px; justify-content:center; background:rgba(139,92,246,0.1); border-color:rgba(139,92,246,0.4); color:#8B5CF6;"
+            title="Generate pesan berdasarkan preferensi detail pelanggan">
+            <i class="fas fa-magic" style="font-size:0.85rem;"></i> Preferensi
+        </button>
+    `;
+};
+
+/**
+ * Modal untuk generate dan preview pesan berdasarkan preferensi
+ */
+window.openPreferenceMessageModal = function (encodedLead) {
+    const L = JSON.parse(decodeURIComponent(encodedLead));
+    const csName = localStorage.getItem('cs_nickname') || '';
+
+    const result = window.generatePreferenceBasedMessage(L, csName);
+
+    // Store current lead for later use
+    window._conciergeCurrentLead = L;
+
+    // Set message to WA text
+    const waText = document.getElementById('waText');
+    if (waText) {
+        waText.value = result.message;
+    }
+
+    // Switch to compose tab
+    window.switchWaTab('compose');
+
+    // Show success toast
+    showToast('✅ Pesan berhasil dibuat berdasarkan preferensi pelanggan!');
+};
+
 console.log('✅ AI Concierge Engine loaded — Munira CRM');

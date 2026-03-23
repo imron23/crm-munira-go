@@ -19,11 +19,22 @@ func NewTrashUsecase(db *pgxpool.Pool) domain.TrashUsecase {
 func (u *trashUsecase) GetTrash(ctx context.Context) ([]domain.TrashItem, error) {
 	var results []domain.TrashItem
 
-	// Assuming 'leads', 'programs', 'forms' tables all have is_deleted, deleted_at columns
-	// In production, we'd run three fast queries or a single UNION.
+	// Leads
+	leadsQ := `SELECT id, 'leads' as type, nama_lengkap as label, 
+			   CONCAT('Status: ', COALESCE(status_followup, 'N/A'), ' | ', COALESCE(whatsapp_num, '')) as meta, 
+			   deleted_at::text 
+			   FROM leads WHERE is_deleted = true AND deleted_at IS NOT NULL`
+	leadsRows, _ := u.db.Query(ctx, leadsQ)
+	defer leadsRows.Close()
+	for leadsRows.Next() {
+		var item domain.TrashItem
+		leadsRows.Scan(&item.ID, &item.Type, &item.Label, &item.Meta, &item.DeletedAt)
+		results = append(results, item)
+	}
 
 	// Programs
-	progQ := `SELECT id, 'programs' as type, nama_program as label, 'Kategori: Program' as meta, deleted_at::text 
+	progQ := `SELECT id, 'programs' as type, nama_program as label, 
+			  CONCAT('Kategori: Program') as meta, deleted_at::text 
 			  FROM programs WHERE is_deleted = true AND deleted_at IS NOT NULL`
 	progRows, _ := u.db.Query(ctx, progQ)
 	defer progRows.Close()
@@ -33,7 +44,19 @@ func (u *trashUsecase) GetTrash(ctx context.Context) ([]domain.TrashItem, error)
 		results = append(results, item)
 	}
 
-	// This is a direct migration mapping from Node.js Route.
+	// Forms
+	formsQ := `SELECT id, 'forms' as type, name as label, 
+			   CONCAT('Fields: ', COALESCE(json_array_length(fields::json), 0)) as meta, 
+			   deleted_at::text 
+			   FROM forms WHERE is_deleted = true AND deleted_at IS NOT NULL`
+	formsRows, _ := u.db.Query(ctx, formsQ)
+	defer formsRows.Close()
+	for formsRows.Next() {
+		var item domain.TrashItem
+		formsRows.Scan(&item.ID, &item.Type, &item.Label, &item.Meta, &item.DeletedAt)
+		results = append(results, item)
+	}
+
 	return results, nil
 }
 

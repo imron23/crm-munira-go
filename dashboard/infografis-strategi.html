@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategi Leads Generation E2E: Pesantren Bogor</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Helper Classes */
+        .glass-panel {
+            background: var(--surface-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.2);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* Header Area */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Strategy Node styling */
+        .phase-card {
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .phase-card.visible {
+            animation: slideUpFade 0.8s ease forwards;
+        }
+
+        .phase-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            color: #a78bfa;
+            border: 1px solid rgba(167, 139, 250, 0.3);
+        }
+
+        .phase-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .phase-budget {
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 8px;
+            color: #93c5fd;
+        }
+
+        .list-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .list-item i {
+            color: var(--primary-accent);
+            margin-top: 4px;
+        }
+
+        /* Progress/Checklist specific */
+        .checklist-wrapper {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .check-item input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: var(--primary-accent);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* KPI styling */
+        .kpi-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .kpi-bubble {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .kpi-bubble::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            z-index: -1;
+            border-radius: 22px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .kpi-bubble:hover::before {
+            opacity: 1;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+            color: transparent;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .line-connector {
+            height: 40px;
+            border-left: 2px dashed rgba(167, 139, 250, 0.3);
+            margin: 0 auto;
+            width: 2px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulsing-dot {
+            width: 12px; height: 12px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 1.5s infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .grid-3 { grid-template-columns: 1fr 1fr; }
+            .kpi-board { grid-template-columns: 1fr 1fr; }
+            h1 { font-size: 2.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .kpi-board { grid-template-columns: 1fr; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-badge">
+            <span class="pulsing-dot"></span> LIVE STRATEGY DECK
+        </div>
+        <h1><span class="gradient-text">Leads Generation E2E</span><br>Pesantren Bogor 15jt All-in</h1>
+        <p>Blueprint eksekusi digital marketing end-to-end. Memadukan Meta Ads, Landing Page High-Converting, dan Hybrid Follow-Up AI + Human.</p>
+    </header>
+
+    <!-- Foundation -->
+    <div class="glass-panel phase-card" style="margin-bottom: 24px; animation-delay: 0.1s;">
+        <div class="phase-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">
+            <i class="fas fa-bullseye"></i>
+        </div>
+        <h2 class="phase-title">1. Strategy Foundation <span class="phase-budget">Core Mindset</span></h2>
+        
+        <div class="grid-2" style="margin-top:20px; margin-bottom:0;">
+            <div>
+                <div class="list-item">
+                    <i class="fas fa-flag-checkered"></i>
+                    <div><strong>Goal Utama:</strong> 100 Santri Baru</div>
+                </div>
+                <div class="list-item">
+                    <i class="fas fa-wallet"></i>
+                    <div><strong>Total Budget:</strong> Rp 18.000.000</div>
+                </div>
+                <div class="list-item">
+                    <i class="fas fa-crosshairs"></i>
+                    <div><strong>Target CAC:</strong> Rp 180.000 / Santri</div>
+                </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; border-left: 4px solid var(--primary-accent);">
+                <strong style="color:var(--primary-accent); display:block; margin-bottom:8px;">Unique Selling Proposition (USP)</strong>
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <span style="background:rgba(59,130,246,0.2); padding:4px 10px; border-radius:6px; font-size:0.85rem;">Flat 15jt</span>
+                    <span style="background:rgba(59,130,246,0.2); padding:4px 10px; border-radius:6px; font-size:0.85rem;">Bogor Sejuk</span>
+                    <span style="background:rgba(59,130,246,0.2); padding:4px 10px; border-radius:6px; font-size:0.85rem;">Sesuai Sunnah</span>
+                    <span style="background:rgba(59,130,246,0.2); padding:4px 10px; border-radius:6px; font-size:0.85rem;">Fasilitas Premium</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="line-connector"></div>
+
+    <!-- Ads Phases -->
+    <div class="grid-2">
+        <!-- Phase 1 -->
+        <div class="glass-panel phase-card" style="animation-delay: 0.2s;">
+            <div class="phase-icon">
+                <i class="fas fa-vial"></i>
+            </div>
+            <h2 class="phase-title">2. Testing Phase <span class="phase-budget">Rp 3.6jt (20%)</span></h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">Meta Ads Objective: Leads (Instant Forms / Web)</p>
+            
+            <div class="list-item">
+                <i class="fas fa-users-viewfinder"></i>
+                <div><strong>Audience:</strong> Parents (30-45th), Islamic Edu, Tahfizh, Homeschooling.</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div><strong>Geo-Fencing:</strong> Bogor (Rad 20km), JKT, Depok, BKS, TGR.</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-photo-video"></i>
+                <div>
+                    <strong>Creative A/B Test:</strong>
+                    <ul style="margin-left:20px; margin-top:4px; font-size:0.85rem; color:#cbd5e1;">
+                        <li>Video Cinematic (Nyaman & Bergizi)</li>
+                        <li>Single Image (Poster Transparan 15jt)</li>
+                        <li>Testimonial Wali Santri (Social Proof)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="glass-panel phase-card" style="animation-delay: 0.3s;">
+            <div class="phase-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2 class="phase-title">3. Scaling Phase <span class="phase-budget">Rp 14.4jt (80%)</span></h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">Alokasikan budget ke Winning Creative dengan CPL terendah.</p>
+            
+            <div class="list-item">
+                <i class="fas fa-sync-alt"></i>
+                <div><strong>Retargeting Funnel:</strong> Target klik iklan namun belum isi form. "Sisa 15 Kursi Lagi" (Urgency).</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-robot"></i>
+                <div><strong>Advantage+ Audience:</strong> AI Meta profiling orang tua mirip pendaftar sukses.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conversion & Follow Up -->
+    <div class="grid-2">
+        <div class="glass-panel phase-card" style="animation-delay: 0.4s;">
+            <div class="phase-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899; border-color: rgba(236, 72, 153, 0.3);">
+                <i class="fas fa-filter"></i>
+            </div>
+            <h2 class="phase-title">4. Conversion Engine</h2>
+            
+            <div class="list-item">
+                <i class="fas fa-heading"></i>
+                <div><strong>Headline LP:</strong> "Beri Hadiah Terbaik untuk Masa Depannya."</div>
+            </div>
+            
+            <div class="checklist-wrapper">
+                <div style="font-weight:600; font-size:0.9rem; margin-bottom:8px; color:#f8fafc;">Progressive Form (Pilih Minat):</div>
+                <label class="check-item"><input type="checkbox" checked readonly> <span><strong>Tahfizh:</strong> Anak hafal Mutqin</span></label>
+                <label class="check-item"><input type="checkbox" checked readonly> <span><strong>Kenyamanan:</strong> Asrama bersih manusiawi</span></label>
+                <label class="check-item"><input type="checkbox" checked readonly> <span><strong>Adab:</strong> Karakter sesuai sunnah</span></label>
+                <label class="check-item"><input type="checkbox" checked readonly> <span><strong>Minat:</strong> Olahraga / Bahasa / Bisnis</span></label>
+                <label class="check-item"><input type="checkbox" checked readonly> <span><strong>Financial:</strong> Skema & Transparansi Biaya</span></label>
+            </div>
+        </div>
+
+        <div class="glass-panel phase-card" style="animation-delay: 0.5s;">
+            <div class="phase-icon" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9; border-color: rgba(14, 165, 233, 0.3);">
+                <i class="fas fa-headset"></i>
+            </div>
+            <h2 class="phase-title">5. Hybrid Follow-Up</h2>
+            
+            <div class="list-item" style="margin-top:16px;">
+                <i class="fab fa-whatsapp"></i>
+                <div><strong>Instant Auto-WA:</strong> API blast + Brosur PDF sesaat setelah submit.</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-microchip"></i>
+                <div><strong>AI Profiling:</strong> CS paham kebutuhan spesifik berdasar checklist form lead.</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-phone-alt"></i>
+                <div><strong>Personal Touch:</strong> Telepon CS dengan script yang sangat relevan.</div>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-door-open"></i>
+                <div><strong>Offline Action:</strong> Closing via "Open House" atau "Trial Class" di lokasi.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI Dashboard -->
+    <h2 style="text-align: center; margin-top: 60px; font-weight: 700;">6. KPI Target & Evaluasi</h2>
+    <div class="kpi-board">
+        <div class="kpi-bubble phase-card" style="animation-delay: 0.6s;">
+            <div class="kpi-label">Click Through Rate</div>
+            <div class="kpi-value">> 1.2%</div>
+            <div style="font-size:0.75rem; color:#64748b;">Standar Iklan Menarik</div>
+        </div>
+        <div class="kpi-bubble phase-card" style="animation-delay: 0.7s;">
+            <div class="kpi-label">Cost Per Lead</div>
+            <div class="kpi-value">20-40k</div>
+            <div style="font-size:0.75rem; color:#64748b;">Rupiah per Form Submit</div>
+        </div>
+        <div class="kpi-bubble phase-card" style="animation-delay: 0.8s;">
+            <div class="kpi-label">Lead to Survey</div>
+            <div class="kpi-value">> 25%</div>
+            <div style="font-size:0.75rem; color:#64748b;">Mau Kunjung / Trial</div>
+        </div>
+        <div class="kpi-bubble phase-card" style="animation-delay: 0.9s;">
+            <div class="kpi-label" style="color:#10b981;">Closing Rate</div>
+            <div class="kpi-value" style="background: #10b981; -webkit-background-clip: text; color: transparent;">10%</div>
+            <div style="font-size:0.75rem; color:#64748b;">Dari Total Lead Masuk</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Trigger entrance animations when scrolled into view
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll('.phase-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

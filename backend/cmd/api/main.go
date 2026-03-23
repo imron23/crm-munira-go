@@ -59,20 +59,26 @@ func main() {
 	router.Static("/dashboard", dashboardPath)
 
 	// Melayani root file seperti index.html yang lama (jika ada) atau lp
-	rootPath := "../../"
-	if _, err := os.Stat("/lp-2-long/index.html"); err == nil {
-		rootPath = "/"
-	} else if _, err := os.Stat("lp-2-long/index.html"); err == nil {
-		rootPath = "./"
-	} else if _, err := os.Stat("../lp-2-long/index.html"); err == nil {
-		rootPath = "../"
+	rootPath := "../../public-lp/"
+	if _, err := os.Stat("/public-lp"); err == nil {
+		rootPath = "/public-lp/"
+	} else if _, err := os.Stat("public-lp"); err == nil {
+		rootPath = "./public-lp/"
+	} else if _, err := os.Stat("../public-lp"); err == nil {
+		rootPath = "../public-lp/"
 	}
 
 	router.StaticFile("/", rootPath+"lp-2-long/index.html")
 	router.StaticFile("/logo.png", rootPath+"logo.png")
+	
 	router.Static("/assets", rootPath+"assets")
-	router.Static("/lp-liburan", rootPath+"lp-liburan")
+	router.Static("/jualan-lp", rootPath+"jualan-lp")
 	router.Static("/lp-2-long", rootPath+"lp-2-long")
+	router.Static("/lp-bakti-anak", rootPath+"lp-bakti-anak")
+	router.Static("/lp-itikaf-premium", rootPath+"lp-itikaf-premium")
+	router.Static("/lp-liburan", rootPath+"lp-liburan")
+	router.Static("/lp-liburan-short", rootPath+"lp-liburan-short")
+	router.Static("/lp-liburan-tenang", rootPath+"lp-liburan-tenang")
 	router.Static("/lp-spiritual-journey", rootPath+"lp-spiritual-journey")
 
 	api := router.Group("/api")

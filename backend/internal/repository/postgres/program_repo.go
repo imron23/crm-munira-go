@@ -47,14 +47,34 @@ func (r *programRepo) GetProgramByID(ctx context.Context, id string) (*domain.Pr
 }
 
 func (r *programRepo) CreateProgram(ctx context.Context, p *domain.Program) error {
+	// Handle JSON fields - convert empty string to empty array
+	packages := p.Packages
+	if packages == "" || packages == "null" {
+		packages = "[]"
+	}
+	departureDates := p.DepartureDates
+	if departureDates == "" || departureDates == "null" {
+		departureDates = "[]"
+	}
+
 	q := `INSERT INTO programs (nama_program, poster_url, deskripsi, landing_url, departure_dates, sort_order, is_active, packages)
-		  VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`
-	return r.db.QueryRow(ctx, q, p.NamaProgram, p.PosterURL, p.Deskripsi, p.LandingURL, p.DepartureDates, p.SortOrder, p.IsActive, p.Packages).Scan(&p.ID)
+		  VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8::jsonb) RETURNING id`
+	return r.db.QueryRow(ctx, q, p.NamaProgram, p.PosterURL, p.Deskripsi, p.LandingURL, departureDates, p.SortOrder, p.IsActive, packages).Scan(&p.ID)
 }
 
 func (r *programRepo) UpdateProgram(ctx context.Context, id string, p *domain.Program) error {
-	q := `UPDATE programs SET nama_program=$1, poster_url=$2, deskripsi=$3, landing_url=$4, departure_dates=$5, sort_order=$6, is_active=$7, packages=$8, updated_at=$9 WHERE id=$10`
-	_, err := r.db.Exec(ctx, q, p.NamaProgram, p.PosterURL, p.Deskripsi, p.LandingURL, p.DepartureDates, p.SortOrder, p.IsActive, p.Packages, time.Now(), id)
+	// Handle JSON fields - convert empty string to empty array
+	packages := p.Packages
+	if packages == "" || packages == "null" {
+		packages = "[]"
+	}
+	departureDates := p.DepartureDates
+	if departureDates == "" || departureDates == "null" {
+		departureDates = "[]"
+	}
+
+	q := `UPDATE programs SET nama_program=$1, poster_url=$2, deskripsi=$3, landing_url=$4, departure_dates=$5::jsonb, sort_order=$6, is_active=$7, packages=$8::jsonb, updated_at=$9 WHERE id=$10`
+	_, err := r.db.Exec(ctx, q, p.NamaProgram, p.PosterURL, p.Deskripsi, p.LandingURL, departureDates, p.SortOrder, p.IsActive, packages, time.Now(), id)
 	return err
 }
 

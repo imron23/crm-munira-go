@@ -8,7 +8,7 @@
 set -e
 
 VPS_HOST="43.157.202.165"
-VPS_USER="root"
+VPS_USER="ubuntu"
 REMOTE_DIR="/opt/crm-munira"
 
 echo "============================================"

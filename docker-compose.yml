@@ -20,11 +20,7 @@ services:
         condition: service_healthy
     volumes:
       - ./dashboard:/dashboard
-      - ./lp-2-long:/lp-2-long
-      - ./lp-liburan:/lp-liburan
-      - ./assets:/assets
-      - ./index.html:/index.html
-      - ./logo.png:/logo.png
+      - ./public-lp:/public-lp
     restart: always
 
   # ─── PostgreSQL Database ──────────────────────────────────────────────────────

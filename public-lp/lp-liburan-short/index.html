@@ -1620,472 +1620,371 @@
                 Isi 3 data ini, Konsultan Munira World akan menghubungi Anda via WhatsApp dalam 1×24 jam.
             </p>
 
-            <!-- ═══ SHORT FORM ═══ -->
+            <!-- ═══ PROGRESSIVE SHORT FORM (Umrah) ═══ -->
             <style>
-                .sf-wrap {
-                    background: #fff;
+                .sf-prog-wrap {
+                    background: #ffffff;
                     border-radius: 20px;
-                    padding: 40px 36px;
-                    max-width: 620px;
+                    padding: 36px 32px;
+                    max-width: 580px;
                     margin: 32px auto 0;
-                    box-shadow: 0 16px 60px rgba(26, 54, 93, .1);
+                    box-shadow: 0 16px 60px rgba(26,54,93,0.1);
                     position: relative;
-                    overflow: hidden;
                 }
-
-                .sf-wrap::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 4px;
+                .sf-prog-wrap::before {
+                    content: ''; position: absolute; top:0; left:0; right:0; height: 4px;
                     background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+                    border-radius: 20px 20px 0 0;
+                }
+                
+                /* Progress Bar */
+                .sf-prog-label {
+                    font-size: 0.8rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+                }
+                .sf-prog-track {
+                    width: 100%; height: 6px; background: #e2e8f0; border-radius: 10px; margin-bottom: 28px; overflow: hidden;
+                }
+                .sf-prog-bar {
+                    height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-dark)); width: 25%; transition: width 0.3s ease;
                 }
 
-                .sf-wrap .sf-group {
-                    margin-bottom: 18px;
+                /* Steps */
+                .sf-step { display: none; animation: slideUp 0.35s ease forwards; }
+                .sf-step.active { display: block; }
+                @keyframes slideUp { from {opacity:0; transform:translateY(15px);} to {opacity:1; transform:translateY(0);} }
+
+                .sf-step-title {
+                    font-size: 1.35rem; font-family: 'Playfair Display', serif; font-weight: 800; color: var(--navy); margin-bottom: 20px; text-align: center;
                 }
 
-                .sf-wrap .sf-group label {
-                    display: block;
-                    font-weight: 700;
-                    font-size: .88rem;
-                    color: #1a365d;
-                    margin-bottom: 6px;
+                /* Inputs */
+                .sf-group { margin-bottom: 20px; text-align: left; }
+                .sf-group label {
+                    display: block; font-weight: 700; font-size: 0.9rem; color: #1a365d; margin-bottom: 6px; font-family: 'Montserrat', sans-serif;
                 }
-
-                .sf-wrap .sf-group label .req {
-                    color: #e53e3e;
-                }
-
+                .sf-group label .req { color: #e53e3e; }
                 .sf-inp {
-                    width: 100%;
-                    padding: 12px 14px;
-                    border: 1.5px solid #cbd5e0;
-                    border-radius: 10px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-size: .95rem;
-                    color: #2c3e50;
-                    background: #f8fafc;
-                    transition: .25s;
-                    box-sizing: border-box;
-                    outline: none;
-                    appearance: none;
+                    width: 100%; padding: 14px 16px; border: 1.5px solid #cbd5e0; border-radius: 12px; font-family: 'Montserrat', sans-serif;
+                    font-size: 0.95rem; color: #2d3748; background: #f8fafc; transition: 0.25s; box-sizing: border-box;
                 }
+                .sf-inp:focus { border-color: var(--gold); background: #fff; box-shadow: 0 0 0 3px rgba(197,160,89,0.15); outline: none; }
+                .sf-inp.error { border-color: #e53e3e; background: #fff5f5; }
+                .sf-err { font-size: 0.8rem; color: #e53e3e; margin-top: 5px; font-weight: 600; display: none; }
+                .sf-err.show { display: block; }
+                .sf-hint { font-size: 0.8rem; color: #718096; margin-top: 5px; }
 
-                .sf-inp:focus {
-                    border-color: var(--gold);
-                    box-shadow: 0 0 0 3px rgba(197, 160, 89, .18);
-                    background: #fff;
-                }
-
-                .sf-inp.sf-err {
-                    border-color: #e53e3e;
-                    background: #fff5f5;
-                }
-
-                .sf-errmsg {
-                    font-size: .8rem;
-                    color: #e53e3e;
-                    margin-top: 4px;
-                    display: none;
-                    font-weight: 600;
-                }
-
-                .sf-submit-btn {
-                    width: 100%;
-                    padding: 16px;
-                    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-                    color: var(--navy);
-                    border: none;
-                    border-radius: 50px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-weight: 800;
-                    font-size: 1.05rem;
-                    cursor: pointer;
-                    transition: .3s;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                    margin-top: 8px;
-                    box-shadow: 0 4px 14px rgba(197, 160, 89, .3);
-                }
-
-                .sf-submit-btn:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 22px rgba(197, 160, 89, .45);
-                }
-
-                .sf-trust {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    justify-content: center;
-                    margin-top: 14px;
-                    font-size: .8rem;
-                    color: #276749;
-                    background: #f0fdf4;
-                    padding: 10px 14px;
-                    border-radius: 8px;
-                    border: 1px solid #c6f6d5;
-                }
-
-                @media(max-width:600px) {
-                    .sf-wrap {
-                        padding: 24px 16px;
-                    }
-                }
-            </style>
-
-            <style>
-                /* Kecamatan Autocomplete */
-                .sf-ac-wrap {
-                    position: relative;
-                }
-
+                /* Autocomplete */
+                .sf-ac-wrap { position: relative; }
                 .sf-ac-dropdown {
-                    position: absolute;
-                    top: calc(100% + 4px);
-                    left: 0;
-                    right: 0;
-                    background: #fff;
-                    border: 1.5px solid #C5A059;
-                    border-radius: 10px;
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-                    z-index: 100;
-                    max-height: 220px;
-                    overflow-y: auto;
-                    display: none;
+                    position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1.5px solid var(--gold); border-radius: 10px;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; z-index: 100; display: none; margin-top: 4px;
                 }
+                .sf-ac-dropdown.open { display: block; }
+                .sf-ac-item { padding: 12px 16px; font-size: 0.9rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+                .sf-ac-item:hover { background: #fefcfa; color: var(--gold-dark); }
+                .sf-ac-item strong { color: var(--navy); display: block; }
+                .sf-ac-item span { font-size: 0.8rem; color: #718096; }
+                .sf-badge { display: inline-flex; align-items: center; background: #fefcfa; border: 1px solid var(--gold); color: var(--gold-dark); padding: 4px 12px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-top: 8px; }
 
-                .sf-ac-dropdown.open {
-                    display: block;
-                }
+                /* Pax & Usia */
+                .pax-ctrl { display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #cbd5e0; padding: 10px 16px; border-radius: 12px; }
+                .pax-ctrl label { flex: 1; margin: 0; font-size: 0.95rem; }
+                .btn-pax { width: 36px; height: 36px; border-radius: 8px; background: var(--navy); color: #fff; border: none; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+                .btn-pax:active { transform: scale(0.95); }
+                .pax-num { font-size: 1.2rem; font-weight: 800; color: var(--gold-dark); min-width: 24px; text-align: center; }
+                
+                .usia-list { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+                .usia-card { display: flex; align-items: center; gap: 12px; background: rgba(197,160,89,0.05); padding: 12px; border-radius: 10px; border: 1px solid rgba(197,160,89,0.2); }
+                .usia-card span.idx { width: 28px; height: 28px; background: var(--gold); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.8rem; font-weight: 700; }
+                .usia-card input { flex:1; padding: 10px; border: 1px solid #cbd5e0; border-radius: 8px; text-align: center; font-weight: 700; }
 
-                .sf-ac-item {
-                    padding: 10px 14px;
-                    cursor: pointer;
-                    font-size: 0.88rem;
-                    border-bottom: 1px solid #f0f0f0;
-                    transition: background 0.15s;
+                /* Buttons */
+                .btn-next, .btn-submit {
+                    width: 100%; padding: 16px; border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
                 }
+                .btn-next { background: var(--navy); color: #fff; }
+                .btn-next:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,54,93,0.2); }
+                .btn-submit { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: var(--navy); box-shadow: 0 8px 20px rgba(197,160,89,0.25); }
+                .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(197,160,89,0.4); }
+                .btn-back { width: 100%; padding: 12px; background: none; border: none; color: #718096; font-weight: 600; font-family: 'Montserrat', sans-serif; cursor: pointer; margin-top: 4px; }
+                .btn-back:hover { color: var(--navy); }
 
-                .sf-ac-item:last-child {
-                    border-bottom: none;
-                }
+                /* Summary */
+                .sum-row { display: flex; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 0.9rem; text-align: left;}
+                .sum-row:last-child { border-bottom: none; }
+                .sum-label { width: 100px; color: #718096; font-weight: 600; }
+                .sum-val { flex: 1; color: var(--navy); font-weight: 700; }
 
-                .sf-ac-item:hover,
-                .sf-ac-item.active {
-                    background: #FEF9EC;
-                    color: #B7914C;
-                }
+                /* Thank you */
+                #sfThankYou { display: none; text-align: center; padding: 20px 0; }
+                .ty-circle { width: 80px; height: 80px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--white-pure); margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(197,160,89,0.3); animation: pop 0.5s ease; }
+                @keyframes pop { 0%{transform:scale(0)} 80%{transform:scale(1.1)} 100%{transform:scale(1)} }
 
-                .sf-ac-item strong {
-                    color: #1a365d;
-                    display: block;
-                    font-size: 0.9rem;
-                }
-
-                .sf-ac-item span {
-                    color: #718096;
-                    font-size: 0.78rem;
-                }
-
-                .sf-ac-hint {
-                    font-size: 0.75rem;
-                    color: #a0aec0;
-                    margin-top: 5px;
-                }
-
-                .sf-ac-loading {
-                    padding: 12px 14px;
-                    color: #a0aec0;
-                    font-size: 0.83rem;
-                }
+                @media(max-width: 600px) { .sf-prog-wrap { padding: 28px 20px; } }
             </style>
 
-            <div class="sf-wrap">
-                <form id="shortLeadForm">
-                    <!-- Nama -->
-                    <div class="sf-group">
-                        <label for="sfNama">Nama Lengkap <span class="req">*</span></label>
-                        <input type="text" id="sfNama" class="sf-inp" placeholder="Contoh: Budi Santoso"
-                            autocomplete="name">
-                        <div class="sf-errmsg" id="errNama">Nama harus diisi.</div>
-                    </div>
+            <div class="sf-prog-wrap">
+                <!-- Progress -->
+                <div class="sf-prog-label" id="pLabel">Langkah 1 dari 4</div>
+                <div class="sf-prog-track"><div class="sf-prog-bar" id="pBar"></div></div>
 
-                    <!-- WhatsApp -->
-                    <div class="sf-group">
-                        <label for="sfHp">Nomor WhatsApp Aktif <span class="req">*</span></label>
-                        <input type="tel" id="sfHp" class="sf-inp" placeholder="Contoh: 08123456789" autocomplete="tel">
-                        <div class="sf-errmsg" id="errHp">Masukkan nomor WA yang valid.</div>
-                    </div>
-
-                    <!-- Domisili — Smart Autocomplete (ketik 3 huruf) -->
-                    <div class="sf-group">
-                        <label for="sfDomisiliInput">Kecamatan Domisili <span class="req">*</span></label>
-                        <div class="sf-ac-wrap">
-                            <input type="text" id="sfDomisiliInput" class="sf-inp"
-                                placeholder="Ketik 3 huruf nama kecamatan / kota..." autocomplete="off"
-                                spellcheck="false">
-                            <div class="sf-ac-dropdown" id="sfDomisiliDropdown"></div>
+                <div id="progForm">
+                    <!-- Step 1: Identitas -->
+                    <div class="sf-step active" id="step1">
+                        <div class="sf-step-title">Identitas Jamaah</div>
+                        <div class="sf-group">
+                            <label>Nama Lengkap <span class="req">*</span></label>
+                            <input type="text" id="sfNama" class="sf-inp" placeholder="Cth: Budi Santoso" autocomplete="name">
+                            <div class="sf-err" id="eNama">Nama harus diisi</div>
                         </div>
-                        <!-- Hidden values -->
-                        <input type="hidden" id="sfKecamatan" value="">
-                        <input type="hidden" id="sfKabupaten" value="">
-                        <input type="hidden" id="sfProvinsi" value="">
-                        <div class="sf-ac-hint" id="sfDomisiliHint">
-                            <i class="fas fa-search" style="margin-right:4px;"></i>Mulai ketik untuk cari kecamatan...
+                        <div class="sf-group">
+                            <label>WhatsApp Aktif <span class="req">*</span></label>
+                            <input type="tel" id="sfHp" class="sf-inp" placeholder="Cth: 08123456789" autocomplete="tel">
+                            <div class="sf-err" id="eHp">Nomor HP tidak valid (min 9 digit)</div>
+                            <div class="sf-hint"><i class="fas fa-lock"></i> Data aman, hanya untuk CS menghubungi Anda.</div>
                         </div>
-                        <div class="sf-errmsg" id="errKecamatan">Pilih kecamatan domisili Anda.</div>
+                        <button class="btn-next" onclick="nextStep(1)"><i class="fas fa-arrow-right"></i> Lanjut</button>
                     </div>
 
-                    <!-- Paket -->
-                    <div class="sf-group">
-                        <label for="sfPaket">Paket yang Diminati <span style="color:#718096;">(opsional)</span></label>
-                        <select id="sfPaket" class="sf-inp">
-                            <option value="">— Belum tahu / tanya dulu —</option>
-                            <option value="Paket Silver - Quad (Rp 37.9 Jt)">Silver - Quad (Rp 37.9 Jt)</option>
-                            <option value="Paket Silver - Triple (Rp 39.9 Jt)">Silver - Triple (Rp 39.9 Jt)</option>
-                            <option value="Paket Silver - Double (Rp 42.9 Jt)">Silver - Double (Rp 42.9 Jt)</option>
-                            <option value="Paket Gold - Quad (Rp 41.9 Jt)">Gold - Quad (Rp 41.9 Jt)</option>
-                            <option value="Paket Gold - Triple (Rp 43.9 Jt)">Gold - Triple (Rp 43.9 Jt)</option>
-                            <option value="Paket Gold - Double (Rp 46.9 Jt)">Gold - Double (Rp 46.9 Jt)</option>
-                        </select>
+                    <!-- Step 2: Lokasi & Paket -->
+                    <div class="sf-step" id="step2">
+                        <div class="sf-step-title">Domisili & Pilihan</div>
+                        <div class="sf-group">
+                            <label>Kecamatan Domisili <span class="req">*</span></label>
+                            <div class="sf-ac-wrap">
+                                <input type="text" id="sfKecInp" class="sf-inp" placeholder="Ketik 3 huruf kecamatan..." autocomplete="off">
+                                <div class="sf-ac-dropdown" id="sfKecDd"></div>
+                            </div>
+                            <div id="sfKecBadge"></div>
+                            <div class="sf-err" id="eKec">Pilih dari dropdown yang muncul</div>
+                        </div>
+                        <div class="sf-group">
+                            <label>Paket yang diminati <span style="color:#718096">(opsional)</span></label>
+                            <select id="sfPaket" class="sf-inp">
+                                <option value="">— Belum tahu / Minta rekomendasi —</option>
+                                <option value="Promo Liburan - Quad">Promo Liburan - Quad (Rp 37.9 Jt)</option>
+                                <option value="Promo Liburan - Double">Promo Liburan - Double (Rp 42.9 Jt)</option>
+                            </select>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(2)"><i class="fas fa-arrow-right"></i> Lanjut</button>
+                        <button class="btn-back" onclick="prevStep(2)">Kembali</button>
                     </div>
 
-                    <button type="submit" class="sf-submit-btn" id="sfSubmitBtn">
-                        <i class="fab fa-whatsapp"></i> Konsultasi Gratis via WhatsApp
-                    </button>
-                    <div class="sf-trust">
-                        <i class="fas fa-shield-alt"></i> Data aman. Tidak dijual ke pihak manapun.
+                    <!-- Step 3: Jamaah & Usia -->
+                    <div class="sf-step" id="step3">
+                        <div class="sf-step-title">Jumlah Jamaah</div>
+                        <div class="sf-group">
+                            <label>Berapa pax yang akan berangkat?</label>
+                            <div class="pax-ctrl">
+                                <button class="btn-pax" onclick="changePax(-1)">-</button>
+                                <div class="pax-num" id="paxVal">1</div>
+                                <label>Jamaah</label>
+                                <button class="btn-pax" onclick="changePax(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="sf-group">
+                            <label>Usia Jamaah <span class="req">*</span></label>
+                            <div class="usia-list" id="usiaList"></div>
+                            <div class="sf-err" id="eUsia">Lengkapi usia semua jamaah</div>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(3)"><i class="fas fa-arrow-right"></i> Lanjut</button>
+                        <button class="btn-back" onclick="prevStep(3)">Kembali</button>
                     </div>
-                </form>
+
+                    <!-- Step 4: Review -->
+                    <div class="sf-step" id="step4">
+                        <div class="sf-step-title">Review Data</div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:20px;">
+                            <div class="sum-row"><span class="sum-label">Nama</span><span class="sum-val" id="sNama"></span></div>
+                            <div class="sum-row"><span class="sum-label">WhatsApp</span><span class="sum-val" id="sHp"></span></div>
+                            <div class="sum-row"><span class="sum-label">Domisili</span><span class="sum-val" id="sDom"></span></div>
+                            <div class="sum-row"><span class="sum-label">Jamaah</span><span class="sum-val" id="sP"><span id="sPax"></span></span></div>
+                            <div class="sum-row"><span class="sum-label" style="line-height:1.5;">Usia</span><span class="sum-val" id="sUsia" style="line-height:1.5; font-size:0.85rem;"></span></div>
+                        </div>
+                        
+                        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; margin-bottom:12px;">
+                            <input type="checkbox" id="sfSetuju" checked style="width:18px;height:18px;margin-top:2px;accent-color:var(--gold);">
+                            <span style="font-size:0.85rem; color:var(--navy); font-weight:600;">Saya bersedia dihubungi Konsultan Munira World dalam waktu 1-2 jam kerja.</span>
+                        </label>
+                        <div class="sf-err" id="eSetuju">Centang kotak persetujuan</div>
+
+                        <button class="btn-submit" id="btnSubmit" onclick="submitForm()"><i class="fab fa-whatsapp"></i> Amankan Seat via WA</button>
+                        <button class="btn-back" onclick="prevStep(4)">Ubah Data</button>
+                    </div>
+                </div>
+
+                <!-- Thank You -->
+                <div id="sfThankYou">
+                    <div class="ty-circle"><i class="fas fa-check"></i></div>
+                    <div class="sf-step-title">Pendaftaran Berhasil!</div>
+                    <p style="color:#4a5568; font-size:0.95rem; line-height:1.6; margin-bottom:20px;">
+                        Terima kasih, data Anda telah kami terima dengan aman. Konsultan kami akan langsung menghubungi Anda di WhatsApp dalam <strong>maksimal 2 jam kerja</strong>.
+                    </p>
+                    <div style="display:inline-flex; align-items:center; gap:8px; background:#f0fdf4; padding:8px 16px; border-radius:50px; color:#16a34a; font-weight:600; font-size:0.85rem;">
+                        <i class="fas fa-clock"></i> Estimasi Respon Cepat
+                    </div>
+                </div>
             </div>
 
             <script>
-                /* ── Kecamatan Autocomplete for Short Form ── */
-                (function () {
-                    const API_BASE = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
-                        ? 'http://localhost:8080/api' : '/api';
+                // State
+                let sfState = { nama:'', hp:'', kec:'', kab:'', prov:'', paket:'', pax:1, usia:[] };
+                let acSelected = null, acDebounce = null;
 
-                    const inp = document.getElementById('sfDomisiliInput');
-                    const dd = document.getElementById('sfDomisiliDropdown');
-                    const hidKec = document.getElementById('sfKecamatan');
-                    const hidKab = document.getElementById('sfKabupaten');
-                    const hidProv = document.getElementById('sfProvinsi');
-                    const hint = document.getElementById('sfDomisiliHint');
-                    let debounceTimer, activeIdx = -1, lastResults = [];
+                function updateProgress(step) {
+                    document.getElementById('pLabel').textContent = 'Langkah ' + step + ' dari 4';
+                    document.getElementById('pBar').style.width = (step * 25) + '%';
+                }
 
-                    function highlight(text, q) {
-                        if (!q) return text;
-                        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-                        return text.replace(re, '<mark style="background:#FEF9EC;color:#B7914C;font-weight:700;border-radius:2px;">$1</mark>');
-                    }
+                function showErr(id, show) {
+                    const el = document.getElementById(id);
+                    if(show) { el.classList.add('show'); el.previousElementSibling?.classList?.add('error'); }
+                    else { el.classList.remove('show'); el.previousElementSibling?.classList?.remove('error'); }
+                }
 
-                    function showDropdown(results, q) {
-                        lastResults = results;
-                        activeIdx = -1;
-                        if (!results.length) {
-                            dd.innerHTML = '<div class="sf-ac-loading"><i class="fas fa-search-minus" style="margin-right:6px;"></i>Tidak ditemukan. Coba kata lain.</div>';
-                        } else {
-                            dd.innerHTML = results.map((r, i) =>
-                                `<div class="sf-ac-item" data-idx="${i}">
-                                <strong>${highlight(r.kecamatan, q)}</strong>
-                                <span>${highlight(r.kota, q)}, ${r.provinsi}</span>
-                            </div>`
-                            ).join('');
-                            dd.querySelectorAll('.sf-ac-item').forEach(el => {
-                                el.addEventListener('mousedown', (e) => {
-                                    e.preventDefault();
-                                    selectItem(parseInt(el.dataset.idx));
-                                });
-                            });
-                        }
-                        dd.classList.add('open');
-                    }
-
-                    function selectItem(idx) {
-                        const r = lastResults[idx];
-                        if (!r) return;
-                        inp.value = `${r.kecamatan}, ${r.kota}`;
-                        hidKec.value = r.kecamatan;
-                        hidKab.value = r.kota;
-                        hidProv.value = r.provinsi;
-                        hint.innerHTML = `<i class="fas fa-check-circle" style="color:#16a34a; margin-right:4px;"></i><span style="color:#16a34a; font-weight:600;">${r.kecamatan}, ${r.kota}, ${r.provinsi}</span>`;
-                        inp.classList.remove('sf-err');
-                        document.getElementById('errKecamatan').style.display = 'none';
-                        dd.classList.remove('open');
-                        inp.removeAttribute('data-incomplete');
-                    }
-
-                    function clearSelection() {
-                        hidKec.value = ''; hidKab.value = ''; hidProv.value = '';
-                        inp.setAttribute('data-incomplete', '1');
-                    }
-
-                    inp.addEventListener('input', function () {
-                        clearSelection();
-                        const q = this.value.trim();
-                        if (q.length < 3) {
-                            dd.classList.remove('open');
-                            hint.innerHTML = '<i class="fas fa-keyboard" style="margin-right:4px;"></i>Ketik minimal 3 huruf...';
-                            return;
-                        }
-                        hint.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:4px;"></i>Mencari...';
-                        clearTimeout(debounceTimer);
-                        debounceTimer = setTimeout(async () => {
-                            try {
-                                const res = await fetch(`${API_BASE}/wilayah/search?q=${encodeURIComponent(q)}`);
-                                const data = await res.json();
-                                if (data.message && !data.data.length) {
-                                    dd.innerHTML = `<div class="sf-ac-loading"><i class="fas fa-hourglass-half" style="margin-right:6px;"></i>${data.message}</div>`;
-                                    dd.classList.add('open');
-                                    hint.innerHTML = '';
-                                    return;
-                                }
-                                showDropdown(data.data || [], q);
-                                hint.innerHTML = data.data.length
-                                    ? `<i class="fas fa-map-marker-alt" style="color:#C5A059; margin-right:4px;"></i>${data.data.length} kecamatan ditemukan`
-                                    : '';
-                            } catch (e) {
-                                dd.innerHTML = '<div class="sf-ac-loading">Gagal memuat data wilayah.</div>';
-                                dd.classList.add('open');
-                            }
-                        }, 300);
-                    });
-
-                    inp.addEventListener('keydown', function (e) {
-                        const items = dd.querySelectorAll('.sf-ac-item');
-                        if (!items.length) return;
-                        if (e.key === 'ArrowDown') {
-                            e.preventDefault();
-                            activeIdx = Math.min(activeIdx + 1, items.length - 1);
-                        } else if (e.key === 'ArrowUp') {
-                            e.preventDefault();
-                            activeIdx = Math.max(activeIdx - 1, 0);
-                        } else if (e.key === 'Enter' && activeIdx >= 0) {
-                            e.preventDefault();
-                            selectItem(activeIdx); return;
-                        } else if (e.key === 'Escape') {
-                            dd.classList.remove('open'); return;
-                        }
-                        items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
-                        if (activeIdx >= 0) items[activeIdx].scrollIntoView({ block: 'nearest' });
-                    });
-
-                    document.addEventListener('click', (e) => {
-                        if (!inp.contains(e.target) && !dd.contains(e.target)) dd.classList.remove('open');
-                    });
-                })();
-            </script>
-
-            <script>
-                /* ── Short Form Submit Handler ── */
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Timeout 20 detik untuk menghapus aturan wajib isi kecamatan
-                    let isKecamatanMandatory = true;
-                    setTimeout(() => {
-                        isKecamatanMandatory = false;
-                    }, 20000);
-
-                    document.getElementById('shortLeadForm').addEventListener('submit', function (e) {
-                        e.preventDefault();
-                        let valid = true;
-
+                function nextStep(step) {
+                    // Validasi Step 1
+                    if(step === 1) {
                         const nama = document.getElementById('sfNama').value.trim();
-                        const hp = document.getElementById('sfHp').value.trim();
-                        const kec = document.getElementById('sfKecamatan').value;
-                        const kab = document.getElementById('sfKabupaten').value;
-                        const prov = document.getElementById('sfProvinsi').value;
-                        const paket = document.getElementById('sfPaket').value;
-                        const domisiliInp = document.getElementById('sfDomisiliInput');
+                        const hp = document.getElementById('sfHp').value.replace(/\D/g,'');
+                        let ok = true;
+                        if(nama.length < 2) { showErr('eNama', true); ok=false; } else showErr('eNama', false);
+                        if(hp.length < 9) { showErr('eHp', true); ok=false; } else showErr('eHp', false);
+                        if(!ok) return;
+                        sfState.nama = nama; sfState.hp = hp;
+                    }
+                    // Validasi Step 2
+                    if(step === 2) {
+                        if(!acSelected) { showErr('eKec', true); return; } else showErr('eKec', false);
+                        sfState.kec = acSelected.kecamatan; sfState.kab = acSelected.kota; sfState.prov = acSelected.provinsi;
+                        sfState.paket = document.getElementById('sfPaket').value;
+                        renderUsia();
+                    }
+                    // Validasi Step 3
+                    if(step === 3) {
+                        let ok = true; sfState.usia = [];
+                        document.querySelectorAll('.u-inp').forEach((inp, idx) => {
+                            const val = parseInt(inp.value);
+                            if(isNaN(val) || val < 1) { inp.classList.add('error'); ok=false; }
+                            else { inp.classList.remove('error'); sfState.usia.push({santri: idx+1, usia: val}); }
+                        });
+                        if(!ok) { showErr('eUsia', true); return; } else showErr('eUsia', false);
+                        
+                        // Populate summary
+                        document.getElementById('sNama').textContent = sfState.nama;
+                        document.getElementById('sHp').textContent = sfState.hp;
+                        document.getElementById('sDom').textContent = `${sfState.kec}, ${sfState.kab}`;
+                        document.getElementById('sPax').textContent = sfState.pax + ' Orang';
+                        document.getElementById('sUsia').innerHTML = sfState.usia.map(u => `<span style="display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:4px;margin:2px 4px 2px 0;">J${u.santri}: ${u.usia}th</span>`).join('');
+                    }
 
-                        // Validate nama
-                        const errNama = document.getElementById('errNama');
-                        if (!nama) {
-                            document.getElementById('sfNama').classList.add('sf-err');
-                            errNama.style.display = 'block'; valid = false;
-                        } else {
-                            document.getElementById('sfNama').classList.remove('sf-err');
-                            errNama.style.display = 'none';
-                        }
+                    document.getElementById('step'+step).classList.remove('active');
+                    document.getElementById('step'+(step+1)).classList.add('active');
+                    updateProgress(step+1);
+                }
 
-                        // Validate HP
-                        const errHp = document.getElementById('errHp');
-                        if (!/^[0-9]{9,15}$/.test(hp.replace(/\s/g, ''))) {
-                            document.getElementById('sfHp').classList.add('sf-err');
-                            errHp.style.display = 'block'; valid = false;
-                        } else {
-                            document.getElementById('sfHp').classList.remove('sf-err');
-                            errHp.style.display = 'none';
-                        }
+                function prevStep(step) {
+                    document.getElementById('step'+step).classList.remove('active');
+                    document.getElementById('step'+(step-1)).classList.add('active');
+                    updateProgress(step-1);
+                }
 
-                        // Validate kecamatan (must be selected from autocomplete if mandatory)
-                        const errKec = document.getElementById('errKecamatan');
-                        if (isKecamatanMandatory && !kec) {
-                            domisiliInp.classList.add('sf-err');
-                            errKec.style.display = 'block'; valid = false;
-                        } else {
-                            domisiliInp.classList.remove('sf-err');
-                            errKec.style.display = 'none';
-                        }
-
-                        if (!valid) return;
-
-                        const domisili = kec ? `${kec}, ${kab}, ${prov}` : '';
-                        const btn = document.getElementById('sfSubmitBtn');
-                        btn.disabled = true;
-                        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
-
-                        try { if (typeof fbq === 'function') fbq('track', 'Lead'); } catch (t) { }
-                        try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { send_to: 'G-11PXTCBM9L' }); } catch (t) { }
-
-                        const API_URL = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port))
-                            ? 'http://localhost:8080/api/leads' : '/api/leads';
-                        const params = new URLSearchParams(window.location.search);
-
-                        const payload = {
-                            nama_lengkap: nama,
-                            whatsapp_num: hp,
-                            domisili: domisili,
-                            yang_berangkat: 'Belum ditentukan',
-                            paket_pilihan: paket || 'Belum ditentukan',
-                            kesiapan_paspor: 'Belum diisi',
-                            fasilitas_utama: '',
-                            landing_page: '/lp-liburan-short',
-                            utm_source: params.get('utm_source') || '',
-                            utm_medium: params.get('utm_medium') || '',
-                            utm_campaign: params.get('utm_campaign') || ''
-                        };
-
-                        // Pick WA number: from injected rotator or fallback default
-                        let waTarget = '6285261349134';
-                        const rotator = window.__MUNIRA_WA_ROTATOR__;
-                        if (rotator && rotator.length > 0) {
-                            const active = rotator.filter(n => n.is_active !== false);
-                            if (active.length > 0) {
-                                const idx = Math.floor(Math.random() * active.length);
-                                waTarget = active[idx].number.replace(/\D/g, '');
-                                if (!waTarget.startsWith('62')) waTarget = '62' + waTarget.replace(/^0/, '');
+                // Autocomplete
+                document.getElementById('sfKecInp').addEventListener('input', function() {
+                    const q = this.value.trim();
+                    const dd = document.getElementById('sfKecDd');
+                    acSelected = null; showErr('eKec', false);
+                    document.getElementById('sfKecBadge').innerHTML = '';
+                    if(q.length < 3) { dd.classList.remove('open'); return; }
+                    
+                    clearTimeout(acDebounce);
+                    acDebounce = setTimeout(async () => {
+                        dd.innerHTML = '<div style="padding:10px;text-align:center;color:#718096;font-size:0.85rem;"><i class="fas fa-spinner fa-spin"></i> Mencari...</div>';
+                        dd.classList.add('open');
+                        try {
+                            const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8080/api' : '/api';
+                            const res = await fetch(`${API_BASE}/wilayah/search?q=${encodeURIComponent(q)}`);
+                            const data = await res.json();
+                            if(!data.data || !data.data.length) {
+                                dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Tidak ditemukan.</div>'; return;
                             }
-                        }
-
-                        (async function() {
-                            try {
-                                const res = await fetch(API_URL, {
-                                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(payload), keepalive: true
-                                });
-                                if (!res.ok) console.warn('[Lead]', res.status, await res.text());
-                            } catch (err) { console.warn('[Lead]', err); }
-                            const text = `Assalamu'alaikum Konsultan Munira World,\n\nSaya tertarik dengan Program Umrah Keluarga Liburan Sekolah 10 Hari.\n\n👤 Nama: ${nama}\n📱 No. WA: ${hp}\n📍 Domisili: ${domisili || 'Belum diisi'}\n🕋 Paket Diminati: ${paket || 'Minta info semua paket'}\n\nMohon info detail, jadwal, dan ketersediaan seat. Terima kasih.`;
-                            window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
-                        })();
-                    });
+                            dd.innerHTML = data.data.slice(0,10).map((r, i) => 
+                                `<div class="sf-ac-item" onclick='setKec(${JSON.stringify(r)})'>
+                                    <strong>${r.kecamatan}</strong>
+                                    <span>${r.kota}, ${r.provinsi}</span>
+                                </div>`
+                            ).join('');
+                        } catch(e) { dd.innerHTML = '<div style="padding:10px;text-align:center;color:#e53e3e;font-size:0.85rem;">Gagal memuat API.</div>'; }
+                    }, 350);
                 });
+
+                window.setKec = function(r) {
+                    acSelected = r;
+                    document.getElementById('sfKecInp').value = '';
+                    document.getElementById('sfKecDd').classList.remove('open');
+                    document.getElementById('sfKecBadge').innerHTML = `<div class="sf-badge"><i class="fas fa-check-circle" style="margin-right:6px;"></i>${r.kecamatan}, ${r.kota}</div>`;
+                }
+
+                // Pax
+                function changePax(d) {
+                    sfState.pax = Math.max(1, Math.min(10, sfState.pax + d));
+                    document.getElementById('paxVal').textContent = sfState.pax;
+                    renderUsia();
+                }
+
+                function renderUsia() {
+                    const list = document.getElementById('usiaList');
+                    const existing = Array.from(list.querySelectorAll('.u-inp')).map(el => el.value);
+                    list.innerHTML = Array(sfState.pax).fill(0).map((_,i) => `
+                        <div class="usia-card">
+                            <span class="idx">${i+1}</span>
+                            <span style="font-size:0.9rem; font-weight:600; color:var(--navy); flex:1;">Usia Jamaah ${i+1}</span>
+                            <input type="number" class="sf-inp u-inp" style="width:80px; padding:8px;" placeholder="Thn" min="1" value="${existing[i]||''}" oninput="this.classList.remove('error'); showErr('eUsia',false)">
+                        </div>
+                    `).join('');
+                }
+
+                // Submit
+                async function submitForm() {
+                    const setuju = document.getElementById('sfSetuju').checked;
+                    if(!setuju) { showErr('eSetuju', true); return; } else showErr('eSetuju', false);
+
+                    const btn = document.getElementById('btnSubmit');
+                    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+                    const payload = {
+                        nama_lengkap: sfState.nama, whatsapp_num: sfState.hp,
+                        domisili: `${sfState.kec}, ${sfState.kab}, ${sfState.prov}`,
+                        yang_berangkat: sfState.pax + ' Jamaah',
+                        jamaah_usia_detail: sfState.usia,
+                        paket_pilihan: sfState.paket || 'Umrah Liburan',
+                        fasilitas_utama: 'Bersedia Dihubungi',
+                        landing_page: window.location.href, form_source: 'lp-liburan-short-progressive'
+                    };
+
+                    const API_URL = window.location.protocol === 'file:' ? 'http://localhost:8080/api/leads' : '/api/leads';
+                    try {
+                        await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+                        try{ gtag('event','generate_lead',{send_to:'G-11PXTCBM9L'}); fbq('track','Lead'); }catch(e){}
+                    } catch(e) {}
+
+                    // Hide form, show thanks
+                    document.getElementById('pLabel').style.display = 'none';
+                    document.querySelector('.sf-prog-track').style.display = 'none';
+                    document.getElementById('progForm').style.display = 'none';
+                    document.getElementById('sfThankYou').style.display = 'block';
+
+                    // WA Router logic (simplified)
+                    setTimeout(() => {
+                        let waTarget = '6285261349134';
+                        if(window.__MUNIRA_WA_ROTATOR__ && window.__MUNIRA_WA_ROTATOR__.length) {
+                            const act = window.__MUNIRA_WA_ROTATOR__.filter(n => n.is_active !== false);
+                            if(act.length) waTarget = act[Math.floor(Math.random() * act.length)].number.replace(/\D/g, '');
+                        }
+                        const text = `Assalamu'alaikum Konsultan Munira World,\nSaya tertarik mendaftar Umrah Liburan Sekolah.\n\n👤 Nama: ${sfState.nama}\n📱 WA: ${sfState.hp}\n📍 Domisili: ${sfState.kec}, ${sfState.kab}\n🕋 Paket: ${sfState.paket || 'Minta info'}\n👥 Jumlah: ${sfState.pax} Jamaah\n\nMohon info selengkapnya.`;
+                        window.location.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(text)}`;
+                    }, 2500);
+                }
             </script>
         </div>
     </section>
