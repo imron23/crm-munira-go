@@ -1,21 +1,25 @@
 # Build stage
 FROM golang:1.24-alpine AS builder
 
+# Force cache bust for new builds
+ARG CACHE_BUST=1
+
 WORKDIR /app
 
-# Copy go mod and sum files
+# Copy go mod and sum files from backend
 COPY backend/go.mod backend/go.sum ./
 
-# Force downgrade go version in go.mod strictly for container build
+# Force downgrade go version in go.mod strictly for container build to bypass local go1.25.4 requirements
 RUN sed -i 's/^go 1.*/go 1.22/' go.mod && go mod tidy || true
-
-# Download all dependencies
 RUN go mod download
 
-# Copy source code
+# Copy backend source code and json assets
 COPY backend/ .
 
-# Force downgrade go version again
+# Explicitly remove .env file if present (use container environment variables)
+RUN rm -f .env
+
+# Force downgrade go version in go.mod strictly for container build to bypass local go1.25.4 requirements
 RUN sed -i 's/^go 1.*/go 1.22/' go.mod && go mod tidy || true
 
 # Build the application
@@ -26,27 +30,18 @@ FROM alpine:latest
 
 WORKDIR /app
 
-# Install tzdata for timezone operations
+# Install tzdata just in case for timezone operations
 RUN apk --no-cache add tzdata
 
-# Copy binary from builder
+# Copy binary
 COPY --from=builder /app/munira-api .
 
-# Copy wilayah.json from builder (located in backend/)
+# Copy json assets
 COPY --from=builder /app/wilayah.json ./wilayah.json
 
-# Copy static files
-COPY dashboard/ ./dashboard/
-COPY lp-2-long/ ./lp-2-long/
-COPY lp-liburan/ ./lp-liburan/
-COPY lp-bakti-anak/ ./lp-bakti-anak/
-COPY lp-itikaf-premium/ ./lp-itikaf-premium/
-COPY lp-spiritual-journey/ ./lp-spiritual-journey/
-COPY jualan-lp/ ./jualan-lp/
-COPY assets/ ./assets/
-COPY index.html ./index.html
-COPY manifest.json ./manifest.json
-COPY sw.js ./sw.js
+# Copy static frontend directories from workspace root to container root (where backend expects them)
+COPY dashboard/ /dashboard/
+COPY public-lp/ /public-lp/
 
 # Expose port
 EXPOSE 8080
