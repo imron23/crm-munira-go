@@ -72,6 +72,7 @@ func main() {
 	router.StaticFile("/logo.png", rootPath+"logo.png")
 	
 	router.Static("/assets", rootPath+"assets")
+	router.Static("/shared", rootPath+"shared")
 	router.Static("/jualan-lp", rootPath+"jualan-lp")
 	router.Static("/lp-2-long", rootPath+"lp-2-long")
 	router.Static("/lp-bakti-anak", rootPath+"lp-bakti-anak")
