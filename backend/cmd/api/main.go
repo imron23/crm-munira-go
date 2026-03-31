@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"munira_crm_backend/internal/config"
@@ -55,8 +57,9 @@ func main() {
 		dashboardPath = "../dashboard"
 	}
 
-	router.Static("/Imron23", dashboardPath)
-	router.Static("/dashboard", dashboardPath)
+	// Jangan lagi mengekspos dashboard di root domain via path /dashboard
+	// router.Static("/Imron23", dashboardPath)
+	// router.Static("/dashboard", dashboardPath)
 
 	// Melayani root file seperti index.html yang lama (jika ada) atau lp
 	rootPath := "../../public-lp/"
@@ -142,8 +145,27 @@ func main() {
 		port = "8080"
 	}
 
+	// ─── Subdomain Routing Logic ──────────────────────────────────────────────────
+	dashboardFS := http.FileServer(http.Dir(dashboardPath))
+	httpServer := &http.Server{
+		Addr: ":" + port,
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			host := r.Host
+			// Cek apakah host dimulai dengan 'imron.' atau 'lmron.' (contoh: lmron.muniraworld.id)
+			if strings.HasPrefix(host, "imron.") || strings.HasPrefix(host, "lmron.") {
+				// Cegah path /api agar request API tetap ditangani oleh Gin router
+				if !strings.HasPrefix(r.URL.Path, "/api") {
+					dashboardFS.ServeHTTP(w, r)
+					return
+				}
+			}
+			// Jika tidak masuk aturan subdomain dashboard, teruskan ke router Gin utama
+			router.ServeHTTP(w, r)
+		}),
+	}
+
 	log.Printf("Server starting on port %s", port)
-	if err := router.Run(":" + port); err != nil {
+	if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
