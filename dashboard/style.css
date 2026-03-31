@@ -1197,7 +1197,8 @@ body.wa-panel-open .main-wrapper {
 .act-row {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .btn-mini {

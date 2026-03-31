@@ -55,28 +55,23 @@ if ! command -v docker &> /dev/null; then
     systemctl start docker
 fi
 
-# Install Docker Compose jika belum ada
-if ! command -v docker-compose &> /dev/null; then
-    echo "Installing Docker Compose..."
-    curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
-fi
+
 
 # Stop container lama jika ada
 echo "🛑 Stopping old containers..."
-docker-compose -f docker-compose.prod.yml down || true
+docker compose -f docker-compose.prod.yml down || true
 
 # Build dan jalankan container baru
 echo "🔧 Building and starting containers..."
-docker-compose -f docker-compose.prod.yml build --no-cache
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml build --no-cache
+docker compose -f docker-compose.prod.yml up -d
 
 # Tampilkan status
 echo ""
 echo "============================================"
 echo "✅ Deployment Complete!"
 echo "============================================"
-docker-compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml ps
 echo ""
 echo "🌐 Access your app at: http://43.157.202.165"
 echo "============================================"
