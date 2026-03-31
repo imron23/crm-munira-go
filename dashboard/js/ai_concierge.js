@@ -727,19 +727,12 @@ window.generatePreferenceBasedMessage = function (L, csName) {
     const sapaan = _concierge_getSapaan(nama, L.usia || 0);
 
     // Extract preferences
-    const pref_budget = prefs.pref_budget || prefs.budget || '';
-    const pref_tanggal_keberangkatan = prefs.pref_tanggal_keberangkatan || prefs.tanggal_keberangkatan || L.rencana_umrah || '';
-    const pref_jumlah_jamaah = prefs.pref_jumlah_jamaah || prefs.jumlah_jamaah || L.yang_berangkat || '';
-    const pref_tipe_kamar = prefs.pref_tipe_kamar || prefs.tipe_kamar || '';
-    const pref_catatan_khusus = prefs.pref_catatan_khusus || prefs.catatan_khusus || '';
-    const pref_small_group = prefs.pref_small_group || false;
-    const pref_audio_guide = prefs.pref_audio_guide || false;
-    const pref_handling_bagasi = prefs.pref_handling_bagasi || false;
-    const pref_manasik_privat = prefs.pref_manasik_privat || false;
-    const pref_dokumentasi = prefs.pref_dokumentasi || false;
-    const pref_muthawwif = prefs.pref_muthawwif || '';
-    const pref_hotel = prefs.pref_hotel || '';
     const pref_maskapai = prefs.pref_maskapai || '';
+    const pref_tahfizh = prefs.pref_tahfizh || prefs.pref_tahfidz || false;
+    const pref_kenyamanan = prefs.pref_kenyamanan || false;
+    const pref_adab = prefs.pref_adab || false;
+    const pref_minat = prefs.pref_minat || false;
+    const pref_financial = prefs.pref_financial || false;
 
     // Build additional services text
     let additionalServices = [];
@@ -749,14 +742,13 @@ window.generatePreferenceBasedMessage = function (L, csName) {
     if (pref_manasik_privat) additionalServices.push('Manasik Privat');
     if (pref_dokumentasi) additionalServices.push('Dokumentasi Perjalanan');
 
-    // Build preference summary
-    let prefSummary = [];
-    if (pref_budget) prefSummary.push(`Budget: ${pref_budget}`);
-    if (pref_tanggal_keberangkatan) prefSummary.push(`Rencana: ${pref_tanggal_keberangkatan}`);
-    if (pref_jumlah_jamaah) prefSummary.push(`Jamaah: ${pref_jumlah_jamaah}`);
-    if (pref_tipe_kamar) prefSummary.push(`Kamar: ${pref_tipe_kamar}`);
-    if (pref_hotel) prefSummary.push(`Hotel: ${pref_hotel}`);
     if (pref_maskapai) prefSummary.push(`Maskapai: ${pref_maskapai}`);
+
+    if (pref_tahfizh) additionalServices.push('Fokus Tahfizh (Hafal Mutqin)');
+    if (pref_kenyamanan) additionalServices.push('Prioritas Kenyamanan Asrama');
+    if (pref_adab) additionalServices.push('Fokus Adab & Karakter Sunnah');
+    if (pref_minat) additionalServices.push('Pengembangan Minat Bakat');
+    if (pref_financial) additionalServices.push('Informasi Cicilan/Financial Plan');
 
     // Build message
     let message = `Assalamu'alaikum ${sapaan} 🌙
@@ -824,7 +816,9 @@ window.hasLeadPreferences = function (L) {
         'pref_catatan_khusus', 'catatan_khusus', 'pref_muthawwif'
     ];
 
-    return meaningfulKeys.some(key => prefs[key]);
+    return meaningfulKeys.some(key => prefs[key]) || 
+           prefs.pref_tahfizh || prefs.pref_tahfidz || prefs.pref_kenyamanan || 
+           prefs.pref_adab || prefs.pref_minat || prefs.pref_financial;
 };
 
 /**

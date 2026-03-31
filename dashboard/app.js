@@ -2686,6 +2686,27 @@ function renderLeadsTable() {
                         </ul>
                     </div>
                     
+                    <!-- Profiling & Interest (New for E2E Strategy) -->
+                    <div id="profiling-${L.id}" style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); display: ${(() => {
+                        const p = L.preferences || {};
+                        const hasProfiling = p.pref_tahfizh || p.pref_tahfidz || p.pref_kenyamanan || p.pref_adab || p.pref_minat || p.pref_financial;
+                        return hasProfiling ? 'block' : 'none';
+                    })()};">
+                        <strong style="display:flex; align-items:center; gap:8px; margin-bottom:12px; color:var(--brand); text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-fingerprint"></i> Marketing Profiling</strong>
+                        <div style="display:grid; grid-template-columns: 1fr; gap:8px;">
+                            ${(() => {
+                                const p = L.preferences || {};
+                                let html = '';
+                                if (p.pref_tahfizh || p.pref_tahfidz) html += `<div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; background:rgba(59,130,246,0.1); padding:6px 10px; border-radius:6px; border-left:3px solid #3b82f6;"><i class="fas fa-quran" style="color:#3b82f6;"></i> <strong>Tahfizh:</strong> Hafal Qur'an Mutqin</div>`;
+                                if (p.pref_kenyamanan) html += `<div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; background:rgba(16,185,129,0.1); padding:6px 10px; border-radius:6px; border-left:3px solid #10b981;"><i class="fas fa-bed" style="color:#10b981;"></i> <strong>Kenyamanan:</strong> Asrama bersih/layak</div>`;
+                                if (p.pref_adab) html += `<div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; background:rgba(139,92,246,0.1); padding:6px 10px; border-radius:6px; border-left:3px solid #8b5cf6;"><i class="fas fa-praying-hands" style="color:#8b5cf6;"></i> <strong>Adab:</strong> Karakter sesuai sunnah</div>`;
+                                if (p.pref_minat) html += `<div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; background:rgba(236,72,153,0.1); padding:6px 10px; border-radius:6px; border-left:3px solid #ec4899;"><i class="fas fa-star" style="color:#ec4899;"></i> <strong>Minat:</strong> Olahraga/Bahasa/Bisnis</div>`;
+                                if (p.pref_financial) html += `<div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; background:rgba(245,158,11,0.1); padding:6px 10px; border-radius:6px; border-left:3px solid #f59e0b;"><i class="fas fa-wallet" style="color:#f59e0b;"></i> <strong>Financial:</strong> Skema/Biaya All-in</div>`;
+                                return html;
+                            })()}
+                        </div>
+                    </div>
+                    
                     <!-- Log Status & Program -->
                     <div style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); display:flex; flex-direction:column; gap:12px;">
                         <strong style="display:flex; align-items:center; gap:8px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-tasks"></i> Follow-up & Program</strong>
