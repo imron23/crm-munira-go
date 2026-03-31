@@ -1177,8 +1177,7 @@ function getProgramName(progId) {
     if (!progId) return '-';
     const p = programsListCache.find(x => String(x.id || x.id) === String(progId));
     if (p) return p.nama_program;
-    // Still loading? show abbreviated ID
-    return '⏳ Memuat...';
+    return '-';
 }
 
 function getProgramSummaryHtml(L) {

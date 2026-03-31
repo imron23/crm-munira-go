@@ -152,14 +152,21 @@ func main() {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			host := r.Host
 			// Cek apakah host dimulai dengan 'imron.' atau 'lmron.' (contoh: lmron.muniraworld.id)
-			if strings.HasPrefix(host, "imron.") || strings.HasPrefix(host, "lmron.") {
-				// Cegah path /api agar request API tetap ditangani oleh Gin router
-				if !strings.HasPrefix(r.URL.Path, "/api") {
+			if (strings.HasPrefix(host, "imron.") || strings.HasPrefix(host, "lmron.")) && !strings.HasPrefix(r.URL.Path, "/api") {
+				// Cek apakah file yang diminta ada di folder dashboard
+				target := dashboardPath + r.URL.Path
+				if r.URL.Path == "/" {
+					target = dashboardPath + "/index.html"
+				}
+
+				if _, err := os.Stat(target); err == nil {
 					dashboardFS.ServeHTTP(w, r)
 					return
 				}
+				// Jika tidak ada di dashboard, biarkan dilayani oleh Gin (misal: /logo.png atau /liburan-26-sf/)
 			}
-			// Jika tidak masuk aturan subdomain dashboard, teruskan ke router Gin utama
+
+			// Teruskan ke router Gin utama
 			router.ServeHTTP(w, r)
 		}),
 	}

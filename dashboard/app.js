@@ -1,5 +1,6 @@
 // API Setup
-const API_URL = (window.location.protocol === 'file:' || ['3000', '8080'].includes(window.location.port)) ? 'http://localhost:8080/api' : '/api';
+window.API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') ? 'http://localhost:8080/api' : '/api';
+const API_URL = window.API_URL;
 let authToken = localStorage.getItem('munira_crm_token');
 let allLeads = []; // Cache for leads
 let currentUserData = null;
@@ -2659,7 +2660,7 @@ function renderLeadsTable() {
         trAcc.id = 'acc-' + L.id;
         trAcc.innerHTML = `
             <td colspan="6" class="accordion-content" style="padding: 20px 24px !important; background: var(--bg-surface);">
-                <div style="display:grid; grid-template-columns: 1fr 1.3fr 1FR; gap: 20px; font-size: 0.85rem;">
+                <div style="display:grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 20px; font-size: 0.85rem;">
                     
                     <!-- Profil Singkat -->
                     <div style="background: var(--bg-app); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">

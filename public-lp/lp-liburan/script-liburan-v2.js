@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Post to CRM API
-            const API_URL = (window.location.protocol === 'file:' || ['3000', '5500', '8080'].includes(window.location.port)) ? 'http://localhost:8080/api/leads' : '/api/leads';
+            const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') ? 'http://localhost:8080/api/leads' : '/api/leads';
             (async function() {
                 try {
                     const res = await fetch(API_URL, {
