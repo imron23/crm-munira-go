@@ -9,8 +9,8 @@ services:
       branch: main
     build:
       type: dockerfile
-      path: backend/Dockerfile
-      context: ./backend
+      path: Dockerfile
+      context: ./
     env:
       PORT: 8080
       POSTGRES_URI: postgresql://munira:munira_password@crm-munira-db:5432/munira_crm
